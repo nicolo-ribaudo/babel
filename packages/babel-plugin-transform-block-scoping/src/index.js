@@ -227,18 +227,15 @@ const loopLabelVisitor = {
 };
 
 const continuationVisitor = {
-  enter(path, state) {
-    if (path.isAssignmentExpression() || path.isUpdateExpression()) {
-      const bindings = path.getBindingIdentifiers();
-      for (const name in bindings) {
-        if (
-          state.outsideReferences[name] !==
-          path.scope.getBindingIdentifier(name)
-        ) {
-          continue;
-        }
-        state.reassignments[name] = true;
+  "AssignmentExpression|UpdateExpression"(path, state) {
+    const bindings = path.getBindingIdentifiers();
+    for (const name in bindings) {
+      if (
+        state.params[name] !== path.scope.getBindingIdentifier(name)
+      ) {
+        continue;
       }
+      state.reassignments[name] = true;
     }
   },
 };
@@ -383,6 +380,7 @@ class BlockScoping {
   }
 
   updateScopeInfo(wrappedInClosure) {
+    return;
     const scope = this.scope;
     const parentScope = scope.getFunctionParent() || scope.getProgramParent();
     const letRefs = this.letReferences;
@@ -485,7 +483,7 @@ class BlockScoping {
     );
 
     // continuation
-    this.addContinuations(fn);
+    //this.addContinuations(fn);
 
     let call = t.callExpression(t.nullLiteral(), args);
     let basePath = ".callee";
@@ -560,6 +558,8 @@ class BlockScoping {
       fnPath = placeholder;
     }
 
+    this.addContinuations(fnPath, params);
+
     // Ensure "this", "arguments", and "super" continue to work in the wrapped function.
     fnPath.unwrapFunctionEnvironment();
   }
@@ -572,17 +572,29 @@ class BlockScoping {
    * Reference: https://github.com/babel/babel/issues/1078
    */
 
-  addContinuations(fn) {
+  addContinuations(fnPath, params) {
     const state = {
       reassignments: {},
       outsideReferences: this.outsideLetReferences,
+      params,
     };
 
-    this.scope.traverse(fn, continuationVisitor, state);
+    fnPath.traverse(continuationVisitor, state);
+    fnPath.get("params").forEach(param => {
+      const oldName = param.node.name;
+      if (!state.reassignments[oldName]) return;
 
-    for (let i = 0; i < fn.params.length; i++) {
-      const param = fn.params[i];
-      if (!state.reassignments[param.name]) continue;
+      const newName = fnPath.scope.rename(oldName);
+      fnPath.get("body").pushContainer(
+        "body",
+        t.expressionStatement(t.assignmentExpression(
+          "=",
+          t.identifier(oldName),
+          t.identifier(newName)
+        ))
+      );
+
+      return;
 
       const newParam = this.scope.generateUidIdentifier(param.name);
       fn.params[i] = newParam;
@@ -593,7 +605,7 @@ class BlockScoping {
       fn.body.body.push(
         t.expressionStatement(t.assignmentExpression("=", param, newParam)),
       );
-    }
+    });
   }
 
   getLetReferences() {

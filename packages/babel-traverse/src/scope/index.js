@@ -1,10 +1,9 @@
 import includes from "lodash/includes";
 import repeat from "lodash/repeat";
-import Renamer from "./lib/renamer";
 import type NodePath from "../path";
-import traverse from "../index";
+import traverse, { visitors } from "../index";
 import defaults from "lodash/defaults";
-import Binding from "./binding";
+import { Binding, ImplicitBinding } from "./binding";
 import globals from "globals";
 import * as t from "@babel/types";
 import { scope as scopeCache } from "../cache";
@@ -14,6 +13,21 @@ import { scope as scopeCache } from "../cache";
 // to be used to figure out whether a warning should be trigerred.
 // See `warnOnFlowBinding`.
 let _crawlCallsCount = 0;
+
+function renameObjectKey(obj, oldKey, newKey) {
+  obj[newKey] = obj[oldKey];
+  delete obj[oldKey];
+}
+
+// Traverse a path visiting also the root node.
+function traverseRoot(path, visitor, state) {
+  visitors.explode(visitor);
+  for (const type in visitor) {
+    if (t.is(type, path.node) && visitor[type].enter) {
+      visitor[type].enter.forEach(fn => fn.call({ isRoot: true }, path, state));
+    }
+  }
+}
 
 // Recursively gathers the identifying names of a node.
 function gatherNodeParts(node: Object, parts: Array) {
@@ -45,111 +59,122 @@ function gatherNodeParts(node: Object, parts: Array) {
   }
 }
 
-//
-
 const collectorVisitor = {
-  For(path) {
+  noScope: true,
+
+  enter(path, scopes) {
+    path.scope = path.getScope(scopes.block);
+  },
+
+  Scope(path) {
+    if (this.isRoot) return;
+    path.skip();
+  },
+
+  ReferencedIdentifier(path, scopes) {
+    scopes.block.registerUsage(path, { read: true });
+  },
+
+  "BindingIdentifier|Pattern"(path, scopes) {
+    const parent = path.parentPath;
+    if (parent.isFunction()) {
+      if (parent.get("id") === path) {
+        if (!path.node[t.NOT_LOCAL_BINDING] && parent.isFunctionExpression()) {
+          scopes.function.registerBinding("local", path, parent);
+        }
+      } else if (parent.get("params").indexOf(path) !== -1) {
+        scopes.function.registerBinding("param", path);
+      }
+    } else if (parent.isClassExpression()) {
+      if (parent.get("id") === path && !path.node[t.NOT_LOCAL_BINDING]) {
+        scopes.block.registerBinding("local", path);
+      }
+    } else if (parent.isCatchClause()) {
+      scopes.block.registerBinding("let", path);
+    }
+  },
+
+  For(path, scopes) {
     for (const key of (t.FOR_INIT_KEYS: Array)) {
       const declar = path.get(key);
       if (declar.isVar()) {
-        const parentScope =
-          path.scope.getFunctionParent() || path.scope.getProgramParent();
-        parentScope.registerBinding("var", declar);
+        scopes.function.registerBinding("var", declar);
       }
     }
+    path.skip();
   },
 
-  Declaration(path) {
-    // delegate block scope handling to the `BlockScoped` method
-    if (path.isBlockScoped()) return;
+  VariableDeclaration(path, scopes) {
+    if (path.isFlow()) return;
 
-    // this will be hit again once we traverse into it after this iteration
-    if (path.isExportDeclaration() && path.get("declaration").isDeclaration()) {
-      return;
-    }
+    const scope = path.node.kind === "var" ? scopes.function : scopes.block;
 
-    // TODO(amasad): remove support for flow as bindings (See warning below).
-    //if (path.isFlow()) return;
-
-    // we've ran into a declaration!
-    const parent =
-      path.scope.getFunctionParent() || path.scope.getProgramParent();
-    parent.registerDeclaration(path);
+    scope.registerDeclaration(path);
   },
 
-  ReferencedIdentifier(path, state) {
-    state.references.push(path);
-  },
-
-  ForXStatement(path, state) {
+  ForXStatement(path, scopes) {
     const left = path.get("left");
     if (left.isPattern() || left.isIdentifier()) {
-      state.constantViolations.push(path);
+      scopes.block.registerConstantViolation(left, path);
     }
   },
 
   ExportDeclaration: {
-    exit(path) {
-      const { node, scope } = path;
+    exit(path, scopes) {
+      const { node } = path;
       const declar = node.declaration;
       if (t.isClassDeclaration(declar) || t.isFunctionDeclaration(declar)) {
         const id = declar.id;
         if (!id) return;
 
-        const binding = scope.getBinding(id.name);
-        if (binding) binding.reference(path);
+        const binding = scopes.program.getBinding(id.name);
+        if (binding) binding.registerExport(path);
       } else if (t.isVariableDeclaration(declar)) {
         for (const decl of (declar.declarations: Array<Object>)) {
           const ids = t.getBindingIdentifiers(decl);
           for (const name in ids) {
-            const binding = scope.getBinding(name);
-            if (binding) binding.reference(path);
+            const binding = scopes.program.getBinding(name);
+            if (binding) binding.registerExport(path);
           }
         }
       }
     },
   },
 
-  LabeledStatement(path) {
-    path.scope.getProgramParent().addGlobal(path.node);
-    path.scope.getBlockParent().registerDeclaration(path);
+  LabeledStatement(path, scopes) {
+    scopes.program.addGlobal(path.node);
+    scopes.block.registerLabel(path);
   },
 
-  AssignmentExpression(path, state) {
-    state.assignments.push(path);
+  AssignmentExpression(path, scopes) {
+    scopes.block.registerConstantViolation(path);
   },
 
-  UpdateExpression(path, state) {
-    state.constantViolations.push(path);
-  },
-
-  UnaryExpression(path, state) {
-    if (path.node.operator === "delete") {
-      state.constantViolations.push(path);
+  UpdateExpression(path, scopes) {
+    const arg = path.get("argument");
+    if (arg.isIdentifier()) {
+      scopes.block.registerUsage(arg, { read: true, write: true, path });
+      path.skip();
     }
   },
 
-  BlockScoped(path) {
-    let scope = path.scope;
-    if (scope.path === path) scope = scope.parent;
-    scope.getBlockParent().registerDeclaration(path);
-  },
-
-  ClassDeclaration(path) {
-    const id = path.node.id;
-    if (!id) return;
-
-    const name = id.name;
-    path.scope.bindings[name] = path.scope.getBinding(name);
-  },
-
-  Block(path) {
-    const paths = path.get("body");
-    for (const bodyPath of (paths: Array)) {
-      if (bodyPath.isFunctionDeclaration()) {
-        path.scope.getBlockParent().registerDeclaration(bodyPath);
+  UnaryExpression(path, scopes) {
+    if (path.node.operator === "delete") {
+      const arg = path.get("argument");
+      if (arg.isIdentifier()) {
+        scopes.block.registerUsage(arg, { read: true, write: true, path });
+        path.skip();
       }
     }
+  },
+};
+
+const removerVisitor = {
+  Declaration(path) {
+    path.scope.removeDeclaration(path);
+  },
+  "BindingIdentifier|ReferencedIdentifier"(path) {
+    path.scope.removeUsage(path);
   },
 };
 
@@ -167,6 +192,7 @@ export default class Scope {
     // Sometimes, a scopable path is placed higher in the AST tree.
     // In these cases, have to create a new Scope.
     if (cached && cached.path === path) {
+      cached.revitalizeCached();
       return cached;
     }
     scopeCache.set(node, this);
@@ -177,6 +203,10 @@ export default class Scope {
     this.path = path;
 
     this.labels = new Map();
+
+    path.scope = this;
+
+    this.init();
   }
 
   /**
@@ -366,11 +396,31 @@ export default class Scope {
     }
   }
 
-  rename(oldName: string, newName: string, block?) {
+  rename(oldName: string, newName: string, block?): ?string {
     const binding = this.getBinding(oldName);
     if (binding) {
-      newName = newName || this.generateUidIdentifier(oldName).name;
-      return new Renamer(binding, oldName, newName).rename(block);
+      newName = newName || this.generateUid(oldName);
+
+      binding.usages.forEach((usage, id) => {
+        const shouldReplace = !block || !!id.findParent(path => path.node === block);
+
+        if (!shouldReplace) return;
+
+        id.node.name = newName;
+
+        let scope = id.scope;
+        while (scope && scope.seenReferences[oldName]) {
+          renameObjectKey(scope.seenReferences, oldName, newName);
+          scope = scope.parent;
+        }
+      });
+
+      if (!block) {
+        renameObjectKey(binding.scope.bindings, oldName, newName);
+        binding.identifier.name = newName;
+      }
+
+      return newName;
     }
   }
 
@@ -485,6 +535,31 @@ export default class Scope {
     }
   }
 
+  removeDeclaration(path: NodePath) {
+    if (path.isLabeledStatement()) {
+      this.removeLabel(path);
+    } else if (path.isFunctionDeclaration()) {
+      this.removeBinding(path.get("id"));
+    } else if (path.isVariableDeclaration()) {
+      path.get("declarations").forEach(::this.removeBinding);
+    } else if (path.isClassDeclaration()) {
+      this.removeBinding("let", path);
+    } else if (path.isImportDeclaration()) {
+      path.get("specifiers").forEach(::this.removeBinding);
+    } else if (path.isExportDeclaration()) {
+      const declar = path.get("declaration");
+      if (
+        declar.isClassDeclaration() ||
+        declar.isFunctionDeclaration() ||
+        declar.isVariableDeclaration()
+      ) {
+        this.removeDeclaration(declar);
+      }
+    } else {
+      this.removeBinding(path);
+    }
+  }
+
   buildUndefinedNode() {
     if (this.hasBinding("undefined")) {
       return t.unaryExpression("void", t.numericLiteral(0), true);
@@ -493,11 +568,102 @@ export default class Scope {
     }
   }
 
-  registerConstantViolation(path: NodePath) {
-    const ids = path.getBindingIdentifiers();
+  registerUsage(path: NodePath, usage) {
+    const { name } = path.node;
+    let scope = this;
+    do {
+      const binding = scope.getOwnBinding(name, true);
+      if (binding) {
+        binding.registerUsage(path, usage);
+        return;
+      } else {
+        if (!scope.seenUsages[name]) scope.seenUsages[name] = new Map();
+        scope.seenUsages[name].set(path, usage);
+      }
+    } while (scope.parent && (scope = scope.parent));
+
+    // ASSERT: scope is the global scope
+
+    scope.addGlobal(path.node);
+    scope.registerImplicitBinding(name).registerUsage(path, usage);
+  }
+
+  removeUsage(path: NodePath) {
+    const { name } = path.node;
+    let scope = this;
+    do {
+      if (scope.seenUsages[name]) {
+        scope.seenUsages[name].delete(path);
+      }
+      const binding = scope.getOwnBinding(name, true);
+      if (binding) {
+        binding.removeUsage(path);
+        return;
+      }
+    } while (scope.parent && (scope = scope.parent));
+  }
+
+  registerConstantViolation(path: NodePath, violationPath: NodePath = path) {
+    const ids = path.getBindingIdentifierPaths();
     for (const name in ids) {
-      const binding = this.getBinding(name);
-      if (binding) binding.reassign(path);
+      this.registerUsage(ids[name], { write: true, path: violationPath });
+    }
+  }
+
+  _registerBinding(
+    kind: string,
+    name: String,
+    id: Object,
+    path: NodePath,
+    parentScope: Scope,
+  ) {
+    let local = this.getOwnBinding(name);
+
+    if (local) {
+      // same identifier so continue safely as we're likely trying to register it
+      // multiple times
+      if (local.identifier === id) return;
+
+      this.checkBlockScopedCollisions(local, kind, name, id);
+    }
+
+    // It's erroneous that we currently consider flow a binding, however, we can't
+    // remove it because people might be depending on it. See warning section
+    // in `warnOnFlowBinding`.
+    if (local && local.path.isFlow()) local = null;
+
+    parentScope.references[name] = true;
+
+    // A redeclaration of an existing variable is a modification
+    if (local) {
+      this.registerConstantViolation(path);
+    } else {
+      const oldBinding = this.getBinding(name);
+      const binding = new Binding({
+        identifier: id,
+        scope: this,
+        path,
+        kind,
+      });
+      this.bindings[name] = binding;
+
+      let { scope } = path;
+      if (scope) {
+        do {
+          if (scope.seenUsages[name]) {
+            scope.seenUsages[name].forEach((usage, path) => {
+              binding.registerUsage(path, usage);
+              if (oldBinding) oldBinding.removeUsage(path);
+            });
+          }
+        } while (scope !== this && (scope = scope.parent));
+      }
+
+      const isGlobalScope = this.parent === null;
+      if (isGlobalScope && this.globals[name]) {
+        delete this.globals[name];
+        delete this.implicitBindings[name];
+      }
     }
   }
 
@@ -517,36 +683,45 @@ export default class Scope {
 
     for (const name in ids) {
       for (const id of (ids[name]: Array<Object>)) {
-        let local = this.getOwnBinding(name);
-
-        if (local) {
-          // same identifier so continue safely as we're likely trying to register it
-          // multiple times
-          if (local.identifier === id) continue;
-
-          this.checkBlockScopedCollisions(local, kind, name, id);
-        }
-
-        // It's erroneous that we currently consider flow a binding, however, we can't
-        // remove it because people might be depending on it. See warning section
-        // in `warnOnFlowBinding`.
-        if (local && local.path.isFlow()) local = null;
-
-        parent.references[name] = true;
-
-        // A redeclaration of an existing variable is a modification
-        if (local) {
-          this.registerConstantViolation(bindingPath);
-        } else {
-          this.bindings[name] = new Binding({
-            identifier: id,
-            scope: this,
-            path: bindingPath,
-            kind: kind,
-          });
-        }
+        this._registerBinding(kind, name, id, bindingPath, parent);
       }
     }
+  }
+
+  _removeBinding(name: string) {
+    const binding = this.getBinding(name);
+    if (!binding) return;
+
+    delete binding.scope.bindings[name];
+    binding.usages.forEach(({ read, write }, id) => {
+      const path = write ? binding.violations.get(id) : null;
+      binding.path.scope.registerUsage(id, { read, write, path });
+    });
+  }
+
+  removeBinding(path: NodePath | string) {
+    if (typeof path === "string") {
+      this._removeBinding(path);
+    } else if (path.scope !== this) {
+      throw new Error();
+    } else {
+      const ids = path.getBindingIdentifiers(true);
+      Object.keys(ids).forEach(::this._removeBinding);
+    }
+  }
+
+  registerImplicitBinding(name: string) {
+    const scope = this.getProgramParent();
+    const binding = new ImplicitBinding({ scope, name });
+    scope.implicitBindings[name] = binding;
+    return binding;
+  }
+
+  isOriginalGlobal(name: string) {
+    const binding = this.getBinding(name, true);
+    if (!binding) return true;
+    if (binding instanceof ImplicitBinding) return binding.constant;
+    return false;
   }
 
   addGlobal(node: Object) {
@@ -567,6 +742,9 @@ export default class Scope {
     let scope = this;
 
     do {
+      if (scope.implicitBindings[name]) {
+        return scope.implicitBindings[name].referenced;
+      }
       if (scope.globals[name]) return true;
     } while ((scope = scope.parent));
 
@@ -672,6 +850,17 @@ export default class Scope {
     } while ((scope = scope.parent));
   }
 
+  revitalizeCached() {
+    const { parent } = this;
+    if (!parent) return;
+
+    for (const name in this.seenUsages) {
+      this.seenUsages[name].forEach((usage, path) => {
+        parent.registerUsage(path, usage);
+      });
+    }
+  }
+
   init() {
     if (!this.references) this.crawl();
   }
@@ -683,15 +872,26 @@ export default class Scope {
   }
 
   _crawl() {
-    const path = this.path;
-
-    //
-
     this.references = Object.create(null);
+    this.seenUsages = Object.create(null);
+    this.seenReferences = Object.create(null);
+    this.seenConstantViolationsIds = Object.create(null);
     this.bindings = Object.create(null);
+    this.implicitBindings = Object.create(null);
     this.globals = Object.create(null);
     this.uids = Object.create(null);
     this.data = Object.create(null);
+
+    this.registerPath(this.path);
+  }
+
+  registerPath(path: NodePath) {
+    path.scope = path.getScope(this);
+
+    const scopes = {};
+    scopes.program = path.scope.getProgramParent();
+    scopes.function = path.scope.getFunctionParent() || scopes.program;
+    scopes.block = path.scope;
 
     // ForStatement - left, init
 
@@ -701,83 +901,28 @@ export default class Scope {
         if (node.isBlockScoped()) this.registerBinding(node.node.kind, node);
       }
     }
-
-    // FunctionExpression - id
-
-    if (path.isFunctionExpression() && path.has("id")) {
-      if (!path.get("id").node[t.NOT_LOCAL_BINDING]) {
-        this.registerBinding("local", path.get("id"), path);
-      }
+    
+    if (path.isFunctionDeclaration() && !path.isFlow()) {
+      const scope = scopes.function.parent.getBlockParent() || scopes.program;
+      scope.registerDeclaration(path);
     }
 
-    // Class
-
-    if (path.isClassExpression() && path.has("id")) {
-      if (!path.get("id").node[t.NOT_LOCAL_BINDING]) {
-        this.registerBinding("local", path);
-      }
+    if (path.isClassDeclaration() && !path.isFlow()) {
+      const scope = scopes.block.parent.getBlockParent() || scopes.program;
+      scope.registerDeclaration(path);
     }
 
-    // Function - params, rest
+    traverseRoot(path, collectorVisitor, scopes);
+    path.traverse(collectorVisitor, scopes);
+  }
 
-    if (path.isFunction()) {
-      const params: Array<NodePath> = path.get("params");
-      for (const param of params) {
-        this.registerBinding("param", param);
-      }
+  removePath(path: NodePath) {
+    if (path.scope !== this) {
+      throw new Error();
     }
 
-    // CatchClause - param
-
-    if (path.isCatchClause()) {
-      this.registerBinding("let", path);
-    }
-
-    // Program
-
-    const parent = this.getProgramParent();
-    if (parent.crawling) return;
-
-    const state = {
-      references: [],
-      constantViolations: [],
-      assignments: [],
-    };
-
-    this.crawling = true;
-    path.traverse(collectorVisitor, state);
-    this.crawling = false;
-
-    // register assignments
-    for (const path of state.assignments) {
-      // register undeclared bindings as globals
-      const ids = path.getBindingIdentifiers();
-      let programParent;
-      for (const name in ids) {
-        if (path.scope.getBinding(name)) continue;
-
-        programParent = programParent || path.scope.getProgramParent();
-        programParent.addGlobal(ids[name]);
-      }
-
-      // register as constant violation
-      path.scope.registerConstantViolation(path);
-    }
-
-    // register references
-    for (const ref of state.references) {
-      const binding = ref.scope.getBinding(ref.node.name);
-      if (binding) {
-        binding.reference(ref);
-      } else {
-        ref.scope.getProgramParent().addGlobal(ref.node);
-      }
-    }
-
-    // register constant violations
-    for (const path of state.constantViolations) {
-      path.scope.registerConstantViolation(path);
-    }
+    traverseRoot(path, removerVisitor);
+    path.traverse(removerVisitor);
   }
 
   push(opts: {
@@ -919,17 +1064,23 @@ export default class Scope {
     return binding;
   }
 
-  getBinding(name: string) {
+  getBinding(name: string, implicit?: boolean) {
     let scope = this;
 
     do {
-      const binding = scope.getOwnBinding(name);
-      if (binding) return this.warnOnFlowBinding(binding);
+      const binding = scope.getOwnBinding(name, implicit);
+      if (binding) return binding;
     } while ((scope = scope.parent));
   }
 
-  getOwnBinding(name: string) {
-    return this.warnOnFlowBinding(this.bindings[name]);
+  getOwnBinding(name: string, implicit?: boolean) {
+    const binding = this.bindings[name];
+    if (binding) {
+      return this.warnOnFlowBinding(binding);
+    }
+    if (implicit) {
+      return this.implicitBindings[name];
+    }
   }
 
   getBindingIdentifier(name: string) {
@@ -974,22 +1125,8 @@ export default class Scope {
   }
 
   removeOwnBinding(name: string) {
-    delete this.bindings[name];
-  }
-
-  removeBinding(name: string) {
-    // clear literal binding
-    const info = this.getBinding(name);
-    if (info) {
-      info.scope.removeOwnBinding(name);
+    if (this.hasOwnBinding(name)) {
+      this.removeBinding(name);
     }
-
-    // clear uids with this name - https://github.com/babel/babel/issues/2101
-    let scope = this;
-    do {
-      if (scope.uids[name]) {
-        scope.uids[name] = false;
-      }
-    } while ((scope = scope.parent));
   }
 }

@@ -159,12 +159,6 @@ export default class File {
     });
 
     this.path.unshiftContainer("body", nodes);
-    // TODO: NodePath#unshiftContainer should automatically register new
-    // bindings.
-    this.path.get("body").forEach(path => {
-      if (nodes.indexOf(path.node) === -1) return;
-      if (path.isVariableDeclaration()) this.scope.registerDeclaration(path);
-    });
 
     return uid;
   }

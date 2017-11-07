@@ -98,14 +98,11 @@ export function setScope() {
   let path = this.parentPath;
   let target;
   while (path && !target) {
-    if (path.opts && path.opts.noScope) return;
-
     target = path.scope;
     path = path.parentPath;
   }
 
   this.scope = this.getScope(target);
-  if (this.scope) this.scope.init();
 }
 
 export function setContext(context) {

@@ -171,12 +171,15 @@ export function replaceWith(replacement) {
     t.removeComments(oldNode);
   }
 
+  this._removeFromScope();
+
   // replace the node
   this._replaceWith(replacement);
   this.type = replacement.type;
 
   // potentially create new scope
   this.setScope();
+  if (this.scope) this.scope.registerPath(this);
 
   // requeue for visiting
   this.requeue();

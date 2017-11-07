@@ -49,7 +49,7 @@ export function getSibling(key): NodePath {
     container: this.container,
     listKey: this.listKey,
     key: key,
-  });
+  }).setContext();
 }
 
 export function getPrevSibling(): NodePath {

@@ -107,7 +107,7 @@ function _evaluate(path, state) {
     if (
       object.isIdentifier() &&
       name === "String" &&
-      !path.scope.getBinding(name, true) &&
+      path.scope.isOriginalGlobal(name) &&
       property.isIdentifier &&
       property.node.name === "raw"
     ) {
@@ -346,7 +346,7 @@ function _evaluate(path, state) {
     // Number(1);
     if (
       callee.isIdentifier() &&
-      !path.scope.getBinding(callee.node.name, true) &&
+      path.scope.isOriginalGlobal(callee.node.name) &&
       VALID_CALLEES.indexOf(callee.node.name) >= 0
     ) {
       func = global[node.callee.name];

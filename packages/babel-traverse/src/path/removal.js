@@ -13,6 +13,7 @@ export function remove() {
   }
 
   this.shareCommentsWithSiblings();
+  this._removeFromScope();
   this._remove();
   this._markRemoved();
 }
@@ -21,6 +22,10 @@ export function _callRemovalHooks() {
   for (const fn of (hooks: Array<Function>)) {
     if (fn(this, this.parentPath)) return true;
   }
+}
+
+export function _removeFromScope() {
+  if (this.scope) this.scope.removePath(this);
 }
 
 export function _remove() {

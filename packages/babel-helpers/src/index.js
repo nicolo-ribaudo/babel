@@ -28,6 +28,7 @@ function getHelperMetadata(file) {
   const exportBindingAssignments = [];
   const importPaths = [];
   const importBindingsReferences = [];
+  const importNames = [];
 
   traverse(file, {
     ImportDeclaration(child) {
@@ -46,6 +47,7 @@ function getHelperMetadata(file) {
       const bindingIdentifier = child.node.specifiers[0].local;
       dependencies.set(bindingIdentifier, name);
       importPaths.push(makePath(child));
+      importNames.push(bindingIdentifier.name);
     },
     ExportDefaultDeclaration(child) {
       const decl = child.get("declaration");
@@ -87,11 +89,11 @@ function getHelperMetadata(file) {
     },
     ReferencedIdentifier(child) {
       const name = child.node.name;
-      const binding = child.scope.getBinding(name, /* noGlobal */ true);
-      if (!binding) {
-        globals.add(name);
-      } else if (dependencies.has(binding.identifier)) {
+      if (child.scope.hasBinding(name, /* noGlobal */ true)) return;
+      if (importNames.indexOf(name) !== -1) {
         importBindingsReferences.push(makePath(child));
+      } else {
+        globals.add(name);
       }
     },
     AssignmentExpression(child) {

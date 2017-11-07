@@ -1,6 +1,7 @@
 import traverse from "../lib";
 import assert from "assert";
 import { parse } from "babylon";
+import * as t from "@babel/types";
 
 function getPath(code) {
   const ast = parse(code);
@@ -183,6 +184,154 @@ describe("scope", function() {
       assert.deepEqual(referencePaths[1].node.loc.start, {
         line: 1,
         column: 32,
+      });
+    });
+
+    describe("declaration after reference", function() {
+      it("basic", function() {
+        const path = getPath("a; var a");
+        const refPath = path.get("body.0.expression");
+
+        assert.deepEqual(path.scope.globals, {});
+        assert.equal(path.scope.bindings.a.references, 1);
+        assert.equal(path.scope.bindings.a.referencePaths[0], refPath);
+      });
+
+      it("in blocks", function() {
+        const path = getPath("{ a } { var a }");
+        const refPath = path.get("body.0.body.0.expression");
+
+        assert.deepEqual(path.scope.globals, {});
+        assert.equal(path.scope.bindings.a.references, 1);
+        assert.equal(path.scope.bindings.a.referencePaths[0], refPath);
+      });
+
+      it("shadowed", function() {
+        const path = getPath("var a; function fn() { a; var a; }");
+        const refPath = path.get("body.1.body.body.0.expression");
+
+        assert.equal(path.scope.bindings.a.references, 0);
+        assert.equal(refPath.scope.bindings.a.references, 1);
+        assert.equal(refPath.scope.bindings.a.referencePaths[0], refPath);
+      });
+    });
+  });
+
+  describe("synchronized with path", function() {
+    describe("removal", function() {
+      it("reference removed", function() {
+        const path = getPath("var a; a();");
+        const binding = path.scope.getBinding("a");
+
+        assert.strictEqual(binding.usages.size, 1);
+        path.get("body.1").remove(); // a();
+        assert.strictEqual(binding.usages.size, 0);
+      });
+
+      it("reassignment removed", function() {
+        const path = getPath("var a = 1; a = 2;");
+        const binding = path.scope.getBinding("a");
+
+        assert.strictEqual(binding.violations.size, 1);
+        assert.strictEqual(binding.constant, false);
+        path.get("body.1").remove(); // a = 2;
+        assert.strictEqual(binding.violations.size, 0);
+        assert.strictEqual(binding.constant, true);
+      });
+
+      it("removed declaration becomes global", function() {
+        const path = getPath("var a; a();");
+
+        assert.strictEqual(path.scope.hasGlobal("a"), false);
+        path.get("body.0").remove(); // a();
+        assert.strictEqual(path.scope.hasGlobal("a"), true);
+      });
+
+      it("removed declaration references get updated", function() {
+        const path = getPath("var a; { let a; a(); }");
+        const binding = path.scope.getBinding("a");
+
+        assert.strictEqual(binding.usages.size, 0);
+        path.get("body.1.body.0").remove(); // let a;
+        assert.strictEqual(binding.usages.size, 1);
+      });
+    });
+    describe("insertion", function() {
+      it("declaration overwrites global", function() {
+        const path = getPath("a();");
+        const node = t.variableDeclaration("var", [
+          t.variableDeclarator(t.identifier("a")),
+        ]);
+
+        assert.strictEqual(path.scope.hasGlobal("a"), true);
+        path.get("body.0").insertBefore(node);
+        assert.strictEqual(path.scope.hasGlobal("a"), false);
+        assert.strictEqual(path.scope.hasBinding("a"), true);
+      });
+
+      it("declaration takes it usages from global", function() {
+        const path = getPath("a();").get("body.0");
+        const node = t.variableDeclaration("var", [
+          t.variableDeclarator(t.identifier("a")),
+        ]);
+
+        path.insertBefore(node);
+        const binding = path.scope.getBinding("a");
+
+        assert.strictEqual(binding.usages.size, 1);
+        assert.strictEqual(
+          binding.usages.keys().next().value,
+          path.get("expression.callee"),
+        );
+      });
+
+      it("declaration usages are removed from outer declaration", function() {
+        const path = getPath("var a; { a(); }");
+        const node = t.variableDeclaration("let", [
+          t.variableDeclarator(t.identifier("a")),
+        ]);
+        const binding = path.scope.getBinding("a");
+
+        assert.strictEqual(binding.usages.size, 1);
+        path.get("body.1.body.0").insertBefore(node);
+        assert.strictEqual(binding.usages.size, 0);
+        assert.strictEqual(
+          path.get("body.1").scope.getBinding("a").usages.size,
+          1,
+        );
+      });
+
+      it("reference", function() {
+        const path = getPath("var a;");
+        const node = t.expressionStatement(t.identifier("a"));
+        const binding = path.scope.getBinding("a");
+
+        assert.strictEqual(binding.usages.size, 0);
+        path.get("body.0").insertAfter(node);
+        assert.strictEqual(binding.usages.size, 1);
+      });
+
+      it("reassignment", function() {
+        const path = getPath("var a;");
+        const node = t.expressionStatement(
+          t.assignmentExpression("=", t.identifier("a"), t.stringLiteral("x")),
+        );
+        const binding = path.scope.getBinding("a");
+
+        assert.strictEqual(binding.violations.size, 0);
+        path.get("body.0").insertAfter(node);
+        assert.strictEqual(binding.violations.size, 1);
+      });
+
+      it("parameter", function() {
+        const path = getPath("function fn() { param; }");
+        const fn = path.get("body.0");
+        const node = t.identifier("param");
+
+        assert.strictEqual(path.scope.hasGlobal("param"), true);
+        fn.pushContainer("params", node);
+        assert.strictEqual(path.scope.hasGlobal("param"), false);
+        assert.strictEqual(fn.scope.getBinding("param").references, 1);
       });
     });
   });

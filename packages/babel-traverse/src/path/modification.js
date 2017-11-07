@@ -66,6 +66,7 @@ export function _containerInsert(from, nodes) {
 
   for (const path of paths) {
     path.setScope();
+    if (path.scope) path.scope.registerPath(path);
     path.debug("Inserted.");
 
     for (const context of contexts) {
@@ -193,7 +194,7 @@ export function unshiftContainer(listKey, nodes) {
     container: this.node[listKey],
     listKey,
     key: 0,
-  });
+  }).setContext();
 
   return path.insertBefore(nodes);
 }
@@ -213,7 +214,7 @@ export function pushContainer(listKey, nodes) {
     container: container,
     listKey,
     key: container.length,
-  });
+  }).setContext();
 
   return path.replaceWithMultiple(nodes);
 }

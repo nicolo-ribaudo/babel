@@ -1,4 +1,4 @@
-import Binding from "../binding";
+import Binding from "./binding";
 import * as t from "@babel/types";
 
 const renameVisitor = {
