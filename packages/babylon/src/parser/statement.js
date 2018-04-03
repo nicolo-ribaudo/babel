@@ -811,71 +811,68 @@ export default class StatementParser extends ExpressionParser {
     isAsync?: boolean,
     optionalId?: boolean,
   ): T {
-    const oldInFunc = this.state.inFunction;
-    const oldInMethod = this.state.inMethod;
-    const oldInGenerator = this.state.inGenerator;
-    this.state.inFunction = true;
-    this.state.inMethod = false;
+    return this.state.with(
+      {
+        inFunction: true,
+        inMethod: false,
+        // This is changed later, but we back-up it anyway.
+        inGenerator: this.state.inGenerator,
+      },
+      () => {
+        this.initFunction(node, isAsync);
 
-    this.initFunction(node, isAsync);
+        if (this.match(tt.star)) {
+          if (node.async) {
+            this.expectPlugin("asyncGenerators");
+          }
+          node.generator = true;
+          this.next();
+        }
 
-    if (this.match(tt.star)) {
-      if (node.async) {
-        this.expectPlugin("asyncGenerators");
-      }
-      node.generator = true;
-      this.next();
-    }
+        if (
+          isStatement &&
+          !optionalId &&
+          !this.match(tt.name) &&
+          !this.match(tt._yield)
+        ) {
+          this.unexpected();
+        }
 
-    if (
-      isStatement &&
-      !optionalId &&
-      !this.match(tt.name) &&
-      !this.match(tt._yield)
-    ) {
-      this.unexpected();
-    }
+        // When parsing function expression, the binding identifier is parsed
+        // according to the rules inside the function.
+        // e.g. (function* yield() {}) is invalid because "yield" is disallowed in
+        // generators.
+        // This isn't the case with function declarations: function* yield() {} is
+        // valid because yield is parsed as if it was outside the generator.
+        // Therefore, this.state.inGenerator is set before or after parsing the
+        // function id according to the "isStatement" parameter.
+        if (!isStatement) this.state.inGenerator = node.generator;
+        if (this.match(tt.name) || this.match(tt._yield)) {
+          node.id = this.parseBindingIdentifier();
+        }
+        if (isStatement) this.state.inGenerator = node.generator;
 
-    // When parsing function expression, the binding identifier is parsed
-    // according to the rules inside the function.
-    // e.g. (function* yield() {}) is invalid because "yield" is disallowed in
-    // generators.
-    // This isn't the case with function declarations: function* yield() {} is
-    // valid because yield is parsed as if it was outside the generator.
-    // Therefore, this.state.inGenerator is set before or after parsing the
-    // function id according to the "isStatement" parameter.
-    if (!isStatement) this.state.inGenerator = node.generator;
-    if (this.match(tt.name) || this.match(tt._yield)) {
-      node.id = this.parseBindingIdentifier();
-    }
-    if (isStatement) this.state.inGenerator = node.generator;
+        this.parseFunctionParams(node);
+        this.parseFunctionBodyAndFinish(
+          node,
+          isStatement ? "FunctionDeclaration" : "FunctionExpression",
+          allowExpressionBody,
+        );
 
-    this.parseFunctionParams(node);
-    this.parseFunctionBodyAndFinish(
-      node,
-      isStatement ? "FunctionDeclaration" : "FunctionExpression",
-      allowExpressionBody,
+        return node;
+      },
     );
-
-    this.state.inFunction = oldInFunc;
-    this.state.inMethod = oldInMethod;
-    this.state.inGenerator = oldInGenerator;
-
-    return node;
   }
 
   parseFunctionParams(node: N.Function, allowModifiers?: boolean): void {
-    const oldInParameters = this.state.inParameters;
-    this.state.inParameters = true;
-
-    this.expect(tt.parenL);
-    node.params = this.parseBindingList(
-      tt.parenR,
-      /* allowEmpty */ false,
-      allowModifiers,
-    );
-
-    this.state.inParameters = oldInParameters;
+    this.state.with({ inParameters: true }, () => {
+      this.expect(tt.parenL);
+      node.params = this.parseBindingList(
+        tt.parenR,
+        /* allowEmpty */ false,
+        allowModifiers,
+      );
+    });
   }
 
   // Parse a class declaration or literal (depending on the
@@ -916,69 +913,68 @@ export default class StatementParser extends ExpressionParser {
 
   parseClassBody(node: N.Class): void {
     // class bodies are implicitly strict
-    const oldStrict = this.state.strict;
-    this.state.strict = true;
-    this.state.classLevel++;
+    this.state.with({ strict: true }, () => {
+      this.state.classLevel++;
 
-    const state = { hadConstructor: false };
-    let decorators: N.Decorator[] = [];
-    const classBody: N.ClassBody = this.startNode();
+      const state = { hadConstructor: false };
+      let decorators: N.Decorator[] = [];
+      const classBody: N.ClassBody = this.startNode();
 
-    classBody.body = [];
+      classBody.body = [];
 
-    this.expect(tt.braceL);
+      this.expect(tt.braceL);
 
-    while (!this.eat(tt.braceR)) {
-      if (this.eat(tt.semi)) {
-        if (decorators.length > 0) {
+      while (!this.eat(tt.braceR)) {
+        if (this.eat(tt.semi)) {
+          if (decorators.length > 0) {
+            this.raise(
+              this.state.lastTokEnd,
+              "Decorators must not be followed by a semicolon",
+            );
+          }
+          continue;
+        }
+
+        if (this.match(tt.at)) {
+          decorators.push(this.parseDecorator());
+          continue;
+        }
+
+        const member = this.startNode();
+
+        // steal the decorators if there are any
+        if (decorators.length) {
+          member.decorators = decorators;
+          this.resetStartLocationFromNode(member, decorators[0]);
+          decorators = [];
+        }
+
+        this.parseClassMember(classBody, member, state);
+
+        if (
+          this.hasPlugin("decorators2") &&
+          ["method", "get", "set"].indexOf(member.kind) === -1 &&
+          member.decorators &&
+          member.decorators.length > 0
+        ) {
           this.raise(
-            this.state.lastTokEnd,
-            "Decorators must not be followed by a semicolon",
+            member.start,
+            "Stage 2 decorators may only be used with a class or a class method",
           );
         }
-        continue;
       }
 
-      if (this.match(tt.at)) {
-        decorators.push(this.parseDecorator());
-        continue;
-      }
-
-      const member = this.startNode();
-
-      // steal the decorators if there are any
       if (decorators.length) {
-        member.decorators = decorators;
-        this.resetStartLocationFromNode(member, decorators[0]);
-        decorators = [];
-      }
-
-      this.parseClassMember(classBody, member, state);
-
-      if (
-        this.hasPlugin("decorators2") &&
-        ["method", "get", "set"].indexOf(member.kind) === -1 &&
-        member.decorators &&
-        member.decorators.length > 0
-      ) {
         this.raise(
-          member.start,
-          "Stage 2 decorators may only be used with a class or a class method",
+          this.state.start,
+          "You have trailing decorators with no method",
         );
       }
-    }
 
-    if (decorators.length) {
-      this.raise(
-        this.state.start,
-        "You have trailing decorators with no method",
-      );
-    }
+      node.body = this.finishNode(classBody, "ClassBody");
 
-    node.body = this.finishNode(classBody, "ClassBody");
-
-    this.state.classLevel--;
-    this.state.strict = oldStrict;
+      this.state.classLevel--;
+    });
   }
 
   parseClassMember(
@@ -1291,31 +1287,30 @@ export default class StatementParser extends ExpressionParser {
   parseClassPrivateProperty(
     node: N.ClassPrivateProperty,
   ): N.ClassPrivateProperty {
-    this.state.inClassProperty = true;
-    node.value = this.eat(tt.eq) ? this.parseMaybeAssign() : null;
-    this.semicolon();
-    this.state.inClassProperty = false;
-    return this.finishNode(node, "ClassPrivateProperty");
+    return this.state.with({ inClassProperty: true }, () => {
+      node.value = this.eat(tt.eq) ? this.parseMaybeAssign() : null;
+      this.semicolon();
+      return this.finishNode(node, "ClassPrivateProperty");
+    });
   }
 
   parseClassProperty(node: N.ClassProperty): N.ClassProperty {
-    if (!node.typeAnnotation) {
-      this.expectPlugin("classProperties");
-    }
+    return this.state.with({ inClassProperty: true }, () => {
+      if (!node.typeAnnotation) {
+        this.expectPlugin("classProperties");
+      }
 
-    this.state.inClassProperty = true;
+      if (this.match(tt.eq)) {
+        this.expectPlugin("classProperties");
+        this.next();
+        node.value = this.parseMaybeAssign();
+      } else {
+        node.value = null;
+      }
+      this.semicolon();
 
-    if (this.match(tt.eq)) {
-      this.expectPlugin("classProperties");
-      this.next();
-      node.value = this.parseMaybeAssign();
-    } else {
-      node.value = null;
-    }
-    this.semicolon();
-    this.state.inClassProperty = false;
-
-    return this.finishNode(node, "ClassProperty");
+      return this.finishNode(node, "ClassProperty");
+    });
   }
 
   parseClassId(

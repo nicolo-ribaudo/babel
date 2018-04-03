@@ -669,12 +669,10 @@ export default class ExpressionParser extends LValParser {
     node: N.ArrowFunctionExpression,
     call: N.CallExpression,
   ): N.ArrowFunctionExpression {
-    const oldYield = this.state.yieldInPossibleArrowParameters;
-    this.state.yieldInPossibleArrowParameters = null;
-    this.expect(tt.arrow);
-    this.parseArrowExpression(node, call.arguments, true);
-    this.state.yieldInPossibleArrowParameters = oldYield;
-    return node;
+    return this.state.with({ yieldInPossibleArrowParameters: null }, () => {
+      this.expect(tt.arrow);
+      return this.parseArrowExpression(node, call.arguments, true);
+    });
   }
 
   // Parse a no-call expression (like argument of `new` or `::` operators).
@@ -779,22 +777,21 @@ export default class ExpressionParser extends LValParser {
           this.next();
           return this.parseFunction(node, false, false, true);
         } else if (canBeArrow && id.name === "async" && this.match(tt.name)) {
-          const oldYield = this.state.yieldInPossibleArrowParameters;
-          this.state.yieldInPossibleArrowParameters = null;
-          const params = [this.parseIdentifier()];
-          this.expect(tt.arrow);
-          // let foo = bar => {};
-          this.parseArrowExpression(node, params, true);
-          this.state.yieldInPossibleArrowParameters = oldYield;
-          return node;
+          return this.state.with(
+            { yieldInPossibleArrowParameters: null },
+            () => {
+              const params = [this.parseIdentifier()];
+              this.expect(tt.arrow);
+              // let foo = bar => {};
+              return this.parseArrowExpression(node, params, true);
+            },
+          );
         }
 
         if (canBeArrow && !this.canInsertSemicolon() && this.eat(tt.arrow)) {
-          const oldYield = this.state.yieldInPossibleArrowParameters;
-          this.state.yieldInPossibleArrowParameters = null;
-          this.parseArrowExpression(node, [id]);
-          this.state.yieldInPossibleArrowParameters = oldYield;
-          return node;
+          return this.state.with({ yieldInPossibleArrowParameters: null }, () =>
+            this.parseArrowExpression(node, [id]),
+          );
         }
 
         return id;
@@ -804,13 +801,9 @@ export default class ExpressionParser extends LValParser {
         this.expectPlugin("doExpressions");
         const node = this.startNode();
         this.next();
-        const oldInFunction = this.state.inFunction;
-        const oldLabels = this.state.labels;
-        this.state.labels = [];
-        this.state.inFunction = false;
-        node.body = this.parseBlock(false);
-        this.state.inFunction = oldInFunction;
-        this.state.labels = oldLabels;
+        node.body = this.state.with({ inFunction: false, labels: [] }, () =>
+          this.parseBlock(false),
+        );
         return this.finishNode(node, "DoExpression");
       }
 
@@ -1009,117 +1002,111 @@ export default class ExpressionParser extends LValParser {
   }
 
   parseParenAndDistinguishExpression(canBeArrow: boolean): N.Expression {
-    const startPos = this.state.start;
-    const startLoc = this.state.startLoc;
+    return this.state.with({ yieldInPossibleArrowParameters: null }, () => {
+      const startPos = this.state.start;
+      const startLoc = this.state.startLoc;
 
-    let val;
-    this.expect(tt.parenL);
+      let val;
+      this.expect(tt.parenL);
 
-    const oldMaybeInArrowParameters = this.state.maybeInArrowParameters;
-    const oldYield = this.state.yieldInPossibleArrowParameters;
-    this.state.maybeInArrowParameters = true;
-    this.state.yieldInPossibleArrowParameters = null;
+      const innerStartPos = this.state.start;
+      const innerStartLoc = this.state.startLoc;
+      const exprList = [];
+      const refShorthandDefaultPos = { start: 0 };
+      const refNeedsArrowPos = { start: 0 };
+      let spreadStart;
+      let optionalCommaStart;
 
-    const innerStartPos = this.state.start;
-    const innerStartLoc = this.state.startLoc;
-    const exprList = [];
-    const refShorthandDefaultPos = { start: 0 };
-    const refNeedsArrowPos = { start: 0 };
-    let first = true;
-    let spreadStart;
-    let optionalCommaStart;
+      this.state.with({ maybeInArrowParameters: true }, () => {
+        let first = true;
+        while (!this.match(tt.parenR)) {
+          if (first) {
+            first = false;
+          } else {
+            this.expect(tt.comma, refNeedsArrowPos.start || null);
+            if (this.match(tt.parenR)) {
+              optionalCommaStart = this.state.start;
+              break;
+            }
+          }
 
-    while (!this.match(tt.parenR)) {
-      if (first) {
-        first = false;
+          if (this.match(tt.ellipsis)) {
+            const spreadNodeStartPos = this.state.start;
+            const spreadNodeStartLoc = this.state.startLoc;
+            spreadStart = this.state.start;
+            exprList.push(
+              this.parseParenItem(
+                this.parseRest(),
+                spreadNodeStartPos,
+                spreadNodeStartLoc,
+              ),
+            );
+
+            if (this.match(tt.comma) && this.lookahead().type === tt.parenR) {
+              this.raise(
+                this.state.start,
+                "A trailing comma is not permitted after the rest element",
+              );
+            }
+
+            break;
+          } else {
+            exprList.push(
+              this.parseMaybeAssign(
+                false,
+                refShorthandDefaultPos,
+                this.parseParenItem,
+                refNeedsArrowPos,
+              ),
+            );
+          }
+        }
+      });
+
+      const innerEndPos = this.state.start;
+      const innerEndLoc = this.state.startLoc;
+      this.expect(tt.parenR);
+
+      let arrowNode = this.startNodeAt(startPos, startLoc);
+      if (
+        canBeArrow &&
+        this.shouldParseArrow() &&
+        (arrowNode = this.parseArrow(arrowNode))
+      ) {
+        for (const param of exprList) {
+          if (param.extra && param.extra.parenthesized) {
+            this.unexpected(param.extra.parenStart);
+          }
+        }
+
+        this.parseArrowExpression(arrowNode, exprList);
+        return arrowNode;
+      }
+
+      if (!exprList.length) {
+        this.unexpected(this.state.lastTokStart);
+      }
+      if (optionalCommaStart) this.unexpected(optionalCommaStart);
+      if (spreadStart) this.unexpected(spreadStart);
+      if (refShorthandDefaultPos.start) {
+        this.unexpected(refShorthandDefaultPos.start);
+      }
+      if (refNeedsArrowPos.start) this.unexpected(refNeedsArrowPos.start);
+
+      if (exprList.length > 1) {
+        val = this.startNodeAt(innerStartPos, innerStartLoc);
+        val.expressions = exprList;
+        this.toReferencedList(val.expressions);
+        this.finishNodeAt(val, "SequenceExpression", innerEndPos, innerEndLoc);
       } else {
-        this.expect(tt.comma, refNeedsArrowPos.start || null);
-        if (this.match(tt.parenR)) {
-          optionalCommaStart = this.state.start;
-          break;
-        }
+        val = exprList[0];
       }
 
-      if (this.match(tt.ellipsis)) {
-        const spreadNodeStartPos = this.state.start;
-        const spreadNodeStartLoc = this.state.startLoc;
-        spreadStart = this.state.start;
-        exprList.push(
-          this.parseParenItem(
-            this.parseRest(),
-            spreadNodeStartPos,
-            spreadNodeStartLoc,
-          ),
-        );
+      this.addExtra(val, "parenthesized", true);
+      this.addExtra(val, "parenStart", startPos);
 
-        if (this.match(tt.comma) && this.lookahead().type === tt.parenR) {
-          this.raise(
-            this.state.start,
-            "A trailing comma is not permitted after the rest element",
-          );
-        }
-
-        break;
-      } else {
-        exprList.push(
-          this.parseMaybeAssign(
-            false,
-            refShorthandDefaultPos,
-            this.parseParenItem,
-            refNeedsArrowPos,
-          ),
-        );
-      }
-    }
-
-    const innerEndPos = this.state.start;
-    const innerEndLoc = this.state.startLoc;
-    this.expect(tt.parenR);
-
-    this.state.maybeInArrowParameters = oldMaybeInArrowParameters;
-
-    let arrowNode = this.startNodeAt(startPos, startLoc);
-    if (
-      canBeArrow &&
-      this.shouldParseArrow() &&
-      (arrowNode = this.parseArrow(arrowNode))
-    ) {
-      for (const param of exprList) {
-        if (param.extra && param.extra.parenthesized) {
-          this.unexpected(param.extra.parenStart);
-        }
-      }
-
-      this.parseArrowExpression(arrowNode, exprList);
-      this.state.yieldInPossibleArrowParameters = oldYield;
-      return arrowNode;
-    }
-
-    this.state.yieldInPossibleArrowParameters = oldYield;
-
-    if (!exprList.length) {
-      this.unexpected(this.state.lastTokStart);
-    }
-    if (optionalCommaStart) this.unexpected(optionalCommaStart);
-    if (spreadStart) this.unexpected(spreadStart);
-    if (refShorthandDefaultPos.start) {
-      this.unexpected(refShorthandDefaultPos.start);
-    }
-    if (refNeedsArrowPos.start) this.unexpected(refNeedsArrowPos.start);
-
-    if (exprList.length > 1) {
-      val = this.startNodeAt(innerStartPos, innerStartLoc);
-      val.expressions = exprList;
-      this.toReferencedList(val.expressions);
-      this.finishNodeAt(val, "SequenceExpression", innerEndPos, innerEndLoc);
-    } else {
-      val = exprList[0];
-    }
-
-    this.addExtra(val, "parenthesized", true);
-    this.addExtra(val, "parenStart", startPos);
-
-    return val;
+      return val;
+    });
   }
 
   shouldParseArrow(): boolean {
@@ -1555,20 +1542,18 @@ export default class ExpressionParser extends LValParser {
       prop.key = this.parseMaybeAssign();
       this.expect(tt.bracketR);
     } else {
-      const oldInPropertyName = this.state.inPropertyName;
-      this.state.inPropertyName = true;
-      // We check if it's valid for it to be a private name when we push it.
-      (prop: $FlowFixMe).key =
-        this.match(tt.num) || this.match(tt.string)
-          ? this.parseExprAtom()
-          : this.parseMaybePrivateName();
+      this.state.with({ inPropertyName: true }, () => {
+        // We check if it's valid for it to be a private name when we push it.
+        (prop: $FlowFixMe).key =
+          this.match(tt.num) || this.match(tt.string)
+            ? this.parseExprAtom()
+            : this.parseMaybePrivateName();
 
-      if (prop.key.type !== "PrivateName") {
-        // ClassPrivateProperty is never computed, so we don't assign in that case.
-        prop.computed = false;
-      }
-
-      this.state.inPropertyName = oldInPropertyName;
+        if (prop.key.type !== "PrivateName") {
+          // ClassPrivateProperty is never computed, so we don't assign in that case.
+          prop.computed = false;
+        }
+      });
     }
 
     return prop.key;
@@ -1591,24 +1576,22 @@ export default class ExpressionParser extends LValParser {
     isConstructor: boolean,
     type: string,
   ): T {
-    const oldInFunc = this.state.inFunction;
-    const oldInMethod = this.state.inMethod;
-    const oldInGenerator = this.state.inGenerator;
-    this.state.inFunction = true;
-    this.state.inMethod = node.kind || true;
-    this.state.inGenerator = isGenerator;
+    return this.state.with(
+      {
+        inFunction: true,
+        inMethod: node.kind || true,
+        inGenerator: isGenerator,
+      },
+      () => {
+        this.initFunction(node, isAsync);
+        node.generator = !!isGenerator;
+        const allowModifiers = isConstructor; // For TypeScript parameter properties
+        this.parseFunctionParams((node: any), allowModifiers);
+        this.parseFunctionBodyAndFinish(node, type);
 
-    this.initFunction(node, isAsync);
-    node.generator = !!isGenerator;
-    const allowModifiers = isConstructor; // For TypeScript parameter properties
-    this.parseFunctionParams((node: any), allowModifiers);
-    this.parseFunctionBodyAndFinish(node, type);
-
-    this.state.inFunction = oldInFunc;
-    this.state.inMethod = oldInMethod;
-    this.state.inGenerator = oldInGenerator;
-
-    return node;
+        return node;
+      },
+    );
   }
 
   // Parse arrow function expression.
@@ -1629,19 +1612,15 @@ export default class ExpressionParser extends LValParser {
       );
     }
 
-    const oldInFunc = this.state.inFunction;
-    this.state.inFunction = true;
-    this.initFunction(node, isAsync);
-    if (params) this.setArrowFunctionParameters(node, params);
+    this.state.with(
+      { inFunction: true, inGenerator: false, maybeInArrowParameters: false },
+      () => {
+        this.initFunction(node, isAsync);
+        if (params) this.setArrowFunctionParameters(node, params);
 
-    const oldInGenerator = this.state.inGenerator;
-    const oldMaybeInArrowParameters = this.state.maybeInArrowParameters;
-    this.state.inGenerator = false;
-    this.state.maybeInArrowParameters = false;
-    this.parseFunctionBody(node, true);
-    this.state.inGenerator = oldInGenerator;
-    this.state.inFunction = oldInFunc;
-    this.state.maybeInArrowParameters = oldMaybeInArrowParameters;
+        this.parseFunctionBody(node, true);
+      },
+    );
 
     return this.finishNode(node, "ArrowFunctionExpression");
   }
@@ -1683,33 +1662,20 @@ export default class ExpressionParser extends LValParser {
 
   // Parse function body and check parameters.
   parseFunctionBody(node: N.Function, allowExpression: ?boolean): void {
-    const isExpression = allowExpression && !this.match(tt.braceL);
+    this.state.with({ inParameters: false, inAsync: node.async }, () => {
+      const isExpression = allowExpression && !this.match(tt.braceL);
 
-    const oldInParameters = this.state.inParameters;
-    const oldInAsync = this.state.inAsync;
-    this.state.inParameters = false;
-    this.state.inAsync = node.async;
-
-    if (isExpression) {
-      node.body = this.parseMaybeAssign();
-    } else {
-      // Start a new scope with regard to labels and the `inGenerator`
-      // flag (restore them to their old value afterwards).
-      const oldInGen = this.state.inGenerator;
-      const oldInFunc = this.state.inFunction;
-      const oldLabels = this.state.labels;
-      this.state.inGenerator = node.generator;
-      this.state.inFunction = true;
-      this.state.labels = [];
-      node.body = this.parseBlock(true);
-      this.state.inFunction = oldInFunc;
-      this.state.inGenerator = oldInGen;
-      this.state.labels = oldLabels;
-    }
-    this.state.inAsync = oldInAsync;
-
-    this.checkFunctionNameAndParams(node, allowExpression);
-    this.state.inParameters = oldInParameters;
+      if (isExpression) {
+        node.body = this.parseMaybeAssign();
+      } else {
+        // Start a new scope with regard to labels and the `inGenerator` flag.
+        node.body = this.state.with(
+          { inFunction: true, inGenerator: node.generator, labels: [] },
+          () => this.parseBlock(true),
+        );
+      }
+      this.checkFunctionNameAndParams(node, allowExpression);
+    });
   }
 
   checkFunctionNameAndParams(
@@ -1723,22 +1689,20 @@ export default class ExpressionParser extends LValParser {
     // Also check for arrow functions
     const checkLVal = this.state.strict || isStrict || isArrowFunction;
 
-    const oldStrict = this.state.strict;
-    if (isStrict) this.state.strict = isStrict;
-
-    if (checkLVal) {
-      const nameHash: any = Object.create(null);
-      if (node.id) {
-        this.checkLVal(node.id, true, undefined, "function name");
-      }
-      for (const param of node.params) {
-        if (isStrict && param.type !== "Identifier") {
-          this.raise(param.start, "Non-simple parameter in strict mode");
+    this.state.with({ strict: isStrict || this.state.strict }, () => {
+      if (checkLVal) {
+        const nameHash: any = Object.create(null);
+        if (node.id) {
+          this.checkLVal(node.id, true, undefined, "function name");
         }
-        this.checkLVal(param, true, nameHash, "function parameter list");
+        for (const param of node.params) {
+          if (isStrict && param.type !== "Identifier") {
+            this.raise(param.start, "Non-simple parameter in strict mode");
+          }
+          this.checkLVal(param, true, nameHash, "function parameter list");
+        }
       }
-    }
-    this.state.strict = oldStrict;
+    });
   }
 
   // Parses a comma-separated list of expressions, and returns them as

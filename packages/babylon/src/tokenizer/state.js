@@ -74,6 +74,22 @@ export default class State {
     this.exportedIdentifiers = [];
   }
 
+  with<T>(state: { [key: string]: mixed }, run: () => T): T {
+    const oldState = {};
+    for (const key in state) {
+      oldState[key] = this[key];
+      this[key] = state[key];
+    }
+
+    const result = run();
+
+    for (const key in oldState) {
+      this[key] = oldState[key];
+    }
+
+    return result;
+  }
+
   // TODO
   strict: boolean;
 
