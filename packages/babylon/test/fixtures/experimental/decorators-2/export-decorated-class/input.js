@@ -1,1 +1,1 @@
-export @bar class Foo { }
+@bar export class Foo { }

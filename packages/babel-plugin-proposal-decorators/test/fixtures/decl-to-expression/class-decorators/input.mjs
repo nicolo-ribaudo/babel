@@ -1,2 +1,4 @@
-export default @dec class A {}
+@dec
+export default class A {}
+
 @dec class B {}

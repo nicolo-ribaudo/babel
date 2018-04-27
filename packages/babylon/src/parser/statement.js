@@ -66,7 +66,7 @@ export default class StatementParser extends ExpressionParser {
 
   parseStatement(declaration: boolean, topLevel?: boolean): N.Statement {
     if (this.match(tt.at)) {
-      this.parseDecorators(true);
+      this.parseDecorators();
     }
     return this.parseStatementContent(declaration, topLevel);
   }
@@ -225,11 +225,7 @@ export default class StatementParser extends ExpressionParser {
     }
   }
 
-  parseDecorators(allowExport?: boolean): void {
-    if (this.hasPlugin("decorators2")) {
-      allowExport = false;
-    }
-
+  parseDecorators(): void {
     const currentContextDecorators = this.state.decoratorStack[
       this.state.decoratorStack.length - 1
     ];
@@ -238,19 +234,7 @@ export default class StatementParser extends ExpressionParser {
       currentContextDecorators.push(decorator);
     }
 
-    if (this.match(tt._export)) {
-      if (allowExport) {
-        return;
-      } else {
-        this.raise(
-          this.state.start,
-          "Using the export keyword between a decorator and a class is not allowed. " +
-            "Please use `export @dec class` instead",
-        );
-      }
-    }
-
-    if (!this.match(tt._class)) {
+    if (!this.match(tt._class) && !this.match(tt._export)) {
       this.raise(
         this.state.start,
         "Leading decorators must be attached to a class declaration",
@@ -1417,9 +1401,6 @@ export default class StatementParser extends ExpressionParser {
       return this.parseFunction(expr, true, false, true, true);
     } else if (this.match(tt._class)) {
       return this.parseClass(expr, true, true);
-    } else if (this.match(tt.at)) {
-      this.parseDecorators(false);
-      return this.parseClass(expr, true, true);
     } else if (
       this.match(tt._let) ||
       this.match(tt._const) ||
@@ -1520,8 +1501,7 @@ export default class StatementParser extends ExpressionParser {
       this.state.type.keyword === "let" ||
       this.state.type.keyword === "function" ||
       this.state.type.keyword === "class" ||
-      this.isContextual("async") ||
-      (this.match(tt.at) && this.expectPlugin("decorators2"))
+      this.isContextual("async")
     );
   }
 
