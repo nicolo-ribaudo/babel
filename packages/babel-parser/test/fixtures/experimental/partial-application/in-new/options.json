@@ -1,0 +1,4 @@
+{
+  "plugins": ["partialApplication"],
+  "throws": "Partial Application syntax is not allowed (1:11)"
+}
