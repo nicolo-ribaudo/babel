@@ -3234,7 +3234,7 @@ export function isExpression(node: Object, opts?: Object): boolean {
     "TSAsExpression" === nodeType ||
     "TSTypeAssertion" === nodeType ||
     "TSNonNullExpression" === nodeType ||
-    "PartialExpression" === nodeType
+    "Partial" === nodeType
   ) {
     if (typeof opts === "undefined") {
       return true;

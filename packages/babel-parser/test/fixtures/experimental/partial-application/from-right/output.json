@@ -76,7 +76,7 @@
           },
           "arguments": [
             {
-              "type": "PartialExpression",
+              "type": "Partial",
               "start": 4,
               "end": 5,
               "loc": {
@@ -190,7 +190,7 @@
           },
           "arguments": [
             {
-              "type": "PartialExpression",
+              "type": "Partial",
               "start": 18,
               "end": 19,
               "loc": {

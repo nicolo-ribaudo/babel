@@ -10,10 +10,9 @@ import {
   classMethodOrDeclareMethodCommon,
 } from "./es2015";
 
-defineType("PartialExpression", {
-  builder: ["argument"],
+defineType("Partial", {
   visitor: ["argument"],
-  aliases: ["Expression"],
+  aliases: ["UnaryLike"],
   fields: {
     argument: {
       validate: assertNodeType("Expression"),

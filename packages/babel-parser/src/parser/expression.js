@@ -1927,7 +1927,11 @@ export default class ExpressionParser extends LValParser {
       }
       const node = this.startNode();
       this.next();
+<<<<<<< HEAD
       elt = this.finishNode(node, "ArgumentPlaceholder");
+=======
+      elt = this.finishNode(node, "Partial");
+>>>>>>> rename PartialExpression to Partial
     } else {
       elt = this.parseMaybeAssign(
         false,

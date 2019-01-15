@@ -125,7 +125,7 @@ export function OptionalMemberExpression(node: Object) {
   }
 }
 
-export function PartialExpression() {
+export function Partial() {
   this.token("?");
 }
 
