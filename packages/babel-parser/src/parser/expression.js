@@ -1350,12 +1350,6 @@ export default class ExpressionParser extends LValParser {
   parseNewArguments(node: N.NewExpression): void {
     if (this.eat(tt.parenL)) {
       const args = this.parseExprList(tt.parenR);
-      if (this.hasPartial(args)) {
-        this.raise(
-          this.state.start,
-          "Partial Application syntax is not allowed with 'new' keyword",
-        );
-      }
       this.toReferencedList(args);
       // $FlowFixMe (parseExprList should be all non-null in this case)
       node.arguments = args;
