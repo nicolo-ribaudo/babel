@@ -272,7 +272,7 @@
                             },
                             "arguments": [
                               {
-                                "type": "Partial",
+                                "type": "PartialExpression",
                                 "start": 66,
                                 "end": 67,
                                 "loc": {

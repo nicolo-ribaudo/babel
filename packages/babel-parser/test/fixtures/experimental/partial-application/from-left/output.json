@@ -93,7 +93,7 @@
               "name": "x"
             },
             {
-              "type": "Partial",
+              "type": "PartialExpression",
               "start": 6,
               "end": 7,
               "loc": {
@@ -207,7 +207,7 @@
               "name": "x"
             },
             {
-              "type": "Partial",
+              "type": "PartialExpression",
               "start": 20,
               "end": 21,
               "loc": {
