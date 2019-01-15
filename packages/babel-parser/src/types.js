@@ -355,6 +355,8 @@ export type DirectiveLiteral = StringLiteral & { type: "DirectiveLiteral" };
 
 // Expressions
 
+export type PartialExpression = NodeBase & { type: "PartialExpression" };
+
 export type Super = NodeBase & { type: "Super" };
 
 export type Import = NodeBase & { type: "Import" };

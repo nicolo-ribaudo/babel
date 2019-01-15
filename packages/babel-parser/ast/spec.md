@@ -2,6 +2,7 @@ These are the core @babel/parser (babylon) AST node types.
 
 - [Node objects](#node-objects)
 - [Changes](#changes)
+    - [@babel/parser (Babylon) v7](#babelparser-babylon-v7)
 - [Identifier](#identifier)
 - [PrivateName](#privatename)
 - [Literals](#literals)
@@ -36,7 +37,7 @@ These are the core @babel/parser (babylon) AST node types.
     - [DoWhileStatement](#dowhilestatement)
     - [ForStatement](#forstatement)
     - [ForInStatement](#forinstatement)
-    - [ForOfStatement](#forofstatement)
+  - [ForOfStatement](#forofstatement)
 - [Declarations](#declarations)
   - [FunctionDeclaration](#functiondeclaration)
   - [VariableDeclaration](#variabledeclaration)
@@ -48,6 +49,7 @@ These are the core @babel/parser (babylon) AST node types.
   - [InterpreterDirective](#interpreterdirective)
 - [Expressions](#expressions)
   - [Super](#super)
+  - [Super](#super-1)
   - [Import](#import)
   - [ThisExpression](#thisexpression)
   - [ArrowFunctionExpression](#arrowfunctionexpression)
@@ -600,6 +602,16 @@ interface Expression <: Node { }
 ```
 
 Any expression node. Since the left-hand side of an assignment may be any expression in general, an expression can also be a pattern.
+
+## Super
+
+```js
+interface PartialExpression <: Node {
+    type: "PartialExpression";
+}
+```
+
+A `partial` pseudo-expression.
 
 ## Super
 

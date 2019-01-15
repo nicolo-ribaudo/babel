@@ -10,6 +10,17 @@ import {
   classMethodOrDeclareMethodCommon,
 } from "./es2015";
 
+defineType("PartialExpression", {
+  builder: ["argument"],
+  visitor: ["argument"],
+  aliases: ["Expression"],
+  fields: {
+    argument: {
+      validate: assertNodeType("Expression"),
+    },
+  },
+});
+
 defineType("AwaitExpression", {
   builder: ["argument"],
   visitor: ["argument"],

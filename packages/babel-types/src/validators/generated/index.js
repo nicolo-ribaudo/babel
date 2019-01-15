@@ -3233,7 +3233,8 @@ export function isExpression(node: Object, opts?: Object): boolean {
     "BigIntLiteral" === nodeType ||
     "TSAsExpression" === nodeType ||
     "TSTypeAssertion" === nodeType ||
-    "TSNonNullExpression" === nodeType
+    "TSNonNullExpression" === nodeType ||
+    "PartialExpression" === nodeType
   ) {
     if (typeof opts === "undefined") {
       return true;
