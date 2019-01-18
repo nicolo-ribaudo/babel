@@ -10,12 +10,11 @@ import {
   classMethodOrDeclareMethodCommon,
 } from "./es2015";
 
-defineType("Partial", {
+defineType("ArgumentPlaceholder", {
   visitor: ["argument"],
-  aliases: ["UnaryLike"],
   fields: {
     argument: {
-      validate: assertNodeType("Expression"),
+      validate: assertNodeType("ArgumentPlaceholder"),
     },
   },
 });
