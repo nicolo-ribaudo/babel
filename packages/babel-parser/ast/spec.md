@@ -49,7 +49,6 @@ These are the core @babel/parser (babylon) AST node types.
   - [InterpreterDirective](#interpreterdirective)
 - [Expressions](#expressions)
   - [Super](#super)
-  - [Super](#super-1)
   - [Import](#import)
   - [ThisExpression](#thisexpression)
   - [ArrowFunctionExpression](#arrowfunctionexpression)
@@ -74,6 +73,7 @@ These are the core @babel/parser (babylon) AST node types.
     - [LogicalExpression](#logicalexpression)
       - [LogicalOperator](#logicaloperator)
     - [SpreadElement](#spreadelement)
+  - [ArgumentPlaceholder](#argumentplaceholder)
     - [MemberExpression](#memberexpression)
     - [BindExpression](#bindexpression)
   - [ConditionalExpression](#conditionalexpression)
@@ -603,15 +603,6 @@ interface Expression <: Node { }
 
 Any expression node. Since the left-hand side of an assignment may be any expression in general, an expression can also be a pattern.
 
-## Super
-
-```js
-interface PartialExpression <: Node {
-    type: "PartialExpression";
-}
-```
-
-A `partial` pseudo-expression.
 
 ## Super
 
@@ -871,6 +862,14 @@ A logical operator token.
 interface SpreadElement <: Node {
   type: "SpreadElement";
   argument: Expression;
+}
+```
+
+## ArgumentPlaceholder
+
+```js
+interface ArgumentPlaceholder <: Node {
+    type: "ArgumentPlaceholder";
 }
 ```
 

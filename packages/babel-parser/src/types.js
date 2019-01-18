@@ -340,6 +340,8 @@ export type VariableDeclarator = NodeBase & {
 
 // Misc
 
+export type ArgumentPlaceholder = NodeBase & { type: "ArgumentPlaceholder" };
+
 export type Decorator = NodeBase & {
   type: "Decorator",
   expression: Expression,
@@ -354,8 +356,6 @@ export type Directive = NodeBase & {
 export type DirectiveLiteral = StringLiteral & { type: "DirectiveLiteral" };
 
 // Expressions
-
-export type PartialExpression = NodeBase & { type: "PartialExpression" };
 
 export type Super = NodeBase & { type: "Super" };
 

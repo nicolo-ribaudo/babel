@@ -836,9 +836,6 @@ export default class ExpressionParser extends LValParser {
         }
         return this.finishNode(node, "Super");
 
-      case tt.question:
-        node = this.startNode();
-        this.raise(node.start, "Partial Application syntax is not allowed");
       case tt._import:
         if (this.lookahead().type === tt.dot) {
           return this.parseImportMetaProperty();
@@ -1928,10 +1925,14 @@ export default class ExpressionParser extends LValParser {
       const node = this.startNode();
       this.next();
 <<<<<<< HEAD
+<<<<<<< HEAD
       elt = this.finishNode(node, "ArgumentPlaceholder");
 =======
       elt = this.finishNode(node, "Partial");
 >>>>>>> rename PartialExpression to Partial
+=======
+      elt = this.finishNode(node, "ArgumentPlaceholder");
+>>>>>>> rename Partial to ArgumentPlaceholder
     } else {
       elt = this.parseMaybeAssign(
         false,
