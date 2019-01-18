@@ -125,10 +125,6 @@ export function OptionalMemberExpression(node: Object) {
   }
 }
 
-export function Partial() {
-  this.token("?");
-}
-
 export function OptionalCallExpression(node: Object) {
   this.print(node.callee, node);
 
