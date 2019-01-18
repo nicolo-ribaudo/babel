@@ -1,4 +1,4 @@
 {
   "plugins": ["partialApplication"],
-  "throws": "Partial Application syntax is not allowed (3:18)"
+  "throws": "Unexpected token (3:18)"
 }

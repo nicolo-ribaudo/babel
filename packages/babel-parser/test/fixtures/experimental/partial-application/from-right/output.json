@@ -76,7 +76,7 @@
           },
           "arguments": [
             {
-              "type": "Partial",
+              "type": "ArgumentPlaceholder",
               "start": 4,
               "end": 5,
               "loc": {
@@ -190,7 +190,7 @@
           },
           "arguments": [
             {
-              "type": "Partial",
+              "type": "ArgumentPlaceholder",
               "start": 18,
               "end": 19,
               "loc": {
