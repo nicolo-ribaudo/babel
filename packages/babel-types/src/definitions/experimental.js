@@ -10,14 +10,7 @@ import {
   classMethodOrDeclareMethodCommon,
 } from "./es2015";
 
-defineType("ArgumentPlaceholder", {
-  visitor: ["argument"],
-  fields: {
-    argument: {
-      validate: assertNodeType("ArgumentPlaceholder"),
-    },
-  },
-});
+defineType("ArgumentPlaceholder", {});
 
 defineType("AwaitExpression", {
   builder: ["argument"],
