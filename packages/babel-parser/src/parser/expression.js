@@ -1917,9 +1917,19 @@ export default class ExpressionParser extends LValParser {
         spreadNodeStartPos,
         spreadNodeStartLoc,
       );
+<<<<<<< HEAD
     } else if (this.match(tt.question)) {
       this.expectPlugin("partialApplication");
       if (!allowPlaceholder) {
+=======
+
+      if (refTrailingCommaPos && this.match(tt.comma)) {
+        refTrailingCommaPos.start = this.state.start;
+      }
+    } else if (this.match(tt.question)) {
+      this.expectPlugin("partialApplication");
+      if (allowPlaceholder) {
+>>>>>>> adds a nice error message
         this.raise(this.state.start, "Unexpected argument placeholder");
       }
       const node = this.startNode();
