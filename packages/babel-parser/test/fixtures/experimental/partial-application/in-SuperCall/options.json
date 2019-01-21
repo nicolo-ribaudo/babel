@@ -1,4 +1,4 @@
 {
   "plugins": ["partialApplication"],
-  "throws": "Unexpected token (3:18)"
+  "throws": "Unexpected argument placeholder (3:16)"
 }

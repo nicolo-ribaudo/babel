@@ -1,6 +1,6 @@
 class foo{
   constructor(x){
-    super(XXX, 1, ?, ?);
+    super(x, 1, ?, ?);
     this.x = x;
   }
 }

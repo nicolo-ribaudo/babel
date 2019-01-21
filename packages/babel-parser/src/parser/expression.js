@@ -1928,8 +1928,12 @@ export default class ExpressionParser extends LValParser {
       }
     } else if (this.match(tt.question)) {
       this.expectPlugin("partialApplication");
+<<<<<<< HEAD
       if (allowPlaceholder) {
 >>>>>>> adds a nice error message
+=======
+      if (!allowPlaceholder) {
+>>>>>>> update the conditional for allowPlaceholder message and tests
         this.raise(this.state.start, "Unexpected argument placeholder");
       }
       const node = this.startNode();
