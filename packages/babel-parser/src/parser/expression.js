@@ -1917,36 +1917,14 @@ export default class ExpressionParser extends LValParser {
         spreadNodeStartPos,
         spreadNodeStartLoc,
       );
-<<<<<<< HEAD
     } else if (this.match(tt.question)) {
       this.expectPlugin("partialApplication");
       if (!allowPlaceholder) {
-=======
-
-      if (refTrailingCommaPos && this.match(tt.comma)) {
-        refTrailingCommaPos.start = this.state.start;
-      }
-    } else if (this.match(tt.question)) {
-      this.expectPlugin("partialApplication");
-<<<<<<< HEAD
-      if (allowPlaceholder) {
->>>>>>> adds a nice error message
-=======
-      if (!allowPlaceholder) {
->>>>>>> update the conditional for allowPlaceholder message and tests
         this.raise(this.state.start, "Unexpected argument placeholder");
       }
       const node = this.startNode();
       this.next();
-<<<<<<< HEAD
-<<<<<<< HEAD
       elt = this.finishNode(node, "ArgumentPlaceholder");
-=======
-      elt = this.finishNode(node, "Partial");
->>>>>>> rename PartialExpression to Partial
-=======
-      elt = this.finishNode(node, "ArgumentPlaceholder");
->>>>>>> rename Partial to ArgumentPlaceholder
     } else {
       elt = this.parseMaybeAssign(
         false,
