@@ -2,7 +2,6 @@ These are the core @babel/parser (babylon) AST node types.
 
 - [Node objects](#node-objects)
 - [Changes](#changes)
-    - [@babel/parser (Babylon) v7](#babelparser-babylon-v7)
 - [Identifier](#identifier)
 - [PrivateName](#privatename)
 - [Literals](#literals)
@@ -37,7 +36,7 @@ These are the core @babel/parser (babylon) AST node types.
     - [DoWhileStatement](#dowhilestatement)
     - [ForStatement](#forstatement)
     - [ForInStatement](#forinstatement)
-  - [ForOfStatement](#forofstatement)
+    - [ForOfStatement](#forofstatement)
 - [Declarations](#declarations)
   - [FunctionDeclaration](#functiondeclaration)
   - [VariableDeclaration](#variabledeclaration)
@@ -73,7 +72,7 @@ These are the core @babel/parser (babylon) AST node types.
     - [LogicalExpression](#logicalexpression)
       - [LogicalOperator](#logicaloperator)
     - [SpreadElement](#spreadelement)
-  - [ArgumentPlaceholder](#argumentplaceholder)
+    - [ArgumentPlaceholder](#argumentplaceholder)
     - [MemberExpression](#memberexpression)
     - [BindExpression](#bindexpression)
   - [ConditionalExpression](#conditionalexpression)
@@ -603,7 +602,6 @@ interface Expression <: Node { }
 
 Any expression node. Since the left-hand side of an assignment may be any expression in general, an expression can also be a pattern.
 
-
 ## Super
 
 ```js
@@ -865,7 +863,7 @@ interface SpreadElement <: Node {
 }
 ```
 
-## ArgumentPlaceholder
+### ArgumentPlaceholder
 
 ```js
 interface ArgumentPlaceholder <: Node {
