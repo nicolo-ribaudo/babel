@@ -12,12 +12,7 @@ export default declare(api => {
    * @returns boolean
    */
   function hasArgumentPlaceholder(node) {
-    for (let i = 0; i < node.arguments.length; i++) {
-      if (t.isArgumentPlaceholder(node.arguments[i])) {
-        return true;
-      }
-    }
-    return false;
+    return node.arguments.some(arg => t.isArgumentPlaceholder(arg));
   }
 
   /**
@@ -66,14 +61,13 @@ export default declare(api => {
    * in a MemberExpression
    */
   function receiverRVal(node) {
-    let rVal = unfold(node).split(".");
+    const rVal = unfold(node).split(".");
     rVal.pop();
-    rVal = rVal.join(".");
-    return rVal;
+    return rVal.join(".");
   }
 
   /**
-   * a recursive function that unfolds MemberExpressions within MemberExpression
+   * a recursive function that unfolds nested MemberExpressions
    * @param {Object} node CallExpression node
    * @returns {String} the correct right hand-side value for the receiver
    * and the function
@@ -116,10 +110,9 @@ export default declare(api => {
    * @returns {Array<Expression>}
    */
   function unwrapArguments(node) {
-    const nonPlaceholder = node.arguments.filter(
+    return node.arguments.filter(
       argument => argument.type !== "ArgumentPlaceholder",
     );
-    return nonPlaceholder;
   }
 
   /**
@@ -132,13 +125,17 @@ export default declare(api => {
    */
   function unwrapAllArguments(node, scope) {
     const clone = t.cloneNode(node);
-    clone.arguments.forEach(argument => {
-      if (argument.type === "ArgumentPlaceholder") {
-        argument.type = "Identifier";
-        argument.name = scope.generateUid("_argPlaceholder");
+
+    return clone.arguments.map(arg => {
+      if (arg.type === "ArgumentPlaceholder") {
+        return Object.assign({}, arg, {
+          type: "Identifier",
+          name: scope.generateUid("_argPlaceholder"),
+        });
       }
+
+      return arg;
     });
-    return clone.arguments;
   }
 
   /**
@@ -147,11 +144,7 @@ export default declare(api => {
    * @param {Object} scope
    */
   function argsToVarDeclarator(inits, scope) {
-    let declarator = [];
-    declarator = inits.map(expr =>
-      t.variableDeclarator(newParamLVal(scope), expr),
-    );
-    return declarator;
+    return inits.map(expr => t.variableDeclarator(newParamLVal(scope), expr));
   }
 
   /**
@@ -161,7 +154,7 @@ export default declare(api => {
    */
   function mapNonPlaceholderToLVal(nonPlaceholderDecl, allArgsList) {
     const clone = Array.from(allArgsList);
-    clone.forEach(cl => {
+    clone.map(cl => {
       nonPlaceholderDecl.forEach(dec => {
         if (dec.init.type === cl.type) {
           if (!!cl.value && cl.value === dec.init.value) {
