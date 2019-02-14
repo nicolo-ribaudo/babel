@@ -17,3 +17,10 @@ const h = (() => {
         _param6 = 2;
   return _argPlaceholder2 => _func2.call(_receiver2, _param3, _param4, _param5, _param6, _argPlaceholder2);
 })();
+
+const j = (() => {
+  const _receiver3 = a.b.c.d.e;
+  const _func3 = a.b.c.d.e.foo;
+  const _param7 = 1;
+  return _argPlaceholder3 => _func3.call(_receiver3, _argPlaceholder3, _param7);
+})();
