@@ -15,6 +15,8 @@ export default {
 // even if jsx isn't enabled, the TypeScript plugin redefines it.
 export let jsxParseOpeningElementAfterName;
 
+export * from "./tokenizer/entry";
+
 export {
   inModule,
   input,

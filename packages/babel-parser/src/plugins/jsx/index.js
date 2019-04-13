@@ -18,7 +18,7 @@ import {
   next,
   eat,
   lookahead,
-} from "::build-tool::bindings/tokenizer";
+} from "::build-tool::bindings/parser";
 
 import {
   state,

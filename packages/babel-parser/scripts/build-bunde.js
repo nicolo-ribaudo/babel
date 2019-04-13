@@ -11,7 +11,7 @@ const { types: t } = babel;
 // prettier-ignore
 const [/* node */, /* file */, input, output] = process.argv;
 
-if (process.main) main(input).then(code => fs.writeFile(output, code));
+if (!module.parent) main(input).then(code => fs.writeFile(output, code));
 else module.exports = main;
 
 async function main(input) {
@@ -64,7 +64,10 @@ async function loadDependency(path, name, deps) {
   const bundle = await rollup.rollup({
     input: path,
     external(id) {
-      return !id.startsWith("./") && !id.startsWith("/");
+      if (id.startsWith("/")) {
+        return /babel-parser\/src\/(?:util\/)?[\w-]*\.js$/.test(id);
+      }
+      return !id.startsWith(".");
     },
     plugins: [
       rollupPluginBabel({

@@ -4,7 +4,7 @@ import type { Node } from "../types";
 import { lineBreak, skipWhiteSpace } from "../util/whitespace";
 import { types as tt, type TokenType } from "../util/token-types";
 
-import { next, match, eat, lookahead } from "::build-tool::bindings/tokenizer";
+import { next, match, eat, lookahead } from "./tokenizer/entry";
 import { state, input } from "./index";
 import { raise } from "./location";
 import { hasPlugin } from "./base";

@@ -177,6 +177,8 @@ gulp.task("default", gulp.series("build"));
 
 gulp.task("build-no-bundle", gulp.series(bundleParser, () => buildBabel()));
 
+gulp.task("build-parser", bundleParser);
+
 gulp.task(
   "watch",
   gulp.series("build-no-bundle", function watch() {

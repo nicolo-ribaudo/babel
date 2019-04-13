@@ -4,11 +4,11 @@
 // given point in the program is loosely based on sweet.js' approach.
 // See https://github.com/mozilla/sweet.js/wiki/design
 
-import { lineBreak } from "../util/whitespace";
+import { lineBreak } from "../../util/whitespace";
 
-import { types as tt, type TokenType } from "../util/token-types";
+import { types as tt, type TokenType } from "../../util/token-types";
 
-import { state, scope, input } from "::build-tool::bindings/parser";
+import { state, scope, input } from "../index";
 import { braceIsBlock, curContext, readTmplToken } from "./index";
 
 export class TokContext {

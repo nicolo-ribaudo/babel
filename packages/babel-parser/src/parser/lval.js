@@ -14,7 +14,7 @@ import { isStrictBindReservedWord } from "../util/identifier";
 import { type BindingTypes, BIND_NONE, BIND_OUTSIDE } from "../util/scopeflags";
 import { types as tt, type TokenType } from "../util/token-types";
 
-import { next, match, eat } from "::build-tool::bindings/tokenizer";
+import { next, match, eat } from "./tokenizer/entry";
 import { state, scope, inModule } from "./index";
 import { raise } from "./location";
 import { unexpected, expect } from "./util";

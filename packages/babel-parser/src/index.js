@@ -63,8 +63,6 @@ function getParser(options?: Options) {
 const parserCache: { [key: string]: any } = {};
 
 function createParser(plugins: PluginList) {
-  load("./tokenizer/entry.js");
-
   const parser = load("./parser/entry.js");
 
   // NOTE: order is important. estree must come first; placeholders must come last.

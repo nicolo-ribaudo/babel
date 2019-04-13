@@ -25,7 +25,7 @@ import {
   finishOp,
   readWord,
   nextToken,
-} from "::build-tool::bindings/tokenizer";
+} from "::build-tool::bindings/parser";
 
 import {
   hasPlugin,

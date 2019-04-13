@@ -7,8 +7,8 @@ import { Position } from "./location";
 import {
   typeof types as ContextMap,
   type TokContext,
-} from "../tokenizer/context";
-import type { Token } from "../tokenizer";
+} from "../parser/tokenizer/context";
+import type { Token } from "../parser/tokenizer";
 import { typeof types as TypesMap, type TokenType } from "./token-types";
 
 type TopicContextState = {

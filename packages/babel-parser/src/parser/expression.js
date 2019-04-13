@@ -47,7 +47,7 @@ import {
   nextToken,
   lookahead,
   readRegexp,
-} from "::build-tool::bindings/tokenizer";
+} from "./tokenizer/entry";
 import { hasPlugin, getPluginOption } from "./base";
 import { raise } from "./location";
 import {

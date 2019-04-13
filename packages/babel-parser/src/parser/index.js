@@ -9,7 +9,7 @@ import ScopeHandler from "../util/scope";
 import { types as tt } from "../util/token-types";
 import State from "../util/state";
 
-import { nextToken, ct } from "::build-tool::bindings/tokenizer";
+import { nextToken, ct } from "./tokenizer/entry";
 import { startNode } from "./node";
 import { parseTopLevel } from "./statement";
 import { raise } from "./location";

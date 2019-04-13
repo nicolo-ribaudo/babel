@@ -21,13 +21,7 @@ import {
 } from "../util/scopeflags";
 import { types as tt, type TokenType } from "../util/token-types";
 
-import {
-  match,
-  next,
-  eat,
-  lookahead,
-  setStrict,
-} from "::build-tool::bindings/tokenizer";
+import { match, next, eat, lookahead, setStrict } from "./tokenizer/entry";
 import {
   options,
   state,

@@ -15,7 +15,7 @@ import {
   lookahead,
   curContext,
   finishOp,
-} from "::build-tool::bindings/tokenizer";
+} from "::build-tool::bindings/parser";
 import {
   scope,
   state,

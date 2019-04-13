@@ -5,7 +5,7 @@ import * as N from "../types";
 import { types as tt } from "../util/token-types";
 
 import { original } from "::build-tool::";
-import { finishOp, next, match, eat } from "::build-tool::bindings/tokenizer";
+import { finishOp, next, match, eat } from "::build-tool::bindings/parser";
 import {
   input,
   state,

@@ -1,7 +1,7 @@
 // @flow
 
 import type { SourceType } from "./options";
-import type { Token } from "./tokenizer";
+import type { Token } from "./parser/tokenizer";
 import type { SourceLocation } from "./util/location";
 import type { PlaceholderTypes } from "./plugins/placeholders";
 

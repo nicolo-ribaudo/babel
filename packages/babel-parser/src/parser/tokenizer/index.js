@@ -1,26 +1,26 @@
 // @flow
 
-import type { Position } from "../util/location";
+import type { Position } from "../../util/location";
 import * as charCodes from "charcodes";
-import { isIdentifierStart, isIdentifierChar } from "../util/identifier";
+import { isIdentifierStart, isIdentifierChar } from "../../util/identifier";
 import {
   types as tt,
   keywords as keywordTypes,
   type TokenType,
-} from "../util/token-types";
+} from "../../util/token-types";
 import {
   type TokContext,
   types as ct,
   updateContext as contextUpdater,
 } from "./context";
-import type State from "../util/state";
-import { SourceLocation } from "../util/location";
+import type State from "../../util/state";
+import { SourceLocation } from "../../util/location";
 import {
   lineBreak,
   lineBreakG,
   isNewLine,
   isWhitespace,
-} from "../util/whitespace";
+} from "../../util/whitespace";
 
 import {
   state,
@@ -33,7 +33,7 @@ import {
   getPluginOption,
   hasPlugin,
   raise,
-} from "::build-tool::bindings/parser";
+} from "../entry";
 
 let isLookahead = false;
 
