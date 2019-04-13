@@ -11,11 +11,9 @@ export default {
   },
 };
 
-// Declared by the jsx plugin, but it neededs to be deifned here because,
-// even if jsx isn't enabled, the TypeScript plugin redefines it.
-export let jsxParseOpeningElementAfterName;
-
 export * from "./tokenizer/entry";
+
+export { jsxParseOpeningElementAfterName } from "../plugins/jsx/index.js";
 
 export {
   inModule,

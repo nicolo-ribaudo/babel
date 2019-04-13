@@ -71,10 +71,6 @@ function createParser(plugins: PluginList) {
     load("./plugins/estree.js");
   }
 
-  if (hasPlugin(plugins, "jsx")) {
-    load("./plugins/jsx/index.js");
-  }
-
   if (hasPlugin(plugins, "flow")) {
     load("./plugins/flow.js");
   } else if (hasPlugin(plugins, "typescript")) {

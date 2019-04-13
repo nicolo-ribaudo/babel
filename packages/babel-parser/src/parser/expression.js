@@ -96,6 +96,8 @@ import {
   parseClass,
 } from "./statement";
 
+import * as jsx from "../plugins/jsx/index.js";
+
 function unwrapParenthesizedExpression(node) {
   return node.type === "ParenthesizedExpression"
     ? unwrapParenthesizedExpression(node.expression)
@@ -1060,6 +1062,10 @@ export function parseExprAtom(refShorthandDefaultPos?: ?Pos): N.Expression {
     }
 
     default:
+      if (hasPlugin("jsx") && (node = jsx.parseExprAtom())) {
+        return node;
+      }
+
       throw unexpected();
   }
 }

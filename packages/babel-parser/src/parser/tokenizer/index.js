@@ -35,6 +35,8 @@ import {
   raise,
 } from "../entry";
 
+import * as jsx from "../../plugins/jsx/index.js";
+
 let isLookahead = false;
 
 const VALID_REGEX_FLAGS = new Set(["g", "m", "s", "i", "y", "u"]);
@@ -623,6 +625,8 @@ function readToken_question(): void {
 }
 
 export function getTokenFromCode(code: number): void {
+  if (hasPlugin("jsx") && jsx.getTokenFromCode(code)) return;
+
   switch (code) {
     // The interpretation of a dot depends on whether it is followed
     // by a digit or another two dots.
@@ -1346,6 +1350,8 @@ export function braceIsBlock(prevType: TokenType): boolean {
 }
 
 export function updateContext(prevType: TokenType): void {
+  if (hasPlugin("jsx") && jsx.updateContext(prevType)) return;
+
   const type = state.type;
   if (type.keyword && (prevType === tt.dot || prevType === tt.questionDot)) {
     state.exprAllowed = false;

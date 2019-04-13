@@ -4,11 +4,9 @@ import * as charCodes from "charcodes";
 
 import * as N from "../../types";
 import { isIdentifierChar, isIdentifierStart } from "../../util/identifier";
-import type { Pos, Position } from "../../util/location";
+import type { Position } from "../../util/location";
 import { isNewLine } from "../../util/whitespace";
 import { types as tt, TokenType } from "../../util/token-types";
-
-import { original } from "::build-tool::";
 
 import {
   ct as tc,
@@ -18,7 +16,7 @@ import {
   next,
   eat,
   lookahead,
-} from "::build-tool::bindings/parser";
+} from "../../parser/entry";
 
 import {
   state,
@@ -35,7 +33,8 @@ import {
   parseExpression,
   parseMaybeAssign,
   parseLiteral,
-} from "::build-tool::bindings/parser";
+  parseExprAtom as jsParseExprAtom,
+} from "../../parser/entry";
 
 import XHTMLEntities from "./xhtml";
 
@@ -76,7 +75,7 @@ function getQualifiedJSXName(
 
 // Reads inline JSX contents token.
 
-function jsxReadToken(): void {
+function jsxReadToken(): boolean {
   let out = "";
   let chunkStart = state.pos;
   for (;;) {
@@ -92,12 +91,14 @@ function jsxReadToken(): void {
         if (state.pos === state.start) {
           if (ch === charCodes.lessThan && state.exprAllowed) {
             ++state.pos;
-            return finishToken(tt.jsxTagStart);
+            finishToken(tt.jsxTagStart);
+            return true;
           }
-          return original(getTokenFromCode)(ch);
+          return false;
         }
         out += input.slice(chunkStart, state.pos);
-        return finishToken(tt.jsxText, out);
+        finishToken(tt.jsxText, out);
+        return true;
 
       case charCodes.ampersand:
         out += input.slice(chunkStart, state.pos);
@@ -115,6 +116,9 @@ function jsxReadToken(): void {
         }
     }
   }
+
+  // Unreachable
+  return false;
 }
 
 function jsxReadNewLine(normalizeCRLF: boolean): string {
@@ -277,7 +281,7 @@ function jsxParseAttributeValue(): N.Expression {
 
     case tt.jsxTagStart:
     case tt.string:
-      return parseExprAtom();
+      return jsParseExprAtom();
 
     default:
       throw raise(
@@ -488,7 +492,7 @@ function jsxParseElement(): N.JSXElement {
 // Overrides
 // ==================================
 
-export function parseExprAtom(refShortHandDefaultPos: ?Pos): N.Expression {
+export function parseExprAtom(): ?N.Expression {
   if (match(tt.jsxText)) {
     return parseLiteral(state.value, "JSXText");
   } else if (match(tt.jsxTagStart)) {
@@ -501,13 +505,11 @@ export function parseExprAtom(refShortHandDefaultPos: ?Pos): N.Expression {
     // jsx as the lt sign is not allowed in places that expect an expression
     finishToken(tt.jsxTagStart);
     return jsxParseElement();
-  } else {
-    return original(parseExprAtom)(refShortHandDefaultPos);
   }
 }
 
-export function getTokenFromCode(code: number): void {
-  if (state.inPropertyName) return original(getTokenFromCode)(code);
+export function getTokenFromCode(code: number): boolean {
+  if (state.inPropertyName) return false;
 
   const context = curContext();
 
@@ -517,19 +519,22 @@ export function getTokenFromCode(code: number): void {
 
   if (context === tc.j_oTag || context === tc.j_cTag) {
     if (isIdentifierStart(code)) {
-      return jsxReadWord();
+      jsxReadWord();
+      return true;
     }
 
     if (code === charCodes.greaterThan) {
       ++state.pos;
-      return finishToken(tt.jsxTagEnd);
+      finishToken(tt.jsxTagEnd);
+      return true;
     }
 
     if (
       (code === charCodes.quotationMark || code === charCodes.apostrophe) &&
       context === tc.j_oTag
     ) {
-      return jsxReadString(code);
+      jsxReadString(code);
+      return true;
     }
   }
 
@@ -539,13 +544,14 @@ export function getTokenFromCode(code: number): void {
     input.charCodeAt(state.pos + 1) !== charCodes.exclamationMark
   ) {
     ++state.pos;
-    return finishToken(tt.jsxTagStart);
+    finishToken(tt.jsxTagStart);
+    return true;
   }
 
-  return original(getTokenFromCode)(code);
+  return false;
 }
 
-export function updateContext(prevType: TokenType): void {
+export function updateContext(prevType: TokenType): boolean {
   if (match(tt.braceL)) {
     const ctx = curContext();
     if (ctx === tc.j_oTag) {
@@ -553,7 +559,7 @@ export function updateContext(prevType: TokenType): void {
     } else if (ctx === tc.j_expr) {
       state.context.push(tc.templateQuasi);
     } else {
-      original(updateContext)(prevType);
+      return false;
     }
     state.exprAllowed = true;
   } else if (match(tt.slash) && prevType === tt.jsxTagStart) {
@@ -561,6 +567,7 @@ export function updateContext(prevType: TokenType): void {
     state.context.push(tc.j_cTag); // reconsider as closing tag context
     state.exprAllowed = false;
   } else {
-    return original(updateContext)(prevType);
+    return false;
   }
+  return true;
 }
