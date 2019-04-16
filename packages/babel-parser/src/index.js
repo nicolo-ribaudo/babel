@@ -14,6 +14,8 @@ export { types as tokTypes } from "./util/token-types";
 
 import type { Expression, File } from "./types";
 
+import parser from "./parser/entry.js";
+
 export function parse(input: string, options?: Options): File {
   if (options && options.sourceType === "unambiguous") {
     options = {
@@ -45,7 +47,7 @@ export function parseExpression(input: string, options?: Options): Expression {
   return getParser(options).getExpression(options, input);
 }
 
-function getParser(options?: Options) {
+function getParser2(options?: Options) {
   const plugins = (options && options.plugins) || [];
   validatePlugins(plugins);
 
@@ -60,6 +62,10 @@ function getParser(options?: Options) {
   return parser;
 }
 
+function getParser() {
+  return parser;
+}
+
 const parserCache: { [key: string]: any } = {};
 
 function createParser(plugins: PluginList) {
@@ -68,17 +74,17 @@ function createParser(plugins: PluginList) {
   // NOTE: order is important. estree must come first; placeholders must come last.
 
   if (hasPlugin(plugins, "estree")) {
-    load("./plugins/estree.js");
+    //load("./plugins/estree.js");
   }
 
   if (hasPlugin(plugins, "flow")) {
-    load("./plugins/flow.js");
+    //load("./plugins/flow.js");
   } else if (hasPlugin(plugins, "typescript")) {
-    load("./plugins/typescript.js");
+    //load("./plugins/typescript.js");
   }
 
   if (hasPlugin(plugins, "placeholders")) {
-    load("./plugins/placeholders.js");
+    //load("./plugins/placeholders.js");
   }
 
   return parser;

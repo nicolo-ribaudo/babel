@@ -821,6 +821,8 @@ export type ImportDeclaration = NodeBase & {
 export type ImportSpecifier = ModuleSpecifier & {
   type: "ImportSpecifier",
   imported: Identifier,
+
+  importKind?: "type" | "typeof" | "value" | null, // TODO: Not in spec
 };
 
 export type ImportDefaultSpecifier = ModuleSpecifier & {

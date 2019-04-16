@@ -40,7 +40,7 @@ function getGlobFromSource(source) {
 }
 
 function getIndexFromPackage(name) {
-  return name.indexOf("babel-parser") > -1
+  return name.indexOf("babel-parser") > -1 && false
     ? `${name}/bundle/index.js`
     : `${name}/src/index.js`;
 }
@@ -78,6 +78,8 @@ function runParserBundler() {
 }
 
 function bundleParser() {
+  return Promise.resolve();
+
   const base = path.resolve(__dirname, "packages/babel-parser/src");
   const outputPath = path.join(__dirname, "packages/babel-parser/bundle");
 
@@ -113,14 +115,14 @@ function buildBabel(exclude) {
 
       let src = getGlobFromSource(source);
       if (source === "packages") {
-        src = [src, parserCustomBundlerOutputGlob];
+        //src = [src, parserCustomBundlerOutputGlob];
       }
 
       let stream = gulp.src(src, { base: base });
 
       const filters = (exclude || []).map(p => `!**/${p}/**`);
       filters.unshift("**");
-      filters.push("!**/babel-parser/src/**");
+      //filters.push("!**/babel-parser/src/**");
       stream = stream.pipe(filter(filters));
 
       return stream
@@ -168,7 +170,8 @@ const bundles = ["packages/babel-parser"];
 
 gulp.task(
   "build-rollup",
-  gulp.series(bundleParser, () => buildRollup(bundles))
+  () => buildRollup(bundles)
+  // gulp.series(bundleParser, () => buildRollup(bundles))
 );
 gulp.task("build-babel", () => buildBabel(/* exclude */ bundles));
 gulp.task("build", gulp.parallel("build-rollup", "build-babel"));
@@ -177,7 +180,7 @@ gulp.task("default", gulp.series("build"));
 
 gulp.task("build-no-bundle", gulp.series(bundleParser, () => buildBabel()));
 
-gulp.task("build-parser", bundleParser);
+//gulp.task("build-parser", bundleParser);
 
 gulp.task(
   "watch",

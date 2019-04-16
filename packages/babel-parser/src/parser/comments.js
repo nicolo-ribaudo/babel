@@ -27,6 +27,8 @@
 import type { Comment, Node } from "../types";
 
 import { filename, state } from "./index";
+import { hasPlugin } from "./base";
+import * as flow from "../plugins/flow";
 
 function last<T>(stack: $ReadOnlyArray<T>): T {
   return stack[stack.length - 1];
@@ -36,6 +38,8 @@ export function addComment(comment: Comment): void {
   if (filename) comment.loc.filename = filename;
   state.trailingComments.push(comment);
   state.leadingComments.push(comment);
+
+  if (hasPlugin("flow")) flow.registerPragma(comment);
 }
 
 export function processComment(node: Node): void {

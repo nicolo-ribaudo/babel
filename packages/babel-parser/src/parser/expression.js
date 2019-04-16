@@ -62,6 +62,8 @@ import {
   addExtra,
   hasPrecedingLineBreak,
   strictDirective,
+  isRelational,
+  isLookaheadRelational,
 } from "./util";
 import { startNode, startNodeAt, finishNode, finishNodeAt } from "./node";
 import {
@@ -97,6 +99,7 @@ import {
 } from "./statement";
 
 import * as jsx from "../plugins/jsx/index.js";
+import * as flow from "../plugins/flow";
 
 function unwrapParenthesizedExpression(node) {
   return node.type === "ParenthesizedExpression"
@@ -195,7 +198,13 @@ export function parseMaybeAssign(
   refShorthandDefaultPos?: ?Pos,
   afterLeftParse?: Function,
   refNeedsArrowPos?: ?Pos,
+  noFlow?: boolean,
 ): N.Expression {
+  if (!noFlow && hasPlugin("flow")) {
+    const node = flow.parseMaybeAssign(...arguments);
+    if (node) return node;
+  }
+
   const startPos = state.start;
   const startLoc = state.startLoc;
   if (isContextual("yield")) {
@@ -321,15 +330,27 @@ export function parseConditional(
   // eslint-disable-next-line no-unused-vars
   refNeedsArrowPos?: ?Pos,
 ): N.Expression {
-  if (eat(tt.question)) {
-    const node = startNodeAt(startPos, startLoc);
-    node.test = expr;
-    node.consequent = parseMaybeAssign();
-    expect(tt.colon);
-    node.alternate = parseMaybeAssign(noIn);
-    return finishNode(node, "ConditionalExpression");
+  if (!eat(tt.question)) return expr;
+
+  if (hasPlugin("flow")) {
+    return flow.parseConditional(expr, noIn, startPos, startLoc);
   }
-  return expr;
+
+  return parseJSConditional(expr, noIn, startPos, startLoc);
+}
+
+export function parseJSConditional(
+  expr: N.Expression,
+  noIn: ?boolean,
+  startPos: number,
+  startLoc: Position,
+) {
+  const node = startNodeAt(startPos, startLoc);
+  node.test = expr;
+  node.consequent = parseMaybeAssign();
+  expect(tt.colon);
+  node.alternate = parseMaybeAssign(noIn);
+  return finishNode(node, "ConditionalExpression");
 }
 
 // Start the precedence parser.
@@ -597,6 +618,11 @@ export function parseSubscript(
   psState: N.ParseSubscriptState,
   maybeAsyncArrow: boolean,
 ): N.Expression {
+  if (hasPlugin("flow")) {
+    const node = 0 && flow.parseSubscript(...arguments);
+    if (node) return node;
+  }
+
   if (!noCalls && eat(tt.doubleColon)) {
     const node = startNodeAt(startPos, startLoc);
     node.object = base;
@@ -626,7 +652,15 @@ export function parseSubscript(
       node.optional = true;
       expect(tt.bracketR);
       return finishNode(node, "OptionalMemberExpression");
-    } else if (eat(tt.parenL)) {
+    } else if (
+      eat(tt.parenL) ||
+      (hasPlugin("flow") && flow.isTypeParamStart())
+    ) {
+      if (flow.isTypeParamStart() && !flow.tryParseCallTypeArguments(node)) {
+        psState.stop = true;
+        return base;
+      }
+
       node.callee = base;
       node.arguments = parseCallExpressionArguments(tt.parenR, false);
       node.optional = true;
@@ -659,7 +693,10 @@ export function parseSubscript(
       return finishNode(node, "OptionalMemberExpression");
     }
     return finishNode(node, "MemberExpression");
-  } else if (!noCalls && match(tt.parenL)) {
+  } else if (
+    !noCalls &&
+    (match(tt.parenL) || (hasPlugin("flow") && flow.isTypeParamStart()))
+  ) {
     const oldMaybeInArrowParameters = state.maybeInArrowParameters;
     const oldYieldPos = state.yieldPos;
     const oldAwaitPos = state.awaitPos;
@@ -667,10 +704,15 @@ export function parseSubscript(
     state.yieldPos = 0;
     state.awaitPos = 0;
 
-    next();
-
     let node = startNodeAt(startPos, startLoc);
     node.callee = base;
+
+    if (flow.isTypeParamStart() && !flow.tryParseCallTypeArguments(node)) {
+      psState.stop = true;
+      return base;
+    }
+
+    next();
 
     const oldCommaAfterSpreadAt = state.commaAfterSpreadAt;
     state.commaAfterSpreadAt = -1;
@@ -838,6 +880,10 @@ export function parseAsyncArrowFromCallExpression(
   node: N.ArrowFunctionExpression,
   call: N.CallExpression,
 ): N.ArrowFunctionExpression {
+  if (hasPlugin("flow") && flow.tryParseArrowWithReturnType(node)) {
+    return node;
+  }
+
   expect(tt.arrow);
   parseArrowExpression(node, call.arguments, true);
   return node;
@@ -1309,16 +1355,21 @@ export function shouldParseArrow(): boolean {
 export function parseArrow(
   node: N.ArrowFunctionExpression,
 ): ?N.ArrowFunctionExpression {
-  if (eat(tt.arrow)) {
+  if (hasPlugin("flow") && flow.tryParseArrowWithReturnType(node)) {
+    return node;
+  } else if (eat(tt.arrow)) {
     return node;
   }
 }
 
 export function parseParenItem(
   node: N.Expression,
-  startPos: number, // eslint-disable-line no-unused-vars
-  startLoc: Position, // eslint-disable-line no-unused-vars
+  startPos: number,
+  startLoc: Position,
 ): N.Expression {
+  if (hasPlugin("flow")) {
+    return flow.parseParenItem(node, startPos, startLoc);
+  }
   return node;
 }
 
@@ -1367,6 +1418,7 @@ function parseNew(): N.NewExpression | N.MetaProperty {
     );
   }
 
+  if (hasPlugin("flow")) flow.tryParseNewTypeArguments(node);
   parseNewArguments(node);
   return finishNode(node, "NewExpression");
 }
@@ -1606,7 +1658,12 @@ export function parseObjectMethod(
   isPattern: boolean,
   containsEsc: boolean,
 ): ?N.ObjectMethod {
-  if (isAsync || isGenerator || match(tt.parenL)) {
+  if (
+    isAsync ||
+    isGenerator ||
+    match(tt.parenL) ||
+    (hasPlugin("flow") && flow.isTypeParamStart())
+  ) {
     if (isPattern) unexpected();
     prop.kind = "method";
     prop.method = true;
@@ -1791,7 +1848,10 @@ export function parseArrowExpression(
   state.awaitPos = 0;
 
   if (params) setArrowFunctionParameters(node, params);
-  parseFunctionBody(node, true);
+
+  flow.forwardNoArrowParamsConversionAt(node, () =>
+    parseFunctionBody(node, true),
+  );
 
   state.maybeInArrowParameters = oldMaybeInArrowParameters;
   state.yieldPos = oldYieldPos;

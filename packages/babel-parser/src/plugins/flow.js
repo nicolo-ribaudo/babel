@@ -25,7 +25,7 @@ import {
   finishOp,
   readWord,
   nextToken,
-} from "::build-tool::bindings/parser";
+} from "../parser/entry";
 
 import {
   hasPlugin,
@@ -66,7 +66,9 @@ import {
   createIdentifier,
   checkReservedWord,
   parseCallExpressionArguments,
-} from "::build-tool::bindings/parser";
+} from "../parser/entry";
+
+import * as js from "../parser/entry";
 
 const reservedTypes = [
   "any",
@@ -97,7 +99,7 @@ function isEsModuleType(bodyElement: N.Node): boolean {
   );
 }
 
-function hasTypeImportKind(node: N.Node): boolean {
+export function hasTypeImportKind(node: N.Node): boolean {
   return node.importKind === "type" || node.importKind === "typeof";
 }
 
@@ -133,7 +135,7 @@ function shouldParseTypes(): boolean {
   return getPluginOption("flow", "all") || state.flowPragma === "flow";
 }
 
-export function addComment(comment: N.Comment): void {
+export function registerPragma(comment: N.Comment): void {
   if (state.flowPragma === undefined) {
     // Try to parse a flow pragma.
     const matches = FLOW_PRAGMA_REGEX.exec(comment.value);
@@ -147,7 +149,10 @@ export function addComment(comment: N.Comment): void {
       throw new Error("Unexpected flow pragma");
     }
   }
-  return original(addComment)(comment);
+}
+
+export function isTypeParamStart() {
+  return isRelational("<") || match(tt.jsxTagStart);
 }
 
 function flowParseTypeInitialiser(tok?: TokenType): N.FlowType {
@@ -420,7 +425,7 @@ function flowParseDeclareExportDeclaration(
       isContextual("type") || // declare export type ...
       isContextual("opaque") // declare export opaque type ...
     ) {
-      node = parseExport(node);
+      node = js.parseExport(node);
       if (node.type === "ExportNamedDeclaration") {
         // flow does not support the ExportNamedDeclaration
         // $FlowIgnore
@@ -651,7 +656,7 @@ function flowParseTypeParameter(
   return finishNode(node, "TypeParameter");
 }
 
-function flowParseTypeParameterDeclaration(
+export function flowParseTypeParameterDeclaration(
   allowDefault?: boolean = true,
 ): N.TypeParameterDeclaration {
   const oldInType = state.inType;
@@ -689,7 +694,7 @@ function flowParseTypeParameterDeclaration(
   return finishNode(node, "TypeParameterDeclaration");
 }
 
-function flowParseTypeParameterInstantiation(): N.TypeParameterInstantiation {
+export function flowParseTypeParameterInstantiation(): N.TypeParameterInstantiation {
   const node = startNode();
   const oldInType = state.inType;
   node.params = [];
@@ -1514,7 +1519,7 @@ function flowParseTypeOrImplicitInstantiation(): N.FlowTypeAnnotation {
   }
 }
 
-function flowParseTypeAnnotation(): N.FlowTypeAnnotation {
+export function flowParseTypeAnnotation(): N.FlowTypeAnnotation {
   const node = startNode();
   node.typeAnnotation = flowParseTypeInitialiser();
   return finishNode(node, "TypeAnnotation");
@@ -1563,114 +1568,60 @@ function flowParseVariance(): ?N.FlowVariance {
 // Overrides
 // ==================================
 
-export function parseFunctionBody(
-  node: N.Function,
-  allowExpressionBody: ?boolean,
-  isMethod?: boolean = false,
-): void {
-  if (allowExpressionBody) {
-    return forwardNoArrowParamsConversionAt(node, () =>
-      original(parseFunctionBody)(node, true, isMethod),
-    );
-  }
+export function parseFunctionReturnType(): N.TypeAnnotation {
+  const node = startNode();
 
-  return original(parseFunctionBody)(node, false, isMethod);
-}
+  [
+    // $FlowFixMe (destructuring not supported yet)
+    node.typeAnnotation,
+    // $FlowFixMe (destructuring not supported yet)
+    node.predicate,
+  ] = flowParseTypeAndPredicateInitialiser();
 
-export function parseFunctionBodyAndFinish(
-  node: N.BodilessFunctionOrMethodBase,
-  type: string,
-  isMethod?: boolean = false,
-): void {
-  if (match(tt.colon)) {
-    const typeNode = startNode();
-
-    [
-      // $FlowFixMe (destructuring not supported yet)
-      typeNode.typeAnnotation,
-      // $FlowFixMe (destructuring not supported yet)
-      node.predicate,
-    ] = flowParseTypeAndPredicateInitialiser();
-
-    node.returnType = typeNode.typeAnnotation
-      ? finishNode(typeNode, "TypeAnnotation")
-      : null;
-  }
-
-  original(parseFunctionBodyAndFinish)(node, type, isMethod);
+  return finishNode(node, "TypeAnnotation");
 }
 
 // interfaces
-export function parseStatement(
-  context: ?string,
-  topLevel?: boolean,
-): N.Statement {
+export function parseStatement(node: N.Statement): ?N.Statement {
   // strict mode handling of `interface` since it's a reserved word
   if (state.strict && match(tt.name) && state.value === "interface") {
-    const node = startNode();
     next();
     return flowParseInterface(node);
-  } else {
-    const stmt = original(parseStatement)(context, topLevel);
-    // We will parse a flow pragma in any comment before the first statement.
-    if (state.flowPragma === undefined && !isValidDirective(stmt)) {
-      state.flowPragma = null;
-    }
-    return stmt;
   }
 }
 
 // declares, interfaces and type aliases
-export function parseExpressionStatement(
+export function parseStatementFromId(
   node: N.ExpressionStatement,
-  expr: N.Expression,
-): N.ExpressionStatement {
-  if (expr.type === "Identifier") {
-    if (expr.name === "declare") {
-      if (
-        match(tt._class) ||
-        match(tt.name) ||
-        match(tt._function) ||
-        match(tt._var) ||
-        match(tt._export)
-      ) {
-        return flowParseDeclare(node);
-      }
-    } else if (match(tt.name)) {
-      if (expr.name === "interface") {
-        return flowParseInterface(node);
-      } else if (expr.name === "type") {
-        return flowParseTypeAlias(node);
-      } else if (expr.name === "opaque") {
-        return flowParseOpaqueType(node, false);
-      }
+  name: string,
+): ?N.ExpressionStatement {
+  if (name === "declare") {
+    if (
+      match(tt._class) ||
+      match(tt.name) ||
+      match(tt._function) ||
+      match(tt._var) ||
+      match(tt._export)
+    ) {
+      return flowParseDeclare(node);
+    }
+  } else if (match(tt.name)) {
+    if (name === "interface") {
+      return flowParseInterface(node);
+    } else if (name === "type") {
+      return flowParseTypeAlias(node);
+    } else if (name === "opaque") {
+      return flowParseOpaqueType(node, false);
     }
   }
-
-  return original(parseExpressionStatement)(node, expr);
 }
 
 // export type
-export function shouldParseExportDeclaration(): boolean {
-  return (
-    isContextual("type") ||
-    isContextual("interface") ||
-    isContextual("opaque") ||
-    original(shouldParseExportDeclaration)()
-  );
-}
-
-export function isExportDefaultSpecifier(): boolean {
-  if (
-    match(tt.name) &&
-    (state.value === "type" ||
-      state.value === "interface" ||
-      state.value === "opaque")
-  ) {
-    return false;
+export function isExportDeclaration(): boolean {
+  if (isContextual("type")) {
+    return lookahead().type === tt.name;
   }
-
-  return original(isExportDefaultSpecifier)();
+  return isContextual("interface") || isContextual("opaque");
 }
 
 export function parseConditional(
@@ -1680,14 +1631,11 @@ export function parseConditional(
   startLoc: Position,
   refNeedsArrowPos?: ?Pos,
 ): N.Expression {
-  if (!match(tt.question)) return expr;
+  const oldState = state.clone();
 
-  // only do the expensive clone if there is a question mark
-  // and if we come from inside parens
   if (refNeedsArrowPos) {
-    const oldState = state.clone();
     try {
-      return original(parseConditional)(expr, noIn, startPos, startLoc);
+      return js.parseJSConditional(expr, noIn, startPos, startLoc);
     } catch (err) {
       if (err instanceof SyntaxError) {
         resetState(oldState);
@@ -1699,8 +1647,7 @@ export function parseConditional(
       }
     }
   }
-  expect(tt.question);
-  const oldState = state.clone();
+
   const originalNoArrowAt = state.noArrowAt;
   const node = startNodeAt(startPos, startLoc);
   let { consequent, failed } = tryParseConditionalConsequent();
@@ -1748,7 +1695,7 @@ export function parseConditional(
   node.test = expr;
   node.consequent = consequent;
   node.alternate = forwardNoArrowParamsConversionAt(node, () =>
-    parseMaybeAssign(noIn, undefined, undefined, undefined),
+    js.parseMaybeAssign(noIn, undefined, undefined, undefined),
   );
 
   return finishNode(node, "ConditionalExpression");
@@ -1760,7 +1707,7 @@ function tryParseConditionalConsequent(): {
 } {
   state.noArrowParamsConversionAt.push(state.start);
 
-  const consequent = parseMaybeAssign();
+  const consequent = js.parseMaybeAssign();
   const failed = !match(tt.colon);
 
   state.noArrowParamsConversionAt.pop();
@@ -1787,7 +1734,7 @@ function getArrowLikeExpressions(
     if (node.type === "ArrowFunctionExpression") {
       if (node.typeParameters || !node.returnType) {
         // This is an arrow expression without ambiguity, so check its parameters
-        toAssignableList(
+        js.toAssignableList(
           // node.params is Expression[] instead of $ReadOnlyArray<Pattern> because it
           // has not been converted yet.
           ((node.params: any): N.Expression[]),
@@ -1811,7 +1758,7 @@ function getArrowLikeExpressions(
 
   if (disallowInvalid) {
     for (let i = 0; i < arrows.length; i++) {
-      toAssignableList(
+      js.toAssignableList(
         ((node.params: any): N.Expression[]),
         true,
         "arrow function parameters",
@@ -1822,7 +1769,7 @@ function getArrowLikeExpressions(
 
   return partition(arrows, node => {
     try {
-      toAssignableList(
+      js.toAssignableList(
         ((node.params: any): N.Expression[]),
         true,
         "arrow function parameters",
@@ -1834,7 +1781,10 @@ function getArrowLikeExpressions(
   });
 }
 
-function forwardNoArrowParamsConversionAt<T>(node: N.Node, parse: () => T): T {
+export function forwardNoArrowParamsConversionAt<T>(
+  node: N.Node,
+  parse: () => T,
+): T {
   let result: T;
   if (state.noArrowParamsConversionAt.indexOf(node.start) !== -1) {
     state.noArrowParamsConversionAt.push(state.start);
@@ -1852,7 +1802,6 @@ export function parseParenItem(
   startPos: number,
   startLoc: Position,
 ): N.Expression {
-  node = original(parseParenItem)(node, startPos, startLoc);
   if (eat(tt.question)) {
     node.optional = true;
   }
@@ -1868,30 +1817,13 @@ export function parseParenItem(
   return node;
 }
 
-export function assertModuleNodeAllowed(node: N.Node) {
-  if (
+export function isTypeImportExport(node: N.Node) {
+  return (
     (node.type === "ImportDeclaration" &&
       (node.importKind === "type" || node.importKind === "typeof")) ||
     (node.type === "ExportNamedDeclaration" && node.exportKind === "type") ||
     (node.type === "ExportAllDeclaration" && node.exportKind === "type")
-  ) {
-    // Allow Flowtype imports and exports in all conditions because
-    // Flow itself does not care about 'sourceType'.
-    return;
-  }
-
-  original(assertModuleNodeAllowed)(node);
-}
-
-export function parseExport(node: N.Node): N.AnyExport {
-  const decl = original(parseExport)(node);
-  if (
-    decl.type === "ExportNamedDeclaration" ||
-    decl.type === "ExportAllDeclaration"
-  ) {
-    decl.exportKind = decl.exportKind || "value";
-  }
-  return decl;
+  );
 }
 
 export function parseExportDeclaration(
@@ -1924,8 +1856,6 @@ export function parseExportDeclaration(
     const declarationNode = startNode();
     next();
     return flowParseInterface(declarationNode);
-  } else {
-    return original(parseExportDeclaration)(node);
   }
 }
 
@@ -1951,88 +1881,82 @@ export function maybeParseExportNamespaceSpecifier(node: N.Node): boolean {
   return hasNamespace;
 }
 
-export function parseClassId(
-  node: N.Class,
-  isStatement: boolean,
-  optionalId: ?boolean,
-) {
-  original(parseClassId)(node, isStatement, optionalId);
-  if (isRelational("<")) {
-    node.typeParameters = flowParseTypeParameterDeclaration();
-  }
-}
-
-// ensure that inside flow types, we bypass the jsx parser plugin
-export function getTokenFromCode(code: number): void {
+export function getTokenFromCode(code: number): boolean {
   const next = input.charCodeAt(state.pos + 1);
-  if (code === charCodes.leftCurlyBrace && next === charCodes.verticalBar) {
-    return finishOp(tt.braceBarL, 2);
-  } else if (
-    state.inType &&
-    (code === charCodes.greaterThan || code === charCodes.lessThan)
-  ) {
-    return finishOp(tt.relational, 1);
-  } else if (isIteratorStart(code, next)) {
-    state.isIterator = true;
-    return readWord();
-  } else {
-    return original(getTokenFromCode)(code);
+
+  switch (code) {
+    case charCodes.leftCurlyBrace:
+      if (next === charCodes.verticalBar) {
+        finishOp(tt.braceBarL, 2);
+        return true;
+      }
+      break;
+
+    case charCodes.greaterThan:
+    case charCodes.lessThan:
+      if (state.inType) {
+        // Prevent the JSX plugin from parsing this as a tag start
+        finishOp(tt.relational, 1);
+        return true;
+      }
+      break;
+
+    case charCodes.asterisk:
+      if (next === charCodes.slash && state.hasFlowComment) {
+        state.hasFlowComment = false;
+        state.pos += 2;
+        nextToken();
+        return true;
+      }
+
+    case code === charCodes.verticalBar:
+      if (next === charCodes.rightCurlyBrace) {
+        // '|}'
+        finishOp(tt.braceBarR, 2);
+        return true;
+      }
+
+    default:
+      if (isIteratorStart(code, next)) {
+        state.isIterator = true;
+        readWord();
+        return true;
+      }
   }
+
+  return false;
 }
 
 export function toAssignable(
   node: N.Node,
   isBinding: ?boolean,
   contextDescription: string,
-): N.Node {
+): ?N.Node {
   if (node.type === "TypeCastExpression") {
-    return original(toAssignable)(
+    return js.toAssignable(
       typeCastToParameter(node),
       isBinding,
       contextDescription,
     );
-  } else {
-    return original(toAssignable)(node, isBinding, contextDescription);
   }
 }
 
-// turn type casts that we found in function parameter head into type annotated params
-export function toAssignableList(
-  exprList: N.Expression[],
-  isBinding: ?boolean,
-  contextDescription: string,
-): $ReadOnlyArray<N.Pattern> {
-  for (let i = 0; i < exprList.length; i++) {
-    const expr = exprList[i];
-    if (expr && expr.type === "TypeCastExpression") {
-      exprList[i] = typeCastToParameter(expr);
-    }
-  }
-  return original(toAssignableList)(exprList, isBinding, contextDescription);
-}
-
-// this is a list of nodes, from something like a call expression, we need to filter the
-// type casts that we've found that are illegal in this context
-export function toReferencedList(
+export function checkTypeCastParens(
+  expr: ?N.Expression,
   exprList: $ReadOnlyArray<?N.Expression>,
   isParenthesizedExpr?: boolean,
-): $ReadOnlyArray<?N.Expression> {
-  for (let i = 0; i < exprList.length; i++) {
-    const expr = exprList[i];
-    if (
-      expr &&
-      expr.type === "TypeCastExpression" &&
-      (!expr.extra || !expr.extra.parenthesized) &&
-      (exprList.length > 1 || !isParenthesizedExpr)
-    ) {
-      raise(
-        expr.typeAnnotation.start,
-        "The type cast expression is expected to be wrapped with parenthesis",
-      );
-    }
+): void {
+  if (
+    expr &&
+    expr.type === "TypeCastExpression" &&
+    (!expr.extra || !expr.extra.parenthesized) &&
+    (exprList.length > 1 || !isParenthesizedExpr)
+  ) {
+    raise(
+      expr.typeAnnotation.start,
+      "The type cast expression is expected to be wrapped with parenthesis",
+    );
   }
-
-  return exprList;
 }
 
 export function checkLVal(
@@ -2040,42 +1964,8 @@ export function checkLVal(
   bindingType: ?BindingTypes = BIND_NONE,
   checkClashes: ?{ [key: string]: boolean },
   contextDescription: string,
-): void {
-  if (expr.type !== "TypeCastExpression") {
-    return original(checkLVal)(
-      expr,
-      bindingType,
-      checkClashes,
-      contextDescription,
-    );
-  }
-}
-
-// parse class property type annotations
-export function parseClassProperty(node: N.ClassProperty): N.ClassProperty {
-  if (match(tt.colon)) {
-    node.typeAnnotation = flowParseTypeAnnotation();
-  }
-  return original(parseClassProperty)(node);
-}
-
-export function parseClassPrivateProperty(
-  node: N.ClassPrivateProperty,
-): N.ClassPrivateProperty {
-  if (match(tt.colon)) {
-    node.typeAnnotation = flowParseTypeAnnotation();
-  }
-  return original(parseClassPrivateProperty)(node);
-}
-
-// determine whether or not we're currently in the position where a class method would appear
-export function isClassMethod(): boolean {
-  return isRelational("<") || original(isClassMethod)();
-}
-
-// determine whether or not we're currently in the position where a class property would appear
-export function isClassProperty(): boolean {
-  return match(tt.colon) || original(isClassProperty)();
+): boolean {
+  return expr.type === "TypeCastExpression";
 }
 
 export function isNonstaticConstructor(
@@ -2131,11 +2021,7 @@ export function pushClassPrivateMethod(
 }
 
 // parse a the super class type parameters and implements
-export function parseClassSuper(node: N.Class): void {
-  original(parseClassSuper)(node);
-  if (node.superClass && isRelational("<")) {
-    node.superTypeParameters = flowParseTypeParameterInstantiation();
-  }
+export function parseClassImplements(node: N.Class): void {
   if (isContextual("implements")) {
     next();
     const implemented: N.FlowClassImplements[] = (node.implements = []);
@@ -2245,12 +2131,54 @@ export function parseMaybeDefault(
   return node;
 }
 
-export function shouldParseDefaultImport(node: N.ImportDeclaration): boolean {
-  if (!hasTypeImportKind(node)) {
-    return original(shouldParseDefaultImport)(node);
+export function reparseDefaultImportId(
+  id: ?N.Identifier,
+  node: N.ImportDeclaration,
+): ?N.Identifier {
+  node.importKind = "value";
+
+  let kind;
+  if (id) {
+    kind = id.name;
+  } else if (eat(tt._typeof)) {
+    kind = "typeof";
   }
 
-  return isMaybeDefaultImport(state);
+  if (kind !== "type" && kind !== "typeof") return id;
+
+  if (match(tt.braceL)) {
+    // import type {
+    node.importKind = kind;
+    return null;
+  } else if (match(tt.name)) {
+    // import type foo
+
+    // NOTE: "import type from from" is an error, while
+    // "import typeof from from" is valid.
+    if (kind === "type" && isContextual("from")) return id;
+
+    node.importKind = kind;
+    return parseIdentifier();
+  }
+
+  return id;
+}
+
+export function reparseDefaultExportId(
+  id: ?N.Identifier,
+  node: N.Node,
+): ?N.Identifier {
+  node.exportKind = "value";
+  if (!id || id.name !== "type") return id;
+
+  if (match(tt.braceL) || match(tt.star)) {
+    // export type {
+    // export type *
+    node.exportKind = "type";
+    return null;
+  }
+
+  return id;
 }
 
 export function parseImportSpecifierLocal(
@@ -2267,40 +2195,75 @@ export function parseImportSpecifierLocal(
   node.specifiers.push(finishNode(specifier, type));
 }
 
-// parse typeof and type imports
-export function maybeParseDefaultImportSpecifier(
+// parse import-type/typeof shorthand
+export function parseImportSpecifierFromId(
+  firstIdent: N.Identifier,
+  specifier: N.ImportSpecifier,
   node: N.ImportDeclaration,
 ): boolean {
-  node.importKind = "value";
-
-  let kind = null;
-  if (match(tt._typeof)) {
-    kind = "typeof";
-  } else if (isContextual("type")) {
-    kind = "type";
-  }
-  if (kind) {
-    const lh = lookahead();
-
-    // import type * is not allowed
-    if (kind === "type" && lh.type === tt.star) {
-      unexpected(lh.start);
-    }
-
-    if (
-      isMaybeDefaultImport(lh) ||
-      lh.type === tt.braceL ||
-      lh.type === tt.star
-    ) {
-      next();
-      node.importKind = kind;
-    }
+  let specifierTypeKind = null;
+  if (firstIdent.name === "type") {
+    specifierTypeKind = "type";
+  } else if (firstIdent.name === "typeof") {
+    specifierTypeKind = "typeof";
+  } else {
+    specifier.importKind = specifierTypeKind;
+    return false;
   }
 
-  return original(maybeParseDefaultImportSpecifier)(node);
+  let isBinding = false;
+  if (isContextual("as") && !isLookaheadContextual("as")) {
+    const as_ident = parseIdentifier(true);
+    if (!match(tt.name) && !state.type.keyword) {
+      // `import {type as ,` or `import {type as }`
+      specifier.imported = as_ident;
+      specifier.importKind = specifierTypeKind;
+      specifier.local = as_ident.__clone();
+    } else {
+      // `import {type as foo`
+      specifier.imported = firstIdent;
+      specifier.importKind = null;
+      specifier.local = parseIdentifier();
+    }
+  } else if (match(tt.name) || state.type.keyword) {
+    // `import {type foo`
+    specifier.imported = parseIdentifier(true);
+    specifier.importKind = specifierTypeKind;
+    if (eatContextual("as")) {
+      specifier.local = parseIdentifier();
+    } else {
+      isBinding = true;
+      specifier.local = specifier.imported.__clone();
+    }
+  } else {
+    specifier.importKind = null;
+    return false;
+  }
+
+  const nodeIsTypeImport = hasTypeImportKind(node);
+  const specifierIsTypeImport = hasTypeImportKind(specifier);
+
+  if (nodeIsTypeImport && specifierIsTypeImport) {
+    raise(
+      firstIdent.start,
+      "The `type` and `typeof` keywords on named imports can only be used on regular " +
+        "`import` statements. It cannot be used with `import type` or `import typeof` statements",
+    );
+  }
+
+  if (nodeIsTypeImport || specifierIsTypeImport) {
+    checkReservedType(specifier.local.name, specifier.local.start);
+  }
+
+  if (isBinding && !nodeIsTypeImport && !specifierIsTypeImport) {
+    checkReservedWord(specifier.local.name, specifier.start, true, true);
+  }
+
+  checkLVal(specifier.local, BIND_LEXICAL, undefined, "import specifier");
+
+  return true;
 }
 
-// parse import-type/typeof shorthand
 export function parseImportSpecifier(node: N.ImportDeclaration): void {
   const specifier = startNode();
   const firstIdentLoc = state.start;
@@ -2370,33 +2333,6 @@ export function parseImportSpecifier(node: N.ImportDeclaration): void {
   node.specifiers.push(finishNode(specifier, "ImportSpecifier"));
 }
 
-// parse function type parameters - function foo<T>() {}
-export function parseFunctionParams(
-  node: N.Function,
-  allowModifiers?: boolean,
-): void {
-  // $FlowFixMe
-  const kind = node.kind;
-  if (kind !== "get" && kind !== "set" && isRelational("<")) {
-    node.typeParameters = flowParseTypeParameterDeclaration(
-      /* allowDefault */ false,
-    );
-  }
-  original(parseFunctionParams)(node, allowModifiers);
-}
-
-// parse flow type annotations on variable declarator heads - let foo: string = bar
-export function parseVarId(
-  decl: N.VariableDeclarator,
-  kind: "var" | "let" | "const",
-): void {
-  original(parseVarId)(decl, kind);
-  if (match(tt.colon)) {
-    decl.id.typeAnnotation = flowParseTypeAnnotation();
-    finishNode(decl.id, decl.id.type);
-  }
-}
-
 // parse the return type of an async arrow function - let foo = (async (): number => {});
 export function parseAsyncArrowFromCallExpression(
   node: N.ArrowFunctionExpression,
@@ -2432,16 +2368,17 @@ export function parseMaybeAssign(
   refShorthandDefaultPos?: ?Pos,
   afterLeftParse?: Function,
   refNeedsArrowPos?: ?Pos,
-): N.Expression {
+): ?N.Expression {
   let jsxError = null;
-  if (hasPlugin("jsx") && (match(tt.jsxTagStart) || isRelational("<"))) {
+  if (hasPlugin("jsx") && isTypeParamStart()) {
     const oldState = state.clone();
     try {
-      return original(parseMaybeAssign)(
+      return js.parseMaybeAssign(
         noIn,
         refShorthandDefaultPos,
         afterLeftParse,
         refNeedsArrowPos,
+        /* noFlow */ true,
       );
     } catch (err) {
       if (err instanceof SyntaxError) {
@@ -2469,11 +2406,12 @@ export function parseMaybeAssign(
     try {
       typeParameters = flowParseTypeParameterDeclaration();
       arrowExpression = forwardNoArrowParamsConversionAt(typeParameters, () =>
-        original(parseMaybeAssign)(
+        js.parseMaybeAssign(
           noIn,
           refShorthandDefaultPos,
           afterLeftParse,
           refNeedsArrowPos,
+          /* noFlow */ true,
         ),
       );
       arrowExpression.typeParameters = typeParameters;
@@ -2494,18 +2432,13 @@ export function parseMaybeAssign(
     }
   }
 
-  return original(parseMaybeAssign)(
-    noIn,
-    refShorthandDefaultPos,
-    afterLeftParse,
-    refNeedsArrowPos,
-  );
+  return null;
 }
 
 // handle return types for arrow functions
-export function parseArrow(
+export function tryParseArrowWithReturnType(
   node: N.ArrowFunctionExpression,
-): ?N.ArrowFunctionExpression {
+): boolean {
   if (match(tt.colon)) {
     const oldState = state.clone();
     try {
@@ -2523,13 +2456,17 @@ export function parseArrow(
 
       state.noAnonFunctionType = oldNoAnonFunctionType;
 
-      if (canInsertSemicolon()) unexpected();
-      if (!match(tt.arrow)) unexpected();
-
-      // assign after it is clear it is an arrow
-      node.returnType = typeNode.typeAnnotation
+      const returnType = typeNode.typeAnnotation
         ? finishNode(typeNode, "TypeAnnotation")
         : null;
+
+      if (canInsertSemicolon()) unexpected();
+      expect(tt.arrow);
+
+      // assign after it is clear it is an arrow
+      node.returnType = returnType;
+
+      return true;
     } catch (err) {
       if (err instanceof SyntaxError) {
         resetState(oldState);
@@ -2540,7 +2477,7 @@ export function parseArrow(
     }
   }
 
-  return original(parseArrow)(node);
+  return false;
 }
 
 export function shouldParseArrow(): boolean {
@@ -2623,6 +2560,27 @@ export function parseSubscripts(
   return original(parseSubscripts)(base, startPos, startLoc, noCalls);
 }
 
+export function tryParseCallTypeArguments(node: N.Node): boolean {
+  if (!shouldParseTypes() || !isTypeParamStart()) return false;
+
+  const oldState = state.clone();
+  try {
+    const targs = flowParseTypeParameterInstantiationCallOrNew();
+    if (match(tt.parenL)) {
+      node.typeArguments = targs;
+      return true;
+    }
+  } catch (e) {
+    if (e instanceof SyntaxError) {
+      resetState(oldState);
+    } else {
+      throw e;
+    }
+  }
+
+  return false;
+}
+
 export function parseSubscript(
   base: N.Expression,
   startPos: number,
@@ -2630,7 +2588,7 @@ export function parseSubscript(
   noCalls: ?boolean,
   subscriptState: N.ParseSubscriptState,
   maybeAsyncArrow: boolean,
-): N.Expression {
+): ?N.Expression {
   if (match(tt.questionDot) && isLookaheadRelational("<")) {
     expectPlugin("optionalChaining");
     subscriptState.optionalChainMember = true;
@@ -2668,18 +2626,9 @@ export function parseSubscript(
       }
     }
   }
-
-  return original(parseSubscript)(
-    base,
-    startPos,
-    startLoc,
-    noCalls,
-    subscriptState,
-    maybeAsyncArrow,
-  );
 }
 
-export function parseNewArguments(node: N.NewExpression): void {
+export function tryParseNewTypeArguments(node: N.NewExpression): void {
   let targs = null;
   if (shouldParseTypes() && isRelational("<")) {
     const oldState = state.clone();
@@ -2695,7 +2644,7 @@ export function parseNewArguments(node: N.NewExpression): void {
   }
   node.typeArguments = targs;
 
-  original(parseNewArguments)(node);
+  return;
 }
 
 function parseAsyncArrowWithTypeParameters(
@@ -2703,36 +2652,8 @@ function parseAsyncArrowWithTypeParameters(
   startLoc: Position,
 ): ?N.ArrowFunctionExpression {
   const node = startNodeAt(startPos, startLoc);
-  parseFunctionParams(node);
-  if (!parseArrow(node)) return;
+  if (!js.parseArrow(node)) return;
   return parseArrowExpression(node, /* params */ undefined, /* isAsync */ true);
-}
-
-export function readToken_mult_modulo(code: number): void {
-  const next = input.charCodeAt(state.pos + 1);
-  if (
-    code === charCodes.asterisk &&
-    next === charCodes.slash &&
-    state.hasFlowComment
-  ) {
-    state.hasFlowComment = false;
-    state.pos += 2;
-    nextToken();
-    return;
-  }
-
-  original(readToken_mult_modulo)(code);
-}
-
-export function readToken_pipe_amp(code: number): void {
-  const next = input.charCodeAt(state.pos + 1);
-  if (code === charCodes.verticalBar && next === charCodes.rightCurlyBrace) {
-    // '|}'
-    finishOp(tt.braceBarR, 2);
-    return;
-  }
-
-  original(readToken_pipe_amp)(code);
 }
 
 export function parseTopLevel(file: N.File, program: N.Program): N.File {

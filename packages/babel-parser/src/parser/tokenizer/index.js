@@ -36,6 +36,7 @@ import {
 } from "../entry";
 
 import * as jsx from "../../plugins/jsx/index.js";
+import * as flow from "../../plugins/flow";
 
 let isLookahead = false;
 
@@ -625,6 +626,7 @@ function readToken_question(): void {
 }
 
 export function getTokenFromCode(code: number): void {
+  if (hasPlugin("flow") && flow.getTokenFromCode(code)) return;
   if (hasPlugin("jsx") && jsx.getTokenFromCode(code)) return;
 
   switch (code) {

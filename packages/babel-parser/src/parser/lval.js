@@ -23,6 +23,8 @@ import { hasPlugin } from "./base";
 import { parseMaybeAssign, parseIdentifier, parseObj } from "./expression";
 import { parseDecorator } from "./statement";
 
+import * as flow from "../plugins/flow";
+
 // Convert existing expression atom to assignable pattern
 // if possible.
 
@@ -32,6 +34,11 @@ export function toAssignable(
   contextDescription: string,
 ): Node {
   if (node) {
+    if (hasPlugin("flow")) {
+      const newNode = flow.toAssignable(...arguments);
+      if (newNode) return newNode;
+    }
+
     switch (node.type) {
       case "Identifier":
       case "ObjectPattern":
@@ -155,7 +162,7 @@ export function toAssignableList(
   for (let i = 0; i < end; i++) {
     const elt = exprList[i];
     if (elt) {
-      toAssignable(elt, isBinding, contextDescription);
+      exprList[i] = toAssignable(elt, isBinding, contextDescription);
       if (elt.type === "RestElement") {
         raiseRestNotLast(elt.start);
       }
@@ -170,6 +177,11 @@ export function toReferencedList(
   exprList: $ReadOnlyArray<?Expression>,
   isParenthesizedExpr?: boolean, // eslint-disable-line no-unused-vars
 ): $ReadOnlyArray<?Expression> {
+  if (hasPlugin("flow")) {
+    for (const expr of exprList) {
+      flow.checkTypeCastParens(expr, exprList, isParenthesizedExpr);
+    }
+  }
   return exprList;
 }
 
@@ -253,7 +265,9 @@ export function parseBindingList(
     } else if (eat(close)) {
       break;
     } else if (match(tt.ellipsis)) {
-      elts.push(parseAssignableListItemTypes(parseRestBinding()));
+      const node = parseRestBinding();
+      if (hasPlugin("flow")) flow.parseAssignableListItemTypes(node);
+      elts.push(node);
       checkCommaAfterRest();
       expect(close);
       break;
@@ -279,16 +293,14 @@ export function parseAssignableListItem(
   decorators: Decorator[],
 ): Pattern | TSParameterProperty {
   const left = parseMaybeDefault();
-  parseAssignableListItemTypes(left);
+
+  if (hasPlugin("flow")) flow.parseAssignableListItemTypes(left);
+
   const elt = parseMaybeDefault(left.start, left.loc.start, left);
   if (decorators.length) {
     left.decorators = decorators;
   }
   return elt;
-}
-
-export function parseAssignableListItemTypes(param: Pattern): Pattern {
-  return param;
 }
 
 // Parses assignment pattern around given atom if possible.
@@ -318,6 +330,10 @@ export function checkLVal(
   checkClashes: ?{ [key: string]: boolean },
   contextDescription: string,
 ): void {
+  if (hasPlugin("flow") && flow.checkLVal(...arguments)) {
+    return;
+  }
+
   switch (expr.type) {
     case "Identifier":
       if (state.strict && isStrictBindReservedWord(expr.name, inModule)) {

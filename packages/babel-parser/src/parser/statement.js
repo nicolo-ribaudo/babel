@@ -52,6 +52,7 @@ import {
   isLineTerminator,
   semicolon,
   checkYieldAwaitInDefaultParams,
+  isRelational,
 } from "./util";
 import { raise } from "./location";
 import {
@@ -76,6 +77,8 @@ import {
   checkGetterSetterParams,
   withTopicForbiddingContext,
 } from "./expression";
+
+import * as flow from "../plugins/flow";
 
 // Reused empty array added for node fields that are always empty.
 
@@ -336,6 +339,11 @@ export function parseStatementContent(
         next();
         return parseFunctionStatement(node, true, !context);
       }
+
+      if (hasPlugin("flow")) {
+        const stmt = flow.parseStatement(node);
+        if (stmt) return stmt;
+      }
     }
   }
 
@@ -346,15 +354,23 @@ export function parseStatementContent(
   // Identifier node, we switch to interpreting it as a label.
   const maybeName = state.value;
   const expr = parseExpression();
+  const isId = starttype === tt.name && expr.type === "Identifier";
 
-  if (starttype === tt.name && expr.type === "Identifier" && eat(tt.colon)) {
+  if (isId && eat(tt.colon)) {
     return parseLabeledStatement(node, maybeName, expr, context);
-  } else {
-    return parseExpressionStatement(node, expr);
   }
+  if (isId && hasPlugin("flow")) {
+    const stmt = flow.parseStatementFromId(node, expr.name);
+    if (stmt) return stmt;
+  }
+  return parseExpressionStatement(node, expr);
 }
 
 export function assertModuleNodeAllowed(node: N.Node): void {
+  if (hasPlugin("flow") && flow.isTypeImportExport(node)) {
+    return;
+  }
+
   if (!options.allowImportExportEverywhere && !inModule) {
     raise(
       node.start,
@@ -1076,6 +1092,11 @@ export function parseVarId(
     undefined,
     "variable declaration",
   );
+
+  if (hasPlugin("flow") && match(tt.colon)) {
+    decl.id.typeAnnotation = flow.flowParseTypeAnnotation();
+    finishNode(decl.id, decl.id.type);
+  }
 }
 
 // Parse a function declaration or literal (depending on the
@@ -1160,6 +1181,16 @@ export function parseFunctionParams(
   node: N.Function,
   allowModifiers?: boolean,
 ): void {
+  const isAccessor =
+    (node.type === "ClassMethod" || node.type === "ObjectMethod") &&
+    (node.kind === "get" || node.kind === "set");
+
+  if (!isAccessor && hasPlugin("flow") && flow.isTypeParamStart()) {
+    node.typeParameters = flow.flowParseTypeParameterDeclaration(
+      /* allowDefault */ false,
+    );
+  }
+
   const oldInParameters = state.inParameters;
   state.inParameters = true;
 
@@ -1172,6 +1203,10 @@ export function parseFunctionParams(
 
   state.inParameters = oldInParameters;
   checkYieldAwaitInDefaultParams();
+
+  if (hasPlugin("flow") && match(tt.colon)) {
+    node.returnType = flow.parseFunctionReturnType();
+  }
 }
 
 // Parse a class declaration or literal (depending on the
@@ -1190,7 +1225,14 @@ export function parseClass<T: N.Class>(
   state.strict = true;
 
   parseClassId(node, isStatement, optionalId);
+
+  if (hasPlugin("flow") && flow.isTypeParamStart()) {
+    node.typeParameters = flow.flowParseTypeParameterDeclaration();
+  }
+
   parseClassSuper(node);
+  if (hasPlugin("flow")) flow.parseClassImplements(node);
+
   node.body = parseClassBody(!!node.superClass);
 
   state.strict = oldStrict;
@@ -1199,10 +1241,18 @@ export function parseClass<T: N.Class>(
 }
 
 export function isClassProperty(): boolean {
+  if (match(tt.colon)) {
+    return hasPlugin("flow");
+  }
+
   return match(tt.eq) || match(tt.semi) || match(tt.braceR);
 }
 
 export function isClassMethod(): boolean {
+  if (flow.isTypeParamStart()) {
+    return hasPlugin("flow");
+  }
+
   return match(tt.parenL);
 }
 
@@ -1606,6 +1656,10 @@ export function parseAccessModifier(): ?N.Accessibility {
 export function parseClassPrivateProperty(
   node: N.ClassPrivateProperty,
 ): N.ClassPrivateProperty {
+  if (match(tt.colon) && hasPlugin("flow")) {
+    node.typeAnnotation = flow.flowParseTypeAnnotation();
+  }
+
   state.inClassProperty = true;
 
   scope.enter(SCOPE_CLASS | SCOPE_SUPER);
@@ -1620,7 +1674,9 @@ export function parseClassPrivateProperty(
 }
 
 export function parseClassProperty(node: N.ClassProperty): N.ClassProperty {
-  if (!node.typeAnnotation) {
+  if (match(tt.colon) && hasPlugin("flow")) {
+    node.typeAnnotation = flow.flowParseTypeAnnotation();
+  } else {
     expectPlugin("classProperties");
   }
 
@@ -1669,16 +1725,21 @@ export function parseClassSuper(node: N.Class): void {
 // Parses module export declaration.
 
 export function parseExport(node: N.Node): N.AnyExport {
-  const hasDefault = maybeParseExportDefaultSpecifier(node);
-  const parseAfterDefault = !hasDefault || eat(tt.comma);
+  let defaultId = isExportDefaultSpecifier() ? parseIdentifier(true) : null;
+  if (defaultId && hasPlugin("flow")) {
+    defaultId = flow.reparseDefaultExportId(defaultId, node);
+  }
+  if (defaultId) parseExportDefaultSpecifier(defaultId, node);
+
+  const parseAfterDefault = !defaultId || eat(tt.comma);
   const hasStar = parseAfterDefault && eatExportStar(node);
   const hasNamespace = hasStar && maybeParseExportNamespaceSpecifier(node);
   const parseAfterNamespace =
     parseAfterDefault && (!hasNamespace || eat(tt.comma));
-  const isFromRequired = hasDefault || hasStar;
+  const isFromRequired = !!defaultId || hasStar;
 
   if (hasStar && !hasNamespace) {
-    if (hasDefault) unexpected();
+    if (defaultId) unexpected();
     parseExportFrom(node, true);
 
     return finishNode(node, "ExportAllDeclaration");
@@ -1687,7 +1748,7 @@ export function parseExport(node: N.Node): N.AnyExport {
   const hasSpecifiers = maybeParseExportNamedSpecifiers(node);
 
   if (
-    (hasDefault && parseAfterDefault && !hasStar && !hasSpecifiers) ||
+    (defaultId && parseAfterDefault && !hasStar && !hasSpecifiers) ||
     (hasNamespace && parseAfterNamespace && !hasSpecifiers)
   ) {
     throw unexpected(null, tt.braceL);
@@ -1722,16 +1783,16 @@ export function eatExportStar(node: N.Node): boolean {
   return eat(tt.star);
 }
 
-export function maybeParseExportDefaultSpecifier(node: N.Node): boolean {
-  if (isExportDefaultSpecifier()) {
-    // export defaultObj ...
-    expectPlugin("exportDefaultFrom");
-    const specifier = startNode();
-    specifier.exported = parseIdentifier(true);
-    node.specifiers = [finishNode(specifier, "ExportDefaultSpecifier")];
-    return true;
-  }
-  return false;
+export function parseExportDefaultSpecifier(
+  id: N.Identifier,
+  node: N.Node,
+): boolean {
+  // export defaultObj ...
+  expectPlugin("exportDefaultFrom");
+  const specifier = startNodeAtNode(id);
+  specifier.exported = id;
+  node.specifiers = [finishNode(specifier, "ExportDefaultSpecifier")];
+  return true;
 }
 
 export function maybeParseExportNamespaceSpecifier(node: N.Node): boolean {
@@ -1850,6 +1911,10 @@ export function parseExportDeclaration(
 }
 
 export function isExportDefaultSpecifier(): boolean {
+  if (hasPlugin("flow") && flow.isExportDeclaration()) {
+    return false;
+  }
+
   if (match(tt.name)) {
     return state.value !== "async" && state.value !== "let";
   }
@@ -1905,7 +1970,8 @@ export function shouldParseExportDeclaration(): boolean {
     state.type.keyword === "function" ||
     state.type.keyword === "class" ||
     isLet() ||
-    isAsyncFunction()
+    isAsyncFunction() ||
+    (hasPlugin("flow") && flow.isExportDeclaration())
   );
 }
 
@@ -2048,8 +2114,15 @@ export function parseImport(node: N.Node): N.AnyImport {
   // import '...'
   node.specifiers = [];
   if (!match(tt.string)) {
-    const hasDefault = maybeParseDefaultImportSpecifier(node);
-    const parseNext = !hasDefault || eat(tt.comma);
+    const specifier = startNode();
+
+    let defaultId = match(tt.name) ? parseIdentifier() : null;
+    if (hasPlugin("flow")) {
+      defaultId = flow.reparseDefaultImportId(defaultId, node);
+    }
+    if (defaultId) parseDefaultImportSpecifier(defaultId, specifier, node);
+
+    const parseNext = !defaultId || eat(tt.comma);
     const hasStar = parseNext && maybeParseStarImportSpecifier(node);
     if (parseNext && !hasStar) parseNamedImportSpecifiers(node);
     expectContextual("from");
@@ -2064,11 +2137,6 @@ export function parseImportSource(): N.StringLiteral {
   return parseExprAtom();
 }
 
-// eslint-disable-next-line no-unused-vars
-export function shouldParseDefaultImport(node: N.ImportDeclaration): boolean {
-  return match(tt.name);
-}
-
 export function parseImportSpecifierLocal(
   node: N.ImportDeclaration,
   specifier: N.Node,
@@ -2080,20 +2148,15 @@ export function parseImportSpecifierLocal(
   node.specifiers.push(finishNode(specifier, type));
 }
 
-export function maybeParseDefaultImportSpecifier(
+export function parseDefaultImportSpecifier(
+  id: N.Identifier,
+  specifier: N.ImportDefaultSpecifier,
   node: N.ImportDeclaration,
-): boolean {
-  if (shouldParseDefaultImport(node)) {
-    // import defaultObj, { x, y as z } from '...'
-    parseImportSpecifierLocal(
-      node,
-      startNode(),
-      "ImportDefaultSpecifier",
-      "default import specifier",
-    );
-    return true;
-  }
-  return false;
+): void {
+  checkReservedWord(id.name, state.start, true, true);
+  checkLVal(id, BIND_LEXICAL, undefined, "default import specifier");
+  specifier.local = id;
+  node.specifiers.push(finishNode(specifier, "ImportDefaultSpecifier"));
 }
 
 export function maybeParseStarImportSpecifier(
@@ -2141,13 +2204,23 @@ export function parseNamedImportSpecifiers(node: N.ImportDeclaration) {
 
 export function parseImportSpecifier(node: N.ImportDeclaration): void {
   const specifier = startNode();
-  specifier.imported = parseIdentifier(true);
-  if (eatContextual("as")) {
-    specifier.local = parseIdentifier();
-  } else {
-    checkReservedWord(specifier.imported.name, specifier.start, true, true);
-    specifier.local = specifier.imported.__clone();
+
+  let imported = parseIdentifier(true);
+
+  let parsed = false;
+  if (hasPlugin("flow")) {
+    parsed = flow.parseImportSpecifierFromId(imported, specifier, node);
   }
-  checkLVal(specifier.local, BIND_LEXICAL, undefined, "import specifier");
+  if (!parsed) {
+    specifier.imported = imported;
+    if (eatContextual("as")) {
+      specifier.local = parseIdentifier();
+    } else {
+      specifier.local = specifier.imported.__clone();
+      checkReservedWord(specifier.local.name, specifier.start, true, true);
+    }
+    checkLVal(specifier.local, BIND_LEXICAL, undefined, "import specifier");
+  }
+
   node.specifiers.push(finishNode(specifier, "ImportSpecifier"));
 }
