@@ -8,7 +8,6 @@ import normalizeOptions from "./normalize-options";
 import pluginList from "../data/plugins.json";
 import { proposalPlugins, pluginSyntaxMap } from "../data/shipped-proposals";
 
-import addCoreJS3UsagePlugin from "./polyfills/corejs3/usage-plugin";
 import replaceCoreJS2EntryPlugin from "./polyfills/corejs2/entry-plugin";
 import replaceCoreJS3EntryPlugin from "./polyfills/corejs3/entry-plugin";
 import removeRegeneratorEntryPlugin from "./polyfills/regenerator/entry-plugin";
@@ -19,6 +18,8 @@ import injectPolyfillsPlugin from "@babel/plugin-inject-polyfills";
 import regeneratorPolyfillProvider from "@babel/polyfill-provider-regenerator";
 // $FlowIgnore Flow doesn't support symlinked modules
 import coreJS2PolyfillProvider from "@babel/polyfill-provider-corejs2";
+// $FlowIgnore Flow doesn't support symlinked modules
+import coreJS3PolyfillProvider from "@babel/polyfill-provider-corejs3";
 
 try {
   console.log("PROVIDER", JSON.stringify(coreJS2PolyfillProvider));
@@ -221,7 +222,16 @@ export default declare((api, opts) => {
             { include: include.builtIns, exclude: exclude.builtIns },
           ]);
         } else {
-          plugins.push([addCoreJS3UsagePlugin, pluginOptions]);
+          providers.push([
+            coreJS3PolyfillProvider,
+            {
+              include: include.builtIns,
+              exclude: exclude.builtIns,
+              proposals,
+              shippedProposals,
+              version: corejs,
+            },
+          ]);
         }
         if (regenerator) {
           providers.push(regeneratorPolyfillProvider);
