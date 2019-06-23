@@ -1,6 +1,3 @@
-import "core-js/modules/es.array.iterator";
-import "core-js/modules/es.array-buffer.slice";
-import "core-js/modules/es.object.to-string";
 import "core-js/modules/es.typed-array.int8-array";
 import "core-js/modules/es.typed-array.copy-within";
 import "core-js/modules/es.typed-array.every";
@@ -25,4 +22,7 @@ import "core-js/modules/es.typed-array.sort";
 import "core-js/modules/es.typed-array.subarray";
 import "core-js/modules/es.typed-array.to-locale-string";
 import "core-js/modules/es.typed-array.to-string";
+import "core-js/modules/es.object.to-string";
+import "core-js/modules/es.array.iterator";
+import "core-js/modules/es.array-buffer.slice";
 new Int8Array(1);
