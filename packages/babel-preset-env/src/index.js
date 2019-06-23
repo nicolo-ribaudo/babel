@@ -8,12 +8,23 @@ import normalizeOptions from "./normalize-options";
 import pluginList from "../data/plugins.json";
 import { proposalPlugins, pluginSyntaxMap } from "../data/shipped-proposals";
 
-import addCoreJS2UsagePlugin from "./polyfills/corejs2/usage-plugin";
 import addCoreJS3UsagePlugin from "./polyfills/corejs3/usage-plugin";
-import addRegeneratorUsagePlugin from "./polyfills/regenerator/usage-plugin";
 import replaceCoreJS2EntryPlugin from "./polyfills/corejs2/entry-plugin";
 import replaceCoreJS3EntryPlugin from "./polyfills/corejs3/entry-plugin";
 import removeRegeneratorEntryPlugin from "./polyfills/regenerator/entry-plugin";
+
+// $FlowIgnore Flow doesn't support symlinked modules
+import injectPolyfillsPlugin from "@babel/plugin-inject-polyfills";
+// $FlowIgnore Flow doesn't support symlinked modules
+import regeneratorPolyfillProvider from "@babel/polyfill-provider-regenerator";
+// $FlowIgnore Flow doesn't support symlinked modules
+import coreJS2PolyfillProvider from "@babel/polyfill-provider-corejs2";
+
+try {
+  console.log("PROVIDER", JSON.stringify(coreJS2PolyfillProvider));
+} catch (e) {
+  console.log("ERROR", e);
+}
 
 import getTargets from "./targets-parser";
 import availablePlugins from "./available-plugins";
@@ -203,13 +214,23 @@ export default declare((api, opts) => {
 
     if (corejs) {
       if (useBuiltIns === "usage") {
+        const providers = [];
         if (corejs.major === 2) {
-          plugins.push([addCoreJS2UsagePlugin, pluginOptions]);
+          providers.push([
+            coreJS2PolyfillProvider,
+            { include: include.builtIns, exclude: exclude.builtIns },
+          ]);
         } else {
           plugins.push([addCoreJS3UsagePlugin, pluginOptions]);
         }
         if (regenerator) {
-          plugins.push([addRegeneratorUsagePlugin, pluginOptions]);
+          providers.push(regeneratorPolyfillProvider);
+        }
+        if (providers.length) {
+          plugins.push([
+            injectPolyfillsPlugin,
+            { method: "usage-global", targets, providers },
+          ]);
         }
       } else {
         if (corejs.major === 2) {
