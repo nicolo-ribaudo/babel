@@ -8,7 +8,7 @@ import normalizeOptions from "./normalize-options";
 import pluginList from "../data/plugins.json";
 import { proposalPlugins, pluginSyntaxMap } from "../data/shipped-proposals";
 
-import replaceCoreJS2EntryPlugin from "./polyfills/corejs2/entry-plugin";
+import handleBabelPolyfillImportPlugin from "./polyfills/handle-babel-polyfill-import";
 import replaceCoreJS3EntryPlugin from "./polyfills/corejs3/entry-plugin";
 import removeRegeneratorEntryPlugin from "./polyfills/regenerator/entry-plugin";
 
@@ -20,12 +20,6 @@ import regeneratorPolyfillProvider from "@babel/polyfill-provider-regenerator";
 import coreJS2PolyfillProvider from "@babel/polyfill-provider-corejs2";
 // $FlowIgnore Flow doesn't support symlinked modules
 import coreJS3PolyfillProvider from "@babel/polyfill-provider-corejs3";
-
-try {
-  console.log("PROVIDER", JSON.stringify(coreJS2PolyfillProvider));
-} catch (e) {
-  console.log("ERROR", e);
-}
 
 import getTargets from "./targets-parser";
 import availablePlugins from "./available-plugins";
@@ -213,9 +207,22 @@ export default declare((api, opts) => {
       debug,
     };
 
+    const providers = [];
+
     if (corejs) {
+      plugins.push([
+        handleBabelPolyfillImportPlugin,
+        {
+          action:
+            useBuiltIns === "usage"
+              ? "remove"
+              : corejs.major === 2
+              ? "replace"
+              : "warn",
+        },
+      ]);
+
       if (useBuiltIns === "usage") {
-        const providers = [];
         if (corejs.major === 2) {
           providers.push([
             coreJS2PolyfillProvider,
@@ -236,21 +243,31 @@ export default declare((api, opts) => {
         if (regenerator) {
           providers.push(regeneratorPolyfillProvider);
         }
-        if (providers.length) {
-          plugins.push([
-            injectPolyfillsPlugin,
-            { method: "usage-global", targets, providers },
-          ]);
-        }
-      } else {
+      } else if (useBuiltIns === "entry") {
         if (corejs.major === 2) {
-          plugins.push([replaceCoreJS2EntryPlugin, pluginOptions]);
+          providers.push([
+            coreJS2PolyfillProvider,
+            {
+              include: include.builtIns,
+              exclude: exclude.builtIns,
+              "#__secret_key__@babel/preset-env__compatibility": {
+                entryInjectRegenerator: regenerator,
+              },
+            },
+          ]);
         } else {
           plugins.push([replaceCoreJS3EntryPlugin, pluginOptions]);
           if (!regenerator) {
             plugins.push([removeRegeneratorEntryPlugin, pluginOptions]);
           }
         }
+      }
+
+      if (providers.length) {
+        plugins.push([
+          injectPolyfillsPlugin,
+          { method: useBuiltIns + "-global", targets, providers },
+        ]);
       }
     }
   }
