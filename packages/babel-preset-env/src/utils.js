@@ -5,7 +5,6 @@ import type { NodePath } from "@babel/traverse";
 import invariant from "invariant";
 import semver from "semver";
 import levenshtein from "js-levenshtein";
-import { addSideEffect } from "@babel/helper-module-imports";
 import unreleasedLabels from "../data/unreleased-labels";
 import { semverMin } from "./targets-parser";
 import type { Targets } from "./types";
@@ -145,20 +144,4 @@ export function getRequireSource({ node }: NodePath) {
     expression.arguments.length === 1 &&
     t.isStringLiteral(expression.arguments[0]);
   if (isRequire) return expression.arguments[0].value;
-}
-
-export function isPolyfillSource(source: ?string): boolean {
-  return source === "@babel/polyfill" || source === "core-js";
-}
-
-const modulePathMap = {
-  "regenerator-runtime": "regenerator-runtime/runtime",
-};
-
-export function getModulePath(mod: string): string {
-  return modulePathMap[mod] || `core-js/modules/${mod}`;
-}
-
-export function createImport(path: NodePath, mod: string) {
-  return addSideEffect(path, getModulePath(mod));
 }
