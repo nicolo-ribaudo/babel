@@ -8,9 +8,7 @@ import normalizeOptions from "./normalize-options";
 import pluginList from "../data/plugins.json";
 import { proposalPlugins, pluginSyntaxMap } from "../data/shipped-proposals";
 
-import handleBabelPolyfillImportPlugin from "./polyfills/handle-babel-polyfill-import";
-import replaceCoreJS3EntryPlugin from "./polyfills/corejs3/entry-plugin";
-import removeRegeneratorEntryPlugin from "./polyfills/regenerator/entry-plugin";
+import handlePolyfillImports from "./polyfills/handle-polyfill-imports";
 
 // $FlowIgnore Flow doesn't support symlinked modules
 import injectPolyfillsPlugin from "@babel/plugin-inject-polyfills";
@@ -196,29 +194,19 @@ export default declare((api, opts) => {
   if (useBuiltIns === "usage" || useBuiltIns === "entry") {
     const regenerator = transformations.has("transform-regenerator");
 
-    const pluginOptions = {
-      corejs,
-      polyfillTargets: targets,
-      include: include.builtIns,
-      exclude: exclude.builtIns,
-      proposals,
-      shippedProposals,
-      regenerator,
-      debug,
-    };
-
     const providers = [];
 
     if (corejs) {
       plugins.push([
-        handleBabelPolyfillImportPlugin,
+        handlePolyfillImports,
         {
-          action:
+          polyfillAction:
             useBuiltIns === "usage"
               ? "remove"
               : corejs.major === 2
               ? "replace"
               : "warn",
+          removeRegenerator: useBuiltIns === "entry" && !regenerator,
         },
       ]);
 
@@ -256,10 +244,16 @@ export default declare((api, opts) => {
             },
           ]);
         } else {
-          plugins.push([replaceCoreJS3EntryPlugin, pluginOptions]);
-          if (!regenerator) {
-            plugins.push([removeRegeneratorEntryPlugin, pluginOptions]);
-          }
+          providers.push([
+            coreJS3PolyfillProvider,
+            {
+              include: include.builtIns,
+              exclude: exclude.builtIns,
+              proposals,
+              shippedProposals,
+              version: corejs,
+            },
+          ]);
         }
       }
 

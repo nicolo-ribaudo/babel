@@ -4,7 +4,10 @@ import { getImportSource, getRequireSource } from "../utils";
 import type { NodePath } from "@babel/traverse";
 import typeof * as BabelApi from "@babel/core";
 
-type Opts = { action: "warn" | "remove" | "replace" };
+type Opts = {
+  polyfillAction: "warn" | "remove" | "replace",
+  removeRegenerator: boolean,
+};
 
 const BABEL_POLYFILL_DEPRECATION = `
   \`@babel/polyfill\` is deprecated. Please, use required parts of \`core-js\`
@@ -18,7 +21,10 @@ const NO_DIRECT_POLYFILL_IMPORT = `
   When setting \`useBuiltIns: 'usage'\`, polyfills are automatically imported when needed.
   Please remove the \`import '@babel/polyfill'\` call or use \`useBuiltIns: 'entry'\` instead.`;
 
-export default function({ template }: BabelApi, { action }: Opts) {
+export default function(
+  { template }: BabelApi,
+  { polyfillAction, removeRegenerator }: Opts,
+) {
   const importStmt = template.statement({
     sourceType: "module",
   })`import "core-js"`;
@@ -27,19 +33,23 @@ export default function({ template }: BabelApi, { action }: Opts) {
   const handler = (getSource, getReplacement) => (path: NodePath) => {
     const source = getSource(path);
 
-    if (source === "core-js" && action === "remove") {
+    if (source === "regenerator-runtime/runtime" && removeRegenerator) {
+      path.remove();
+    }
+
+    if (source === "core-js" && polyfillAction === "remove") {
       console.warn(NO_DIRECT_COREJS_IMPORT);
       path.remove();
     }
 
     if (source !== "@babel/polyfill") return;
 
-    if (action === "warn") {
+    if (polyfillAction === "warn") {
       console.warn(BABEL_POLYFILL_DEPRECATION);
-    } else if (action === "remove") {
+    } else if (polyfillAction === "remove") {
       console.warn(NO_DIRECT_POLYFILL_IMPORT);
       path.remove();
-    } else if (action === "replace") {
+    } else if (polyfillAction === "replace") {
       path.replaceWith(getReplacement());
     }
   };
