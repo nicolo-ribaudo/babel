@@ -53,7 +53,8 @@ Using plugins:
 
 Using polyfills with `entry` option:
 
-[<CWD>/src/in.js] Replaced core-js entries with the following polyfills:
+[<CWD>/src/in.js]
+The corejs3 provider entry has been replaced with the following polyfills:
   es.symbol { "electron":"0.36", "ie":"10" }
   es.symbol.description { "chrome":"54", "electron":"0.36", "ie":"10", "node":"6.1" }
   es.symbol.async-iterator { "chrome":"54", "electron":"0.36", "ie":"10", "node":"6.1" }

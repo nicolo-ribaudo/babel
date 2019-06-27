@@ -15,7 +15,8 @@ Using plugins:
 
 Using polyfills with `usage` option:
 
-[<CWD>/src/in.js] Added following core-js polyfills:
+[<CWD>/src/in.js]
+The corejs3 provider added the following polyfills:
   esnext.map.delete-all { "chrome":"71" }
   esnext.map.every { "chrome":"71" }
   esnext.map.filter { "chrome":"71" }
@@ -32,5 +33,6 @@ Using polyfills with `usage` option:
   esnext.observable { "chrome":"71" }
   esnext.symbol.observable { "chrome":"71" }
 
-[<CWD>/src/in2.js] Based on your code and targets, core-js polyfills were not added.
+[<CWD>/src/in2.js]
+Based on your code and targets, the corejs3 provider did not add any polyfill.
 Successfully compiled 2 files with Babel.

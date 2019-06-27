@@ -15,8 +15,9 @@ Using plugins:
 
 Using polyfills with `entry` option:
 
-[<CWD>/src/in.js] Replaced core-js entries with the following polyfill:
-  web.immediate { "chrome":"71" }
-
 [<CWD>/src/in.js] Based on your targets, regenerator-runtime import excluded.
+
+[<CWD>/src/in.js]
+The corejs3 provider entry has been replaced with the following polyfills:
+  web.immediate { "chrome":"71" }
 Successfully compiled 1 file with Babel.
