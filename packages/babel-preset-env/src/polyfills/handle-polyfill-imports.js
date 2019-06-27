@@ -7,6 +7,7 @@ import typeof * as BabelApi from "@babel/core";
 type Opts = {
   polyfillAction: "warn" | "remove" | "replace",
   removeRegenerator: boolean,
+  debug: boolean,
 };
 
 const BABEL_POLYFILL_DEPRECATION = `
@@ -23,17 +24,23 @@ const NO_DIRECT_POLYFILL_IMPORT = `
 
 export default function(
   { template }: BabelApi,
-  { polyfillAction, removeRegenerator }: Opts,
+  { polyfillAction, removeRegenerator, debug }: Opts,
 ) {
   const importStmt = template.statement({
     sourceType: "module",
   })`import "core-js"`;
   const requireStmt = template.statement`require("core-js")`;
 
-  const handler = (getSource, getReplacement) => (path: NodePath) => {
+  const handler = (getSource, getReplacement, path, filename) => {
     const source = getSource(path);
 
     if (source === "regenerator-runtime/runtime" && removeRegenerator) {
+      if (debug) {
+        console.log(
+          `\n[${filename}] Based on your targets, ` +
+            `regenerator-runtime import excluded.`,
+        );
+      }
       path.remove();
     }
 
@@ -50,6 +57,12 @@ export default function(
       console.warn(NO_DIRECT_POLYFILL_IMPORT);
       path.remove();
     } else if (polyfillAction === "replace") {
+      if (debug) {
+        console.log(
+          `\n[${filename}] The '@babel/polyfill' import has ` +
+            `been internally replaced with 'core-js'.`,
+        );
+      }
       path.replaceWith(getReplacement());
     }
   };
@@ -57,9 +70,13 @@ export default function(
   return {
     name: "@babel/preset-env/handle-babel-polyfill-import",
     visitor: {
-      ImportDeclaration: handler(getImportSource, importStmt),
+      ImportDeclaration(path: NodePath) {
+        handler(getImportSource, importStmt, path, this.filename);
+      },
       Program(path: NodePath) {
-        path.get("body").forEach(handler(getRequireSource, requireStmt));
+        path.get("body").forEach(path => {
+          handler(getRequireSource, requireStmt, path, this.filename);
+        });
       },
     },
   };
