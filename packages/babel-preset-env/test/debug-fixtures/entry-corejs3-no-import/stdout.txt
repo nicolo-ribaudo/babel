@@ -23,5 +23,6 @@ Using plugins:
 
 Using polyfills with `entry` option:
 
-[<CWD>/src/in.js] Import of core-js was not found.
+[<CWD>/src/in.js]
+The entry point for the corejs3 provider has not been found.
 Successfully compiled 1 file with Babel.

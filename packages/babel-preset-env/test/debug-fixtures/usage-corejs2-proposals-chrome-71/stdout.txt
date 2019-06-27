@@ -15,9 +15,11 @@ Using plugins:
 
 Using polyfills with `usage` option:
 
-[<CWD>/src/in.js] Added following core-js polyfill:
+[<CWD>/src/in.js]
+The corejs2 provider added the following polyfills:
   web.dom.iterable { "chrome":"71" }
 
-[<CWD>/src/in2.js] Added following core-js polyfill:
+[<CWD>/src/in2.js]
+The corejs2 provider added the following polyfills:
   web.dom.iterable { "chrome":"71" }
 Successfully compiled 2 files with Babel.

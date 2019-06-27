@@ -15,7 +15,10 @@ Using plugins:
 
 Using polyfills with `entry` option:
 
-[<CWD>/src/in.js] Replaced core-js entries with the following polyfills:
+[<CWD>/src/in.js] Based on your targets, regenerator-runtime import excluded.
+
+[<CWD>/src/in.js]
+The corejs3 provider entry has been replaced with the following polyfills:
   es.object.from-entries { "chrome":"71" }
   esnext.reflect.define-metadata { "chrome":"71" }
   esnext.reflect.delete-metadata { "chrome":"71" }
@@ -26,6 +29,4 @@ Using polyfills with `entry` option:
   esnext.reflect.has-metadata { "chrome":"71" }
   esnext.reflect.has-own-metadata { "chrome":"71" }
   esnext.reflect.metadata { "chrome":"71" }
-
-[<CWD>/src/in.js] Based on your targets, regenerator-runtime import excluded.
 Successfully compiled 1 file with Babel.

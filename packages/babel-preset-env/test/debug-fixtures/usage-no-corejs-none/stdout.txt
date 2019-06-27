@@ -41,7 +41,11 @@ Using plugins:
 
 Using polyfills with `usage` option:
 
-[<CWD>/src/in.js] Based on your code and targets, core-js polyfills were not added.
+[<CWD>/src/in.js]
+Based on your code and targets, the corejs2 provider did not add any polyfill.
+Based on your code and targets, the regenerator provider did not add any polyfill.
 
-[<CWD>/src/in2.js] Based on your code and targets, core-js polyfills were not added.
+[<CWD>/src/in2.js]
+Based on your code and targets, the corejs2 provider did not add any polyfill.
+Based on your code and targets, the regenerator provider did not add any polyfill.
 Successfully compiled 2 files with Babel.

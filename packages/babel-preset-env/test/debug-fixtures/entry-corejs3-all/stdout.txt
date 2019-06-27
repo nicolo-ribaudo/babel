@@ -41,7 +41,8 @@ Using plugins:
 
 Using polyfills with `entry` option:
 
-[<CWD>/src/in.js] Replaced core-js entries with the following polyfills:
+[<CWD>/src/in.js]
+The corejs3 provider entry has been replaced with the following polyfills:
   es.symbol {}
   es.symbol.description {}
   es.symbol.async-iterator {}
