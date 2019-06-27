@@ -207,6 +207,7 @@ export default declare((api, opts) => {
               ? "replace"
               : "warn",
           removeRegenerator: useBuiltIns === "entry" && !regenerator,
+          debug,
         },
       ]);
 
@@ -260,7 +261,14 @@ export default declare((api, opts) => {
       if (providers.length) {
         plugins.push([
           injectPolyfillsPlugin,
-          { method: useBuiltIns + "-global", targets, providers },
+          {
+            method: useBuiltIns + "-global",
+            debug: debug
+              ? "#__secret_key__@babel/preset-env__don't_log_debug_header_and_resolved_targets"
+              : false,
+            targets,
+            providers,
+          },
         ]);
       }
     }
