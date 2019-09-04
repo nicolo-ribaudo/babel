@@ -16,6 +16,7 @@
   "dependencies": {
     "@babel/helper-module-imports": "^7.0.0",
     "@babel/helper-plugin-utils": "^7.0.0",
+    "@babel/plugin-inject-polyfills": "file:../../../babel-polyfills/packages/babel-plugin-inject-polyfills",
     "@babel/plugin-proposal-async-generator-functions": "^7.2.0",
     "@babel/plugin-proposal-dynamic-import": "^7.5.0",
     "@babel/plugin-proposal-json-strings": "^7.2.0",
@@ -59,6 +60,9 @@
     "@babel/plugin-transform-typeof-symbol": "^7.2.0",
     "@babel/plugin-transform-unicode-regex": "^7.4.4",
     "@babel/types": "^7.5.5",
+    "babel-polyfill-provider-corejs2": "file:../../../babel-polyfills/packages/babel-polyfill-provider-corejs2",
+    "babel-polyfill-provider-corejs3": "file:../../../babel-polyfills/packages/babel-polyfill-provider-corejs3",
+    "babel-polyfill-provider-regenerator": "file:../../../babel-polyfills/packages/babel-polyfill-provider-regenerator",
     "browserslist": "^4.6.0",
     "core-js-compat": "^3.1.1",
     "invariant": "^2.2.2",

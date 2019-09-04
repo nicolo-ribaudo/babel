@@ -29,6 +29,7 @@ Using plugins:
 
 Using polyfills with `usage` option:
 
-[<CWD>/packages/babel-preset-env/test/fixtures/corejs3/usage-browserslist-config-ignore/input.mjs] Added following core-js polyfills:
+[<CWD>/packages/babel-preset-env/test/fixtures/corejs3/usage-browserslist-config-ignore/input.mjs]
+The corejs3 provider added the following polyfills:
   es.array.iterator { "chrome":"61", "opera":"48" }
   web.dom-collections.iterator { "chrome":"61", "edge":"16", "ios":"10.3", "opera":"48", "safari":"10.1" }

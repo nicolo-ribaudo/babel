@@ -13,11 +13,11 @@ import handlePolyfillImports from "./polyfills/handle-polyfill-imports";
 // $FlowIgnore Flow doesn't support symlinked modules
 import injectPolyfillsPlugin from "@babel/plugin-inject-polyfills";
 // $FlowIgnore Flow doesn't support symlinked modules
-import regeneratorPolyfillProvider from "@babel/polyfill-provider-regenerator";
+import regeneratorPolyfillProvider from "babel-polyfill-provider-regenerator";
 // $FlowIgnore Flow doesn't support symlinked modules
-import coreJS2PolyfillProvider from "@babel/polyfill-provider-corejs2";
+import coreJS2PolyfillProvider from "babel-polyfill-provider-corejs2";
 // $FlowIgnore Flow doesn't support symlinked modules
-import coreJS3PolyfillProvider from "@babel/polyfill-provider-corejs3";
+import coreJS3PolyfillProvider from "babel-polyfill-provider-corejs3";
 
 import getTargets from "./targets-parser";
 import availablePlugins from "./available-plugins";
@@ -215,14 +215,17 @@ export default declare((api, opts) => {
         if (corejs.major === 2) {
           providers.push([
             coreJS2PolyfillProvider,
-            { include: include.builtIns, exclude: exclude.builtIns },
+            {
+              include: Array.from(include.builtIns),
+              exclude: Array.from(exclude.builtIns),
+            },
           ]);
         } else {
           providers.push([
             coreJS3PolyfillProvider,
             {
-              include: include.builtIns,
-              exclude: exclude.builtIns,
+              include: Array.from(include.builtIns),
+              exclude: Array.from(exclude.builtIns),
               proposals,
               shippedProposals,
               version: corejs,
@@ -237,8 +240,8 @@ export default declare((api, opts) => {
           providers.push([
             coreJS2PolyfillProvider,
             {
-              include: include.builtIns,
-              exclude: exclude.builtIns,
+              include: Array.from(include.builtIns),
+              exclude: Array.from(exclude.builtIns),
               "#__secret_key__@babel/preset-env__compatibility": {
                 entryInjectRegenerator: regenerator,
               },
@@ -248,8 +251,8 @@ export default declare((api, opts) => {
           providers.push([
             coreJS3PolyfillProvider,
             {
-              include: include.builtIns,
-              exclude: exclude.builtIns,
+              include: Array.from(include.builtIns),
+              exclude: Array.from(exclude.builtIns),
               proposals,
               shippedProposals,
               version: corejs,
