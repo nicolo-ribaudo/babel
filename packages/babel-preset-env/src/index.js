@@ -216,16 +216,16 @@ export default declare((api, opts) => {
           providers.push([
             coreJS2PolyfillProvider,
             {
-              include: Array.from(include.builtIns),
-              exclude: Array.from(exclude.builtIns),
+              include: include.builtIns,
+              exclude: exclude.builtIns,
             },
           ]);
         } else {
           providers.push([
             coreJS3PolyfillProvider,
             {
-              include: Array.from(include.builtIns),
-              exclude: Array.from(exclude.builtIns),
+              include: include.builtIns,
+              exclude: exclude.builtIns,
               proposals,
               shippedProposals,
               version: corejs,
@@ -240,8 +240,8 @@ export default declare((api, opts) => {
           providers.push([
             coreJS2PolyfillProvider,
             {
-              include: Array.from(include.builtIns),
-              exclude: Array.from(exclude.builtIns),
+              include: include.builtIns,
+              exclude: exclude.builtIns,
               "#__secret_key__@babel/preset-env__compatibility": {
                 entryInjectRegenerator: regenerator,
               },
@@ -251,8 +251,8 @@ export default declare((api, opts) => {
           providers.push([
             coreJS3PolyfillProvider,
             {
-              include: Array.from(include.builtIns),
-              exclude: Array.from(exclude.builtIns),
+              include: include.builtIns,
+              exclude: exclude.builtIns,
               proposals,
               shippedProposals,
               version: corejs,
