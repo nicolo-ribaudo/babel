@@ -91,7 +91,6 @@ The corejs3 provider entry has been replaced with the following polyfills:
   esnext.set.union { "chrome":"71" }
   esnext.string.at { "chrome":"71" }
   esnext.string.code-points { "chrome":"71" }
-  esnext.string.match-all { "chrome":"71" }
   esnext.string.replace-all { "chrome":"71" }
   esnext.symbol.dispose { "chrome":"71" }
   esnext.symbol.observable { "chrome":"71" }
@@ -104,6 +103,5 @@ The corejs3 provider entry has been replaced with the following polyfills:
   esnext.weak-set.from { "chrome":"71" }
   esnext.weak-set.of { "chrome":"71" }
   web.immediate { "chrome":"71" }
-
-[<CWD>/src/in.js] Based on your targets, regenerator-runtime import excluded.
+  esnext.string.match-all { "chrome":"71" }
 Successfully compiled 1 file with Babel.

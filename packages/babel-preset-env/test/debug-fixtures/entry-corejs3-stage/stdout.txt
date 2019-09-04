@@ -113,7 +113,6 @@ The corejs3 provider entry has been replaced with the following polyfills:
   esnext.set.union {}
   esnext.string.at {}
   esnext.string.code-points {}
-  esnext.string.match-all {}
   esnext.string.replace-all {}
   esnext.symbol.dispose {}
   esnext.symbol.observable {}
@@ -128,4 +127,5 @@ The corejs3 provider entry has been replaced with the following polyfills:
   web.url {}
   web.url.to-json {}
   web.url-search-params {}
+  esnext.string.match-all {}
 Successfully compiled 1 file with Babel.
