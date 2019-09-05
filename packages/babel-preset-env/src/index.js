@@ -194,19 +194,21 @@ export default declare((api, opts) => {
   if (useBuiltIns && corejs) {
     const regenerator = transformations.has("transform-regenerator");
 
-    plugins.push([
-      handlePolyfillImports,
-      {
-        polyfillAction:
-          useBuiltIns === "usage"
-            ? "remove"
-            : corejs.major === 2
-            ? "replace"
-            : "warn",
-        removeRegenerator: useBuiltIns === "entry" && !regenerator,
-        debug,
-      },
-    ]);
+    if (useBuiltIns !== "pure") {
+      plugins.push([
+        handlePolyfillImports,
+        {
+          polyfillAction:
+            useBuiltIns === "usage"
+              ? "remove"
+              : corejs.major === 2
+              ? "replace"
+              : "warn",
+          removeRegenerator: useBuiltIns === "entry" && !regenerator,
+          debug,
+        },
+      ]);
+    }
 
     const providers = getPolyfillProviders({
       useBuiltIns,
@@ -222,7 +224,12 @@ export default declare((api, opts) => {
       plugins.push([
         injectPolyfillsPlugin,
         {
-          method: useBuiltIns + "-global",
+          method:
+            useBuiltIns === "usage"
+              ? "usage-global"
+              : useBuiltIns === "pure"
+              ? "usage-pure"
+              : "entry-global",
           debug: debug
             ? "#__secret_key__@babel/preset-env__don't_log_debug_header_and_resolved_targets"
             : false,
@@ -272,7 +279,7 @@ function getPolyfillProviders({
     ]);
   }
 
-  if (useBuiltIns === "usage" && regenerator) {
+  if (useBuiltIns !== "entry" && regenerator) {
     providers.push(regeneratorPolyfillProvider);
   }
 

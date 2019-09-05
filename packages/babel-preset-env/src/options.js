@@ -30,6 +30,7 @@ export const UseBuiltInsOption = {
   false: false,
   entry: "entry",
   usage: "usage",
+  pure: "pure",
 };
 
 export const TargetNames = {

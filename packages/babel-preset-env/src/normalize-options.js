@@ -182,8 +182,9 @@ export const validateUseBuiltInsOption = (
       UseBuiltInsOption[builtInsOpt.toString()] === UseBuiltInsOption.false,
     `Invalid Option: The 'useBuiltIns' option must be either
     'false' (default) to indicate no polyfill,
-    '"entry"' to indicate replacing the entry polyfill, or
-    '"usage"' to import only used polyfills per file`,
+    '"entry"' to indicate replacing the entry polyfill,
+    '"usage"' to import only used polyfills per file, or
+    '"pure"' to import polyfills without puluting the global scope.'`,
   );
 
   return builtInsOpt;
