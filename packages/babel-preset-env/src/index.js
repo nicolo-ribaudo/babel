@@ -191,91 +191,90 @@ export default declare((api, opts) => {
     }
   }
 
-  if (useBuiltIns === "usage" || useBuiltIns === "entry") {
+  if (useBuiltIns && corejs) {
     const regenerator = transformations.has("transform-regenerator");
 
-    const providers = [];
+    plugins.push([
+      handlePolyfillImports,
+      {
+        polyfillAction:
+          useBuiltIns === "usage"
+            ? "remove"
+            : corejs.major === 2
+            ? "replace"
+            : "warn",
+        removeRegenerator: useBuiltIns === "entry" && !regenerator,
+        debug,
+      },
+    ]);
 
-    if (corejs) {
+    const providers = getPolyfillProviders({
+      useBuiltIns,
+      regenerator,
+      corejs,
+      include: include.builtIns,
+      exclude: exclude.builtIns,
+      proposals,
+      shippedProposals,
+    });
+
+    if (providers.length) {
       plugins.push([
-        handlePolyfillImports,
+        injectPolyfillsPlugin,
         {
-          polyfillAction:
-            useBuiltIns === "usage"
-              ? "remove"
-              : corejs.major === 2
-              ? "replace"
-              : "warn",
-          removeRegenerator: useBuiltIns === "entry" && !regenerator,
-          debug,
+          method: useBuiltIns + "-global",
+          debug: debug
+            ? "#__secret_key__@babel/preset-env__don't_log_debug_header_and_resolved_targets"
+            : false,
+          targets,
+          providers,
         },
       ]);
-
-      if (useBuiltIns === "usage") {
-        if (corejs.major === 2) {
-          providers.push([
-            coreJS2PolyfillProvider,
-            {
-              include: include.builtIns,
-              exclude: exclude.builtIns,
-            },
-          ]);
-        } else {
-          providers.push([
-            coreJS3PolyfillProvider,
-            {
-              include: include.builtIns,
-              exclude: exclude.builtIns,
-              proposals,
-              shippedProposals,
-              version: corejs,
-            },
-          ]);
-        }
-        if (regenerator) {
-          providers.push(regeneratorPolyfillProvider);
-        }
-      } else if (useBuiltIns === "entry") {
-        if (corejs.major === 2) {
-          providers.push([
-            coreJS2PolyfillProvider,
-            {
-              include: include.builtIns,
-              exclude: exclude.builtIns,
-              "#__secret_key__@babel/preset-env__compatibility": {
-                entryInjectRegenerator: regenerator,
-              },
-            },
-          ]);
-        } else {
-          providers.push([
-            coreJS3PolyfillProvider,
-            {
-              include: include.builtIns,
-              exclude: exclude.builtIns,
-              proposals,
-              shippedProposals,
-              version: corejs,
-            },
-          ]);
-        }
-      }
-
-      if (providers.length) {
-        plugins.push([
-          injectPolyfillsPlugin,
-          {
-            method: useBuiltIns + "-global",
-            debug: debug
-              ? "#__secret_key__@babel/preset-env__don't_log_debug_header_and_resolved_targets"
-              : false,
-            targets,
-            providers,
-          },
-        ]);
-      }
     }
   }
 
   return { plugins };
 });
+
+function getPolyfillProviders({
+  useBuiltIns,
+  regenerator,
+  corejs,
+  include,
+  exclude,
+  proposals,
+  shippedProposals,
+}) {
+  const providers = [];
+
+  if (corejs.major === 2) {
+    providers.push([
+      coreJS2PolyfillProvider,
+      {
+        include,
+        exclude,
+        "#__secret_key__@babel/preset-env__compatibility":
+          useBuiltIns === "entry"
+            ? { entryInjectRegenerator: regenerator }
+            : undefined,
+      },
+    ]);
+  } else {
+    providers.push([
+      coreJS3PolyfillProvider,
+      {
+        include,
+        exclude,
+        proposals,
+        shippedProposals,
+        version: corejs,
+      },
+    ]);
+  }
+
+  if (useBuiltIns === "usage" && regenerator) {
+    providers.push(regeneratorPolyfillProvider);
+  }
+
+  return providers;
+}
