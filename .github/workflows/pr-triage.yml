@@ -1,0 +1,73 @@
+name: PR Triage
+
+on: pull_request
+
+jobs:
+  add_labels:
+    name: Add labels
+    runs-on: ubuntu-latest
+    steps:
+      # TODO: Get labels based on PR description
+      - name: Get labels based on modified files
+        id: labels
+        uses: babel/actions/get-modified-files-labels@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pull_number: ${{ github.event.pull_request.number }}
+          labels: >
+            {
+              "area: comments": "packages/babel-parser/src/parser/comments.js",
+              "area: estree": "packages/babel-parser/src/plugins/estree.js",
+              "area: flow": [
+                "packages/babel-parser/src/plugins/flow.js",
+                "packages/babel-plugin-transform-flow-*/src/**",
+                "packages/babel-preset-flow/src/**"
+              ],
+              "area: helpers": [
+                "babel/packages/babel-helpers/src/helpers.js",
+                "packages/babel-plugin-external-helpers/src/**"
+              ],
+              "area: jsx": [
+                "packages/babel-parser/src/plugins/jsx/**",
+                "packages/babel-plugin-transform-react-jsx/src/**"
+              ],
+              "area: modules": "packages/babel-plugin-transform-modules-*/src/**",
+              "area: react": [
+                "packages/babel-plugin-transform-react-!(jsx)/src/**",
+                "packages/babel-plugin-transform-react-jsx-*/src/**",
+                "packages/babel-preset-react/src/**"
+              ],
+              "area: test262": "scripts/tests/test262/test262_whitelist.txt",
+              "area: typescript": [
+                "packages/babel-parser/src/plugins/typescript/**",
+                "packages/babel-plugin-transform-typescript/src/**",
+                "packages/babel-preset-typescript/src/**"
+              ],
+
+              "pkg: cli": "packages/babel-cli/src/**",
+              "pkg: core": "packages/babel-core/src/**",
+              "pkg: generator": "packages/babel-generator/src/**",
+              "pkg: parser": "packages/babel-parser/src/**",
+              "pkg: polyfill": "packages/babel-polyfill/src/**",
+              "pkg: preset-env": "packages/babel-preset-env/src/**",
+              "pkg: register": "packages/babel-register/src/**",
+              "pkg: standalone": [
+                "packages/babel-standalone/src/**",
+                "packages/babel-preset-env-standalone/src/**"
+              ],
+              "pkg: template": "packages/babel-template/src/**",
+              "pkg: traverse (scope)": "packages/babel-traverse/src/scope/**",
+              "pkg: traverse": [
+                "packages/babel-traverse/src/*.js",
+                "packages/babel-traverse/src/!(scope)/**"
+              ],
+              "pkg: types": "packages/babel-types/src/**",
+
+              "PR: Docs :memo:": "**/*.md"
+            }
+      - name: Add labels
+        uses: babel/actions/add-labels@v2
+        with:
+          token: ${{ secrets.BOT_TOKEN }}
+          number: ${{ github.event.pull_request.number }}
+          labels: ${{ steps.labels.outputs.labels }}
