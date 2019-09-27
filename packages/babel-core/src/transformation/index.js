@@ -1,6 +1,7 @@
 // @flow
 import traverse from "@babel/traverse";
 import typeof { SourceMap } from "convert-source-map";
+import type { Handler } from "gensync";
 
 import type { ResolvedConfig, PluginPasses } from "../config";
 
@@ -11,8 +12,6 @@ import normalizeFile from "./normalize-file";
 
 import generateCode from "./file/generate";
 import type File from "./file/file";
-
-import aSync from "../a-sync";
 
 export type FileResultCallback = {
   (Error, null): any,
@@ -28,11 +27,11 @@ export type FileResult = {
 };
 
 // eslint-disable-next-line require-yield
-export const run = aSync<FileResult>(function* run(
+export function* run(
   config: ResolvedConfig,
   code: string,
   ast: ?(BabelNodeFile | BabelNodeProgram),
-) {
+): Handler<FileResult> {
   const file = normalizeFile(
     config.passes,
     normalizeOptions(config),
@@ -54,7 +53,7 @@ export const run = aSync<FileResult>(function* run(
     map: outputMap === undefined ? null : outputMap,
     sourceType: file.ast.program.sourceType,
   };
-});
+}
 
 function transformFile(file: File, pluginPasses: PluginPasses): void {
   for (const pluginPairs of pluginPasses) {

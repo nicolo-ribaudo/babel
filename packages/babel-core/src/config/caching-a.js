@@ -1,6 +1,6 @@
 // @flow
 
-import aSync, { type ASync } from "../a-sync";
+import gensync, { type Handler, type Gensync } from "gensync";
 import { CacheConfigurator } from "./caching";
 
 export type SimpleCacheConfigurator = SimpleCacheConfiguratorFn &
@@ -29,8 +29,8 @@ export type { CacheConfigurator };
  * configures its caching behavior. Cached values are stored strongly.
  */
 export function makeStrongCache<ArgT, ResultT, SideChannel>(
-  handler: ASync<ResultT> & ((ArgT, CacheConfigurator<SideChannel>) => any),
-): ASync<ResultT> {
+  handler: (ArgT, CacheConfigurator<SideChannel>) => Handler<ResultT>,
+): Gensync<[ArgT, SideChannel], ResultT> {
   return makeCachedFunction<ArgT, ResultT, SideChannel, *>(new Map(), handler);
 }
 
@@ -43,7 +43,9 @@ export function makeWeakCache<
   ArgT: {} | Array<*> | $ReadOnlyArray<*>,
   ResultT,
   SideChannel,
->(handler: ASync<ResultT> & ((ArgT, CacheConfigurator<SideChannel>) => any)) {
+>(
+  handler: (ArgT, CacheConfigurator<SideChannel>) => Handler<ResultT>,
+): Gensync<[ArgT, SideChannel], ResultT> {
   return makeCachedFunction<ArgT, ResultT, SideChannel, *>(
     new WeakMap(),
     handler,
@@ -62,9 +64,9 @@ function makeCachedFunction<
   Cache: CacheMap<ArgT, ResultT, SideChannel>,
 >(
   callCache: Cache,
-  handler: ASync<ResultT> & ((ArgT, CacheConfigurator<SideChannel>) => any),
-): ASync<ResultT> {
-  return aSync<ResultT>(function* cachedFunction(arg: ArgT, data, SideChannel) {
+  handler: (ArgT, CacheConfigurator<SideChannel>) => Handler<ResultT>,
+): Gensync<[ArgT, SideChannel], ResultT> {
+  return gensync(function* cachedFunction(arg: ArgT, data: SideChannel) {
     let cachedValue: CacheEntry<ResultT, SideChannel> | void = callCache.get(
       arg,
     );
@@ -77,7 +79,7 @@ function makeCachedFunction<
 
     const cache = new CacheConfigurator(data);
 
-    const value = yield handler(arg, cache);
+    const value = yield* handler(arg, cache);
 
     if (!cache.configured()) cache.forever();
 

@@ -21,7 +21,7 @@ export function findPackageData(filepath: string): FilePackageData {
   while (!pkg && path.basename(dirname) !== "node_modules") {
     directories.push(dirname);
 
-    pkg = readConfigPackage(path.join(dirname, PACKAGE_FILENAME));
+    pkg = readConfigPackage.sync(path.join(dirname, PACKAGE_FILENAME));
 
     const nextLoc = path.dirname(dirname);
     if (dirname === nextLoc) {
@@ -57,4 +57,4 @@ const readConfigPackage = makeStaticFileCache(
       options,
     };
   },
-).sync;
+);

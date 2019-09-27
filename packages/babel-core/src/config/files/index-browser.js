@@ -1,5 +1,7 @@
 // @flow
 
+import type { Handler } from "gensync";
+
 import type {
   ConfigFile,
   IgnoreFile,
@@ -9,17 +11,14 @@ import type {
 
 import type { CallerMetadata } from "../validation/options";
 
-import aSync from "../../a-sync";
-
 export type { ConfigFile, IgnoreFile, RelativeConfig, FilePackageData };
 
-/* eslint-disable require-yield, no-unused-vars */
-
-export const findConfigUpwards = aSync<string | null>(
-  function* findConfigUpwards(rootDir: string) {
-    return null;
-  },
-);
+// eslint-disable-next-line require-yield
+export function* findConfigUpwards(
+  rootDir: string, // eslint-disable-line no-unused-vars
+): Handler<string | null> {
+  return null;
+}
 
 export function findPackageData(filepath: string): FilePackageData {
   return {
@@ -30,11 +29,12 @@ export function findPackageData(filepath: string): FilePackageData {
   };
 }
 
-export function findRelativeConfig(
+// eslint-disable-next-line require-yield
+export function* findRelativeConfig(
   pkgData: FilePackageData, // eslint-disable-line no-unused-vars
   envName: string, // eslint-disable-line no-unused-vars
   caller: CallerMetadata | void, // eslint-disable-line no-unused-vars
-): RelativeConfig {
+): Handler<RelativeConfig> {
   return { pkg: null, config: null, ignore: null };
 }
 
@@ -46,14 +46,15 @@ export function findRootConfig(
   return null;
 }
 
-export const loadConfig = aSync<ConfigFile>(function loadConfig(
+// eslint-disable-next-line require-yield
+export function* loadConfig(
   name: string,
   dirname: string,
-  envName: string,
-  caller: CallerMetadata | void,
-) {
+  envName: string, // eslint-disable-line no-unused-vars
+  caller: CallerMetadata | void, // eslint-disable-line no-unused-vars
+): Handler<ConfigFile> {
   throw new Error(`Cannot load ${name} relative to ${dirname} in a browser`);
-});
+}
 
 // eslint-disable-next-line no-unused-vars
 export function resolvePlugin(name: string, dirname: string): string | null {

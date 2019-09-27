@@ -1,12 +1,13 @@
 // @flow
 
+import gensync from "gensync";
+
 import loadConfig, { type InputOptions, type ResolvedConfig } from "./config";
 import {
   run,
   type FileResult,
   type FileResultCallback,
 } from "./transformation";
-import aSync from "./a-sync";
 
 type AstRoot = BabelNodeFile | BabelNodeProgram;
 
@@ -24,17 +25,16 @@ type TransformFromAst = {
   (ast: AstRoot, code: string, opts: ?InputOptions): FileResult | null,
 };
 
-const transformFromAstRunner = aSync<FileResult | null>(function*(
-  ast: AstRoot,
-  code: string,
-  opts: ?InputOptions,
-) {
-  const config: ResolvedConfig | null = yield loadConfig(opts);
+const transformFromAstRunner = gensync<
+  [AstRoot, string, ?InputOptions],
+  FileResult | null,
+>(function*(ast, code, opts) {
+  const config: ResolvedConfig | null = yield* loadConfig(opts);
   if (config === null) return null;
 
   if (!ast) throw new Error("No AST given");
 
-  return yield run(config, code, ast);
+  return yield* run(config, code, ast);
 });
 
 export const transformFromAst: TransformFromAst = (function transformFromAst(
@@ -48,13 +48,13 @@ export const transformFromAst: TransformFromAst = (function transformFromAst(
     opts = undefined;
   }
 
-  const run = transformFromAstRunner(ast, code, opts);
-
   // For backward-compat with Babel 6, we allow sync transformation when
   // no callback is given. Will be dropped in some future Babel major version.
-  if (callback === undefined) return run.sync();
+  if (callback === undefined) {
+    return transformFromAstRunner.sync(ast, code, opts);
+  }
 
-  run.callback(callback);
+  transformFromAstRunner.errback(ast, code, opts, callback);
 }: Function);
 
 export const transformFromAstSync = transformFromAstRunner.sync;

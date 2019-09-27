@@ -2,6 +2,7 @@
 
 import path from "path";
 import buildDebug from "debug";
+import gensync, { type Handler } from "gensync";
 import {
   validate,
   type ValidatedOptions,
@@ -11,8 +12,6 @@ import {
   type CallerMetadata,
 } from "./validation/options";
 import pathPatternToRegex from "./pattern-to-regex";
-
-import aSync from "../a-sync";
 
 const debug = buildDebug("babel:config:config-chain");
 
@@ -131,106 +130,105 @@ export type RootConfigChain = ConfigChain & {
 /**
  * Build a config chain for Babel's full root configuration.
  */
-export const buildRootChain = aSync<RootConfigChain | null>(
-  function* buildRootChain(opts: ValidatedOptions, context: ConfigContext) {
-    const programmaticChain = loadProgrammaticChain(
-      {
-        options: opts,
-        dirname: context.cwd,
-      },
-      context,
-    );
-    if (!programmaticChain) return null;
+export function* buildRootChain(
+  opts: ValidatedOptions,
+  context: ConfigContext,
+): Handler<RootConfigChain | null> {
+  yield* [];
 
-    let configFile;
-    if (typeof opts.configFile === "string") {
-      configFile = yield loadConfig(
-        opts.configFile,
-        context.cwd,
-        context.envName,
-        context.caller,
-      );
-    } else if (opts.configFile !== false) {
-      configFile = findRootConfig(
-        context.root,
-        context.envName,
-        context.caller,
-      );
+  const programmaticChain = loadProgrammaticChain(
+    {
+      options: opts,
+      dirname: context.cwd,
+    },
+    context,
+  );
+  if (!programmaticChain) return null;
+
+  let configFile;
+  if (typeof opts.configFile === "string") {
+    configFile = yield* loadConfig(
+      opts.configFile,
+      context.cwd,
+      context.envName,
+      context.caller,
+    );
+  } else if (opts.configFile !== false) {
+    configFile = findRootConfig(context.root, context.envName, context.caller);
+  }
+
+  let { babelrc, babelrcRoots } = opts;
+  let babelrcRootsDirectory = context.cwd;
+
+  const configFileChain = emptyChain();
+  if (configFile) {
+    const validatedFile = validateConfigFile(configFile);
+    const result = loadFileChain(validatedFile, context);
+    if (!result) return null;
+
+    // Allow config files to toggle `.babelrc` resolution on and off and
+    // specify where the roots are.
+    if (babelrc === undefined) {
+      babelrc = validatedFile.options.babelrc;
+    }
+    if (babelrcRoots === undefined) {
+      babelrcRootsDirectory = validatedFile.dirname;
+      babelrcRoots = validatedFile.options.babelrcRoots;
     }
 
-    let { babelrc, babelrcRoots } = opts;
-    let babelrcRootsDirectory = context.cwd;
+    mergeChain(configFileChain, result);
+  }
 
-    const configFileChain = emptyChain();
-    if (configFile) {
-      const validatedFile = validateConfigFile(configFile);
-      const result = loadFileChain(validatedFile, context);
+  const pkgData =
+    typeof context.filename === "string"
+      ? findPackageData(context.filename)
+      : null;
+
+  let ignoreFile, babelrcFile;
+  const fileChain = emptyChain();
+  // resolve all .babelrc files
+  if (
+    (babelrc === true || babelrc === undefined) &&
+    pkgData &&
+    babelrcLoadEnabled(context, pkgData, babelrcRoots, babelrcRootsDirectory)
+  ) {
+    ({ ignore: ignoreFile, config: babelrcFile } = yield* findRelativeConfig(
+      pkgData,
+      context.envName,
+      context.caller,
+    ));
+
+    if (
+      ignoreFile &&
+      shouldIgnore(context, ignoreFile.ignore, null, ignoreFile.dirname)
+    ) {
+      return null;
+    }
+
+    if (babelrcFile) {
+      const result = loadFileChain(validateBabelrcFile(babelrcFile), context);
       if (!result) return null;
 
-      // Allow config files to toggle `.babelrc` resolution on and off and
-      // specify where the roots are.
-      if (babelrc === undefined) {
-        babelrc = validatedFile.options.babelrc;
-      }
-      if (babelrcRoots === undefined) {
-        babelrcRootsDirectory = validatedFile.dirname;
-        babelrcRoots = validatedFile.options.babelrcRoots;
-      }
-
-      mergeChain(configFileChain, result);
+      mergeChain(fileChain, result);
     }
+  }
 
-    const pkgData =
-      typeof context.filename === "string"
-        ? findPackageData(context.filename)
-        : null;
+  // Insert file chain in front so programmatic options have priority
+  // over configuration file chain items.
+  const chain = mergeChain(
+    mergeChain(mergeChain(emptyChain(), configFileChain), fileChain),
+    programmaticChain,
+  );
 
-    let ignoreFile, babelrcFile;
-    const fileChain = emptyChain();
-    // resolve all .babelrc files
-    if (
-      (babelrc === true || babelrc === undefined) &&
-      pkgData &&
-      babelrcLoadEnabled(context, pkgData, babelrcRoots, babelrcRootsDirectory)
-    ) {
-      ({ ignore: ignoreFile, config: babelrcFile } = yield findRelativeConfig(
-        pkgData,
-        context.envName,
-        context.caller,
-      ));
-
-      if (
-        ignoreFile &&
-        shouldIgnore(context, ignoreFile.ignore, null, ignoreFile.dirname)
-      ) {
-        return null;
-      }
-
-      if (babelrcFile) {
-        const result = loadFileChain(validateBabelrcFile(babelrcFile), context);
-        if (!result) return null;
-
-        mergeChain(fileChain, result);
-      }
-    }
-
-    // Insert file chain in front so programmatic options have priority
-    // over configuration file chain items.
-    const chain = mergeChain(
-      mergeChain(mergeChain(emptyChain(), configFileChain), fileChain),
-      programmaticChain,
-    );
-
-    return {
-      plugins: dedupDescriptors(chain.plugins),
-      presets: dedupDescriptors(chain.presets),
-      options: chain.options.map(o => normalizeOptions(o)),
-      ignore: ignoreFile || undefined,
-      babelrc: babelrcFile || undefined,
-      config: configFile || undefined,
-    };
-  },
-);
+  return {
+    plugins: dedupDescriptors(chain.plugins),
+    presets: dedupDescriptors(chain.presets),
+    options: chain.options.map(o => normalizeOptions(o)),
+    ignore: ignoreFile || undefined,
+    babelrc: babelrcFile || undefined,
+    config: configFile || undefined,
+  };
+}
 
 function babelrcLoadEnabled(
   context: ConfigContext,
@@ -460,7 +458,15 @@ function makeChainWalker<ArgT: { options: ValidatedOptions, dirname: string }>({
     const chain = emptyChain();
 
     for (const op of flattenedConfigs) {
-      if (!mergeExtendsChain(chain, op.options, dirname, context, files)) {
+      if (
+        !gensync<any, *>(mergeExtendsChain).sync(
+          chain,
+          op.options,
+          dirname,
+          context,
+          files,
+        )
+      ) {
         return null;
       }
 
@@ -470,16 +476,16 @@ function makeChainWalker<ArgT: { options: ValidatedOptions, dirname: string }>({
   };
 }
 
-function mergeExtendsChain(
+function* mergeExtendsChain(
   chain: ConfigChain,
   opts: ValidatedOptions,
   dirname: string,
   context: ConfigContext,
   files: Set<ConfigFile>,
-): boolean {
+): Handler<boolean> {
   if (opts.extends === undefined) return true;
 
-  const file = loadConfig.sync(
+  const file = yield* loadConfig(
     opts.extends,
     dirname,
     context.envName,

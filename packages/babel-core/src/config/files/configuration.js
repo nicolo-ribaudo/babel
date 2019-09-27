@@ -3,6 +3,7 @@
 import buildDebug from "debug";
 import path from "path";
 import json5 from "json5";
+import gensync, { type Handler } from "gensync";
 import { makeWeakCache } from "../caching";
 import { makeStrongCache, type CacheConfigurator } from "../caching-a";
 import makeAPI, { type PluginAPI } from "../helpers/config-api";
@@ -11,9 +12,8 @@ import pathPatternToRegex from "../pattern-to-regex";
 import type { FilePackageData, RelativeConfig, ConfigFile } from "./types";
 import type { CallerMetadata } from "../validation/options";
 
-import aSync from "../../a-sync";
-import * as fs from "../../a-sync/fs";
-import resolve from "../../a-sync/resolve";
+import * as fs from "../../gensync-utils/fs";
+import resolve from "../../gensync-utils/resolve";
 
 const debug = buildDebug("babel:config:loading:files:configuration");
 
@@ -23,90 +23,88 @@ const BABELRC_FILENAME = ".babelrc";
 const BABELRC_JS_FILENAME = ".babelrc.js";
 const BABELIGNORE_FILENAME = ".babelignore";
 
-export const findConfigUpwards = aSync<string | null>(
-  function* findConfigUpwards(rootDir: string) {
-    let dirname = rootDir;
-    while (true) {
-      if (yield fs.exists(path.join(dirname, BABEL_CONFIG_JS_FILENAME))) {
-        return dirname;
-      }
+export function* findConfigUpwards(rootDir: string): Handler<string | null> {
+  yield* [];
 
-      const nextDir = path.dirname(dirname);
-      if (dirname === nextDir) break;
-      dirname = nextDir;
+  let dirname = rootDir;
+  while (true) {
+    if (yield* fs.exists(path.join(dirname, BABEL_CONFIG_JS_FILENAME))) {
+      return dirname;
     }
 
-    return null;
-  },
-);
+    const nextDir = path.dirname(dirname);
+    if (dirname === nextDir) break;
+    dirname = nextDir;
+  }
 
-export const findRelativeConfig = aSync<RelativeConfig>(
-  function* findRelativeConfig(
-    packageData: FilePackageData,
-    envName: string,
-    caller: CallerMetadata | void,
-  ) {
-    if (0) yield;
+  return null;
+}
 
-    let config = null;
-    let ignore = null;
+export function* findRelativeConfig(
+  packageData: FilePackageData,
+  envName: string,
+  caller: CallerMetadata | void,
+): Handler<RelativeConfig> {
+  yield* [];
 
-    const dirname = path.dirname(packageData.filepath);
+  let config = null;
+  let ignore = null;
 
-    for (const loc of packageData.directories) {
-      if (!config) {
-        const filepath1 = path.join(loc, BABELRC_FILENAME);
-        const filepath2 = path.join(loc, BABELRC_JS_FILENAME);
+  const dirname = path.dirname(packageData.filepath);
 
-        const config1 = yield readConfig(filepath1, envName, caller);
-        const config2 = yield readConfig(filepath2, envName, caller);
+  for (const loc of packageData.directories) {
+    if (!config) {
+      const filepath1 = path.join(loc, BABELRC_FILENAME);
+      const filepath2 = path.join(loc, BABELRC_JS_FILENAME);
 
-        if (config1 && config2) {
+      const config1 = yield* readConfig(filepath1, envName, caller);
+      const config2 = yield* readConfig(filepath2, envName, caller);
+
+      if (config1 && config2) {
+        throw new Error(
+          `Multiple configuration files found. Please remove one:\n` +
+            ` - ${path.basename(config1.filepath)}\n` +
+            ` - ${BABELRC_JS_FILENAME}\n` +
+            `from ${loc}`,
+        );
+      }
+
+      config = config1 || config2;
+
+      const pkgConfig =
+        packageData.pkg && packageData.pkg.dirname === loc
+          ? packageToBabelConfig(packageData.pkg)
+          : null;
+
+      if (pkgConfig) {
+        if (config) {
           throw new Error(
             `Multiple configuration files found. Please remove one:\n` +
-              ` - ${path.basename(config1.filepath)}\n` +
-              ` - ${BABELRC_JS_FILENAME}\n` +
+              ` - ${path.basename(pkgConfig.filepath)}#babel\n` +
+              ` - ${path.basename(config.filepath)}\n` +
               `from ${loc}`,
           );
         }
-
-        config = config1 || config2;
-
-        const pkgConfig =
-          packageData.pkg && packageData.pkg.dirname === loc
-            ? packageToBabelConfig(packageData.pkg)
-            : null;
-
-        if (pkgConfig) {
-          if (config) {
-            throw new Error(
-              `Multiple configuration files found. Please remove one:\n` +
-                ` - ${path.basename(pkgConfig.filepath)}#babel\n` +
-                ` - ${path.basename(config.filepath)}\n` +
-                `from ${loc}`,
-            );
-          }
-          config = pkgConfig;
-        }
-
-        if (config) {
-          debug("Found configuration %o from %o.", config.filepath, dirname);
-        }
+        config = pkgConfig;
       }
 
-      if (!ignore) {
-        const ignoreLoc = path.join(loc, BABELIGNORE_FILENAME);
-        ignore = readIgnoreConfig(ignoreLoc);
-
-        if (ignore) {
-          debug("Found ignore %o from %o.", ignore.filepath, dirname);
-        }
+      if (config) {
+        debug("Found configuration %o from %o.", config.filepath, dirname);
       }
     }
 
-    return { config, ignore };
-  },
-);
+    if (!ignore) {
+      const ignoreLoc = path.join(loc, BABELIGNORE_FILENAME);
+      ignore = readIgnoreConfig.sync(ignoreLoc);
+
+      if (ignore) {
+        debug("Found ignore %o from %o.", ignore.filepath, dirname);
+      }
+    }
+  }
+
+  return { config, ignore };
+}
 
 export function findRootConfig(
   dirname: string,
@@ -115,35 +113,37 @@ export function findRootConfig(
 ): ConfigFile | null {
   const filepath = path.resolve(dirname, BABEL_CONFIG_JS_FILENAME);
 
-  const conf = readConfig(filepath, envName, caller).sync();
+  const conf = gensync<any, any>(function*() {
+    yield* readConfig(filepath, envName, caller);
+  }).sync();
   if (conf) {
     debug("Found root config %o in %o.", BABEL_CONFIG_JS_FILENAME, dirname);
   }
   return conf;
 }
 
-export const loadConfig = aSync<ConfigFile>(function* loadConfig(
+export function* loadConfig(
   name: string,
   dirname: string,
   envName: string,
   caller: CallerMetadata | void,
-) {
-  const filepath = yield resolve(name, { basedir: dirname });
+): Handler<ConfigFile> {
+  const filepath = yield* resolve(name, { basedir: dirname });
 
-  const conf = yield readConfig(filepath, envName, caller);
+  const conf = yield* readConfig(filepath, envName, caller);
   if (!conf) {
     throw new Error(`Config file ${filepath} contains no configuration data`);
   }
 
   debug("Loaded config %o from %o.", name, dirname);
   return conf;
-});
+}
 
 /**
  * Read the given config file, returning the result. Returns null if no config was found, but will
  * throw if there are parsing errors while loading a config.
  */
-function readConfig(filepath, envName, caller) {
+function readConfig(filepath: string, envName: string, caller) {
   return path.extname(filepath) === ".js"
     ? readConfigJS(filepath, { envName, caller })
     : readConfigJSON5(filepath);
@@ -151,79 +151,77 @@ function readConfig(filepath, envName, caller) {
 
 const LOADING_CONFIGS = new Set();
 
-const readConfigJS = makeStrongCache(
-  aSync<ConfigFile | null>(function* readConfigJS(
-    filepath: string,
-    cache: CacheConfigurator<{
-      envName: string,
-      caller: CallerMetadata | void,
-    }>,
-  ) {
-    if (!(yield fs.exists(filepath))) {
-      cache.forever();
-      return null;
-    }
+const readConfigJS = makeStrongCache(function* readConfigJS(
+  filepath: string,
+  cache: CacheConfigurator<{
+    envName: string,
+    caller: CallerMetadata | void,
+  }>,
+): Handler<ConfigFile | null> {
+  if (!(yield* fs.exists(filepath))) {
+    cache.forever();
+    return null;
+  }
 
-    // The `require()` call below can make this code reentrant if a require hook like @babel/register has been
-    // loaded into the system. That would cause Babel to attempt to compile the `.babelrc.js` file as it loads
-    // below. To cover this case, we auto-ignore re-entrant config processing.
-    if (LOADING_CONFIGS.has(filepath)) {
-      cache.never();
+  // The `require()` call below can make this code reentrant if a require hook like @babel/register has been
+  // loaded into the system. That would cause Babel to attempt to compile the `.babelrc.js` file as it loads
+  // below. To cover this case, we auto-ignore re-entrant config processing.
+  if (LOADING_CONFIGS.has(filepath)) {
+    cache.never();
 
-      debug("Auto-ignoring usage of config %o.", filepath);
-      return {
-        filepath,
-        dirname: path.dirname(filepath),
-        options: {},
-      };
-    }
-
-    let options;
-    try {
-      LOADING_CONFIGS.add(filepath);
-
-      // $FlowIssue
-      const configModule = (require(filepath): mixed);
-      options =
-        configModule && configModule.__esModule
-          ? configModule.default || undefined
-          : configModule;
-    } catch (err) {
-      err.message = `${filepath}: Error while loading config - ${err.message}`;
-      throw err;
-    } finally {
-      LOADING_CONFIGS.delete(filepath);
-    }
-
-    if (typeof options === "function") {
-      options = ((options: any): (api: PluginAPI) => {})(makeAPI(cache));
-
-      if (!cache.configured()) throwConfigError();
-    }
-
-    if (!options || typeof options !== "object" || Array.isArray(options)) {
-      throw new Error(
-        `${filepath}: Configuration should be an exported JavaScript object.`,
-      );
-    }
-
-    if (typeof options.then === "function") {
-      throw new Error(
-        `You appear to be using an async configuration, ` +
-          `which your current version of Babel does not support. ` +
-          `We may add support for this in the future, ` +
-          `but if you're on the most recent version of @babel/core and still ` +
-          `seeing this error, then you'll need to synchronously return your config.`,
-      );
-    }
-
+    debug("Auto-ignoring usage of config %o.", filepath);
     return {
       filepath,
       dirname: path.dirname(filepath),
-      options,
+      options: {},
     };
-  }),
-);
+  }
+
+  let options;
+  try {
+    LOADING_CONFIGS.add(filepath);
+
+    // $FlowIssue
+    const configModule = (require(filepath): mixed);
+    options =
+      configModule && configModule.__esModule
+        ? configModule.default || undefined
+        : configModule;
+  } catch (err) {
+    err.message = `${filepath}: Error while loading config - ${err.message}`;
+    throw err;
+  } finally {
+    LOADING_CONFIGS.delete(filepath);
+  }
+
+  if (typeof options === "function") {
+    options = ((options: any): (api: PluginAPI) => {})(makeAPI(cache));
+
+    if (!cache.configured()) throwConfigError();
+  }
+
+  if (!options || typeof options !== "object" || Array.isArray(options)) {
+    throw new Error(
+      `${filepath}: Configuration should be an exported JavaScript object.`,
+    );
+  }
+
+  if (typeof options.then === "function") {
+    throw new Error(
+      `You appear to be using an async configuration, ` +
+        `which your current version of Babel does not support. ` +
+        `We may add support for this in the future, ` +
+        `but if you're on the most recent version of @babel/core and still ` +
+        `seeing this error, then you'll need to synchronously return your config.`,
+    );
+  }
+
+  return {
+    filepath,
+    dirname: path.dirname(filepath),
+    options,
+  };
+});
 
 const packageToBabelConfig = makeWeakCache(
   (file: ConfigFile): ConfigFile | null => {
@@ -288,7 +286,7 @@ const readIgnoreConfig = makeStaticFileCache((filepath, content) => {
       pathPatternToRegex(pattern, ignoreDir),
     ),
   };
-}).sync;
+});
 
 function throwConfigError() {
   throw new Error(`\
