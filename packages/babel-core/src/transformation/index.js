@@ -26,7 +26,6 @@ export type FileResult = {
   map: SourceMap | null,
 };
 
-// eslint-disable-next-line require-yield
 export function* run(
   config: ResolvedConfig,
   code: string,
@@ -39,7 +38,7 @@ export function* run(
     ast,
   );
 
-  transformFile(file, config.passes);
+  yield* transformFile(file, config.passes);
 
   const opts = file.opts;
   const { outputCode, outputMap } =
@@ -55,7 +54,8 @@ export function* run(
   };
 }
 
-function transformFile(file: File, pluginPasses: PluginPasses): void {
+// eslint-disable-next-line require-yield
+function* transformFile(file: File, pluginPasses: PluginPasses): Handler<void> {
   for (const pluginPairs of pluginPasses) {
     const passPairs = [];
     const passes = [];
@@ -74,6 +74,7 @@ function transformFile(file: File, pluginPasses: PluginPasses): void {
       if (fn) {
         const result = fn.call(pass, file);
 
+        // ASYNC, if we want to allow async .pre
         if (isThenable(result)) {
           throw new Error(
             `You appear to be using an plugin with an async .pre, ` +
@@ -98,6 +99,7 @@ function transformFile(file: File, pluginPasses: PluginPasses): void {
       if (fn) {
         const result = fn.call(pass, file);
 
+        // ASYNC, if we want to allow async .post
         if (isThenable(result)) {
           throw new Error(
             `You appear to be using an plugin with an async .post, ` +
