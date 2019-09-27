@@ -13,8 +13,6 @@ export function makeStaticFileCache<T>(
     filepath: string,
     cache: CacheConfigurator<?void>,
   ) {
-    yield* [];
-
     if (cache.invalidate(() => fileMtime(filepath)) === null) {
       cache.forever();
       return null;

@@ -19,8 +19,6 @@ function* resolveRootMode(
   rootDir: string,
   rootMode: RootMode,
 ): Handler<string> {
-  yield* [];
-
   switch (rootMode) {
     case "root":
       return rootDir;

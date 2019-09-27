@@ -2,7 +2,7 @@
 
 import path from "path";
 import buildDebug from "debug";
-import gensync, { type Handler } from "gensync";
+import type { Handler } from "gensync";
 import {
   validate,
   type ValidatedOptions,
@@ -58,11 +58,11 @@ export type ConfigContext = {
 /**
  * Build a config chain for a given preset.
  */
-export function buildPresetChain(
+export function* buildPresetChain(
   arg: PresetInstance,
   context: *,
-): ConfigChain | null {
-  const chain = buildPresetChainWalker(arg, context);
+): Handler<ConfigChain | null> {
+  const chain = yield* buildPresetChainWalker(arg, context);
   if (!chain) return null;
 
   return {
@@ -134,9 +134,7 @@ export function* buildRootChain(
   opts: ValidatedOptions,
   context: ConfigContext,
 ): Handler<RootConfigChain | null> {
-  yield* [];
-
-  const programmaticChain = loadProgrammaticChain(
+  const programmaticChain = yield* loadProgrammaticChain(
     {
       options: opts,
       dirname: context.cwd,
@@ -154,7 +152,11 @@ export function* buildRootChain(
       context.caller,
     );
   } else if (opts.configFile !== false) {
-    configFile = findRootConfig(context.root, context.envName, context.caller);
+    configFile = yield* findRootConfig(
+      context.root,
+      context.envName,
+      context.caller,
+    );
   }
 
   let { babelrc, babelrcRoots } = opts;
@@ -163,7 +165,7 @@ export function* buildRootChain(
   const configFileChain = emptyChain();
   if (configFile) {
     const validatedFile = validateConfigFile(configFile);
-    const result = loadFileChain(validatedFile, context);
+    const result = yield* loadFileChain(validatedFile, context);
     if (!result) return null;
 
     // Allow config files to toggle `.babelrc` resolution on and off and
@@ -181,7 +183,7 @@ export function* buildRootChain(
 
   const pkgData =
     typeof context.filename === "string"
-      ? findPackageData(context.filename)
+      ? yield* findPackageData(context.filename)
       : null;
 
   let ignoreFile, babelrcFile;
@@ -206,7 +208,10 @@ export function* buildRootChain(
     }
 
     if (babelrcFile) {
-      const result = loadFileChain(validateBabelrcFile(babelrcFile), context);
+      const result = yield* loadFileChain(
+        validateBabelrcFile(babelrcFile),
+        context,
+      );
       if (!result) return null;
 
       mergeChain(fileChain, result);
@@ -413,8 +418,12 @@ function makeChainWalker<ArgT: { options: ValidatedOptions, dirname: string }>({
   env: (ArgT, string) => OptionsAndDescriptors | null,
   overrides: (ArgT, number) => OptionsAndDescriptors,
   overridesEnv: (ArgT, number, string) => OptionsAndDescriptors | null,
-}): (ArgT, ConfigContext, Set<ConfigFile> | void) => ConfigChain | null {
-  return (input, context, files = new Set()) => {
+}): (
+  ArgT,
+  ConfigContext,
+  Set<ConfigFile> | void,
+) => Handler<ConfigChain | null> {
+  return function*(input, context, files = new Set()) {
     const { dirname } = input;
 
     const flattenedConfigs = [];
@@ -459,13 +468,7 @@ function makeChainWalker<ArgT: { options: ValidatedOptions, dirname: string }>({
 
     for (const op of flattenedConfigs) {
       if (
-        !gensync<any, *>(mergeExtendsChain).sync(
-          chain,
-          op.options,
-          dirname,
-          context,
-          files,
-        )
+        !(yield* mergeExtendsChain(chain, op.options, dirname, context, files))
       ) {
         return null;
       }
@@ -501,7 +504,11 @@ function* mergeExtendsChain(
   }
 
   files.add(file);
-  const fileChain = loadFileChain(validateExtendFile(file), context, files);
+  const fileChain = yield* loadFileChain(
+    validateExtendFile(file),
+    context,
+    files,
+  );
   files.delete(file);
 
   if (!fileChain) return false;

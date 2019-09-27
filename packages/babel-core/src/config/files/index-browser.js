@@ -20,7 +20,8 @@ export function* findConfigUpwards(
   return null;
 }
 
-export function findPackageData(filepath: string): FilePackageData {
+// eslint-disable-next-line require-yield
+export function* findPackageData(filepath: string): Handler<FilePackageData> {
   return {
     filepath,
     directories: [],
@@ -38,11 +39,12 @@ export function* findRelativeConfig(
   return { pkg: null, config: null, ignore: null };
 }
 
-export function findRootConfig(
+// eslint-disable-next-line require-yield
+export function* findRootConfig(
   dirname: string, // eslint-disable-line no-unused-vars
   envName: string, // eslint-disable-line no-unused-vars
   caller: CallerMetadata | void, // eslint-disable-line no-unused-vars
-): ConfigFile | null {
+): Handler<ConfigFile | null> {
   return null;
 }
 

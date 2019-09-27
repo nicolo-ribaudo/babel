@@ -3,7 +3,7 @@
 import buildDebug from "debug";
 import path from "path";
 import json5 from "json5";
-import gensync, { type Handler } from "gensync";
+import type { Handler } from "gensync";
 import { makeWeakCache } from "../caching";
 import { makeStrongCache, type CacheConfigurator } from "../caching-a";
 import makeAPI, { type PluginAPI } from "../helpers/config-api";
@@ -24,8 +24,6 @@ const BABELRC_JS_FILENAME = ".babelrc.js";
 const BABELIGNORE_FILENAME = ".babelignore";
 
 export function* findConfigUpwards(rootDir: string): Handler<string | null> {
-  yield* [];
-
   let dirname = rootDir;
   while (true) {
     if (yield* fs.exists(path.join(dirname, BABEL_CONFIG_JS_FILENAME))) {
@@ -45,8 +43,6 @@ export function* findRelativeConfig(
   envName: string,
   caller: CallerMetadata | void,
 ): Handler<RelativeConfig> {
-  yield* [];
-
   let config = null;
   let ignore = null;
 
@@ -95,7 +91,7 @@ export function* findRelativeConfig(
 
     if (!ignore) {
       const ignoreLoc = path.join(loc, BABELIGNORE_FILENAME);
-      ignore = readIgnoreConfig.sync(ignoreLoc);
+      ignore = yield* readIgnoreConfig(ignoreLoc);
 
       if (ignore) {
         debug("Found ignore %o from %o.", ignore.filepath, dirname);
@@ -106,16 +102,16 @@ export function* findRelativeConfig(
   return { config, ignore };
 }
 
-export function findRootConfig(
+import gensync from "gensync";
+
+export function* findRootConfig(
   dirname: string,
   envName: string,
   caller: CallerMetadata | void,
-): ConfigFile | null {
+): Handler<ConfigFile | null> {
   const filepath = path.resolve(dirname, BABEL_CONFIG_JS_FILENAME);
 
-  const conf = gensync<any, any>(function*() {
-    yield* readConfig(filepath, envName, caller);
-  }).sync();
+  const conf = yield* gensync<any, any>(readConfig)(filepath, envName, caller);
   if (conf) {
     debug("Found root config %o in %o.", BABEL_CONFIG_JS_FILENAME, dirname);
   }
@@ -181,6 +177,7 @@ const readConfigJS = makeStrongCache(function* readConfigJS(
   try {
     LOADING_CONFIGS.add(filepath);
 
+    // ASYNC, if we want to allow mjs configs imported using `import()`
     // $FlowIssue
     const configModule = (require(filepath): mixed);
     options =
@@ -195,6 +192,7 @@ const readConfigJS = makeStrongCache(function* readConfigJS(
   }
 
   if (typeof options === "function") {
+    // ASYNC, if we want to make it possible to use async configs
     options = ((options: any): (api: PluginAPI) => {})(makeAPI(cache));
 
     if (!cache.configured()) throwConfigError();

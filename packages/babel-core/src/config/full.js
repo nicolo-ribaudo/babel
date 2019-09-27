@@ -65,7 +65,7 @@ export default gensync<[any], ResolvedConfig | null>(function* loadFullConfig(
       throw new Error("Assertion failure - plugins and presets exist");
     }
 
-    const ignored = (function recurseDescriptors(
+    const ignored = yield* (function* recurseDescriptors(
       config: {
         plugins: Array<UnloadedDescriptor>,
         presets: Array<UnloadedDescriptor>,
@@ -78,15 +78,16 @@ export default gensync<[any], ResolvedConfig | null>(function* loadFullConfig(
         }
         return acc;
       }, []);
-      const presets = config.presets.reduce((acc, descriptor) => {
+
+      const presets = [];
+      for (const descriptor of config.presets) {
         if (descriptor.options !== false) {
-          acc.push({
-            preset: loadPresetDescriptor(descriptor, context),
+          presets.push({
+            preset: yield* loadPresetDescriptor(descriptor, context),
             pass: descriptor.ownPass ? [] : pass,
           });
         }
-        return acc;
-      }, []);
+      }
 
       // resolve presets
       if (presets.length > 0) {
@@ -101,7 +102,7 @@ export default gensync<[any], ResolvedConfig | null>(function* loadFullConfig(
         for (const { preset, pass } of presets) {
           if (!preset) return true;
 
-          const ignored = recurseDescriptors(
+          const ignored = yield* recurseDescriptors(
             {
               plugins: preset.plugins,
               presets: preset.presets,
@@ -320,14 +321,14 @@ const validatePreset = (
 /**
  * Generate a config object that will act as the root of a new nested config.
  */
-const loadPresetDescriptor = (
+function* loadPresetDescriptor(
   descriptor: UnloadedDescriptor,
   context: ConfigContext,
-): ConfigChain | null => {
+): Handler<ConfigChain | null> {
   const preset = instantiatePreset(loadDescriptor(descriptor, context));
   validatePreset(preset, context, descriptor);
-  return buildPresetChain(preset, context);
-};
+  return yield* buildPresetChain(preset, context);
+}
 
 const instantiatePreset = makeWeakCache(
   ({ value, dirname, alias }: LoadedDescriptor): PresetInstance => {

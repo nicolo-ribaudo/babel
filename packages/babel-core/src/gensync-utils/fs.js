@@ -10,5 +10,5 @@ export const readFile = gensync<[string, "utf8"], string>({
 
 export const exists = gensync<[string], boolean>({
   sync: fs.existsSync,
-  errback: fs.exists,
+  errback: (path, cb) => fs.exists(path, res => cb(null, res)),
 });
