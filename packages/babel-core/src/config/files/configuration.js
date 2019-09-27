@@ -3,7 +3,7 @@
 import buildDebug from "debug";
 import path from "path";
 import json5 from "json5";
-import type { Handler } from "gensync";
+import gensync, { type Handler } from "gensync";
 import { makeWeakCache } from "../caching";
 import { makeStrongCache, type CacheConfigurator } from "../caching-a";
 import makeAPI, { type PluginAPI } from "../helpers/config-api";
@@ -50,22 +50,21 @@ export function* findRelativeConfig(
 
   for (const loc of packageData.directories) {
     if (!config) {
-      const filepath1 = path.join(loc, BABELRC_FILENAME);
-      const filepath2 = path.join(loc, BABELRC_JS_FILENAME);
+      const configs = yield* gensync.all([
+        readConfig(path.join(loc, BABELRC_FILENAME), envName, caller),
+        readConfig(path.join(loc, BABELRC_JS_FILENAME), envName, caller),
+      ]);
 
-      const config1 = yield* readConfig(filepath1, envName, caller);
-      const config2 = yield* readConfig(filepath2, envName, caller);
-
-      if (config1 && config2) {
+      if (configs[0] && configs[1]) {
         throw new Error(
           `Multiple configuration files found. Please remove one:\n` +
-            ` - ${path.basename(config1.filepath)}\n` +
+            ` - ${path.basename(configs[0].filepath)}\n` +
             ` - ${BABELRC_JS_FILENAME}\n` +
             `from ${loc}`,
         );
       }
 
-      config = config1 || config2;
+      config = configs[0] || configs[1];
 
       const pkgConfig =
         packageData.pkg && packageData.pkg.dirname === loc
@@ -102,8 +101,6 @@ export function* findRelativeConfig(
   return { config, ignore };
 }
 
-import gensync from "gensync";
-
 export function* findRootConfig(
   dirname: string,
   envName: string,
@@ -111,7 +108,7 @@ export function* findRootConfig(
 ): Handler<ConfigFile | null> {
   const filepath = path.resolve(dirname, BABEL_CONFIG_JS_FILENAME);
 
-  const conf = yield* gensync<any, any>(readConfig)(filepath, envName, caller);
+  const conf = yield* readConfig(filepath, envName, caller);
   if (conf) {
     debug("Found root config %o in %o.", BABEL_CONFIG_JS_FILENAME, dirname);
   }
