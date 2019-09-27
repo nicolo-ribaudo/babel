@@ -12,6 +12,8 @@ import normalizeFile from "./normalize-file";
 import generateCode from "./file/generate";
 import type File from "./file/file";
 
+import aSync from "../a-sync";
+
 export type FileResultCallback = {
   (Error, null): any,
   (null, FileResult | null): any,
@@ -25,29 +27,12 @@ export type FileResult = {
   map: SourceMap | null,
 };
 
-export function runAsync(
+// eslint-disable-next-line require-yield
+export const run = aSync<FileResult>(function* run(
   config: ResolvedConfig,
   code: string,
   ast: ?(BabelNodeFile | BabelNodeProgram),
-  callback: Function,
 ) {
-  let result;
-  try {
-    result = runSync(config, code, ast);
-  } catch (err) {
-    return callback(err);
-  }
-
-  // We don't actually care about calling this synchronously here because it is
-  // already running within a .nextTick handler from the transform calls above.
-  return callback(null, result);
-}
-
-export function runSync(
-  config: ResolvedConfig,
-  code: string,
-  ast: ?(BabelNodeFile | BabelNodeProgram),
-): FileResult {
   const file = normalizeFile(
     config.passes,
     normalizeOptions(config),
@@ -69,7 +54,7 @@ export function runSync(
     map: outputMap === undefined ? null : outputMap,
     sourceType: file.ast.program.sourceType,
   };
-}
+});
 
 function transformFile(file: File, pluginPasses: PluginPasses): void {
   for (const pluginPairs of pluginPasses) {

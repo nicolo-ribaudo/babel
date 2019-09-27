@@ -1,11 +1,11 @@
 // @flow
-import loadConfig, { type InputOptions } from "./config";
+import loadConfig, { type InputOptions, type ResolvedConfig } from "./config";
 import {
-  runSync,
-  runAsync,
+  run,
   type FileResult,
   type FileResultCallback,
 } from "./transformation";
+import aSync from "./a-sync";
 
 type Transform = {
   (code: string, callback: FileResultCallback): void,
@@ -16,52 +16,30 @@ type Transform = {
   (code: string, opts: ?InputOptions): FileResult | null,
 };
 
+const transformRunner = aSync<FileResult | null>(function* transform(
+  code: string,
+  opts: ?InputOptions,
+) {
+  const config: ResolvedConfig | null = yield loadConfig(opts);
+  if (config === null) return null;
+
+  return yield run(config, code);
+});
+
 export const transform: Transform = (function transform(code, opts, callback) {
   if (typeof opts === "function") {
     callback = opts;
     opts = undefined;
   }
 
+  const run = transformRunner(code, opts);
+
   // For backward-compat with Babel 6, we allow sync transformation when
   // no callback is given. Will be dropped in some future Babel major version.
-  if (callback === undefined) return transformSync(code, opts);
+  if (callback === undefined) return run.sync();
 
-  // Reassign to keep Flowtype happy.
-  const cb = callback;
-
-  // Just delaying the transform one tick for now to simulate async behavior
-  // but more async logic may land here eventually.
-  process.nextTick(() => {
-    let cfg;
-    try {
-      cfg = loadConfig(opts);
-      if (cfg === null) return cb(null, null);
-    } catch (err) {
-      return cb(err);
-    }
-
-    runAsync(cfg, code, null, cb);
-  });
+  run.callback(callback);
 }: Function);
 
-export function transformSync(
-  code: string,
-  opts: ?InputOptions,
-): FileResult | null {
-  const config = loadConfig(opts);
-  if (config === null) return null;
-
-  return runSync(config, code);
-}
-
-export function transformAsync(
-  code: string,
-  opts: ?InputOptions,
-): Promise<FileResult | null> {
-  return new Promise((res, rej) => {
-    transform(code, opts, (err, result) => {
-      if (err == null) res(result);
-      else rej(err);
-    });
-  });
-}
+export const transformSync = transformRunner.sync;
+export const transformAsync = transformRunner.async;

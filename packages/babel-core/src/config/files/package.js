@@ -57,4 +57,4 @@ const readConfigPackage = makeStaticFileCache(
       options,
     };
   },
-);
+).sync;

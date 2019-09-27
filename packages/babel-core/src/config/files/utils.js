@@ -1,24 +1,28 @@
 // @flow
 
-import fs from "fs";
-import { makeStrongCache } from "../caching";
+import nodeFs from "fs";
+import { makeStrongCache } from "../caching-a";
+import aSync, { type ASync } from "../../a-sync";
+import * as fs from "../../a-sync/fs";
 
 export function makeStaticFileCache<T>(
   fn: (string, string) => T,
-): string => T | null {
-  return makeStrongCache((filepath, cache) => {
-    if (cache.invalidate(() => fileMtime(filepath)) === null) {
-      cache.forever();
-      return null;
-    }
+): ASync<T | null> {
+  return makeStrongCache(
+    aSync<T | null>(function*(filepath, cache) {
+      if (cache.invalidate(() => fileMtime(filepath)) === null) {
+        cache.forever();
+        return null;
+      }
 
-    return fn(filepath, fs.readFileSync(filepath, "utf8"));
-  });
+      return fn(filepath, yield fs.readFile(filepath, "utf8"));
+    }),
+  );
 }
 
 function fileMtime(filepath: string): number | null {
   try {
-    return +fs.statSync(filepath).mtime;
+    return +nodeFs.statSync(filepath).mtime;
   } catch (e) {
     if (e.code !== "ENOENT" && e.code !== "ENOTDIR") throw e;
   }

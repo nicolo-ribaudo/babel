@@ -14,18 +14,23 @@ import {
 
 import { findConfigUpwards, type ConfigFile, type IgnoreFile } from "./files";
 
-function resolveRootMode(rootDir: string, rootMode: RootMode): string {
+import aSync from "../a-sync";
+
+const resolveRootMode = aSync<string>(function* resolveRootMode(
+  rootDir: string,
+  rootMode: RootMode,
+) {
   switch (rootMode) {
     case "root":
       return rootDir;
 
     case "upward-optional": {
-      const upwardRootDir = findConfigUpwards(rootDir);
+      const upwardRootDir = yield findConfigUpwards(rootDir);
       return upwardRootDir === null ? rootDir : upwardRootDir;
     }
 
     case "upward": {
-      const upwardRootDir = findConfigUpwards(rootDir);
+      const upwardRootDir = yield findConfigUpwards(rootDir);
       if (upwardRootDir !== null) return upwardRootDir;
 
       throw Object.assign(
@@ -42,88 +47,95 @@ function resolveRootMode(rootDir: string, rootMode: RootMode): string {
     default:
       throw new Error(`Assertion failure - unknown rootMode value`);
   }
-}
+});
 
-export default function loadPrivatePartialConfig(
-  inputOpts: mixed,
-): {
+type PrivPartialConfig = {
   options: ValidatedOptions,
   context: ConfigContext,
   ignore: IgnoreFile | void,
   babelrc: ConfigFile | void,
   config: ConfigFile | void,
-} | null {
-  if (
-    inputOpts != null &&
-    (typeof inputOpts !== "object" || Array.isArray(inputOpts))
-  ) {
-    throw new Error("Babel options must be an object, null, or undefined");
-  }
+};
 
-  const args = inputOpts ? validate("arguments", inputOpts) : {};
+const loadPrivatePartialConfig = aSync<PrivPartialConfig | null>(
+  function* loadPrivatePartialConfig(inputOpts: mixed) {
+    if (
+      inputOpts != null &&
+      (typeof inputOpts !== "object" || Array.isArray(inputOpts))
+    ) {
+      throw new Error("Babel options must be an object, null, or undefined");
+    }
 
-  const {
-    envName = getEnv(),
-    cwd = ".",
-    root: rootDir = ".",
-    rootMode = "root",
-    caller,
-  } = args;
-  const absoluteCwd = path.resolve(cwd);
-  const absoluteRootDir = resolveRootMode(
-    path.resolve(absoluteCwd, rootDir),
-    rootMode,
-  );
+    const args = inputOpts ? validate("arguments", inputOpts) : {};
 
-  const context: ConfigContext = {
-    filename:
-      typeof args.filename === "string"
-        ? path.resolve(cwd, args.filename)
-        : undefined,
-    cwd: absoluteCwd,
-    root: absoluteRootDir,
-    envName,
-    caller,
-  };
+    const {
+      envName = getEnv(),
+      cwd = ".",
+      root: rootDir = ".",
+      rootMode = "root",
+      caller,
+    } = args;
+    const absoluteCwd = path.resolve(cwd);
+    const absoluteRootDir = yield resolveRootMode(
+      path.resolve(absoluteCwd, rootDir),
+      rootMode,
+    );
 
-  const configChain = buildRootChain(args, context);
-  if (!configChain) return null;
+    const context: ConfigContext = {
+      filename:
+        typeof args.filename === "string"
+          ? path.resolve(cwd, args.filename)
+          : undefined,
+      cwd: absoluteCwd,
+      root: absoluteRootDir,
+      envName,
+      caller,
+    };
 
-  const options = {};
-  configChain.options.forEach(opts => {
-    mergeOptions(options, opts);
-  });
+    const configChain = yield buildRootChain(args, context);
+    if (!configChain) return null;
 
-  // Tack the passes onto the object itself so that, if this object is
-  // passed back to Babel a second time, it will be in the right structure
-  // to not change behavior.
-  options.babelrc = false;
-  options.configFile = false;
-  options.passPerPreset = false;
-  options.envName = context.envName;
-  options.cwd = context.cwd;
-  options.root = context.root;
-  options.filename =
-    typeof context.filename === "string" ? context.filename : undefined;
+    const options = {};
+    configChain.options.forEach(opts => {
+      mergeOptions(options, opts);
+    });
 
-  options.plugins = configChain.plugins.map(descriptor =>
-    createItemFromDescriptor(descriptor),
-  );
-  options.presets = configChain.presets.map(descriptor =>
-    createItemFromDescriptor(descriptor),
-  );
+    // Tack the passes onto the object itself so that, if this object is
+    // passed back to Babel a second time, it will be in the right structure
+    // to not change behavior.
+    options.babelrc = false;
+    options.configFile = false;
+    options.passPerPreset = false;
+    options.envName = context.envName;
+    options.cwd = context.cwd;
+    options.root = context.root;
+    options.filename =
+      typeof context.filename === "string" ? context.filename : undefined;
 
-  return {
-    options,
-    context,
-    ignore: configChain.ignore,
-    babelrc: configChain.babelrc,
-    config: configChain.config,
-  };
-}
+    options.plugins = configChain.plugins.map(descriptor =>
+      createItemFromDescriptor(descriptor),
+    );
+    options.presets = configChain.presets.map(descriptor =>
+      createItemFromDescriptor(descriptor),
+    );
 
-export function loadPartialConfig(inputOpts: mixed): PartialConfig | null {
-  const result = loadPrivatePartialConfig(inputOpts);
+    return {
+      options,
+      context,
+      ignore: configChain.ignore,
+      babelrc: configChain.babelrc,
+      config: configChain.config,
+    };
+  },
+);
+export { loadPrivatePartialConfig as default };
+
+export const loadPartialConfig = aSync<PartialConfig | null>(function*(
+  inputOpts: mixed,
+) {
+  if (0) yield;
+
+  const result: ?PrivPartialConfig = yield loadPrivatePartialConfig(inputOpts);
   if (!result) return null;
 
   const { options, babelrc, ignore, config } = result;
@@ -143,7 +155,7 @@ export function loadPartialConfig(inputOpts: mixed): PartialConfig | null {
     ignore ? ignore.filepath : undefined,
     config ? config.filepath : undefined,
   );
-}
+});
 
 export type { PartialConfig };
 

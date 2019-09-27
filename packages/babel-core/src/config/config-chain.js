@@ -12,6 +12,8 @@ import {
 } from "./validation/options";
 import pathPatternToRegex from "./pattern-to-regex";
 
+import aSync from "../a-sync";
+
 const debug = buildDebug("babel:config:config-chain");
 
 import {
@@ -129,103 +131,106 @@ export type RootConfigChain = ConfigChain & {
 /**
  * Build a config chain for Babel's full root configuration.
  */
-export function buildRootChain(
-  opts: ValidatedOptions,
-  context: ConfigContext,
-): RootConfigChain | null {
-  const programmaticChain = loadProgrammaticChain(
-    {
-      options: opts,
-      dirname: context.cwd,
-    },
-    context,
-  );
-  if (!programmaticChain) return null;
-
-  let configFile;
-  if (typeof opts.configFile === "string") {
-    configFile = loadConfig(
-      opts.configFile,
-      context.cwd,
-      context.envName,
-      context.caller,
+export const buildRootChain = aSync<RootConfigChain | null>(
+  function* buildRootChain(opts: ValidatedOptions, context: ConfigContext) {
+    const programmaticChain = loadProgrammaticChain(
+      {
+        options: opts,
+        dirname: context.cwd,
+      },
+      context,
     );
-  } else if (opts.configFile !== false) {
-    configFile = findRootConfig(context.root, context.envName, context.caller);
-  }
+    if (!programmaticChain) return null;
 
-  let { babelrc, babelrcRoots } = opts;
-  let babelrcRootsDirectory = context.cwd;
-
-  const configFileChain = emptyChain();
-  if (configFile) {
-    const validatedFile = validateConfigFile(configFile);
-    const result = loadFileChain(validatedFile, context);
-    if (!result) return null;
-
-    // Allow config files to toggle `.babelrc` resolution on and off and
-    // specify where the roots are.
-    if (babelrc === undefined) {
-      babelrc = validatedFile.options.babelrc;
-    }
-    if (babelrcRoots === undefined) {
-      babelrcRootsDirectory = validatedFile.dirname;
-      babelrcRoots = validatedFile.options.babelrcRoots;
+    let configFile;
+    if (typeof opts.configFile === "string") {
+      configFile = yield loadConfig(
+        opts.configFile,
+        context.cwd,
+        context.envName,
+        context.caller,
+      );
+    } else if (opts.configFile !== false) {
+      configFile = findRootConfig(
+        context.root,
+        context.envName,
+        context.caller,
+      );
     }
 
-    mergeChain(configFileChain, result);
-  }
+    let { babelrc, babelrcRoots } = opts;
+    let babelrcRootsDirectory = context.cwd;
 
-  const pkgData =
-    typeof context.filename === "string"
-      ? findPackageData(context.filename)
-      : null;
-
-  let ignoreFile, babelrcFile;
-  const fileChain = emptyChain();
-  // resolve all .babelrc files
-  if (
-    (babelrc === true || babelrc === undefined) &&
-    pkgData &&
-    babelrcLoadEnabled(context, pkgData, babelrcRoots, babelrcRootsDirectory)
-  ) {
-    ({ ignore: ignoreFile, config: babelrcFile } = findRelativeConfig(
-      pkgData,
-      context.envName,
-      context.caller,
-    ));
-
-    if (
-      ignoreFile &&
-      shouldIgnore(context, ignoreFile.ignore, null, ignoreFile.dirname)
-    ) {
-      return null;
-    }
-
-    if (babelrcFile) {
-      const result = loadFileChain(validateBabelrcFile(babelrcFile), context);
+    const configFileChain = emptyChain();
+    if (configFile) {
+      const validatedFile = validateConfigFile(configFile);
+      const result = loadFileChain(validatedFile, context);
       if (!result) return null;
 
-      mergeChain(fileChain, result);
+      // Allow config files to toggle `.babelrc` resolution on and off and
+      // specify where the roots are.
+      if (babelrc === undefined) {
+        babelrc = validatedFile.options.babelrc;
+      }
+      if (babelrcRoots === undefined) {
+        babelrcRootsDirectory = validatedFile.dirname;
+        babelrcRoots = validatedFile.options.babelrcRoots;
+      }
+
+      mergeChain(configFileChain, result);
     }
-  }
 
-  // Insert file chain in front so programmatic options have priority
-  // over configuration file chain items.
-  const chain = mergeChain(
-    mergeChain(mergeChain(emptyChain(), configFileChain), fileChain),
-    programmaticChain,
-  );
+    const pkgData =
+      typeof context.filename === "string"
+        ? findPackageData(context.filename)
+        : null;
 
-  return {
-    plugins: dedupDescriptors(chain.plugins),
-    presets: dedupDescriptors(chain.presets),
-    options: chain.options.map(o => normalizeOptions(o)),
-    ignore: ignoreFile || undefined,
-    babelrc: babelrcFile || undefined,
-    config: configFile || undefined,
-  };
-}
+    let ignoreFile, babelrcFile;
+    const fileChain = emptyChain();
+    // resolve all .babelrc files
+    if (
+      (babelrc === true || babelrc === undefined) &&
+      pkgData &&
+      babelrcLoadEnabled(context, pkgData, babelrcRoots, babelrcRootsDirectory)
+    ) {
+      ({ ignore: ignoreFile, config: babelrcFile } = yield findRelativeConfig(
+        pkgData,
+        context.envName,
+        context.caller,
+      ));
+
+      if (
+        ignoreFile &&
+        shouldIgnore(context, ignoreFile.ignore, null, ignoreFile.dirname)
+      ) {
+        return null;
+      }
+
+      if (babelrcFile) {
+        const result = loadFileChain(validateBabelrcFile(babelrcFile), context);
+        if (!result) return null;
+
+        mergeChain(fileChain, result);
+      }
+    }
+
+    // Insert file chain in front so programmatic options have priority
+    // over configuration file chain items.
+    const chain = mergeChain(
+      mergeChain(mergeChain(emptyChain(), configFileChain), fileChain),
+      programmaticChain,
+    );
+
+    return {
+      plugins: dedupDescriptors(chain.plugins),
+      presets: dedupDescriptors(chain.presets),
+      options: chain.options.map(o => normalizeOptions(o)),
+      ignore: ignoreFile || undefined,
+      babelrc: babelrcFile || undefined,
+      config: configFile || undefined,
+    };
+  },
+);
 
 function babelrcLoadEnabled(
   context: ConfigContext,
@@ -474,7 +479,7 @@ function mergeExtendsChain(
 ): boolean {
   if (opts.extends === undefined) return true;
 
-  const file = loadConfig(
+  const file = loadConfig.sync(
     opts.extends,
     dirname,
     context.envName,

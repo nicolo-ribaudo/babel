@@ -1,12 +1,12 @@
 // @flow
 
-import loadConfig, { type InputOptions } from "./config";
+import loadConfig, { type InputOptions, type ResolvedConfig } from "./config";
 import {
-  runSync,
-  runAsync,
+  run,
   type FileResult,
   type FileResultCallback,
 } from "./transformation";
+import aSync from "./a-sync";
 
 type AstRoot = BabelNodeFile | BabelNodeProgram;
 
@@ -24,6 +24,19 @@ type TransformFromAst = {
   (ast: AstRoot, code: string, opts: ?InputOptions): FileResult | null,
 };
 
+const transformFromAstRunner = aSync<FileResult | null>(function*(
+  ast: AstRoot,
+  code: string,
+  opts: ?InputOptions,
+) {
+  const config: ResolvedConfig | null = yield loadConfig(opts);
+  if (config === null) return null;
+
+  if (!ast) throw new Error("No AST given");
+
+  return yield run(config, code, ast);
+});
+
 export const transformFromAst: TransformFromAst = (function transformFromAst(
   ast,
   code,
@@ -35,52 +48,14 @@ export const transformFromAst: TransformFromAst = (function transformFromAst(
     opts = undefined;
   }
 
+  const run = transformFromAstRunner(ast, code, opts);
+
   // For backward-compat with Babel 6, we allow sync transformation when
   // no callback is given. Will be dropped in some future Babel major version.
-  if (callback === undefined) return transformFromAstSync(ast, code, opts);
+  if (callback === undefined) return run.sync();
 
-  // Reassign to keep Flowtype happy.
-  const cb = callback;
-
-  // Just delaying the transform one tick for now to simulate async behavior
-  // but more async logic may land here eventually.
-  process.nextTick(() => {
-    let cfg;
-    try {
-      cfg = loadConfig(opts);
-      if (cfg === null) return cb(null, null);
-    } catch (err) {
-      return cb(err);
-    }
-
-    if (!ast) return cb(new Error("No AST given"));
-
-    runAsync(cfg, code, ast, cb);
-  });
+  run.callback(callback);
 }: Function);
 
-export function transformFromAstSync(
-  ast: AstRoot,
-  code: string,
-  opts: ?InputOptions,
-): FileResult | null {
-  const config = loadConfig(opts);
-  if (config === null) return null;
-
-  if (!ast) throw new Error("No AST given");
-
-  return runSync(config, code, ast);
-}
-
-export function transformFromAstAsync(
-  ast: AstRoot,
-  code: string,
-  opts: ?InputOptions,
-): Promise<FileResult | null> {
-  return new Promise((res, rej) => {
-    transformFromAst(ast, code, opts, (err, result) => {
-      if (err == null) res(result);
-      else rej(err);
-    });
-  });
-}
+export const transformFromAstSync = transformFromAstRunner.sync;
+export const transformFromAstAsync = transformFromAstRunner.async;

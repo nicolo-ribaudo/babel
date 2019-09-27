@@ -9,13 +9,17 @@ import type {
 
 import type { CallerMetadata } from "../validation/options";
 
+import aSync from "../../a-sync";
+
 export type { ConfigFile, IgnoreFile, RelativeConfig, FilePackageData };
 
-export function findConfigUpwards(
-  rootDir: string, // eslint-disable-line no-unused-vars
-): string | null {
-  return null;
-}
+/* eslint-disable require-yield, no-unused-vars */
+
+export const findConfigUpwards = aSync<string | null>(
+  function* findConfigUpwards(rootDir: string) {
+    return null;
+  },
+);
 
 export function findPackageData(filepath: string): FilePackageData {
   return {
@@ -42,14 +46,14 @@ export function findRootConfig(
   return null;
 }
 
-export function loadConfig(
+export const loadConfig = aSync<ConfigFile>(function loadConfig(
   name: string,
   dirname: string,
-  envName: string, // eslint-disable-line no-unused-vars
-  caller: CallerMetadata | void, // eslint-disable-line no-unused-vars
-): ConfigFile {
+  envName: string,
+  caller: CallerMetadata | void,
+) {
   throw new Error(`Cannot load ${name} relative to ${dirname} in a browser`);
-}
+});
 
 // eslint-disable-next-line no-unused-vars
 export function resolvePlugin(name: string, dirname: string): string | null {

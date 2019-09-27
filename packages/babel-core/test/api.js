@@ -162,7 +162,7 @@ describe("api", function() {
     expect(babel.tokTypes).toBeDefined();
   });
 
-  it("transformFile", function(done) {
+  it.only("transformFile", function(done) {
     const options = {
       babelrc: false,
     };

@@ -20,6 +20,8 @@ import makeAPI from "./helpers/config-api";
 import loadPrivatePartialConfig from "./partial";
 import type { ValidatedOptions } from "./validation/options";
 
+import aSync from "../a-sync";
+
 type LoadedDescriptor = {
   value: {},
   options: {},
@@ -45,10 +47,10 @@ type SimpleContext = {
   caller: CallerMetadata | void,
 };
 
-export default function loadFullConfig(
+const loadFullConfig = aSync<ResolvedConfig | null>(function* loadFullConfig(
   inputOpts: mixed,
-): ResolvedConfig | null {
-  const result = loadPrivatePartialConfig(inputOpts);
+) {
+  const result = yield loadPrivatePartialConfig(inputOpts);
   if (!result) {
     return null;
   }
@@ -165,7 +167,8 @@ export default function loadFullConfig(
     options: opts,
     passes: passes,
   };
-}
+});
+export { loadFullConfig as default };
 
 /**
  * Load a generic plugin/preset from the given descriptor loaded from the config object.

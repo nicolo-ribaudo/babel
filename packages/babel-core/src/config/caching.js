@@ -19,8 +19,6 @@ type CacheEntry<ResultT, SideChannel> = Array<{
   valid: SideChannel => boolean,
 }>;
 
-export type { CacheConfigurator };
-
 /**
  * Given a function with a single argument, cache its results based on its argument and how it
  * configures its caching behavior. Cached values are stored strongly.
@@ -101,7 +99,7 @@ function makeCachedFunction<
   };
 }
 
-class CacheConfigurator<SideChannel = void> {
+export class CacheConfigurator<SideChannel = void> {
   _active: boolean = true;
   _never: boolean = false;
   _forever: boolean = false;
