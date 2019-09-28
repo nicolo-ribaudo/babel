@@ -1,0 +1,3 @@
+{
+  "throws": "You appear to be using an plugin with an async .pre, but Babel has been called synchronously."
+}

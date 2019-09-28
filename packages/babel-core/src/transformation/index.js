@@ -3,6 +3,8 @@ import traverse from "@babel/traverse";
 import typeof { SourceMap } from "convert-source-map";
 import type { Handler } from "gensync";
 
+import maybeAsync from "../gensync-utils/maybe-async";
+
 import type { ResolvedConfig, PluginPasses } from "../config";
 
 import PluginPass from "./plugin-pass";
@@ -72,17 +74,11 @@ function* transformFile(file: File, pluginPasses: PluginPasses): Handler<void> {
     for (const [plugin, pass] of passPairs) {
       const fn = plugin.pre;
       if (fn) {
-        const result = fn.call(pass, file);
-
-        // ASYNC, if we want to allow async .pre
-        if (isThenable(result)) {
-          throw new Error(
-            `You appear to be using an plugin with an async .pre, ` +
-              `which your current version of Babel does not support. ` +
-              `If you're using a published plugin, you may need to upgrade ` +
-              `your @babel/core version.`,
-          );
-        }
+        yield* maybeAsync(
+          fn,
+          `You appear to be using an plugin with an async .pre, ` +
+            `but Babel has been called synchronously.`,
+        ).call(pass, file);
       }
     }
 
@@ -97,27 +93,12 @@ function* transformFile(file: File, pluginPasses: PluginPasses): Handler<void> {
     for (const [plugin, pass] of passPairs) {
       const fn = plugin.post;
       if (fn) {
-        const result = fn.call(pass, file);
-
-        // ASYNC, if we want to allow async .post
-        if (isThenable(result)) {
-          throw new Error(
-            `You appear to be using an plugin with an async .post, ` +
-              `which your current version of Babel does not support. ` +
-              `If you're using a published plugin, you may need to upgrade ` +
-              `your @babel/core version.`,
-          );
-        }
+        yield* maybeAsync(
+          fn,
+          `You appear to be using an plugin with an async .post, ` +
+            `but Babel has been called synchronously.`,
+        ).call(pass, file);
       }
     }
   }
-}
-
-function isThenable(val: mixed): boolean {
-  return (
-    !!val &&
-    (typeof val === "object" || typeof val === "function") &&
-    !!val.then &&
-    typeof val.then === "function"
-  );
 }
