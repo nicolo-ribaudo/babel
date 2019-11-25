@@ -1,17 +1,19 @@
 #!/bin/sh
 set -ex
 
-BROWSERIFY_CMD="../../node_modules/browserify/bin/cmd.js"
-UGLIFY_CMD="../../node_modules/uglify-js/bin/uglifyjs"
+BROWSERIFY_CMD="../../node_modules/.bin/browserify"
+UGLIFY_CMD="../../node_modules/.bin/uglify"
 
 mkdir -p dist
 
-node $BROWSERIFY_CMD lib/index.js \
+cd ../..
+
+yarn browserify packages/babel-polyfill/lib/index.js \
   --insert-global-vars 'global' \
   --plugin bundle-collapser/plugin \
   --plugin derequire/plugin \
-  >dist/polyfill.js
-node $UGLIFY_CMD dist/polyfill.js \
+  > packages/babel-polyfill/dist/polyfill.js
+yarn uglifyjs packages/babel-polyfill/dist/polyfill.js \
   --compress keep_fnames,keep_fargs \
   --mangle keep_fnames \
-  >dist/polyfill.min.js
+  > packages/babel-polyfill/dist/polyfill.min.js

@@ -9,8 +9,8 @@
   },
   "main": "lib/index.js",
   "dependencies": {
-    "@babel/helper-get-function-arity": "^7.7.4",
-    "@babel/template": "^7.7.4",
-    "@babel/types": "^7.7.4"
+    "@babel/helper-get-function-arity": "workspace:*",
+    "@babel/template": "workspace:*",
+    "@babel/types": "workspace:*"
   }
 }

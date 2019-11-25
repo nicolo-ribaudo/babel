@@ -9,7 +9,7 @@
   },
   "main": "lib/index.js",
   "dependencies": {
-    "@babel/traverse": "^7.7.4",
-    "@babel/types": "^7.7.4"
+    "@babel/traverse": "workspace:*",
+    "@babel/types": "workspace:*"
   }
 }

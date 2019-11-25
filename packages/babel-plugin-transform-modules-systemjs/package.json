@@ -9,8 +9,8 @@
   },
   "main": "lib/index.js",
   "dependencies": {
-    "@babel/helper-hoist-variables": "^7.7.4",
-    "@babel/helper-plugin-utils": "^7.0.0",
+    "@babel/helper-hoist-variables": "workspace:*",
+    "@babel/helper-plugin-utils": "workspace:*",
     "babel-plugin-dynamic-import-node": "^2.3.0"
   },
   "keywords": [
@@ -20,8 +20,8 @@
     "@babel/core": "^7.0.0-0"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.4",
-    "@babel/helper-plugin-test-runner": "^7.7.4",
-    "@babel/plugin-syntax-dynamic-import": "^7.7.4"
+    "@babel/core": "workspace:*",
+    "@babel/helper-plugin-test-runner": "workspace:*",
+    "@babel/plugin-syntax-dynamic-import": "workspace:*"
   }
 }

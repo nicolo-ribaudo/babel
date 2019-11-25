@@ -12,14 +12,14 @@
     "babel-plugin"
   ],
   "dependencies": {
-    "@babel/helper-plugin-utils": "^7.0.0",
-    "@babel/plugin-syntax-export-namespace-from": "^7.7.4"
+    "@babel/helper-plugin-utils": "workspace:*",
+    "@babel/plugin-syntax-export-namespace-from": "workspace:*"
   },
   "peerDependencies": {
     "@babel/core": "^7.0.0-0"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.4",
-    "@babel/helper-plugin-test-runner": "^7.7.4"
+    "@babel/core": "workspace:*",
+    "@babel/helper-plugin-test-runner": "workspace:*"
   }
 }

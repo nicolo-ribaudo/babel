@@ -35,8 +35,8 @@
     "@babel/core": "^7.0.0-0"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.4",
-    "@babel/helper-fixtures": "^7.6.3"
+    "@babel/core": "workspace:*",
+    "@babel/helper-fixtures": "workspace:*"
   },
   "bin": {
     "babel": "./bin/babel.js",

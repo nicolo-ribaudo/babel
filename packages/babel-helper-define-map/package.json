@@ -9,8 +9,8 @@
   },
   "main": "lib/index.js",
   "dependencies": {
-    "@babel/helper-function-name": "^7.7.4",
-    "@babel/types": "^7.7.4",
+    "@babel/helper-function-name": "workspace:*",
+    "@babel/types": "workspace:*",
     "lodash": "^4.17.13"
   }
 }

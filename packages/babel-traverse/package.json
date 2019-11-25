@@ -11,17 +11,17 @@
   "repository": "https://github.com/babel/babel/tree/master/packages/babel-traverse",
   "main": "lib/index.js",
   "dependencies": {
-    "@babel/code-frame": "^7.5.5",
-    "@babel/generator": "^7.7.4",
-    "@babel/helper-function-name": "^7.7.4",
-    "@babel/helper-split-export-declaration": "^7.7.4",
-    "@babel/parser": "^7.7.4",
-    "@babel/types": "^7.7.4",
+    "@babel/code-frame": "workspace:*",
+    "@babel/generator": "workspace:*",
+    "@babel/helper-function-name": "workspace:*",
+    "@babel/helper-split-export-declaration": "workspace:*",
+    "@babel/parser": "workspace:*",
+    "@babel/types": "workspace:*",
     "debug": "^4.1.0",
     "globals": "^11.1.0",
     "lodash": "^4.17.13"
   },
   "devDependencies": {
-    "@babel/helper-plugin-test-runner": "^7.7.4"
+    "@babel/helper-plugin-test-runner": "workspace:*"
   }
 }

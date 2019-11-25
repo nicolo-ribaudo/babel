@@ -12,8 +12,8 @@
     "babel-plugin"
   ],
   "dependencies": {
-    "@babel/helper-module-imports": "^7.7.4",
-    "@babel/helper-plugin-utils": "^7.0.0",
+    "@babel/helper-module-imports": "workspace:*",
+    "@babel/helper-plugin-utils": "workspace:*",
     "resolve": "^1.8.1",
     "semver": "^5.5.1"
   },
@@ -21,12 +21,13 @@
     "@babel/core": "^7.0.0-0"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.4",
-    "@babel/helper-plugin-test-runner": "^7.7.4",
-    "@babel/helpers": "^7.7.4",
-    "@babel/preset-env": "^7.7.4",
-    "@babel/runtime": "^7.7.4",
-    "@babel/template": "^7.7.4",
-    "@babel/types": "^7.7.4"
+    "@babel/core": "workspace:*",
+    "@babel/helper-plugin-test-runner": "workspace:*",
+    "@babel/helpers": "workspace:*",
+    "@babel/preset-env": "workspace:*",
+    "@babel/runtime": "workspace:*",
+    "@babel/template": "workspace:*",
+    "@babel/types": "workspace:*",
+    "output-file-sync": "^2.0.1"
   }
 }

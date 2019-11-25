@@ -17,7 +17,8 @@
     "to-fast-properties": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/generator": "^7.7.4",
-    "@babel/parser": "^7.7.4"
+    "@babel/generator": "workspace:*",
+    "@babel/parser": "workspace:*",
+    "chalk": "^3.0.0"
   }
 }

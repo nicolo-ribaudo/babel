@@ -33,18 +33,18 @@ build-bundle-ci: bootstrap-only
 	$(MAKE) build-bundle
 
 generate-standalone:
-	node packages/babel-standalone/scripts/generate.js
+	yarn node packages/babel-standalone/scripts/generate.js
 
 generate-type-helpers:
-	node packages/babel-types/scripts/generateTypeHelpers.js
+	yarn node packages/babel-types/scripts/generateTypeHelpers.js
 
 build-typings: build-flow-typings build-typescript-typings
 
 build-flow-typings:
-	node packages/babel-types/scripts/generators/flow.js > packages/babel-types/lib/index.js.flow
+	yarn node packages/babel-types/scripts/generators/flow.js > packages/babel-types/lib/index.js.flow
 
 build-typescript-typings:
-	node packages/babel-types/scripts/generators/typescript.js > packages/babel-types/lib/index.d.ts
+	yarn node packages/babel-types/scripts/generators/typescript.js > packages/babel-types/lib/index.d.ts
 
 build-standalone: build-babel-standalone build-preset-env-standalone
 
@@ -71,7 +71,7 @@ build-polyfill-dist:
 
 build-plugin-transform-runtime-dist:
 	cd packages/babel-plugin-transform-runtime; \
-	node scripts/build-dist.js
+	yarn node scripts/build-dist.js
 
 build-no-bundle: clean clean-lib
 	BABEL_ENV=development yarn gulp build-no-bundle
@@ -159,13 +159,13 @@ bootstrap-flow:
 	cd build/flow && git checkout $(FLOW_COMMIT)
 
 test-flow:
-	node scripts/tests/flow/run_babel_parser_flow_tests.js
+	yarn node scripts/tests/flow/run_babel_parser_flow_tests.js
 
 test-flow-ci: build-bundle-ci bootstrap-flow
 	$(MAKE) test-flow
 
 test-flow-update-whitelist:
-	node scripts/tests/flow/run_babel_parser_flow_tests.js --update-whitelist
+	yarn node scripts/tests/flow/run_babel_parser_flow_tests.js --update-whitelist
 
 bootstrap-test262:
 	rm -rf build/test262
@@ -174,13 +174,13 @@ bootstrap-test262:
 	cd build/test262 && git checkout $(TEST262_COMMIT)
 
 test-test262:
-	node scripts/tests/test262/run_babel_parser_test262.js
+	yarn node scripts/tests/test262/run_babel_parser_test262.js
 
 test-test262-ci: build-bundle-ci bootstrap-test262
 	$(MAKE) test-test262
 
 test-test262-update-whitelist:
-	node scripts/tests/test262/run_babel_parser_test262.js --update-whitelist
+	yarn node scripts/tests/test262/run_babel_parser_test262.js --update-whitelist
 
 # Does not work on Windows
 clone-license:
@@ -284,7 +284,7 @@ define clean-source-all
 endef
 
 define set-json-field
-	node -e "\
+	yarn node -e "\
 		require('fs').writeFileSync('$1'.trim(), \
 			JSON.stringify({ ...require('$1'.trim()), $2: $3 }, null, 2) + '\\n' \
 		)"

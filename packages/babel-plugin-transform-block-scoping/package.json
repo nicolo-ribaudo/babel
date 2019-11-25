@@ -9,7 +9,7 @@
   },
   "main": "lib/index.js",
   "dependencies": {
-    "@babel/helper-plugin-utils": "^7.0.0",
+    "@babel/helper-plugin-utils": "workspace:*",
     "lodash": "^4.17.13"
   },
   "keywords": [
@@ -19,7 +19,7 @@
     "@babel/core": "^7.0.0-0"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.4",
-    "@babel/helper-plugin-test-runner": "^7.7.4"
+    "@babel/core": "workspace:*",
+    "@babel/helper-plugin-test-runner": "workspace:*"
   }
 }

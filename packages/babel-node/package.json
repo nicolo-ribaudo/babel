@@ -19,7 +19,7 @@
     "compiler"
   ],
   "dependencies": {
-    "@babel/register": "^7.7.4",
+    "@babel/register": "workspace:*",
     "commander": "^2.8.1",
     "core-js": "^3.2.1",
     "lodash": "^4.17.13",
@@ -31,8 +31,8 @@
     "@babel/core": "^7.0.0-0"
   },
   "devDependencies": {
-    "@babel/core": "^7.7.4",
-    "@babel/helper-fixtures": "^7.6.3",
+    "@babel/core": "workspace:*",
+    "@babel/helper-fixtures": "workspace:*",
     "fs-readdir-recursive": "^1.0.0",
     "make-dir": "^2.1.0"
   },
