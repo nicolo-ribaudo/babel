@@ -233,7 +233,7 @@ publish-eslint:
 bootstrap-only: lerna-bootstrap
 
 yarn-install: clean-all
-	yarn --ignore-engines
+	yarn
 
 lerna-bootstrap: yarn-install
 
