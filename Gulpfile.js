@@ -155,7 +155,7 @@ function buildRollup(packages) {
               rollupCommonJs({
                 include: [/node_modules/, "packages/babel-preset-env/data/**"],
                 namedExports: {
-                  "babel-plugin-dynamic-import-node/utils.js": [
+                  ".yarn/cache/babel-plugin-dynamic-import-node-npm-2.3.0-b3a9e1a67e-1.zip/node_modules/babel-plugin-dynamic-import-node/utils.js": [
                     "createDynamicImportTransform",
                     "getImportSource",
                   ],
