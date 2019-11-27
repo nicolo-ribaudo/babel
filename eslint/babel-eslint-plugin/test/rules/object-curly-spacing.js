@@ -424,12 +424,12 @@ ruleTester.run("babel/object-curly-spacing", rule, {
     // Babel test cases.
     {
       code: 'export * as x from "mod";',
-      parser: "babel-eslint",
+      parser: require.resolve("babel-eslint"),
       ecmaFeatures: { modules: true },
     },
     {
       code: 'export x from "mod";',
-      parser: "babel-eslint",
+      parser: require.resolve("babel-eslint"),
       ecmaFeatures: { modules: true },
     },
 
@@ -437,7 +437,7 @@ ruleTester.run("babel/object-curly-spacing", rule, {
     {
       code: "function fn({ a,b }:Object){}",
       options: ["always"],
-      parser: "babel-eslint",
+      parser: require.resolve("babel-eslint"),
       ecmaFeatures: { destructuring: true },
     },
 
@@ -445,7 +445,7 @@ ruleTester.run("babel/object-curly-spacing", rule, {
     {
       code: "function fn({a,b}: Object){}",
       options: ["never"],
-      parser: "babel-eslint",
+      parser: require.resolve("babel-eslint"),
       ecmaFeatures: { destructuring: true },
     },
   ],
@@ -1090,7 +1090,7 @@ ruleTester.run("babel/object-curly-spacing", rule, {
       code: "function fn({a,b}: Object){}",
       output: "function fn({ a,b }: Object){}",
       options: ["always"],
-      parser: "babel-eslint",
+      parser: require.resolve("babel-eslint"),
       ecmaFeatures: {
         destructuring: true,
       },
@@ -1115,7 +1115,7 @@ ruleTester.run("babel/object-curly-spacing", rule, {
       code: "function fn({ a,b }: Object){}",
       output: "function fn({a,b}: Object){}",
       options: ["never"],
-      parser: "babel-eslint",
+      parser: require.resolve("babel-eslint"),
       ecmaFeatures: {
         destructuring: true,
       },

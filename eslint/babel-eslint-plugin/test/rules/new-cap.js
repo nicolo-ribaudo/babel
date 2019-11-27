@@ -96,7 +96,7 @@ ruleTester.run("babel/new-cap", rule, {
     },
 
     // Babel-specific test cases.
-    { code: "@MyDecorator(123) class MyClass{}", parser: "babel-eslint" },
+    { code: "@MyDecorator(123) class MyClass{}", parser: require.resolve("babel-eslint") },
   ],
   invalid: [
     {
