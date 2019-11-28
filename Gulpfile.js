@@ -18,7 +18,8 @@ const rollupCommonJs = require("rollup-plugin-commonjs");
 const rollupJson = require("@rollup/plugin-json");
 const rollupNodeBuiltins = require("rollup-plugin-node-builtins");
 const rollupNodeGlobals = require("rollup-plugin-node-globals");
-const rollupPnpResolve = require("rollup-plugin-pnp-resolve");
+const rollupNodeResolve = require("rollup-plugin-node-resolve");
+const rollupPnpToUnqualifiedResolve = require("./rollup-plugin-pnp-to-unqualified-resolve");
 const rollupReplace = require("rollup-plugin-replace");
 
 const defaultSourcesGlob = "./@(codemods|packages|eslint)/*/src/**/*.js";
@@ -148,7 +149,8 @@ function buildRollup(packages) {
                 babelrc: false,
                 extends: "./babel.config.js",
               }),
-              rollupPnpResolve({
+              rollupPnpToUnqualifiedResolve(),
+              rollupNodeResolve({
                 browser: nodeResolveBrowser,
                 preferBuiltins: true,
               }),
