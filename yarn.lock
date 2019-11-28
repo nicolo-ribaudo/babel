@@ -157,7 +157,7 @@ __metadata:
     "@babel/preset-react": "workspace:*"
     dedent: ^0.7.0
     eslint: ^6.0.1
-    eslint-scope: 5.0.0
+    eslint-scope: "npm:^5.0.0"
     eslint-visitor-keys: ^1.1.0
     espree: ^6.0.0
     semver: ^6.3.0
@@ -5497,7 +5497,7 @@ __metadata:
   version: 11.0.0-beta.1
   resolution: "babel-eslint@npm:11.0.0-beta.1"
   dependencies:
-    eslint-scope: 3.7.1
+    eslint-scope: "npm:^5.0.0"
     eslint-visitor-keys: ^1.0.0
     semver: ^6.3.0
   peerDependencies:
@@ -5515,7 +5515,7 @@ __metadata:
     "@babel/traverse": 7.0.0-beta.44
     "@babel/types": 7.0.0-beta.44
     babylon: 7.0.0-beta.44
-    eslint-scope: 3.7.1
+    eslint-scope: "npm:^5.0.0"
     eslint-visitor-keys: ^1.0.0
   checksum: f16437ded09d32468fde3b54ee7778df1be17d0bc44da8188ee162225e0d4886380d844416f449de7ae947cec6eba00b590a989ca87f1ba8a1aedb226d3d7a5d
   languageName: node
@@ -8222,43 +8222,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-scope@npm:3.7.1":
-  version: 3.7.1
-  resolution: "eslint-scope@npm:3.7.1"
-  dependencies:
-    esrecurse: ^4.1.0
-    estraverse: ^4.1.1
-  checksum: d479849c4299a4257eb6616eba06e65a40bcc498dc2c9ac553cc260099bbe097429e80042f84118da23cb741a22568ccb06b4752ff14df098ea3e44bc870c185
-  languageName: node
-  linkType: hard
-
-"eslint-scope@npm:5.0.0, eslint-scope@npm:^5.0.0":
+"eslint-scope@npm:^5.0.0":
   version: 5.0.0
   resolution: "eslint-scope@npm:5.0.0"
   dependencies:
     esrecurse: ^4.1.0
     estraverse: ^4.1.1
   checksum: 6f042b88c39d71ad5ab123e51221da16aeff6cfbd08df3952d18aa25959923bb31ca35399c253166f848a2703df6bcbaac02ff922e97218be5ac9364149b0cac
-  languageName: node
-  linkType: hard
-
-"eslint-scope@npm:^3.7.1":
-  version: 3.7.3
-  resolution: "eslint-scope@npm:3.7.3"
-  dependencies:
-    esrecurse: ^4.1.0
-    estraverse: ^4.1.1
-  checksum: cfbdf5ec5368ea338ef4d78de9955a0613ede9cc363da395eaab78644df2f9a253dbcf3617fd7252b64c9835995638ec026764716e1203ef8a6c379ed49e844b
-  languageName: node
-  linkType: hard
-
-"eslint-scope@npm:^4.0.3":
-  version: 4.0.3
-  resolution: "eslint-scope@npm:4.0.3"
-  dependencies:
-    esrecurse: ^4.1.0
-    estraverse: ^4.1.1
-  checksum: 9be4a320c15f5f5df0f41920941f83aaef3991b17a6c6196bac933d7bc04e57caffce2cf02e956427659757d5eeb4370ced25cfbd8d181fe3c3c58d1f4684e27
   languageName: node
   linkType: hard
 
@@ -8289,7 +8259,7 @@ __metadata:
     cross-spawn: ^5.1.0
     debug: ^3.1.0
     doctrine: ^2.1.0
-    eslint-scope: ^3.7.1
+    eslint-scope: "npm:^5.0.0"
     eslint-visitor-keys: ^1.0.0
     espree: ^3.5.4
     esquery: ^1.0.0
@@ -8336,7 +8306,7 @@ __metadata:
     cross-spawn: ^6.0.5
     debug: ^4.0.1
     doctrine: ^3.0.0
-    eslint-scope: ^4.0.3
+    eslint-scope: "npm:^5.0.0"
     eslint-utils: ^1.3.1
     eslint-visitor-keys: ^1.0.0
     espree: ^5.0.1
@@ -8382,7 +8352,7 @@ __metadata:
     cross-spawn: ^6.0.5
     debug: ^4.0.1
     doctrine: ^3.0.0
-    eslint-scope: ^5.0.0
+    eslint-scope: "npm:^5.0.0"
     eslint-utils: ^1.4.3
     eslint-visitor-keys: ^1.1.0
     espree: ^6.1.2

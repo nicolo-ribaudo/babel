@@ -89,7 +89,8 @@
   },
   "resolutions": {
     "@lerna/**/@lerna/collect-updates": "https://github.com/babel/lerna.git#babel-collect-updates",
-    "@samverschueren/stream-to-observable": "https://github.com/JLHwung/stream-to-observable#zen-observable"
+    "@samverschueren/stream-to-observable": "https://github.com/JLHwung/stream-to-observable#zen-observable",
+    "eslint-scope": "^5.0.0"
   },
   "engines": {
     "node": ">= 6.9.0 < 14.0.0",
