@@ -1,7 +1,6 @@
 #!/bin/bash
 set -e
 
-node="node"
 jestArgs=()
 
 if [ "$TEST_DEBUG" ]; then
@@ -23,4 +22,4 @@ if [ -n "$TEST_ONLY" ]; then
   jestArgs+=("(packages|codemods|eslint)/.*$TEST_ONLY.*/test")
 fi
 
-$node node_modules/jest/bin/jest.js "${jestArgs[@]}"
+yarn jest "${jestArgs[@]}"
