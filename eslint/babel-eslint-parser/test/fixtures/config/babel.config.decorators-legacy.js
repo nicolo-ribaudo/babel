@@ -1,6 +1,6 @@
 "use strict";
 
 module.exports = {
-  presets: [["@babel/preset-env", { forceAllTransforms: true }]],
-  plugins: [["@babel/plugin-proposal-decorators", { legacy: true }]],
+  presets: [[require.resolve("@babel/preset-env"), { forceAllTransforms: true }]],
+  plugins: [[require.resolve("@babel/plugin-proposal-decorators"), { legacy: true }]],
 };

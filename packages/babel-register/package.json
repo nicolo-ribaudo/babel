@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@babel/core": "workspace:*",
+    "@babel/plugin-transform-modules-commonjs": "workspace:*",
     "default-require-extensions": "^2.0.0"
   }
 }

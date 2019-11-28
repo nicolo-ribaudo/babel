@@ -36,7 +36,8 @@
   },
   "devDependencies": {
     "@babel/core": "workspace:*",
-    "@babel/helper-fixtures": "workspace:*"
+    "@babel/helper-fixtures": "workspace:*",
+    "rimraf": "^3.0.0"
   },
   "bin": {
     "babel": "./bin/babel.js",
