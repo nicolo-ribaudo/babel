@@ -19,6 +19,11 @@ import checkDuplicatedNodes from "babel-check-duplicated-nodes";
 
 import diff from "jest-diff";
 
+let pnp;
+try {
+  pnp = require("pnpapi");
+} catch {}
+
 const moduleCache = {};
 const testContext = vm.createContext({
   ...helpers,
@@ -39,19 +44,23 @@ runCodeInTestContext(buildExternalHelpers(), {
   filename: path.join(__dirname, "babel-helpers-in-memory.js"),
 });
 
+//todo: I think they should be done on yarn's side because
+// yarn pnp + jest: claimed working https://github.com/arcanis/jest-pnp-resolver#usage
+// yarn pnp + resolve: claimed working https://github.com/yarnpkg/yarn/pull/6816
+// yarn pnp + jest + resolve: broken
+function resolveSync(importee, options) {
+  if (pnp) {
+    return pnp.resolveRequest(importee, options.basedir + "/");
+  } else {
+    return resolve.sync(importee, options);
+  }
+}
 /**
  * A basic implementation of CommonJS so we can execute `@babel/polyfill` inside our test context.
  * This allows us to run our unittests
  */
 function runModuleInTestContext(id: string, relativeFilename: string) {
-  try {
-    resolve.sync(id, {
-      basedir: path.dirname(relativeFilename),
-    });
-  } catch {
-    throw new Error("Error " + id + " " + relativeFilename);
-  }
-  const filename = resolve.sync(id, {
+  const filename = resolveSync(id, {
     basedir: path.dirname(relativeFilename),
   });
 
