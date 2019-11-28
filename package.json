@@ -88,7 +88,8 @@
     "webpack-stream": "^4.0.0"
   },
   "resolutions": {
-    "@lerna/**/@lerna/collect-updates": "https://github.com/babel/lerna.git#babel-collect-updates"
+    "@lerna/**/@lerna/collect-updates": "https://github.com/babel/lerna.git#babel-collect-updates",
+    "@samverschueren/stream-to-observable": "https://github.com/JLHwung/stream-to-observable#zen-observable"
   },
   "engines": {
     "node": ">= 6.9.0 < 14.0.0",

@@ -4429,12 +4429,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@samverschueren/stream-to-observable@npm:^0.3.0":
+"@samverschueren/stream-to-observable@https://github.com/JLHwung/stream-to-observable#zen-observable":
   version: 0.3.0
-  resolution: "@samverschueren/stream-to-observable@npm:0.3.0"
+  resolution: "@samverschueren/stream-to-observable@https://github.com/JLHwung/stream-to-observable#commit:483425e6b627fff7447500ae49bac4382a292769"
   dependencies:
-    any-observable: ^0.3.0
-  checksum: daad75039c13f058d89f0d1648998ca69a16fe8d05e5e2c057845d828de90b37ca496216c8810df08756d95570a833c425983ced7f4fbd80c5ec55c6f3f9e5dd
+    zen-observable: ^0.8.15
+  checksum: 992f8bd26e1b400507cd00cd08f8f6aff615bf60499653266c87d1db258f716e44c3ae2ea06e17d870a13e2c7b3e98236d86759e181096b98a126d572a44bb4f
   languageName: node
   linkType: hard
 
@@ -5041,13 +5041,6 @@ __metadata:
   version: 0.1.0
   resolution: "ansi-wrap@npm:0.1.0"
   checksum: c3bab8ce6023b0890b32189d4bb627ba131427baf67a62944e1a956f44c00557d97dbd22aa33388fadeb103af94f7cfdcb648a8d0b549c8562342703f88161e4
-  languageName: node
-  linkType: hard
-
-"any-observable@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "any-observable@npm:0.3.0"
-  checksum: 34649932ea09b53301b55d27926a27a053f2e9c26b4c9d9502a90c673a2f4c5c3b0afa365b787f9ab7517f6a572d672d84ce3574067e63da3c596163ee890b0b
   languageName: node
   linkType: hard
 
@@ -12114,7 +12107,7 @@ __metadata:
   version: 0.14.3
   resolution: "listr@npm:0.14.3"
   dependencies:
-    "@samverschueren/stream-to-observable": ^0.3.0
+    "@samverschueren/stream-to-observable": "https://github.com/JLHwung/stream-to-observable#zen-observable"
     is-observable: ^1.1.0
     is-promise: ^2.1.0
     is-stream: ^1.1.0
@@ -18031,5 +18024,12 @@ __metadata:
     decamelize: ^1.0.0
     window-size: 0.1.0
   checksum: 38d1dcdf4cebc55165a50454b619a6d594f12a09a8de4ea74b73bc384d12825a00249c33b35a25dca56f2a51608f671f54a2bcc0f2c10d77a8e38b79802637c0
+  languageName: node
+  linkType: hard
+
+"zen-observable@npm:^0.8.15":
+  version: 0.8.15
+  resolution: "zen-observable@npm:0.8.15"
+  checksum: 2a2ca0a23de24de3fe61178c82ec4a1f9781fe4c17a3bd1534eeea8dfdf0f5eb913c52cc96758055eed8d88251aab42a83797399482f477c2aa6f142e5c8f1b4
   languageName: node
   linkType: hard
