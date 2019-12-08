@@ -4,13 +4,13 @@ import type { Options } from "../options";
 import type { File, JSXOpeningElement } from "../types";
 import type { PluginList } from "../plugin-utils";
 import { getOptions } from "../options";
-import StatementParser from "./statement";
+import V8IntrinsicParser from "../plugins/v8intrinsic";
 import { SCOPE_PROGRAM } from "../util/scopeflags";
 import ScopeHandler from "../util/scope";
 
 export type PluginsMap = Map<string, { [string]: any }>;
 
-export default class Parser extends StatementParser {
+export default class Parser extends V8IntrinsicParser {
   // Forward-declaration so typescript plugin can override jsx plugin
   +jsxParseOpeningElementAfterName: (
     node: JSXOpeningElement,

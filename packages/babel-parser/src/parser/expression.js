@@ -68,6 +68,9 @@ export default class ExpressionParser extends LValParser {
   +parseFunctionParams: (node: N.Function, allowModifiers?: boolean) => void;
   +takeDecorators: (node: N.HasDecorators) => void;
 
+  +shouldParseV8Intrinsic: () => boolean;
+  +parseV8Intrinsic: () => N.Expression;
+
   // Check if property __proto__ has been used more than once.
   // If the expression is a destructuring assignment, then __proto__ may appear
   // multiple times. Otherwise, __proto__ is a duplicated key.
@@ -896,6 +899,10 @@ export default class ExpressionParser extends LValParser {
   // or `{}`.
 
   parseExprAtom(refShorthandDefaultPos?: ?Pos): N.Expression {
+    if (this.hasPlugin("v8intrinsic") && this.shouldParseV8Intrinsic()) {
+      return this.parseV8Intrinsic();
+    }
+
     // If a division operator appears in an expression position, the
     // tokenizer got confused, and we force it to read a regexp instead.
     if (this.state.type === tt.slash) this.readRegexp();
