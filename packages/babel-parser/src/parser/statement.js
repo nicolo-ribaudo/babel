@@ -22,6 +22,7 @@ import {
   SCOPE_SUPER,
   type BindingTypes,
 } from "../util/scopeflags";
+import type { MaybePlaceholder } from "../plugins/placeholders";
 
 const loopLabel = { kind: "loop" },
   switchLabel = { kind: "switch" };
@@ -434,6 +435,11 @@ export default class StatementParser extends ExpressionParser {
     node: N.BreakStatement | N.ContinueStatement,
     keyword: string,
   ) {
+    // $FlowIgnore
+    if (this.hasPlugin("placeholders") && node.label?.type === "Placeholder") {
+      return;
+    }
+
     const isBreak = keyword === "break";
     let i;
     for (i = 0; i < this.state.labels.length; ++i) {
@@ -792,6 +798,14 @@ export default class StatementParser extends ExpressionParser {
     node: N.ExpressionStatement,
     expr: N.Expression,
   ): N.Statement {
+    if (
+      this.hasPlugin("placeholders") &&
+      expr.type === "Placeholder" &&
+      !expr.extra?.parenthesized
+    ) {
+      return this.parseExpressionStatementFromPlaceholder(node, expr);
+    }
+
     node.expression = expr;
     this.semicolon();
     return this.finishNode(node, "ExpressionStatement");
@@ -804,7 +818,11 @@ export default class StatementParser extends ExpressionParser {
   parseBlock(
     allowDirectives?: boolean = false,
     createNewLexicalScope?: boolean = true,
-  ): N.BlockStatement {
+  ): N.BlockStatement | MaybePlaceholder<"BlockStatement"> {
+    if (this.hasPlugin("placeholders") && this.shouldParsePlaceholder()) {
+      return this.parsePlaceholder("BlockStatement");
+    }
+
     const node = this.startNode();
     this.expect(tt.braceL);
     if (createNewLexicalScope) {
@@ -1092,7 +1110,15 @@ export default class StatementParser extends ExpressionParser {
   }
 
   parseFunctionId(requireId?: boolean): ?N.Identifier {
-    return requireId || this.match(tt.name) ? this.parseIdentifier() : null;
+    if (
+      requireId ||
+      this.match(tt.name) ||
+      (this.hasPlugin("placeholders") && this.shouldParsePlaceholder())
+    ) {
+      return this.parseIdentifier();
+    }
+
+    return null;
   }
 
   parseFunctionParams(node: N.Function, allowModifiers?: boolean): void {
@@ -1137,6 +1163,8 @@ export default class StatementParser extends ExpressionParser {
     isStatement: /* T === ClassDeclaration */ boolean,
     optionalId?: boolean,
   ): T {
+    const type = isStatement ? "ClassDeclaration" : "ClassExpression";
+
     this.next();
     this.takeDecorators(node);
 
@@ -1144,16 +1172,19 @@ export default class StatementParser extends ExpressionParser {
     const oldStrict = this.state.strict;
     this.state.strict = true;
 
-    this.parseClassId(node, isStatement, optionalId);
+    if (this.hasPlugin("placeholders") && this.shouldParsePlaceholder()) {
+      const finished = this.parseClassWithPlaceholder(node, type, optionalId);
+      if (finished) return finished;
+    } else {
+      this.parseClassId(node, isStatement, optionalId);
+    }
+
     this.parseClassSuper(node);
     node.body = this.parseClassBody(!!node.superClass);
 
     this.state.strict = oldStrict;
 
-    return this.finishNode(
-      node,
-      isStatement ? "ClassDeclaration" : "ClassExpression",
-    );
+    return this.finishNode(node, type);
   }
 
   isClassProperty(): boolean {
@@ -1173,7 +1204,13 @@ export default class StatementParser extends ExpressionParser {
     );
   }
 
-  parseClassBody(constructorAllowsSuper: boolean): N.ClassBody {
+  parseClassBody(
+    constructorAllowsSuper: boolean,
+  ): N.ClassBody | MaybePlaceholder<"ClassBody"> {
+    if (this.hasPlugin("placeholders") && this.shouldParsePlaceholder()) {
+      return this.parsePlaceholder("ClassBody");
+    }
+
     this.state.classLevel++;
 
     const state = { hadConstructor: false };
@@ -1639,40 +1676,49 @@ export default class StatementParser extends ExpressionParser {
   // Parses module export declaration.
 
   parseExport(node: N.Node): N.AnyExport {
-    const hasDefault = this.maybeParseExportDefaultSpecifier(node);
-    const parseAfterDefault = !hasDefault || this.eat(tt.comma);
-    const hasStar = parseAfterDefault && this.eatExportStar(node);
-    const hasNamespace =
-      hasStar && this.maybeParseExportNamespaceSpecifier(node);
-    const parseAfterNamespace =
-      parseAfterDefault && (!hasNamespace || this.eat(tt.comma));
-    const isFromRequired = hasDefault || hasStar;
+    let hasDefault, isExportNamed;
 
-    if (hasStar && !hasNamespace) {
-      if (hasDefault) this.unexpected();
-      this.parseExportFrom(node, true);
-
-      return this.finishNode(node, "ExportAllDeclaration");
-    }
-
-    const hasSpecifiers = this.maybeParseExportNamedSpecifiers(node);
-
-    if (
-      (hasDefault && parseAfterDefault && !hasStar && !hasSpecifiers) ||
-      (hasNamespace && parseAfterNamespace && !hasSpecifiers)
-    ) {
-      throw this.unexpected(null, tt.braceL);
-    }
-
-    let hasDeclaration;
-    if (isFromRequired || hasSpecifiers) {
-      hasDeclaration = false;
-      this.parseExportFrom(node, isFromRequired);
+    if (this.hasPlugin("placeholders") && this.shouldParsePlaceholder()) {
+      hasDefault = this.parseExportHeadWithPlaceholder(node);
+      if (!hasDefault) isExportNamed = true;
     } else {
-      hasDeclaration = this.maybeParseExportDeclaration(node);
+      hasDefault = this.maybeParseExportDefaultSpecifier(node);
     }
 
-    if (isFromRequired || hasSpecifiers || hasDeclaration) {
+    if (!isExportNamed) {
+      const parseAfterDefault = !hasDefault || this.eat(tt.comma);
+      const hasStar = parseAfterDefault && this.eatExportStar(node);
+      const hasNamespace =
+        hasStar && this.maybeParseExportNamespaceSpecifier(node);
+      const parseAfterNamespace =
+        parseAfterDefault && (!hasNamespace || this.eat(tt.comma));
+      const isFromRequired = hasDefault || hasStar;
+
+      if (hasStar && !hasNamespace) {
+        if (hasDefault) this.unexpected();
+        this.parseExportFrom(node, true);
+
+        return this.finishNode(node, "ExportAllDeclaration");
+      }
+
+      const hasSpecifiers = this.maybeParseExportNamedSpecifiers(node);
+
+      if (
+        (hasDefault && parseAfterDefault && !hasStar && !hasSpecifiers) ||
+        (hasNamespace && parseAfterNamespace && !hasSpecifiers)
+      ) {
+        throw this.unexpected(null, tt.braceL);
+      }
+
+      if (isFromRequired || hasSpecifiers) {
+        isExportNamed = true;
+        this.parseExportFrom(node, isFromRequired);
+      } else {
+        isExportNamed = this.maybeParseExportDeclaration(node);
+      }
+    }
+
+    if (isExportNamed) {
       this.checkExport(node, true, false, !!node.source);
       return this.finishNode(node, "ExportNamedDeclaration");
     }
@@ -1696,13 +1742,18 @@ export default class StatementParser extends ExpressionParser {
   maybeParseExportDefaultSpecifier(node: N.Node): boolean {
     if (this.isExportDefaultSpecifier()) {
       // export defaultObj ...
-      this.expectPlugin("exportDefaultFrom");
-      const specifier = this.startNode();
-      specifier.exported = this.parseIdentifier(true);
-      node.specifiers = [this.finishNode(specifier, "ExportDefaultSpecifier")];
+      this.parseExportDefaultSpecifier(node, this.parseIdentifier(true));
       return true;
     }
     return false;
+  }
+
+  parseExportDefaultSpecifier(node: N.Node, exported: N.Identifier) {
+    // export defaultObj ...
+    this.expectPlugin("exportDefaultFrom", exported.start);
+    const specifier = this.startNodeAtNode(exported);
+    specifier.exported = exported;
+    node.specifiers = [this.finishNode(specifier, "ExportDefaultSpecifier")];
   }
 
   maybeParseExportNamespaceSpecifier(node: N.Node): boolean {
@@ -1734,6 +1785,9 @@ export default class StatementParser extends ExpressionParser {
       node.declaration = null;
 
       return true;
+    }
+    if (this.hasPlugin("placeholders") && this.shouldParsePlaceholder()) {
+      return this.parsePlaceholder("Declaration");
     }
     return false;
   }
@@ -1888,6 +1942,13 @@ export default class StatementParser extends ExpressionParser {
       } else if (node.specifiers && node.specifiers.length) {
         // Named exports
         for (const specifier of node.specifiers) {
+          if (
+            this.hasPlugin("placeholders") &&
+            specifier.exported.type === "Placeholder"
+          ) {
+            continue;
+          }
+
           this.checkDuplicateExports(specifier, specifier.exported.name);
           // $FlowIgnore
           if (!isFrom && specifier.local) {
@@ -2013,19 +2074,36 @@ export default class StatementParser extends ExpressionParser {
   parseImport(node: N.Node): N.AnyImport {
     // import '...'
     node.specifiers = [];
+
+    let sourceParsed = false;
+
     if (!this.match(tt.string)) {
-      const hasDefault = this.maybeParseDefaultImportSpecifier(node);
-      const parseNext = !hasDefault || this.eat(tt.comma);
-      const hasStar = parseNext && this.maybeParseStarImportSpecifier(node);
-      if (parseNext && !hasStar) this.parseNamedImportSpecifiers(node);
-      this.expectContextual("from");
+      let hasDefault;
+
+      if (this.hasPlugin("placeholders") && this.shouldParsePlaceholder()) {
+        ({ sourceParsed, hasDefault } = this.parseImportWithPlaceholder(node));
+      } else {
+        hasDefault = this.maybeParseDefaultImportSpecifier(node);
+      }
+
+      if (!sourceParsed) {
+        const parseNext = !hasDefault || this.eat(tt.comma);
+        const hasStar = parseNext && this.maybeParseStarImportSpecifier(node);
+        if (parseNext && !hasStar) this.parseNamedImportSpecifiers(node);
+        this.expectContextual("from");
+      }
     }
-    node.source = this.parseImportSource();
+
+    if (!sourceParsed) node.source = this.parseImportSource();
     this.semicolon();
     return this.finishNode(node, "ImportDeclaration");
   }
 
   parseImportSource(): N.StringLiteral {
+    if (this.hasPlugin("placeholders") && this.shouldParsePlaceholder()) {
+      return this.parsePlaceholder("StringLiteral");
+    }
+
     if (!this.match(tt.string)) this.unexpected();
     return this.parseExprAtom();
   }

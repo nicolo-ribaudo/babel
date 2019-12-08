@@ -3,8 +3,8 @@
 import * as charCodes from "charcodes";
 
 import { types as tt, TokenType } from "../tokenizer/types";
-import type Parser from "../parser";
 import * as N from "../types";
+import V8IntrinsicParser from "./v8intrinsic";
 
 tt.placeholder = new TokenType("%%", { startsExpr: true });
 
@@ -45,272 +45,138 @@ type NodeOf<T: PlaceholderTypes> = $Switch<
 
 // Placeholder<T> breaks everything, because its type is incompatible with
 // the substituted nodes.
-type MaybePlaceholder<T: PlaceholderTypes> = NodeOf<T>; // | Placeholder<T>
+export type MaybePlaceholder<T: PlaceholderTypes> = NodeOf<T>; // | Placeholder<T>
 
-export default (superClass: Class<Parser>): Class<Parser> =>
-  class extends superClass {
-    parsePlaceholder<T: PlaceholderTypes>(
-      expectedNode: T,
-    ): /*?N.Placeholder<T>*/ ?MaybePlaceholder<T> {
-      if (this.match(tt.placeholder)) {
-        const node = this.startNode();
-        this.next();
-        this.assertNoSpace("Unexpected space in placeholder.");
+export default class PlaceholdersParser extends V8IntrinsicParser {
+  shouldParsePlaceholder(): boolean {
+    return this.match(tt.placeholder);
+  }
 
-        // We can't use this.parseIdentifier because
-        // we don't want nested placeholders.
-        node.name = super.parseIdentifier(/* liberal */ true);
+  parsePlaceholder<T: PlaceholderTypes>(
+    expectedNode: T,
+  ): /*?N.Placeholder<T>*/ MaybePlaceholder<T> {
+    const node = this.startNode();
+    this.next();
+    this.assertNoSpace("Unexpected space in placeholder.");
 
-        this.assertNoSpace("Unexpected space in placeholder.");
-        this.expect(tt.placeholder);
-        return this.finishPlaceholder(node, expectedNode);
-      }
+    // We can't use this.parseIdentifier because
+    // we don't want nested placeholders.
+    node.name = super.parseIdentifier(/* liberal */ true);
+
+    this.assertNoSpace("Unexpected space in placeholder.");
+    this.expect(tt.placeholder);
+    return this.finishPlaceholder(node, expectedNode);
+  }
+
+  finishPlaceholder<T: PlaceholderTypes>(
+    node: N.Node,
+    expectedNode: T,
+  ): /*N.Placeholder<T>*/ MaybePlaceholder<T> {
+    const isFinished = !!(node.expectedNode && node.type === "Placeholder");
+    node.expectedNode = expectedNode;
+
+    return isFinished ? node : this.finishNode(node, "Placeholder");
+  }
+
+  placeholderGetTokenFromCode(code: number): boolean {
+    if (
+      code === charCodes.percentSign &&
+      this.input.charCodeAt(this.state.pos + 1) === charCodes.percentSign
+    ) {
+      this.finishOp(tt.placeholder, 2);
+      return true;
     }
 
-    finishPlaceholder<T: PlaceholderTypes>(
-      node: N.Node,
-      expectedNode: T,
-    ): /*N.Placeholder<T>*/ MaybePlaceholder<T> {
-      const isFinished = !!(node.expectedNode && node.type === "Placeholder");
-      node.expectedNode = expectedNode;
+    return false;
+  }
 
-      return isFinished ? node : this.finishNode(node, "Placeholder");
+  placeholderToAssignable(node: N.Node): boolean {
+    if (node.type === "Placeholder" && node.expectedNode === "Expression") {
+      node.expectedNode = "Pattern";
+      return true;
     }
+    return false;
+  }
 
-    /* ============================================================ *
-     * tokenizer/index.js                                           *
-     * ============================================================ */
-
-    getTokenFromCode(code: number) {
-      if (
-        code === charCodes.percentSign &&
-        this.input.charCodeAt(this.state.pos + 1) === charCodes.percentSign
-      ) {
-        return this.finishOp(tt.placeholder, 2);
-      }
-
-      return super.getTokenFromCode(...arguments);
-    }
-
-    /* ============================================================ *
-     * parser/expression.js                                         *
-     * ============================================================ */
-
-    parseExprAtom(): MaybePlaceholder<"Expression"> {
-      return (
-        this.parsePlaceholder("Expression") || super.parseExprAtom(...arguments)
-      );
-    }
-
-    parseIdentifier(): MaybePlaceholder<"Identifier"> {
-      // NOTE: This function only handles identifiers outside of
-      // expressions and binding patterns, since they are already
-      // handled by the parseExprAtom and parseBindingAtom functions.
-      // This is needed, for example, to parse "class %%NAME%% {}".
-      return (
-        this.parsePlaceholder("Identifier") ||
-        super.parseIdentifier(...arguments)
-      );
-    }
-
-    checkReservedWord(word: string): void {
-      // Sometimes we call #checkReservedWord(node.name), expecting
-      // that node is an Identifier. If it is a Placeholder, name
-      // will be undefined.
-      if (word !== undefined) super.checkReservedWord(...arguments);
-    }
-
-    /* ============================================================ *
-     * parser/lval.js                                               *
-     * ============================================================ */
-
-    parseBindingAtom(): MaybePlaceholder<"Pattern"> {
-      return (
-        this.parsePlaceholder("Pattern") || super.parseBindingAtom(...arguments)
-      );
-    }
-
-    checkLVal(expr: N.Expression): void {
-      if (expr.type !== "Placeholder") super.checkLVal(...arguments);
-    }
-
-    toAssignable(node: N.Node): N.Node {
-      if (
-        node &&
-        node.type === "Placeholder" &&
-        node.expectedNode === "Expression"
-      ) {
-        node.expectedNode = "Pattern";
-        return node;
-      }
-      return super.toAssignable(...arguments);
-    }
-
-    /* ============================================================ *
-     * parser/statement.js                                          *
-     * ============================================================ */
-
-    verifyBreakContinue(node: N.BreakStatement | N.ContinueStatement) {
-      if (node.label && node.label.type === "Placeholder") return;
-      super.verifyBreakContinue(...arguments);
-    }
-
-    parseExpressionStatement(
-      node: MaybePlaceholder<"Statement">,
-      expr: N.Expression,
-    ): MaybePlaceholder<"Statement"> {
-      if (
-        expr.type !== "Placeholder" ||
-        (expr.extra && expr.extra.parenthesized)
-      ) {
-        return super.parseExpressionStatement(...arguments);
-      }
-
-      if (this.match(tt.colon)) {
-        const stmt: N.LabeledStatement = node;
-        stmt.label = this.finishPlaceholder(expr, "Identifier");
-        this.next();
-        stmt.body = this.parseStatement("label");
-        return this.finishNode(stmt, "LabeledStatement");
-      }
-
-      this.semicolon();
-
-      node.name = expr.name;
-      return this.finishPlaceholder(node, "Statement");
-    }
-
-    parseBlock(): MaybePlaceholder<"BlockStatement"> {
-      return (
-        this.parsePlaceholder("BlockStatement") ||
-        super.parseBlock(...arguments)
-      );
-    }
-
-    parseFunctionId(): ?MaybePlaceholder<"Identifier"> {
-      return (
-        this.parsePlaceholder("Identifier") ||
-        super.parseFunctionId(...arguments)
-      );
-    }
-
-    parseClass<T: N.Class>(
-      node: T,
-      isStatement: /* T === ClassDeclaration */ boolean,
-      optionalId?: boolean,
-    ): T {
-      const type = isStatement ? "ClassDeclaration" : "ClassExpression";
-
+  parseExpressionStatementFromPlaceholder(
+    node: MaybePlaceholder<"Statement">,
+    expr: N.Expression,
+  ): MaybePlaceholder<"Statement"> {
+    if (this.match(tt.colon)) {
+      const stmt: N.LabeledStatement = node;
+      stmt.label = this.finishPlaceholder(expr, "Identifier");
       this.next();
-      this.takeDecorators(node);
-
-      const placeholder = this.parsePlaceholder("Identifier");
-      if (placeholder) {
-        if (
-          this.match(tt._extends) ||
-          this.match(tt.placeholder) ||
-          this.match(tt.braceL)
-        ) {
-          node.id = placeholder;
-        } else if (optionalId || !isStatement) {
-          node.id = null;
-          node.body = this.finishPlaceholder(placeholder, "ClassBody");
-          return this.finishNode(node, type);
-        } else {
-          this.unexpected(null, "A class name is required");
-        }
-      } else {
-        this.parseClassId(node, isStatement, optionalId);
-      }
-
-      this.parseClassSuper(node);
-      node.body =
-        this.parsePlaceholder("ClassBody") ||
-        this.parseClassBody(!!node.superClass);
-      return this.finishNode(node, type);
+      stmt.body = this.parseStatement("label");
+      return this.finishNode(stmt, "LabeledStatement");
     }
 
-    parseExport(node: N.Node): N.Node {
-      const placeholder = this.parsePlaceholder("Identifier");
-      if (!placeholder) return super.parseExport(...arguments);
+    this.semicolon();
 
-      if (!this.isContextual("from") && !this.match(tt.comma)) {
-        // export %%DECL%%;
-        node.specifiers = [];
-        node.source = null;
-        node.declaration = this.finishPlaceholder(placeholder, "Declaration");
-        return this.finishNode(node, "ExportNamedDeclaration");
-      }
+    node.name = expr.name;
+    return this.finishPlaceholder(node, "Statement");
+  }
 
-      // export %%NAME%% from "foo";
-      this.expectPlugin("exportDefaultFrom");
-      const specifier = this.startNode();
-      specifier.exported = placeholder;
-      node.specifiers = [this.finishNode(specifier, "ExportDefaultSpecifier")];
+  parseClassWithPlaceholder<T: N.Class>(
+    node: T,
+    type: $PropertyType<T, "type">,
+    optionalId?: boolean,
+  ): ?T {
+    const placeholder = this.parsePlaceholder("Identifier");
 
-      return super.parseExport(node);
+    if (
+      this.match(tt._extends) ||
+      this.match(tt.placeholder) ||
+      this.match(tt.braceL)
+    ) {
+      node.id = placeholder;
+      return null;
     }
 
-    maybeParseExportDefaultSpecifier(node: N.Node): boolean {
-      if (node.specifiers && node.specifiers.length > 0) {
-        // "export %%NAME%%" has already been parsed by #parseExport.
-        return true;
-      }
-      return super.maybeParseExportDefaultSpecifier(...arguments);
+    if (optionalId || type === "ClassExpression") {
+      node.id = null;
+      node.body = this.finishPlaceholder(placeholder, "ClassBody");
+    } else {
+      this.unexpected(null, "A class name is required");
     }
 
-    checkExport(node: N.ExportNamedDeclaration): void {
-      const { specifiers } = node;
-      if (specifiers && specifiers.length) {
-        node.specifiers = specifiers.filter(
-          node => node.exported.type === "Placeholder",
-        );
-      }
-      super.checkExport(node);
-      node.specifiers = specifiers;
-    }
+    return this.finishNode(node, type);
+  }
 
-    parseImport(
-      node: N.Node,
-    ): N.ImportDeclaration | N.TsImportEqualsDeclaration {
-      const placeholder = this.parsePlaceholder("Identifier");
-      if (!placeholder) return super.parseImport(...arguments);
+  parseExportHeadWithPlaceholder(node: N.Node) {
+    const placeholder = this.parsePlaceholder("Identifier");
 
+    if (!this.isContextual("from") && !this.match(tt.comma)) {
+      // export %%DECL%%;
       node.specifiers = [];
-
-      if (!this.isContextual("from") && !this.match(tt.comma)) {
-        // import %%STRING%%;
-        node.source = this.finishPlaceholder(placeholder, "StringLiteral");
-        this.semicolon();
-        return this.finishNode(node, "ImportDeclaration");
-      }
-
-      // import %%DEFAULT%% ...
-      const specifier = this.startNodeAtNode(placeholder);
-      specifier.local = placeholder;
-      this.finishNode(specifier, "ImportDefaultSpecifier");
-      node.specifiers.push(specifier);
-
-      if (this.eat(tt.comma)) {
-        // import %%DEFAULT%%, * as ...
-        const hasStarImport = this.maybeParseStarImportSpecifier(node);
-
-        // import %%DEFAULT%%, { ...
-        if (!hasStarImport) this.parseNamedImportSpecifiers(node);
-      }
-
-      this.expectContextual("from");
-      node.source = this.parseImportSource();
-      this.semicolon();
-      return this.finishNode(node, "ImportDeclaration");
+      node.source = null;
+      node.declaration = this.finishPlaceholder(placeholder, "Declaration");
+      return false;
     }
 
-    parseImportSource(): MaybePlaceholder<"StringLiteral"> {
-      // import ... from %%STRING%%;
+    this.parseExportDefaultSpecifier(node, placeholder);
 
-      return (
-        this.parsePlaceholder("StringLiteral") ||
-        super.parseImportSource(...arguments)
-      );
+    return true;
+  }
+
+  /* ============================================================ *
+   * parser/statement.js                                          *
+   * ============================================================ */
+
+  parseImportWithPlaceholder(node: N.Node) {
+    const placeholder = this.parsePlaceholder("Identifier");
+
+    if (!this.isContextual("from") && !this.match(tt.comma)) {
+      // import %%STRING%%;
+      node.source = this.finishPlaceholder(placeholder, "StringLiteral");
+      return { sourceParsed: true, hasDefault: false };
     }
-  };
+
+    // import %%DEFAULT%% ...
+    const specifier = this.startNodeAtNode(placeholder);
+    specifier.local = placeholder;
+    this.finishNode(specifier, "ImportDefaultSpecifier");
+    node.specifiers.push(specifier);
+
+    return { sourceParsed: false, hasDefault: true };
+  }
+}

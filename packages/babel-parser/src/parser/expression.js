@@ -40,6 +40,7 @@ import {
   SCOPE_SUPER,
   SCOPE_PROGRAM,
 } from "../util/scopeflags";
+import type { MaybePlaceholder } from "../plugins/placeholders";
 
 const unwrapParenthesizedExpression = node => {
   return node.type === "ParenthesizedExpression"
@@ -67,9 +68,6 @@ export default class ExpressionParser extends LValParser {
   ) => T;
   +parseFunctionParams: (node: N.Function, allowModifiers?: boolean) => void;
   +takeDecorators: (node: N.HasDecorators) => void;
-
-  +shouldParseV8Intrinsic: () => boolean;
-  +parseV8Intrinsic: () => N.Expression;
 
   // Check if property __proto__ has been used more than once.
   // If the expression is a destructuring assignment, then __proto__ may appear
@@ -898,9 +896,14 @@ export default class ExpressionParser extends LValParser {
   // `new`, or an expression wrapped in punctuation like `()`, `[]`,
   // or `{}`.
 
-  parseExprAtom(refShorthandDefaultPos?: ?Pos): N.Expression {
+  parseExprAtom(
+    refShorthandDefaultPos?: ?Pos,
+  ): N.Expression | MaybePlaceholder<"Expression"> {
     if (this.hasPlugin("v8intrinsic") && this.shouldParseV8Intrinsic()) {
       return this.parseV8Intrinsic();
+    }
+    if (this.hasPlugin("placeholders") && this.shouldParsePlaceholder()) {
+      return this.parsePlaceholder("Expression");
     }
 
     // If a division operator appears in an expression position, the
@@ -2129,7 +2132,17 @@ export default class ExpressionParser extends LValParser {
   // This shouldn't be used to parse the keywords of meta properties, since they
   // are not identifiers and cannot contain escape sequences.
 
-  parseIdentifier(liberal?: boolean): N.Identifier {
+  parseIdentifier(
+    liberal?: boolean,
+  ): N.Identifier | MaybePlaceholder<"Identifier"> {
+    if (this.hasPlugin("placeholders") && this.shouldParsePlaceholder()) {
+      // NOTE: This function only handles identifiers outside of
+      // expressions and binding patterns, since they are already
+      // handled by the parseExprAtom and parseBindingAtom functions.
+      // This is needed, for example, to parse "class %%NAME%% {}".
+      return this.parsePlaceholder("Identifier");
+    }
+
     const node = this.startNode();
     const name = this.parseIdentifierName(node.start, liberal);
 
@@ -2191,6 +2204,11 @@ export default class ExpressionParser extends LValParser {
     checkKeywords: boolean,
     isBinding: boolean,
   ): void {
+    // Sometimes we call #checkReservedWord(node.name), expecting
+    // that node is an Identifier. If it is a Placeholder, name
+    // will be undefined.
+    if (this.hasPlugin("placeholders") && word === undefined) return;
+
     if (this.scope.inGenerator && word === "yield") {
       this.raise(
         startLoc,

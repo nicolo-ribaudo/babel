@@ -92,7 +92,6 @@ import estree from "./plugins/estree";
 import flow from "./plugins/flow";
 import jsx from "./plugins/jsx";
 import typescript from "./plugins/typescript";
-import placeholders from "./plugins/placeholders";
 
 // NOTE: order is important. estree must come first; placeholders must come last.
 export const mixinPlugins: { [name: string]: MixinPlugin } = {
@@ -100,7 +99,6 @@ export const mixinPlugins: { [name: string]: MixinPlugin } = {
   jsx,
   flow,
   typescript,
-  placeholders,
 };
 
 export const mixinPluginNames: $ReadOnlyArray<string> = Object.keys(

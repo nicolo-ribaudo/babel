@@ -21,6 +21,7 @@ import {
 } from "../util/identifier";
 import { NodeUtils } from "./node";
 import { type BindingTypes, BIND_NONE } from "../util/scopeflags";
+import type { MaybePlaceholder } from "../plugins/placeholders";
 
 export default class LValParser extends NodeUtils {
   // Forward-declaration: defined in expression.js
@@ -125,6 +126,12 @@ export default class LValParser extends NodeUtils {
           if (!isBinding) break;
 
         default:
+          if (
+            this.hasPlugin("placeholders") &&
+            this.placeholderToAssignable(node)
+          ) {
+            break;
+          }
         // We don't know how to deal with this node. It will
         // be reported by a later call to checkLVal
       }
@@ -245,7 +252,11 @@ export default class LValParser extends NodeUtils {
   }
 
   // Parses lvalue (assignable) atom.
-  parseBindingAtom(): Pattern {
+  parseBindingAtom(): Pattern | MaybePlaceholder<"Pattern"> {
+    if (this.hasPlugin("placeholders") && this.shouldParsePlaceholder()) {
+      return this.parsePlaceholder("Pattern");
+    }
+
     switch (this.state.type) {
       case tt.bracketL: {
         const node = this.startNode();
@@ -352,6 +363,8 @@ export default class LValParser extends NodeUtils {
     disallowLetBinding?: boolean,
     strictModeChanged?: boolean = false,
   ): void {
+    if (this.hasPlugin("placeholders") && expr.type === "Placeholder") return;
+
     switch (expr.type) {
       case "Identifier":
         if (
