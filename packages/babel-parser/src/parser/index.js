@@ -4,13 +4,13 @@ import type { Options } from "../options";
 import type { File, JSXOpeningElement } from "../types";
 import type { PluginList } from "../plugin-utils";
 import { getOptions } from "../options";
-import PlaceholdersParser from "../plugins/placeholders";
 import { SCOPE_PROGRAM } from "../util/scopeflags";
 import ScopeHandler from "../util/scope";
+import JSXParser from "../plugins/jsx";
 
 export type PluginsMap = Map<string, { [string]: any }>;
 
-export default class Parser extends PlaceholdersParser {
+export default class Parser extends JSXParser {
   // Forward-declaration so typescript plugin can override jsx plugin
   +jsxParseOpeningElementAfterName: (
     node: JSXOpeningElement,

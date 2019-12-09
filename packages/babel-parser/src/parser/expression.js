@@ -905,6 +905,10 @@ export default class ExpressionParser extends LValParser {
     if (this.hasPlugin("placeholders") && this.shouldParsePlaceholder()) {
       return this.parsePlaceholder("Expression");
     }
+    if (this.hasPlugin("jsx")) {
+      const expr = this.jsxParseExprAtom();
+      if (expr) return expr;
+    }
 
     // If a division operator appears in an expression position, the
     // tokenizer got confused, and we force it to read a regexp instead.

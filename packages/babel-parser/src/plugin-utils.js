@@ -90,13 +90,11 @@ export function validatePlugins(plugins: PluginList) {
 
 import estree from "./plugins/estree";
 import flow from "./plugins/flow";
-import jsx from "./plugins/jsx";
 import typescript from "./plugins/typescript";
 
 // NOTE: order is important. estree must come first; placeholders must come last.
 export const mixinPlugins: { [name: string]: MixinPlugin } = {
   estree,
-  jsx,
   flow,
   typescript,
 };

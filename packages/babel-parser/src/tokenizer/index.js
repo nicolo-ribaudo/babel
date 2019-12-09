@@ -647,13 +647,17 @@ export default class Tokenizer extends LocationParser {
     }
   }
 
-  getTokenFromCode(code: number): void {
+  getTokenFromCode(code: number, skipJSX: ?boolean): void {
     if (
       this.hasPlugin("placeholders") &&
       this.placeholderGetTokenFromCode(code)
     ) {
       return;
     }
+    if (!skipJSX && this.hasPlugin("jsx") && this.jsxGetTokenFromCode(code)) {
+      return;
+    }
+
     switch (code) {
       // The interpretation of a dot depends on whether it is followed
       // by a digit or another two dots.
@@ -1479,6 +1483,8 @@ export default class Tokenizer extends LocationParser {
   }
 
   updateContext(prevType: TokenType): void {
+    if (this.hasPlugin("jsx") && this.jsxUpdateContext(prevType)) return;
+
     const type = this.state.type;
     let update;
 

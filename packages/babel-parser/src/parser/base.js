@@ -2,6 +2,7 @@
 
 import type { Options } from "../options";
 import type State from "../tokenizer/state";
+import type { TokenType } from "../tokenizer/types";
 import type { PluginsMap } from "./index";
 import type ScopeHandler from "../util/scope";
 import type {
@@ -50,6 +51,10 @@ export default class BaseParser {
   +parseImportWithPlaceholder: (
     node: N.Node,
   ) => {| hasDefault: boolean, sourceParsed: boolean |};
+
+  +jsxParseExprAtom: () => N.Expression;
+  +jsxGetTokenFromCode: (code: number) => boolean;
+  +jsxUpdateContext: (prevType: TokenType) => boolean;
 
   hasPlugin(name: string): boolean {
     return this.plugins.has(name);

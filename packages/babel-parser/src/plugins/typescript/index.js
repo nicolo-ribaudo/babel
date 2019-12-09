@@ -2519,7 +2519,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       if (this.state.inType && (code === 62 || code === 60)) {
         return this.finishOp(tt.relational, 1);
       } else {
-        return super.getTokenFromCode(code);
+        return super.getTokenFromCode(...arguments);
       }
     }
 

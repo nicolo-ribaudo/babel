@@ -2042,7 +2042,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
         this.state.isIterator = true;
         return super.readWord();
       } else {
-        return super.getTokenFromCode(code);
+        return super.getTokenFromCode(...arguments);
       }
     }
 
