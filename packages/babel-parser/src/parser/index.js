@@ -6,11 +6,11 @@ import type { PluginList } from "../plugin-utils";
 import { getOptions } from "../options";
 import { SCOPE_PROGRAM } from "../util/scopeflags";
 import ScopeHandler from "../util/scope";
-import JSXParser from "../plugins/jsx";
+import ESTreeAdapter from "../plugins/estree";
 
 export type PluginsMap = Map<string, { [string]: any }>;
 
-export default class Parser extends JSXParser {
+export default class Parser extends ESTreeAdapter {
   // Forward-declaration so typescript plugin can override jsx plugin
   +jsxParseOpeningElementAfterName: (
     node: JSXOpeningElement,

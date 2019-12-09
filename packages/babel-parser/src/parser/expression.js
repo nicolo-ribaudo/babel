@@ -80,7 +80,7 @@ export default class ExpressionParser extends LValParser {
     if (
       prop.type === "SpreadElement" ||
       prop.computed ||
-      prop.kind ||
+      (this.hasPlugin("estree") ? prop.method : prop.kind) ||
       // $FlowIgnore
       prop.shorthand
     ) {
@@ -909,6 +909,10 @@ export default class ExpressionParser extends LValParser {
       const expr = this.jsxParseExprAtom();
       if (expr) return expr;
     }
+    if (this.hasPlugin("eslint")) {
+      const expr = this.estreeParseExprAtom();
+      if (expr) return expr;
+    }
 
     // If a division operator appears in an expression position, the
     // tokenizer got confused, and we force it to read a regexp instead.
@@ -1263,8 +1267,15 @@ export default class ExpressionParser extends LValParser {
     startLoc = startLoc || this.state.startLoc;
 
     const node = this.startNodeAt(startPos, startLoc);
-    this.addExtra(node, "rawValue", value);
-    this.addExtra(node, "raw", this.input.slice(startPos, this.state.end));
+    const raw = this.input.slice(startPos, this.state.end);
+
+    if (this.hasPlugin("eslint")) {
+      node.raw = raw;
+    } else {
+      this.addExtra(node, "rawValue", value);
+      this.addExtra(node, "raw", raw);
+    }
+
     node.value = value;
     this.next();
     return this.finishNode(node, type);
@@ -1683,6 +1694,10 @@ export default class ExpressionParser extends LValParser {
   // get methods aren't allowed to have any parameters
   // set methods must have exactly 1 parameter which is not a rest parameter
   checkGetterSetterParams(method: N.ObjectMethod | N.ClassMethod): void {
+    if (this.hasPlugin("estree")) {
+      return this.estreeCheckGetterSetterParams(method);
+    }
+
     const paramCount = this.getGetterSetterExpectedParamCount(method);
     const start = method.start;
     if (method.params.length !== paramCount) {
@@ -1711,11 +1726,13 @@ export default class ExpressionParser extends LValParser {
     isPattern: boolean,
     containsEsc: boolean,
   ): ?N.ObjectMethod {
+    let method;
+
     if (isAsync || isGenerator || this.match(tt.parenL)) {
       if (isPattern) this.unexpected();
       prop.kind = "method";
       prop.method = true;
-      return this.parseMethod(
+      method = this.parseMethod(
         prop,
         isGenerator,
         isAsync,
@@ -1723,13 +1740,11 @@ export default class ExpressionParser extends LValParser {
         false,
         "ObjectMethod",
       );
-    }
-
-    if (!containsEsc && this.isGetterOrSetterMethod(prop, isPattern)) {
+    } else if (!containsEsc && this.isGetterOrSetterMethod(prop, isPattern)) {
       if (isGenerator || isAsync) this.unexpected();
       prop.kind = prop.key.name;
       this.parsePropertyName(prop);
-      this.parseMethod(
+      method = this.parseMethod(
         prop,
         /* isGenerator */ false,
         /* isAsync */ false,
@@ -1737,9 +1752,18 @@ export default class ExpressionParser extends LValParser {
         false,
         "ObjectMethod",
       );
-      this.checkGetterSetterParams(prop);
-      return prop;
+      this.checkGetterSetterParams(method);
     }
+
+    if (method && this.hasPlugin("estree")) {
+      (method: any).type = "Property";
+      if (((method: any): N.ClassMethod).kind === "method") {
+        (method: any).kind = "init";
+      }
+      (method: any).shorthand = false;
+    }
+
+    return method;
   }
 
   parseObjectProperty(
@@ -1749,6 +1773,8 @@ export default class ExpressionParser extends LValParser {
     isPattern: boolean,
     refShorthandDefaultPos: ?Pos,
   ): ?N.ObjectProperty {
+    let result;
+
     prop.shorthand = false;
 
     if (this.eat(tt.colon)) {
@@ -1756,10 +1782,8 @@ export default class ExpressionParser extends LValParser {
         ? this.parseMaybeDefault(this.state.start, this.state.startLoc)
         : this.parseMaybeAssign(false, refShorthandDefaultPos);
 
-      return this.finishNode(prop, "ObjectProperty");
-    }
-
-    if (!prop.computed && prop.key.type === "Identifier") {
+      result = this.finishNode(prop, "ObjectProperty");
+    } else if (!prop.computed && prop.key.type === "Identifier") {
       this.checkReservedWord(prop.key.name, prop.key.start, true, true);
 
       if (isPattern) {
@@ -1782,8 +1806,15 @@ export default class ExpressionParser extends LValParser {
       }
       prop.shorthand = true;
 
-      return this.finishNode(prop, "ObjectProperty");
+      result = this.finishNode(prop, "ObjectProperty");
     }
+
+    if (result && this.hasPlugin("eslint")) {
+      (result: any).kind = "init";
+      (result: any).type = "Property";
+    }
+
+    return result;
   }
 
   parseObjPropValue(
@@ -1851,6 +1882,7 @@ export default class ExpressionParser extends LValParser {
     node.id = null;
     node.generator = false;
     node.async = !!isAsync;
+    if (this.hasPlugin("estree")) node.expression = false;
   }
 
   // Parse object or class method.
@@ -1885,6 +1917,10 @@ export default class ExpressionParser extends LValParser {
 
     this.state.yieldPos = oldYieldPos;
     this.state.awaitPos = oldAwaitPos;
+
+    if (this.hasPlugin("estree")) {
+      return this.estreeMethodToFunction(node, type);
+    }
 
     return node;
   }
@@ -1933,9 +1969,11 @@ export default class ExpressionParser extends LValParser {
   }
 
   isStrictBody(node: { body: N.BlockStatement }): boolean {
-    const isBlockStatement = node.body.type === "BlockStatement";
+    if (node.body.type !== "BlockStatement") return false;
 
-    if (isBlockStatement && node.body.directives.length) {
+    if (this.hasPlugin("estree")) return this.estreeIsStrictBody(node);
+
+    if (node.body.directives.length) {
       for (const directive of node.body.directives) {
         if (directive.value.value === "use strict") {
           return true;
@@ -2024,6 +2062,10 @@ export default class ExpressionParser extends LValParser {
       );
     }
     this.state.strict = oldStrict;
+
+    if (this.hasPlugin("estree")) {
+      node.expression = node.body.type !== "BlockStatement";
+    }
   }
 
   isSimpleParamList(

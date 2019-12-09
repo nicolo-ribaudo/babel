@@ -5,6 +5,7 @@ import type State from "../tokenizer/state";
 import type { TokenType } from "../tokenizer/types";
 import type { PluginsMap } from "./index";
 import type ScopeHandler from "../util/scope";
+import type { BindingTypes } from "../util/scopeflags";
 import type {
   MaybePlaceholder,
   PlaceholderTypes,
@@ -52,9 +53,31 @@ export default class BaseParser {
     node: N.Node,
   ) => {| hasDefault: boolean, sourceParsed: boolean |};
 
-  +jsxParseExprAtom: () => N.Expression;
+  +jsxParseExprAtom: () => ?N.Expression;
   +jsxGetTokenFromCode: (code: number) => boolean;
   +jsxUpdateContext: (prevType: TokenType) => boolean;
+
+  +estreeCheckDeclaration: (node: N.Pattern | N.ObjectProperty) => boolean;
+  +estreeCheckGetterSetterParams: (
+    method: N.ObjectMethod | N.ClassMethod,
+  ) => void;
+  +estreeCheckLVal: (
+    expr: N.Expression,
+    bindingType: BindingTypes,
+    checkClashes: ?{ [key: string]: boolean },
+    contextDescription: string,
+    disallowLetBinding?: boolean,
+  ) => boolean;
+  +estreeIsStrictBody: (node: { body: N.BlockStatement }) => boolean;
+  +estreeIsValidDirective: (stmt: N.Statement) => boolean;
+  +estreeParseExprAtom: () => ?N.Expression;
+  +estreeToAssignable: (
+    node: N.Node,
+    isBinding: ?boolean,
+    contextDescription: string,
+  ) => boolean;
+  +estreeToAssignableObjectExpressionProp: (prop: N.Node) => boolean;
+  +estreeMethodToFunction: <T: N.MethodLike>(node: T, type: string) => T;
 
   hasPlugin(name: string): boolean {
     return this.plugins.has(name);

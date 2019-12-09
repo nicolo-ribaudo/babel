@@ -76,8 +76,9 @@ export default class StatementParser extends ExpressionParser {
     const directive = this.startNodeAt(stmt.start, stmt.loc.start);
 
     const raw = this.input.slice(expr.start, expr.end);
-    const val = (directiveLiteral.value = raw.slice(1, -1)); // remove quotes
+    const val = this.hasPlugin("estree") ? expr.value : raw.slice(1, -1); // remove quotes
 
+    directiveLiteral.value = val;
     this.addExtra(directiveLiteral, "raw", raw);
     this.addExtra(directiveLiteral, "rawValue", val);
 
@@ -836,6 +837,8 @@ export default class StatementParser extends ExpressionParser {
   }
 
   isValidDirective(stmt: N.Statement): boolean {
+    if (this.hasPlugin("estree")) return this.estreeIsValidDirective(stmt);
+
     return (
       stmt.type === "ExpressionStatement" &&
       stmt.expression.type === "StringLiteral" &&
@@ -849,14 +852,15 @@ export default class StatementParser extends ExpressionParser {
     topLevel: boolean,
     end: TokenType,
   ): void {
+    let directives;
+    if (!this.hasPlugin("estree")) {
+      node.directives = [];
+      if (allowDirectives) directives = node.directives;
+    }
+
     const body = (node.body = []);
-    const directives = (node.directives = []);
-    this.parseBlockOrModuleBlockBody(
-      body,
-      allowDirectives ? directives : undefined,
-      topLevel,
-      end,
-    );
+
+    this.parseBlockOrModuleBlockBody(body, directives, topLevel, end);
   }
 
   // Undefined directives means that directives are not allowed.
@@ -1565,17 +1569,27 @@ export default class StatementParser extends ExpressionParser {
     isConstructor: boolean,
     allowsDirectSuper: boolean,
   ): void {
-    classBody.body.push(
-      this.parseMethod(
-        method,
-        isGenerator,
-        isAsync,
-        isConstructor,
-        allowsDirectSuper,
-        "ClassMethod",
-        true,
-      ),
+    method = this.parseMethod(
+      method,
+      isGenerator,
+      isAsync,
+      isConstructor,
+      allowsDirectSuper,
+      "ClassMethod",
+      true,
     );
+
+    if (
+      this.hasPlugin("estree") &&
+      (this.hasPlugin("flow") || this.hasPlugin("typescript")) &&
+      method.typeParameters
+    ) {
+      // $FlowIgnore
+      method.value.typeParameters = method.typeParameters;
+      delete method.typeParameters;
+    }
+
+    classBody.body.push(method);
   }
 
   pushClassPrivateMethod(
@@ -2001,6 +2015,10 @@ export default class StatementParser extends ExpressionParser {
   }
 
   checkDeclaration(node: N.Pattern | N.ObjectProperty): void {
+    if (this.hasPlugin("estree") && this.estreeCheckDeclaration(node)) {
+      return;
+    }
+
     if (node.type === "Identifier") {
       this.checkDuplicateExports(node, node.name);
     } else if (node.type === "ObjectPattern") {

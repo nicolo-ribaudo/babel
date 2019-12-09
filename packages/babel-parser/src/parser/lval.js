@@ -132,6 +132,12 @@ export default class LValParser extends NodeUtils {
           ) {
             break;
           }
+          if (
+            this.hasPlugin("estree") &&
+            this.estreeToAssignable(node, isBinding, contextDescription)
+          ) {
+            break;
+          }
         // We don't know how to deal with this node. It will
         // be reported by a later call to checkLVal
       }
@@ -144,6 +150,13 @@ export default class LValParser extends NodeUtils {
     isBinding: ?boolean,
     isLast: boolean,
   ) {
+    if (
+      this.hasPlugin("estree") &&
+      this.estreeToAssignableObjectExpressionProp(prop)
+    ) {
+      return;
+    }
+
     if (prop.type === "ObjectMethod") {
       const error =
         prop.kind === "get" || prop.kind === "set"
@@ -364,6 +377,7 @@ export default class LValParser extends NodeUtils {
     strictModeChanged?: boolean = false,
   ): void {
     if (this.hasPlugin("placeholders") && expr.type === "Placeholder") return;
+    if (this.hasPlugin("estree") && this.estreeCheckLVal(...arguments)) return;
 
     switch (expr.type) {
       case "Identifier":
