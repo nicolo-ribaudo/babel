@@ -216,7 +216,7 @@ prepublish:
 
 new-version:
 	git pull --rebase
-	$(YARN) lerna version --force-publish=$(FORCE_PUBLISH)
+	$(YARN) lerna version --force-publish=$(FORCE_PUBLISH) --exclude-dependents
 
 # NOTE: Run make new-version first
 publish: prepublish
@@ -240,7 +240,7 @@ ifneq ("$(I_AM_USING_VERDACCIO)", "I_AM_SURE")
 	exit 1
 endif
 	$(MAKE) prepublish-build
-	$(YARN) lerna version patch --force-publish=$(FORCE_PUBLISH)  --no-push --yes --tag-version-prefix="version-e2e-test-"
+	$(YARN) lerna version patch --force-publish=$(FORCE_PUBLISH)  --no-push --yes --tag-version-prefix="version-e2e-test-" --exclude-dependents
 	$(YARN) lerna publish from-git --registry http://localhost:4873 --yes --tag-version-prefix="version-e2e-test-"
 	$(MAKE) clean
 
