@@ -1,14 +1,19 @@
-module.exports = function stringifyValidator(validator, nodePrefix) {
+module.exports = function stringifyValidator(validator, nodePrefix, readonly) {
   if (validator === undefined) {
     return "any";
   }
 
   if (validator.each) {
-    return `Array<${stringifyValidator(validator.each, nodePrefix)}>`;
+    const array = readonly ? "$ReadOnlyArray" : "Array";
+    return `${array}<${stringifyValidator(
+      validator.each,
+      nodePrefix,
+      readonly
+    )}>`;
   }
 
   if (validator.chainOf) {
-    return stringifyValidator(validator.chainOf[1], nodePrefix);
+    return stringifyValidator(validator.chainOf[1], nodePrefix, readonly);
   }
 
   if (validator.oneOf) {
@@ -32,7 +37,7 @@ module.exports = function stringifyValidator(validator, nodePrefix) {
   }
 
   if (validator.shapeOf) {
-    return (
+    const obj =
       "{ " +
       Object.keys(validator.shapeOf)
         .map(shapeKey => {
@@ -43,15 +48,16 @@ module.exports = function stringifyValidator(validator, nodePrefix) {
             return (
               shapeKey +
               (isOptional ? "?: " : ": ") +
-              stringifyValidator(propertyDefinition.validate)
+              stringifyValidator(propertyDefinition.validate, readonly)
             );
           }
           return null;
         })
         .filter(Boolean)
         .join(", ") +
-      " }"
-    );
+      " }";
+
+    return readonly ? `$ReadOnly<${obj}>` : obj;
   }
 
   return ["any"];

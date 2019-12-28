@@ -49,6 +49,24 @@ declare class ${NODE_PREFIX} {
 
 const lines = [];
 
+const suffix = (field, readonly) => {
+  let suffix = "";
+  if (field.optional || field.default != null) suffix += "?";
+
+  let typeAnnotation = "any";
+
+  const validate = field.validate;
+  if (validate) {
+    typeAnnotation = stringifyValidator(validate, NODE_PREFIX, readonly);
+  }
+
+  if (typeAnnotation) {
+    suffix += ": " + typeAnnotation;
+  }
+
+  return suffix;
+};
+
 for (const type in t.NODE_FIELDS) {
   const fields = t.NODE_FIELDS[type];
 
@@ -67,24 +85,10 @@ for (const type in t.NODE_FIELDS) {
     .forEach(fieldName => {
       const field = fields[fieldName];
 
-      let suffix = "";
-      if (field.optional || field.default != null) suffix += "?";
-
-      let typeAnnotation = "any";
-
-      const validate = field.validate;
-      if (validate) {
-        typeAnnotation = stringifyValidator(validate, NODE_PREFIX);
-      }
-
-      if (typeAnnotation) {
-        suffix += ": " + typeAnnotation;
-      }
-
-      args.push(t.toBindingIdentifierName(fieldName) + suffix);
+      args.push(t.toBindingIdentifierName(fieldName) + suffix(field, true));
 
       if (t.isValidIdentifier(fieldName)) {
-        struct.push(fieldName + suffix + ";");
+        struct.push(fieldName + suffix(field, false) + ";");
       }
     });
 
@@ -125,10 +129,10 @@ lines.push(
   // eslint-disable-next-line max-len
   `declare function createTypeAnnotationBasedOnTypeof(type: 'string' | 'number' | 'undefined' | 'boolean' | 'function' | 'object' | 'symbol'): ${NODE_PREFIX}TypeAnnotation`,
   // eslint-disable-next-line max-len
-  `declare function createUnionTypeAnnotation(types: Array<${NODE_PREFIX}FlowType>): ${NODE_PREFIX}UnionTypeAnnotation`,
+  `declare function createUnionTypeAnnotation(types: $ReadOnlyArray<${NODE_PREFIX}FlowType>): ${NODE_PREFIX}UnionTypeAnnotation`,
   // this smells like "internal API"
   // eslint-disable-next-line max-len
-  `declare function buildChildren(node: { children: Array<${NODE_PREFIX}JSXText | ${NODE_PREFIX}JSXExpressionContainer | ${NODE_PREFIX}JSXSpreadChild | ${NODE_PREFIX}JSXElement | ${NODE_PREFIX}JSXFragment | ${NODE_PREFIX}JSXEmptyExpression> }): Array<${NODE_PREFIX}JSXText | ${NODE_PREFIX}JSXExpressionContainer | ${NODE_PREFIX}JSXSpreadChild | ${NODE_PREFIX}JSXElement | ${NODE_PREFIX}JSXFragment>`,
+  `declare function buildChildren(node: { children: $ReadOnlyArray<${NODE_PREFIX}JSXText | ${NODE_PREFIX}JSXExpressionContainer | ${NODE_PREFIX}JSXSpreadChild | ${NODE_PREFIX}JSXElement | ${NODE_PREFIX}JSXFragment | ${NODE_PREFIX}JSXEmptyExpression> }): Array<${NODE_PREFIX}JSXText | ${NODE_PREFIX}JSXExpressionContainer | ${NODE_PREFIX}JSXSpreadChild | ${NODE_PREFIX}JSXElement | ${NODE_PREFIX}JSXFragment>`,
 
   // clone/
   `declare function clone<T>(n: T): T;`,
@@ -141,7 +145,7 @@ lines.push(
   // eslint-disable-next-line max-len
   `declare function addComment<T: Node>(node: T, type: CommentTypeShorthand, content: string, line?: boolean): T`,
   // eslint-disable-next-line max-len
-  `declare function addComments<T: Node>(node: T, type: CommentTypeShorthand, comments: Array<Comment>): T`,
+  `declare function addComments<T: Node>(node: T, type: CommentTypeShorthand, comments: $ReadOnlyArray<Comment>): T`,
   `declare function inheritInnerComments(node: Node, parent: Node): void`,
   `declare function inheritLeadingComments(node: Node, parent: Node): void`,
   `declare function inheritsComments<T: Node>(node: T, parent: Node): void`,
