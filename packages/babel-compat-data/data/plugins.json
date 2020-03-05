@@ -252,15 +252,15 @@
     "electron": "1.1"
   },
   "transform-spread": {
-    "chrome": "46",
+    "chrome": "50",
     "edge": "13",
-    "firefox": "36",
+    "firefox": "53",
     "safari": "10",
-    "node": "5",
+    "node": "6",
     "ios": "10",
     "samsung": "5",
-    "opera": "33",
-    "electron": "0.36"
+    "opera": "37",
+    "electron": "1.1"
   },
   "transform-parameters": {
     "chrome": "49",

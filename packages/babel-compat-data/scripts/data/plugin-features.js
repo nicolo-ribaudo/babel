@@ -58,7 +58,13 @@ const es2015 = {
     ],
   },
   "transform-spread": {
-    features: ["spread syntax for iterable objects"],
+    features: [
+      "spread syntax for iterable objects",
+      // regenerator doesn't support array spread
+      // https://github.com/babel/babel/issues/11212
+      // TODO: Fix this in regenerator
+      "generators",
+    ],
   },
   "transform-parameters": {
     features: [
