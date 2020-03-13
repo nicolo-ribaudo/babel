@@ -934,7 +934,7 @@ helpers.arrayWithHoles = helper("7.0.0-beta.0")`
 helpers.iterableToArray = helper("7.0.0-beta.0")`
   export default function _iterableToArray(iter) {
     if (
-      Symbol.iterator in Object(iter) ||
+      (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) ||
       Object.prototype.toString.call(iter) === "[object Arguments]"
     ) return Array.from(iter);
   }
@@ -951,9 +951,11 @@ helpers.iterableToArrayLimit = helper("7.0.0-beta.0")`
     // _e = _iteratorError
     // _i = _iterator
     // _s = _step
-    if (!(
-      Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]"
-    )) { return }
+    if (
+      !(typeof Symbol !== "undefined" && Symbol.iterator in Object(arr)) &&
+      Object.prototype.toString.call(arr) !== "[object Arguments]"
+    ) return;
+
     var _arr = [];
     var _n = true;
     var _d = false;
@@ -979,9 +981,11 @@ helpers.iterableToArrayLimit = helper("7.0.0-beta.0")`
 
 helpers.iterableToArrayLimitLoose = helper("7.0.0-beta.0")`
   export default function _iterableToArrayLimitLoose(arr, i) {
-    if (!(
-      Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]"
-    )) { return }
+    if (
+      !(typeof Symbol !== "undefined" && Symbol.iterator in Object(arr)) &&
+      Object.prototype.toString.call(arr) !== "[object Arguments]"
+    ) return;
+
     var _arr = [];
     for (var _iterator = arr[Symbol.iterator](), _step; !(_step = _iterator.next()).done;) {
       _arr.push(_step.value);
@@ -1019,7 +1023,8 @@ helpers.toPrimitive = helper("7.1.5")`
     hint /*: "default" | "string" | "number" | void */
   ) {
     if (typeof input !== "object" || input === null) return input;
-    var prim = input[Symbol.toPrimitive];
+    if (typeof Symbol !== "undefined" && Symbol.toPrimitive)
+      var prim = input[Symbol.toPrimitive];
     if (prim !== undefined) {
       var res = prim.call(input, hint || "default");
       if (typeof res !== "object") return res;
@@ -1597,11 +1602,12 @@ helpers.decorate = helper("7.1.5")`
           descriptor: element.descriptor,
         };
 
-        var desc = {
-          value: "Descriptor",
-          configurable: true,
-        };
-        Object.defineProperty(obj, Symbol.toStringTag, desc);
+        if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
+          Object.defineProperty(obj, Symbol.toStringTag, {
+            value: "Descriptor",
+            configurable: true,
+          });
+        }
 
         if (element.kind === "field") obj.initializer = element.initializer;
 
@@ -1715,8 +1721,12 @@ helpers.decorate = helper("7.1.5")`
           elements: elements.map(this.fromElementDescriptor, this),
         };
 
-        var desc = { value: "Descriptor", configurable: true };
-        Object.defineProperty(obj, Symbol.toStringTag, desc);
+        if (typeof Symbol !== "undefined" && Symbol.toStringTag) {
+          Object.defineProperty(obj, Symbol.toStringTag, {
+            value: "Descriptor",
+            configurable: true
+          });
+        }
 
         return obj;
       },
@@ -1948,6 +1958,10 @@ helpers.wrapRegExp = helper("7.2.6")`
       if (result) result.groups = buildGroups(result, this);
       return result;
     };
+
+    // Here we don't check if Symbol is defined, because without Symbol.replace
+    // this class cannot work.
+
     BabelRegExp.prototype[Symbol.replace] = function(str, substitution) {
       if (typeof substitution === "string") {
         var groups = _groups.get(this);
