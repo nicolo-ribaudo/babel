@@ -46,6 +46,8 @@ interface BaseNode {
   type: Node["type"];
 }
 
+export type CommentTypeShorthand = "leading" | "inner" | "trailing";
+
 export type Node = ${t.TYPES.sort().join(" | ")};\n\n`;
 
 const deprecatedAlias = {};

@@ -1,10 +1,12 @@
+import type * as types from "../types";
+
 /**
  * Check if the input `node` is a reference to a bound variable.
  */
 export default function isReferenced(
-  node: any,
-  parent: any,
-  grandparent?: any,
+  node: types.Node,
+  parent: types.Node,
+  grandparent?: types.Node,
 ): boolean {
   switch (parent.type) {
     // yes: PARENT[NODE]
@@ -14,6 +16,7 @@ export default function isReferenced(
     case "JSXMemberExpression":
     case "OptionalMemberExpression":
       if (parent.property === node) {
+        // @ts-ignore
         return !!parent.computed;
       }
       return parent.object === node;
@@ -32,6 +35,7 @@ export default function isReferenced(
     // yes: export { NODE as foo };
     // no: export { NODE as foo } from "foo";
     case "ExportSpecifier":
+      // @ts-ignore
       if (parent.source) {
         return false;
       }
@@ -50,6 +54,7 @@ export default function isReferenced(
     case "ClassMethod":
     case "ClassPrivateMethod":
     case "ObjectMethod":
+      // @ts-ignore
       if (parent.params.includes(node)) {
         return false;
       }
@@ -68,8 +73,10 @@ export default function isReferenced(
     case "ClassProperty":
     case "ClassPrivateProperty":
       if (parent.key === node) {
+        // @ts-ignore
         return !!parent.computed;
       }
+      // @ts-ignore
       if (parent.value === node) {
         return !grandparent || grandparent.type !== "ObjectPattern";
       }
