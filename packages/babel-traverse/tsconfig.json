@@ -1,0 +1,33 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "rootDir": "./src"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "references": [
+    {
+      "path": "../babel-code-frame"
+    },
+    {
+      "path": "../babel-generator"
+    },
+    {
+      "path": "../babel-helper-function-name"
+    },
+    {
+      "path": "../babel-helper-split-export-declaration"
+    },
+    {
+      "path": "../babel-parser"
+    },
+    {
+      "path": "../babel-types"
+    },
+    {
+      "path": "../babel-helper-plugin-test-runner"
+    }
+  ]
+}

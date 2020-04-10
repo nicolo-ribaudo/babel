@@ -44,6 +44,7 @@ generate-standalone:
 
 generate-type-helpers:
 	$(NODE) packages/babel-types/scripts/generateTypeHelpers.js
+	$(NODE) packages/babel-traverse/scripts/generateTypeHelpers.js
 
 build-typings: build-flow-typings
 

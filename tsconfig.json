@@ -42,6 +42,9 @@
     },
     {
       "path": "./packages/babel-helper-plugin-test-runner"
+    },
+    {
+      "path": "./packages/babel-traverse"
     }
   ]
 }
