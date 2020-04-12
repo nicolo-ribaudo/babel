@@ -6,7 +6,7 @@ const camelCase = require("lodash/camelCase");
 const format = require("../../../scripts/utils/formatCode");
 const writeFile = require("../../../scripts/utils/writeFileAndMkDir");
 
-const outputFile = path.join(__dirname, "../src/generated/plugins.js");
+const outputFile = path.join(__dirname, "../src/generated/plugins.ts");
 
 console.log("Generating @babel/standalone files");
 
