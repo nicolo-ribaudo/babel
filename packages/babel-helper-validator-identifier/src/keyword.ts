@@ -56,7 +56,7 @@ const reservedWordsStrictBindSet = new Set(reservedWords.strictBind);
 /**
  * Checks if word is a reserved word in non-strict mode
  */
-export function isReservedWord(word: string, inModule: boolean): boolean {
+export function isReservedWord(word: string, inModule?: boolean): boolean {
   return (inModule && word === "await") || word === "enum";
 }
 
@@ -65,7 +65,10 @@ export function isReservedWord(word: string, inModule: boolean): boolean {
  *
  * Includes non-strict reserved words
  */
-export function isStrictReservedWord(word: string, inModule: boolean): boolean {
+export function isStrictReservedWord(
+  word: string,
+  inModule?: boolean,
+): boolean {
   return isReservedWord(word, inModule) || reservedWordsStrictSet.has(word);
 }
 
@@ -84,7 +87,7 @@ export function isStrictBindOnlyReservedWord(word: string): boolean {
  */
 export function isStrictBindReservedWord(
   word: string,
-  inModule: boolean,
+  inModule?: boolean,
 ): boolean {
   return (
     isStrictReservedWord(word, inModule) || isStrictBindOnlyReservedWord(word)

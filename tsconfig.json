@@ -3,6 +3,9 @@
   "references": [
     {
       "path": "./packages/babel-template"
+    },
+    {
+      "path": "./packages/babel-helper-validator-identifier"
     }
   ]
 }
