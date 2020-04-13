@@ -8,5 +8,14 @@
     "./src/**/*"
   ],
   "references": [
+    {
+      "path": "../babel-code-frame"
+    },
+    {
+      "path": "../babel-parser"
+    },
+    {
+      "path": "../babel-types"
+    }
   ]
 }

@@ -24,6 +24,9 @@
     },
     {
       "path": "./packages/babel-helper-get-function-arity"
+    },
+    {
+      "path": "./packages/babel-template"
     }
   ]
 }
