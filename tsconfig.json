@@ -27,6 +27,9 @@
     },
     {
       "path": "./packages/babel-template"
+    },
+    {
+      "path": "./packages/babel-helper-function-name"
     }
   ]
 }

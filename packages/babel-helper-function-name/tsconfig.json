@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "rootDir": "./src"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "references": [
+    {
+      "path": "../babel-helper-get-function-arity"
+    },
+    {
+      "path": "../babel-template"
+    },
+    {
+      "path": "../babel-types"
+    }
+  ]
+}
