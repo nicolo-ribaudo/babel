@@ -9,6 +9,9 @@
     },
     {
       "path": "./packages/babel-highlight"
+    },
+    {
+      "path": "./packages/babel-code-frame"
     }
   ]
 }
