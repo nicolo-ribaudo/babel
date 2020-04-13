@@ -12,7 +12,7 @@ const FILE_TYPE = Object.freeze({
   COMPILED: "COMPILED",
   IGNORED: "IGNORED",
   ERR_COMPILATION: "ERR_COMPILATION",
-});
+} as const);
 
 function outputFileSync(filePath: string, data: string | Buffer): void {
   makeDirSync(path.dirname(filePath));

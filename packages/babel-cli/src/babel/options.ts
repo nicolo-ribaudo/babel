@@ -4,7 +4,7 @@ import commander from "commander";
 import { version } from "@babel/core";
 import glob from "glob";
 
-import pkg from "../../package.json";
+const pkg = require("../../package.json");
 
 // Standard Babel input configs.
 commander.option(

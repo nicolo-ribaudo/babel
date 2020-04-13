@@ -84,6 +84,9 @@
     },
     {
       "path": "./eslint/babel-eslint-plugin-development"
+    },
+    {
+      "path": "./packages/babel-cli"
     }
   ]
 }
