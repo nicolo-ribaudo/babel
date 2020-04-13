@@ -16,5 +16,9 @@
   "dependencies": {
     "lodash": "^4.17.19",
     "semver": "^5.3.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.150",
+    "@types/semver": "^5.3.0"
   }
 }
