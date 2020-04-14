@@ -7,14 +7,14 @@ type TransformFile = {
 export const transformFile: TransformFile = function transformFile(
   filename,
   opts,
-  callback,
+  callback?,
 ) {
   if (typeof opts === "function") {
     callback = opts;
   }
 
   callback(new Error("Transforming files is not supported in browsers"), null);
-} as Function;
+};
 
 export function transformFileSync() {
   throw new Error("Transforming files is not supported in browsers");

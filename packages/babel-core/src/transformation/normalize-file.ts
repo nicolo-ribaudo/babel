@@ -6,7 +6,7 @@ import type { Handler } from "gensync";
 import * as t from "@babel/types";
 import type { PluginPasses } from "../config";
 import convertSourceMap from "convert-source-map";
-type Converter = typeof import("convert-source-map").Converter;
+import type { SourceMapConverter as Converter } from "convert-source-map";
 import File from "./file/file";
 import parser from "../parser";
 
@@ -23,7 +23,7 @@ export default function* normalizeFile(
   pluginPasses: PluginPasses,
   options: any,
   code: string,
-  ast?: BabelNodeFile | BabelNodeProgram | null,
+  ast?: t.File | t.Program | null,
 ): Handler<File> {
   code = `${code || ""}`;
 
@@ -69,13 +69,16 @@ export default function* normalizeFile(
           const match: [string, string] = EXTERNAL_SOURCEMAP_REGEX.exec(
             lastComment,
           ) as any;
-          const inputMapContent: Buffer = fs.readFileSync(
+          const inputMapContent = fs.readFileSync(
             path.resolve(path.dirname(options.filename), match[1]),
           );
           if (inputMapContent.length > LARGE_INPUT_SOURCEMAP_THRESHOLD) {
             debug("skip merging input map > 1 MB");
           } else {
-            inputMap = convertSourceMap.fromJSON(inputMapContent);
+            inputMap = convertSourceMap.fromJSON(
+              // todo:
+              (inputMapContent as unknown) as string,
+            );
           }
         } catch (err) {
           debug("discarding unknown file input sourcemap", err);

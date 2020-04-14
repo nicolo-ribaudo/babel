@@ -3,9 +3,10 @@ import gensync from "gensync";
 import loadConfig from "./config";
 import type { InputOptions, ResolvedConfig } from "./config";
 import { run } from "./transformation";
+import type * as t from "@babel/types";
 
 import type { FileResult, FileResultCallback } from "./transformation";
-type AstRoot = BabelNodeFile | BabelNodeProgram;
+type AstRoot = t.File | t.Program;
 
 type TransformFromAst = {
   (ast: AstRoot, code: string, callback: FileResultCallback): void;
@@ -34,7 +35,7 @@ export const transformFromAst: TransformFromAst = function transformFromAst(
   ast,
   code,
   opts,
-  callback,
+  callback?,
 ) {
   if (typeof opts === "function") {
     callback = opts;
@@ -48,7 +49,7 @@ export const transformFromAst: TransformFromAst = function transformFromAst(
   }
 
   transformFromAstRunner.errback(ast, code, opts, callback);
-} as Function;
+};
 
 export const transformFromAstSync = transformFromAstRunner.sync;
 export const transformFromAstAsync = transformFromAstRunner.async;

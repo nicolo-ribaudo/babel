@@ -1,5 +1,5 @@
 import type File from "./file/file";
-import type NodeLocation from "./file/file";
+import type { NodeLocation } from "./file/file";
 
 export default class PluginPass {
   _map: Map<unknown, unknown> = new Map();
@@ -49,8 +49,8 @@ export default class PluginPass {
   buildCodeFrameError(
     node: NodeLocation | undefined | null,
     msg: string,
-    Error?: typeof Error,
+    _Error?: typeof Error,
   ) {
-    return this.file.buildCodeFrameError(node, msg, Error);
+    return this.file.buildCodeFrameError(node, msg, _Error);
   }
 }

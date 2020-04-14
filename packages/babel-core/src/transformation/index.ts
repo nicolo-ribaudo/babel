@@ -1,5 +1,6 @@
 import traverse from "@babel/traverse";
-type SourceMap = typeof import("convert-source-map").SourceMap;
+import type * as t from "@babel/types";
+type SourceMap = any;
 import type { Handler } from "gensync";
 
 import type { ResolvedConfig, PluginPasses } from "../config";
@@ -28,7 +29,7 @@ export type FileResult = {
 export function* run(
   config: ResolvedConfig,
   code: string,
-  ast?: BabelNodeFile | BabelNodeProgram | null,
+  ast?: t.File | t.Program | null,
 ): Handler<FileResult> {
   const file = yield* normalizeFile(
     config.passes,
@@ -129,7 +130,7 @@ function* transformFile(file: File, pluginPasses: PluginPasses): Handler<void> {
   }
 }
 
-function isThenable(val: unknown): boolean {
+function isThenable<T extends PromiseLike<any>>(val: any): val is T {
   return (
     !!val &&
     (typeof val === "object" || typeof val === "function") &&

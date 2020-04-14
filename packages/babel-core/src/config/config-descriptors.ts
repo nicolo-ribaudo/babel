@@ -25,16 +25,16 @@ export type OptionsAndDescriptors = {
 // At this point these have been resolved to a specific object or function,
 // but have not yet been executed to call functions with options.
 export type UnloadedDescriptor = {
-  name: string | void;
-  value: {} | Function;
-  options: {} | void | false;
+  name: string | undefined;
+  value: any | Function;
+  options: {} | undefined | false;
   dirname: string;
   alias: string;
   ownPass?: boolean;
   file?: {
     request: string;
     resolved: string;
-  } | void;
+  };
 };
 
 function isEqualDescriptor(
@@ -261,7 +261,8 @@ export function createDescriptor(
 
   let name;
   let options;
-  let value = pair;
+  // todo(flow->ts) better type annotation
+  let value: any = pair;
   if (Array.isArray(value)) {
     if (value.length === 3) {
       [value, options, name] = value;

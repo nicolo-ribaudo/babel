@@ -19,7 +19,7 @@ const loadOptionsRunner = gensync<[unknown], any | null>(function* (opts) {
   return config?.options ?? null;
 });
 
-const maybeErrback = runner => (opts: unknown, callback: Function) => {
+const maybeErrback = runner => (opts: unknown, callback?: Function) => {
   if (callback === undefined && typeof opts === "function") {
     callback = opts;
     opts = undefined;

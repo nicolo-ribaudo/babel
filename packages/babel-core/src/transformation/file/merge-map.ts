@@ -1,4 +1,4 @@
-type SourceMap = typeof import("convert-source-map").SourceMap;
+type SourceMap = any;
 import sourceMap from "source-map";
 
 export default function mergeSourceMap(
@@ -72,6 +72,7 @@ export default function mergeSourceMap(
       // Insert mappings with no original position to terminate any mappings
       // that were found above, so that they don't expand beyond their correct
       // range.
+      // @ts-expect-error todo(flow->ts) original and source field are missing
       mergedGenerator.addMapping({
         generated: {
           line: clearItem.line,

@@ -46,14 +46,14 @@ export default class File {
   _map: Map<any, any> = new Map();
   opts: any;
   declarations: any = {};
-  path: NodePath = null;
+  path: NodePath<t.Program> = null;
   ast: any = {};
   scope: Scope;
   metadata: {} = {};
   code: string = "";
   inputMap: any | null = null;
 
-  hub: HubInterface = {
+  hub: HubInterface & { file: File } = {
     // keep it for the usage in babel-core, ex: path.hub.file.opts.filename
     file: this,
     getCode: () => this.code,
@@ -87,7 +87,7 @@ export default class File {
     const { interpreter } = this.path.node;
     return interpreter ? interpreter.value : "";
   }
-  set shebang(value: string): void {
+  set shebang(value: string) {
     if (value) {
       this.path.get("interpreter").replaceWith(t.interpreterDirective(value));
     } else {
@@ -233,7 +233,7 @@ export default class File {
   buildCodeFrameError(
     node: NodeLocation | undefined | null,
     msg: string,
-    Error: typeof Error = SyntaxError,
+    _Error: typeof Error = SyntaxError,
   ): Error {
     let loc = node && (node.loc || node._loc);
 
@@ -241,7 +241,7 @@ export default class File {
       const state = {
         loc: null,
       };
-      traverse(node, errorVisitor, this.scope, state);
+      traverse(node as t.Node, errorVisitor, this.scope, state);
       loc = state.loc;
 
       let txt =
@@ -275,6 +275,6 @@ export default class File {
         );
     }
 
-    return new Error(msg);
+    return new _Error(msg);
   }
 }

@@ -1,6 +1,6 @@
 import type { PluginPasses } from "../../config";
 import convertSourceMap from "convert-source-map";
-type SourceMap = typeof import("convert-source-map").SourceMap;
+type SourceMap = any;
 import generate from "@babel/generator";
 
 import type File from "./file";

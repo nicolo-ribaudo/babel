@@ -31,9 +31,8 @@ export type CacheEntry<ResultT, SideChannel> = Array<{
   valid: (a: SideChannel) => Handler<boolean>;
 }>;
 
-const synchronize = <ArgsT, ResultT>(
-  // $FlowIssue https://github.com/facebook/flow/issues/7279
-  gen: () => Handler<ResultT>,
+const synchronize = <ArgsT extends any[], ResultT>(
+  gen: (...args: ArgsT) => Handler<ResultT>,
 ): ((...args: ArgsT) => ResultT) => {
   return gensync(gen).sync;
 };
@@ -43,7 +42,7 @@ function* genTrue(data: any) {
   return true;
 }
 
-export function makeWeakCache<ArgT, ResultT, SideChannel>(
+export function makeWeakCache<ArgT extends object, ResultT, SideChannel>(
   handler: (
     b: ArgT,
     a: CacheConfigurator<SideChannel>,
@@ -52,9 +51,9 @@ export function makeWeakCache<ArgT, ResultT, SideChannel>(
   return makeCachedFunction<ArgT, ResultT, SideChannel, any>(WeakMap, handler);
 }
 
-export function makeWeakCacheSync<ArgT, ResultT, SideChannel>(
-  handler: (b: ArgT, a: CacheConfigurator<SideChannel>) => ResultT,
-): (b: ArgT, a: SideChannel) => ResultT {
+export function makeWeakCacheSync<ArgT extends object, ResultT, SideChannel>(
+  handler: (b: ArgT, a?: CacheConfigurator<SideChannel>) => ResultT,
+): (b: ArgT, a?: SideChannel) => ResultT {
   return synchronize<[ArgT, SideChannel], ResultT>(
     makeWeakCache<ArgT, ResultT, SideChannel>(handler),
   );
@@ -70,8 +69,8 @@ export function makeStrongCache<ArgT, ResultT, SideChannel>(
 }
 
 export function makeStrongCacheSync<ArgT, ResultT, SideChannel>(
-  handler: (b: ArgT, a: CacheConfigurator<SideChannel>) => ResultT,
-): (b: ArgT, a: SideChannel) => ResultT {
+  handler: (b: ArgT, a?: CacheConfigurator<SideChannel>) => ResultT,
+): (b: ArgT, a?: SideChannel) => ResultT {
   return synchronize<[ArgT, SideChannel], ResultT>(
     makeStrongCache<ArgT, ResultT, SideChannel>(handler),
   );
@@ -111,9 +110,9 @@ function makeCachedFunction<ArgT, ResultT, SideChannel, Cache extends any>(
     a: CacheConfigurator<SideChannel>,
   ) => Handler<ResultT> | ResultT,
 ): (b: ArgT, a: SideChannel) => Handler<ResultT> {
-  const callCacheSync = new CallCache();
-  const callCacheAsync = new CallCache();
-  const futureCache = new CallCache();
+  const callCacheSync: any = new CallCache();
+  const callCacheAsync: any = new CallCache();
+  const futureCache: any = new CallCache();
 
   return function* cachedFunction(arg: ArgT, data: SideChannel) {
     const asyncContext = yield* isAsync();
@@ -160,6 +159,7 @@ function makeCachedFunction<ArgT, ResultT, SideChannel, Cache extends any>(
 
 type CacheMap<ArgT, ResultT, SideChannel> =
   | Map<ArgT, CacheEntry<ResultT, SideChannel>>
+  // @ts-expect-error todo(flow->ts): add `extends object` constraint to ArgT
   | WeakMap<ArgT, CacheEntry<ResultT, SideChannel>>;
 
 function* getCachedValue<
@@ -340,6 +340,7 @@ class CacheConfigurator<SideChannel = void> {
     );
 
     if (isThenable(key)) {
+      // @ts-expect-error todo(flow->ts): improve function return type annotation
       return key.then((key: unknown) => {
         this._pairs.push([key, fn]);
         return key;
@@ -424,6 +425,7 @@ export function assertSimpleType(value: unknown): SimpleType {
       "Cache keys must be either string, boolean, number, null, or undefined.",
     );
   }
+  // @ts-expect-error todo(flow->ts) value is still typed as unknown, also assert function typically should not return a value
   return value;
 }
 

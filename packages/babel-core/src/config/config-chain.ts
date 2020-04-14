@@ -289,7 +289,7 @@ export function* buildRootChain(
 function babelrcLoadEnabled(
   context: ConfigContext,
   pkgData: FilePackageData,
-  babelrcRoots: BabelrcSearch | void,
+  babelrcRoots: BabelrcSearch | undefined,
   babelrcRootsDirectory: string,
 ): boolean {
   if (typeof babelrcRoots === "boolean") return babelrcRoots;
@@ -375,7 +375,7 @@ const loadProgrammaticChain = makeChainWalker({
 /**
  * Build a config chain for a given file.
  */
-const loadFileChainWalker = makeChainWalker({
+const loadFileChainWalker = makeChainWalker<ValidatedFile>({
   root: file => loadFileDescriptors(file),
   env: (file, envName) => loadFileEnvDescriptors(file)(envName),
   overrides: (file, index) => loadFileOverridesDescriptors(file)(index),
@@ -524,8 +524,8 @@ function makeChainWalker<
 }): (
   b: ArgT,
   a: ConfigContext,
-  files?: Set<ConfigFile> | void,
-  baseLogger: ConfigPrinter | void,
+  files?: Set<ConfigFile>,
+  baseLogger?: ConfigPrinter,
 ) => Handler<ConfigChain | null> {
   return function* (input, context, files = new Set(), baseLogger) {
     const { dirname } = input;
@@ -618,7 +618,7 @@ function* mergeExtendsChain(
   dirname: string,
   context: ConfigContext,
   files: Set<ConfigFile>,
-  baseLogger: ConfigPrinter | void,
+  baseLogger?: ConfigPrinter,
 ): Handler<boolean> {
   if (opts.extends === undefined) return true;
 

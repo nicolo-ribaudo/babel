@@ -43,7 +43,7 @@ function guessJSModuleType(filename: string): "cjs" | "mjs" | "unknown" {
 }
 
 function loadCjsDefault(filepath: string) {
-  const module = require(filepath) as unknown;
+  const module = require(filepath) as any;
   // TODO (Babel 8): Remove "undefined" fallback
   return module?.__esModule ? module.default || undefined : module;
 }

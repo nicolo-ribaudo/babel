@@ -221,7 +221,7 @@ const loadDescriptor = makeWeakCache(function* (
 
   options = options || {};
 
-  let item = value;
+  let item: any = value;
   if (typeof value === "function") {
     const api = {
       ...context,

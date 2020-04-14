@@ -1,0 +1,36 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "rootDir": "./src"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "references": [
+    {
+      "path": "../babel-code-frame"
+    },
+    {
+      "path": "../babel-generator"
+    },
+    {
+      "path": "../babel-helper-module-transforms"
+    },
+    {
+      "path": "../babel-helpers"
+    },
+    {
+      "path": "../babel-parser"
+    },
+    {
+      "path": "../babel-template"
+    },
+    {
+      "path": "../babel-traverse"
+    },
+    {
+      "path": "../babel-types"
+    }
+  ]
+}

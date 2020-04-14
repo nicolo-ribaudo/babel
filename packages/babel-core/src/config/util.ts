@@ -27,7 +27,7 @@ function mergeDefaultFields<T extends {}>(target: T, source: T) {
   }
 }
 
-export function isIterableIterator(value: unknown): boolean {
+export function isIterableIterator(value: any): boolean {
   return (
     /*:: value instanceof Generator && */
     // /*:: "@@iterator" in value && */

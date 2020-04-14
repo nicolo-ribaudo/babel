@@ -190,7 +190,7 @@ const readConfigJS = makeStrongCache(function* readConfigJS(
       filepath,
       "You appear to be using a native ECMAScript module configuration " +
         "file, which is only supported when running Babel asynchronously.",
-    ) as unknown;
+    );
   } catch (err) {
     err.message = `${filepath}: Error while loading config - ${err.message}`;
     throw err;
@@ -212,6 +212,7 @@ const readConfigJS = makeStrongCache(function* readConfigJS(
     );
   }
 
+  // @ts-expect-error todo(flow->ts)
   if (typeof options.then === "function") {
     throw new Error(
       `You appear to be using an async configuration, ` +

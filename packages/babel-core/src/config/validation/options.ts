@@ -175,10 +175,10 @@ export type EnvSet<T> = {
   [x: string]: T | undefined | null;
 };
 export type IgnoreItem = string | Function | RegExp;
-export type IgnoreList = ReadonlyArray<IgnoreItem>;
+export type IgnoreList = Array<IgnoreItem>;
 
-export type PluginOptions = {} | void | false;
-export type PluginTarget = string | {} | Function;
+export type PluginOptions = object | void | false;
+export type PluginTarget = string | object | Function;
 export type PluginItem =
   | ConfigItem
   | Plugin
@@ -249,7 +249,7 @@ function validateNested(loc: NestingPath, opts: {}) {
       type: "option",
       name: key,
       parent: loc,
-    };
+    } as const;
 
     if (type === "preset" && NONPRESET_VALIDATORS[key]) {
       throw new Error(`${msg(optLoc)} is not allowed in preset options`);
@@ -315,7 +315,7 @@ function throwUnknownError(loc: OptionPath) {
         loc,
       )}. Check out https://babeljs.io/docs/en/babel-core/#options for more information about options.`,
     );
-    // $FlowIgnore
+    // @ts-expect-error todo(flow->ts): consider creating something like BabelConfigError with code field in it
     unknownOptErr.code = "BABEL_UNKNOWN_OPTION";
 
     throw unknownOptErr;
@@ -353,14 +353,14 @@ function assertEnvSet(
         type: "env",
         name: envName,
         parent,
-      };
+      } as const;
       validateNested(envLoc, env);
     }
   }
   return obj as any;
 }
 
-function assertOverridesList(loc: OptionPath, value: unknown): OverridesList {
+function assertOverridesList(loc: OptionPath, value: unknown[]): OverridesList {
   if (loc.parent.type === "env") {
     throw new Error(`${msg(loc)} is not allowed inside an .env block`);
   }
@@ -380,7 +380,7 @@ function assertOverridesList(loc: OptionPath, value: unknown): OverridesList {
         type: "overrides",
         index,
         parent,
-      };
+      } as const;
       validateNested(overridesLoc, env);
     }
   }

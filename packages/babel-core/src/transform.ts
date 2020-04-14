@@ -26,7 +26,7 @@ const transformRunner = gensync<
   return yield* run(config, code);
 });
 
-export const transform: Transform = function transform(code, opts, callback) {
+export const transform: Transform = function transform(code, opts?, callback?) {
   if (typeof opts === "function") {
     callback = opts;
     opts = undefined;
@@ -37,7 +37,7 @@ export const transform: Transform = function transform(code, opts, callback) {
   if (callback === undefined) return transformRunner.sync(code, opts);
 
   transformRunner.errback(code, opts, callback);
-} as Function;
+};
 
 export const transformSync = transformRunner.sync;
 export const transformAsync = transformRunner.async;

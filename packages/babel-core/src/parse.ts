@@ -34,7 +34,7 @@ const parseRunner = gensync<
   return yield* parser(config.passes, normalizeOptions(config), code);
 });
 
-export const parse: Parse = function parse(code, opts, callback) {
+export const parse: Parse = function parse(code, opts?, callback?) {
   if (typeof opts === "function") {
     callback = opts;
     opts = undefined;
@@ -45,7 +45,7 @@ export const parse: Parse = function parse(code, opts, callback) {
   if (callback === undefined) return parseRunner.sync(code, opts);
 
   parseRunner.errback(code, opts, callback);
-} as Function;
+};
 
 export const parseSync = parseRunner.sync;
 export const parseAsync = parseRunner.async;

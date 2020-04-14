@@ -37,6 +37,7 @@ export function msg(loc: NestingPath | GeneralPath) {
     case "access":
       return `${msg(loc.parent)}[${JSON.stringify(loc.name)}]`;
     default:
+      // @ts-ignore should not happen when code is type checked
       throw new Error(`Assertion failure: Unknown type ${loc.type}`);
   }
 }
@@ -61,7 +62,7 @@ type AccessPath = Readonly<{
   parent: GeneralPath;
 }>;
 
-type GeneralPath = OptionPath | AccessPath;
+export type GeneralPath = OptionPath | AccessPath;
 
 export function assertRootMode(
   loc: OptionPath,
@@ -212,22 +213,23 @@ export function assertObject(
   ) {
     throw new Error(`${msg(loc)} must be an object, or undefined`);
   }
+  // @ts-expect-error todo(flow->ts) value is still typed as unknown, also assert function typically should not return a value
   return value;
 }
 
-export function assertArray(
+export function assertArray<T>(
   loc: GeneralPath,
-  value: unknown,
-): ReadonlyArray<unknown> | undefined | null {
+  value: Array<T> | undefined | null,
+): ReadonlyArray<T> | undefined | null {
   if (value != null && !Array.isArray(value)) {
     throw new Error(`${msg(loc)} must be an array, or undefined`);
   }
   return value;
 }
 
-export function assertIgnoreList(
+export function assertIgnoreList<T>(
   loc: OptionPath,
-  value: unknown,
+  value: unknown[] | null | undefined,
 ): IgnoreList | void {
   const arr = assertArray(loc, value);
   if (arr) {
@@ -323,7 +325,7 @@ export function assertBabelrcSearch(
 
 export function assertPluginList(
   loc: OptionPath,
-  value: unknown,
+  value: unknown[] | null | undefined,
 ): PluginList | void {
   const arr = assertArray(loc, value);
   if (arr) {

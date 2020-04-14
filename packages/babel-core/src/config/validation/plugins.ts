@@ -36,6 +36,7 @@ function assertVisitorMap(loc: OptionPath, value: unknown): VisitorMap {
   if (obj) {
     Object.keys(obj).forEach(prop => assertVisitorHandler(prop, obj[prop]));
 
+    // @ts-ignore
     if (obj.enter || obj.exit) {
       throw new Error(
         `${msg(
@@ -44,7 +45,7 @@ function assertVisitorMap(loc: OptionPath, value: unknown): VisitorMap {
       );
     }
   }
-  return obj as any;
+  return obj as VisitorMap;
 }
 
 function assertVisitorHandler(
@@ -107,7 +108,7 @@ export function validatePluginObject(obj: {}): PluginObject {
       const invalidPluginPropertyError = new Error(
         `.${key} is not a valid Plugin property`,
       );
-      // $FlowIgnore
+      // @ts-expect-error todo(flow->ts) consider additing BabelConfigError with code field
       invalidPluginPropertyError.code = "BABEL_UNKNOWN_PLUGIN_PROPERTY";
       throw invalidPluginPropertyError;
     }

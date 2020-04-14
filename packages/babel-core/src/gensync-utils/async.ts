@@ -102,9 +102,8 @@ export const waitFor = gensync<[any], any>({
   async: id,
 }) as <T>(p: T | Promise<T>) => Handler<T>;
 
-export function isThenable(val: unknown): boolean {
+export function isThenable<T = any>(val: any): val is PromiseLike<T> {
   return (
-    /*:: val instanceof Promise && */
     !!val &&
     (typeof val === "object" || typeof val === "function") &&
     !!val.then &&

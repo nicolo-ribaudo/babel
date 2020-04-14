@@ -2,7 +2,9 @@ export { default as File } from "./transformation/file/file";
 export { default as buildExternalHelpers } from "./tools/build-external-helpers";
 export { resolvePlugin, resolvePreset } from "./config/files";
 
-export { version } from "../package.json";
+import { version } from "./package";
+export { version };
+
 export { getEnv } from "./config/helpers/environment";
 
 export * as types from "@babel/types";
@@ -45,7 +47,7 @@ export const DEFAULT_EXTENSIONS = Object.freeze([
   ".es6",
   ".es",
   ".mjs",
-]);
+] as const);
 
 // For easier backward-compatibility, provide an API like the one we exposed in Babel 6.
 import { loadOptions } from "./config";

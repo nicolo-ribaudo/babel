@@ -66,6 +66,9 @@
     },
     {
       "path": "./packages/babel-helpers"
+    },
+    {
+      "path": "./packages/babel-core"
     }
   ]
 }
