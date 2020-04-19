@@ -273,6 +273,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-classes"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-computed-properties"
     }
   ]
 }
