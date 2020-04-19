@@ -123,6 +123,9 @@
     },
     {
       "path": "./packages/babel-helper-regex"
+    },
+    {
+      "path": "./packages/babel-helper-create-regexp-features-plugin"
     }
   ]
 }

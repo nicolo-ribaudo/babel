@@ -8,7 +8,7 @@ import {
 } from "./features";
 import { generateRegexpuOptions } from "./util";
 
-import pkg from "../package.json";
+import * as pkg from "./package";
 import { types as t } from "@babel/core";
 import { pullFlag } from "@babel/helper-regex";
 import annotateAsPure from "@babel/helper-annotate-as-pure";
@@ -20,7 +20,11 @@ import annotateAsPure from "@babel/helper-annotate-as-pure";
 const version = pkg.version.split(".").reduce((v, x) => v * 1e5 + +x, 0);
 const versionKey = "@babel/plugin-regexp-features/version";
 
-export function createRegExpFeaturePlugin({ name, feature, options = {} }) {
+export function createRegExpFeaturePlugin({
+  name,
+  feature,
+  options = {} as any,
+}) {
   return {
     name,
     pre() {
