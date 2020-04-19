@@ -168,6 +168,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-do-expressions"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-dynamic-import"
     }
   ]
 }

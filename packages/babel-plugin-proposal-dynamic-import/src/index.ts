@@ -1,6 +1,6 @@
 import { declare } from "@babel/helper-plugin-utils";
 import syntaxDynamicImport from "@babel/plugin-syntax-dynamic-import";
-import { version } from "../package.json";
+import { version } from "./package";
 
 const SUPPORTED_MODULES = ["commonjs", "amd", "systemjs"];
 
