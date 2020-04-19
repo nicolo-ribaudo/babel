@@ -30,7 +30,7 @@ ${imports}
 
 export {${list}};
 
-export const all = {${allList}};
+export const all: { [k: string]: any } = {${allList}};
 `;
 
 writeFile(outputFile, format(fileContent, outputFile));

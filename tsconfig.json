@@ -414,6 +414,9 @@
     },
     {
       "path": "./packages/babel-preset-typescript"
+    },
+    {
+      "path": "./packages/babel-standalone"
     }
   ]
 }
