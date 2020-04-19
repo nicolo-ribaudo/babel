@@ -54,6 +54,9 @@
     },
     {
       "path": "./packages/babel-helper-optimise-call-expression"
+    },
+    {
+      "path": "./packages/babel-helper-replace-supers"
     }
   ]
 }
