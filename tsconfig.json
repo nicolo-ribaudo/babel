@@ -36,6 +36,12 @@
     },
     {
       "path": "./packages/babel-polyfill"
+    },
+    {
+      "path": "./packages/babel-helper-transform-fixture-test-runner"
+    },
+    {
+      "path": "./packages/babel-helper-plugin-test-runner"
     }
   ]
 }
