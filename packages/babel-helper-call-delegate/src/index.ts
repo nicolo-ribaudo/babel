@@ -1,8 +1,8 @@
 import hoistVariables from "@babel/helper-hoist-variables";
-import type { NodePath } from "@babel/traverse";
+import type { NodePath, Visitor } from "@babel/traverse";
 import * as t from "@babel/types";
 
-const visitor = {
+const visitor: Visitor<any> = {
   enter(path, state) {
     if (path.isThisExpression()) {
       state.foundThis = true;
@@ -19,7 +19,7 @@ const visitor = {
 };
 
 export default function (
-  path: NodePath,
+  path: NodePath<any>,
   scope = path.scope,
   shouldHoistVariables = true,
 ) {
@@ -32,7 +32,7 @@ export default function (
     node.async,
   );
 
-  let callee = container;
+  let callee: t.Expression = container;
   let args = [];
 
   if (shouldHoistVariables) {
@@ -60,7 +60,7 @@ export default function (
     }
   }
 
-  let call = t.callExpression(callee, args);
+  let call: t.Expression = t.callExpression(callee, args);
   if (node.generator) call = t.yieldExpression(call, true);
 
   return t.returnStatement(call);

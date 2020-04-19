@@ -108,6 +108,9 @@
     },
     {
       "path": "./packages/babel-helper-hoist-variables"
+    },
+    {
+      "path": "./packages/babel-helper-call-delegate"
     }
   ]
 }

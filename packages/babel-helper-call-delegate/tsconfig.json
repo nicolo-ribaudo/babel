@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "rootDir": "./src"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "references": [
+    {
+      "path": "../babel-helper-hoist-variables"
+    },
+    {
+      "path": "../babel-traverse"
+    },
+    {
+      "path": "../babel-types"
+    }
+  ]
+}
