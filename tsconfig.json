@@ -141,6 +141,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-modules-commonjs"
+    },
+    {
+      "path": "./packages/babel-register"
     }
   ]
 }

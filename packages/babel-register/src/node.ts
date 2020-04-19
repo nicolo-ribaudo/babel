@@ -9,7 +9,7 @@ import fs from "fs";
 import path from "path";
 
 const maps = {};
-let transformOpts = {};
+let transformOpts: any = {};
 let piratesRevert = null;
 
 function installSourceMapSupport() {
@@ -52,7 +52,7 @@ function compile(code, filename) {
 
   let cacheKey = `${JSON.stringify(opts)}:${babel.version}`;
 
-  const env = babel.getEnv(false);
+  const env = babel.getEnv("");
 
   if (env) cacheKey += `:${env}`;
 
