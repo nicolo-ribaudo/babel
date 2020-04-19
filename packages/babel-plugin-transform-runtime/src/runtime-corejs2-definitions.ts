@@ -151,5 +151,8 @@ export default runtimeVersion => {
         now: { stable: true, path: "date/now" },
       },
     },
+
+    // make ts happy
+    InstanceProperties: undefined,
   };
 };

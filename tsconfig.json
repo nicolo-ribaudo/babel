@@ -396,6 +396,9 @@
     },
     {
       "path": "./packages/babel-preset-env"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-runtime"
     }
   ]
 }

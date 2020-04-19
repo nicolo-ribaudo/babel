@@ -286,6 +286,7 @@ export default declare((api, options, dirname) => {
         );
 
         // transform calling instance methods like `something.includes()`
+        // @ts-expect-error todo(flow->ts):
         if (injectCoreJS3 && !hasStaticMapping(object.name, propertyName)) {
           if (
             hasMapping(InstanceProperties, propertyName) &&
