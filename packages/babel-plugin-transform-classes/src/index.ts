@@ -3,9 +3,9 @@ import annotateAsPure from "@babel/helper-annotate-as-pure";
 import nameFunction from "@babel/helper-function-name";
 import splitExportDeclaration from "@babel/helper-split-export-declaration";
 import { types as t } from "@babel/core";
-import type { NodePath } from "@babel/traverse";
 import globals from "globals";
 import transformClass from "./transformClass";
+import type { Visitor, NodePath } from "@babel/traverse";
 
 const getBuiltinClasses = category =>
   Object.keys(globals[category]).filter(name => /^[A-Z]/.test(name));
@@ -27,12 +27,12 @@ export default declare((api, options) => {
     name: "transform-classes",
 
     visitor: {
-      ExportDefaultDeclaration(path: NodePath) {
+      ExportDefaultDeclaration(path) {
         if (!path.get("declaration").isClassDeclaration()) return;
         splitExportDeclaration(path);
       },
 
-      ClassDeclaration(path: NodePath) {
+      ClassDeclaration(path) {
         const { node } = path;
 
         const ref = node.id || path.scope.generateUidIdentifier("class");
@@ -44,7 +44,7 @@ export default declare((api, options) => {
         );
       },
 
-      ClassExpression(path: NodePath, state: any) {
+      ClassExpression(path, state) {
         const { node } = path;
         if (node[VISITED]) return;
 
@@ -62,11 +62,13 @@ export default declare((api, options) => {
 
         if (path.isCallExpression()) {
           annotateAsPure(path);
-          if (path.get("callee").isArrowFunctionExpression()) {
-            path.get("callee").arrowFunctionToExpression();
+          // todo: improve babel types
+          const callee = (path.get("callee") as unknown) as NodePath;
+          if (callee.isArrowFunctionExpression()) {
+            callee.arrowFunctionToExpression();
           }
         }
       },
-    },
+    } as Visitor<any>,
   };
 });

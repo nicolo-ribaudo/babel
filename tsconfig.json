@@ -270,6 +270,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-block-scoped-functions"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-classes"
     }
   ]
 }

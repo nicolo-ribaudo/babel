@@ -1,4 +1,4 @@
-import type { NodePath } from "@babel/traverse";
+import type { NodePath, Visitor } from "@babel/traverse";
 import nameFunction from "@babel/helper-function-name";
 import ReplaceSupers, {
   environmentVisitor,
@@ -120,7 +120,7 @@ export default function transformClass(
         (function () {
           super(...arguments);
         })
-      `;
+      ` as t.FunctionExpression;
       params = constructor.params;
       body = constructor.body;
     } else {
@@ -343,7 +343,7 @@ export default function transformClass(
       );
     }
 
-    const bareSupers = new Set();
+    const bareSupers = new Set<NodePath<t.CallExpression>>();
     path.traverse(
       traverse.visitors.merge([
         environmentVisitor,
@@ -354,7 +354,7 @@ export default function transformClass(
               bareSupers.add(parentPath);
             }
           },
-        },
+        } as Visitor,
       ]),
     );
 
@@ -424,12 +424,7 @@ export default function transformClass(
   /**
    * Push a method to its respective mutatorMap.
    */
-  function pushMethod(
-    node: {
-      type: "ClassMethod";
-    },
-    path?: NodePath,
-  ) {
+  function pushMethod(node: t.ClassMethod, path?: NodePath) {
     const scope = path ? path.scope : classState.scope;
 
     if (node.kind === "method") {
@@ -502,9 +497,7 @@ export default function transformClass(
    */
   function pushConstructor(
     superReturns,
-    method: {
-      type: "ClassMethod";
-    },
+    method: t.ClassMethod,
     path: NodePath,
   ) {
     // https://github.com/babel/babel/issues/1077

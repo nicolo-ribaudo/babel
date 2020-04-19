@@ -1,0 +1,42 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "rootDir": "./src"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "references": [
+    {
+      "path": "../babel-helper-annotate-as-pure"
+    },
+    {
+      "path": "../babel-helper-define-map"
+    },
+    {
+      "path": "../babel-helper-function-name"
+    },
+    {
+      "path": "../babel-helper-optimise-call-expression"
+    },
+    {
+      "path": "../babel-helper-plugin-utils"
+    },
+    {
+      "path": "../babel-helper-replace-supers"
+    },
+    {
+      "path": "../babel-helper-split-export-declaration"
+    },
+    {
+      "path": "../babel-core"
+    },
+    {
+      "path": "../babel-traverse"
+    },
+    {
+      "path": "../babel-helper-plugin-test-runner"
+    }
+  ]
+}
