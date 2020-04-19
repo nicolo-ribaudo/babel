@@ -132,6 +132,9 @@
     },
     {
       "path": "./packages/babel-helper-explode-class"
+    },
+    {
+      "path": "./packages/babel-helper-wrap-function"
     }
   ]
 }
