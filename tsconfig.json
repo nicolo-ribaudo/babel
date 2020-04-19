@@ -150,6 +150,9 @@
     },
     {
       "path": "./packages/babel-plugin-external-helpers"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-async-generator-functions"
     }
   ]
 }
