@@ -318,6 +318,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-modules-systemjs"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-modules-umd"
     }
   ]
 }
