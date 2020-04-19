@@ -297,6 +297,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-for-of"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-function-name"
     }
   ]
 }
