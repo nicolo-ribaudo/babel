@@ -2,6 +2,7 @@ import { declare } from "@babel/helper-plugin-utils";
 import jsx from "@babel/plugin-syntax-jsx";
 import helper from "@babel/helper-builder-react-jsx";
 import { types as t } from "@babel/core";
+import type { Visitor } from "@babel/traverse";
 
 const DEFAULT = {
   pragma: "React.createElement",
@@ -21,14 +22,19 @@ export default declare((api, options) => {
 
   // returns a closure that returns an identifier or memberExpression node
   // based on the given id
-  const createIdentifierParser = (id: string) => () => {
+  const createIdentifierParser = (id: string) => ():
+    | t.Identifier
+    | t.MemberExpression => {
     return id
       .split(".")
       .map(name => t.identifier(name))
-      .reduce((object, property) => t.memberExpression(object, property));
+      .reduce((object, property) => {
+        return t.memberExpression(object, property) as any;
+      });
   };
 
-  const visitor = helper({
+  // todo: visitor state type
+  const visitor: Visitor<any> = helper({
     pre(state) {
       const tagName = state.tagName;
       const args = state.args;
