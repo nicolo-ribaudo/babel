@@ -13,6 +13,7 @@ export default declare(api => {
     const left = node.left;
     return (
       t.isMemberExpression(left) &&
+      // @ts-expect-error todo(flow->ts): property can be t.PrivateName
       t.isLiteral(t.toComputedKey(left, left.property), { value: "__proto__" })
     );
   }
@@ -57,7 +58,12 @@ export default declare(api => {
 
         if (isProtoAssignmentExpression(expr)) {
           path.replaceWith(
-            buildDefaultsCallExpression(expr, expr.left.object, file),
+            buildDefaultsCallExpression(
+              expr,
+              // todo(flow->ts) isProtoAssignmentExpression actually checks that
+              (expr.left as t.MemberExpression).object,
+              file,
+            ),
           );
         }
       },
@@ -66,7 +72,7 @@ export default declare(api => {
         let proto;
         const { node } = path;
 
-        for (const prop of node.properties as Array) {
+        for (const prop of node.properties) {
           if (isProtoKey(prop)) {
             proto = prop.value;
             pull(node.properties, prop);
