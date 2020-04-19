@@ -10,7 +10,7 @@ import "regenerator-runtime/runtime";
 import register from "@babel/register";
 import resolve from "resolve";
 
-import pkg from "../package.json";
+import * as pkg from "./package";
 
 const program = new commander.Command("babel-node");
 
@@ -139,17 +139,26 @@ if (program.eval || program.print) {
   let code = program.eval;
   if (!code || code === true) code = program.print;
 
+  // @ts-expect-error todo(flow->ts)
   global.__filename = "[eval]";
+  // @ts-expect-error todo(flow->ts)
   global.__dirname = process.cwd();
 
+  // @ts-expect-error todo(flow->ts)
   const module = new Module(global.__filename);
+  // @ts-expect-error todo(flow->ts)
   module.filename = global.__filename;
+  // @ts-expect-error todo(flow->ts)
   module.paths = Module._nodeModulePaths(global.__dirname);
 
+  // @ts-expect-error todo(flow->ts)
   global.exports = module.exports;
+  // @ts-expect-error todo(flow->ts)
   global.module = module;
+  // @ts-expect-error todo(flow->ts)
   global.require = module.require.bind(module);
 
+  // @ts-expect-error todo(flow->ts)
   const result = _eval(code, global.__filename);
   if (program.print) {
     const output = typeof result === "string" ? result : inspect(result);

@@ -144,6 +144,9 @@
     },
     {
       "path": "./packages/babel-register"
+    },
+    {
+      "path": "./packages/babel-node"
     }
   ]
 }
