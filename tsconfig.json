@@ -204,6 +204,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-numeric-separator"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-parameters"
     }
   ]
 }
