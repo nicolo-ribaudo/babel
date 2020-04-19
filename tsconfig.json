@@ -261,6 +261,9 @@
     },
     {
       "path": "./packages/babel-plugin-syntax-typescript"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-arrow-functions"
     }
   ]
 }
