@@ -159,6 +159,9 @@
     },
     {
       "path": "./packages/babel-plugin-syntax-decorators"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-decorators"
     }
   ]
 }
