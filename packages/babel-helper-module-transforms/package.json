@@ -24,5 +24,8 @@
     "@babel/traverse": "workspace:^7.12.1",
     "@babel/types": "workspace:^7.12.1",
     "lodash": "^4.17.19"
+  },
+  "devDependencies": {
+    "@babel/traverse": "workspace:^7.10.5"
   }
 }

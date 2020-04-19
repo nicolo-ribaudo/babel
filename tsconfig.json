@@ -60,6 +60,9 @@
     },
     {
       "path": "./packages/babel-helper-simple-access"
+    },
+    {
+      "path": "./packages/babel-helper-module-transforms"
     }
   ]
 }
