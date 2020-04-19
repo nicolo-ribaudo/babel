@@ -288,6 +288,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-exponentiation-operator"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-flow-comments"
     }
   ]
 }
