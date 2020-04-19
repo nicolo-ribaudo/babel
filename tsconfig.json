@@ -294,6 +294,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-flow-strip-types"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-for-of"
     }
   ]
 }
