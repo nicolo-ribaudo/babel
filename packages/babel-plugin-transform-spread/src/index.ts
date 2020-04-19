@@ -30,7 +30,7 @@ export default declare((api, options) => {
     return [];
   }
 
-  function build(props: Array, scope) {
+  function build(props: Array<any>, scope) {
     const nodes = [];
     let _props = [];
 
@@ -124,7 +124,7 @@ export default declare((api, options) => {
 
         const callee = calleePath.node;
 
-        if (calleePath.isMemberExpression()) {
+        if (t.isMemberExpression(callee)) {
           const temp = scope.maybeGenerateMemoised(callee.object);
           if (temp) {
             callee.object = t.assignmentExpression("=", temp, callee.object);

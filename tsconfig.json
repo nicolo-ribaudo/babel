@@ -381,6 +381,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-shorthand-properties"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-spread"
     }
   ]
 }
