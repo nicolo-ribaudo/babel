@@ -90,6 +90,9 @@
     },
     {
       "path": "./packages/babel-helper-annotate-as-pure"
+    },
+    {
+      "path": "./packages/babel-helper-bindify-decorators"
     }
   ]
 }
