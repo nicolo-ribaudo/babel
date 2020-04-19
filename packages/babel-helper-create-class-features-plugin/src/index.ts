@@ -20,7 +20,7 @@ import {
   isLoose,
 } from "./features";
 
-import pkg from "../package.json";
+import * as pkg from "./package";
 
 export { FEATURES, injectInitialization };
 
@@ -36,6 +36,11 @@ export function createClassFeaturePlugin({
   feature,
   loose,
   manipulateOptions,
+}: {
+  name;
+  feature;
+  loose?;
+  manipulateOptions;
 }) {
   return {
     name,
