@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "rootDir": "./src"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "references": [
+    {
+      "path": "../babel-helper-plugin-utils"
+    },
+    {
+      "path": "../babel-plugin-transform-parameters"
+    },
+    {
+      "path": "../babel-core"
+    },
+    {
+      "path": "../babel-helper-plugin-test-runner"
+    }
+  ]
+}

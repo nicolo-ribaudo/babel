@@ -178,7 +178,7 @@ export default declare((api, opts) => {
     ];
   }
 
-  function replaceRestElement(parentPath, paramPath, container) {
+  function replaceRestElement(parentPath, paramPath, container?) {
     if (paramPath.isAssignmentPattern()) {
       replaceRestElement(parentPath, paramPath.get("left"), container);
       return;
@@ -602,7 +602,7 @@ export default declare((api, opts) => {
           ]);
         }
 
-        for (const prop of path.node.properties as Array) {
+        for (const prop of path.node.properties) {
           if (t.isSpreadElement(prop)) {
             make();
             exp.arguments.push(prop.argument);

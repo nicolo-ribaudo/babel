@@ -207,6 +207,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-parameters"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-object-rest-spread"
     }
   ]
 }
