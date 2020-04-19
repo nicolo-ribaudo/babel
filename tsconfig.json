@@ -45,6 +45,9 @@
     },
     {
       "path": "./packages/babel-traverse"
+    },
+    {
+      "path": "./packages/babel-helper-module-imports"
     }
   ]
 }
