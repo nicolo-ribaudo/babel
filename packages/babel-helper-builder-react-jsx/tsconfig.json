@@ -1,0 +1,21 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "rootDir": "./src"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "references": [
+    {
+      "path": "../babel-helper-annotate-as-pure"
+    },
+    {
+      "path": "../babel-types"
+    },
+    {
+      "path": "../babel-traverse"
+    }
+  ]
+}

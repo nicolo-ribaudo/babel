@@ -15,5 +15,8 @@
   "dependencies": {
     "@babel/helper-annotate-as-pure": "workspace:^7.10.4",
     "@babel/types": "workspace:^7.10.4"
+  },
+  "devDependencies": {
+    "@babel/traverse": "workspace:^7.10.4"
   }
 }
