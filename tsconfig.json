@@ -114,6 +114,9 @@
     },
     {
       "path": "./packages/babel-helper-compilation-targets"
+    },
+    {
+      "path": "./packages/babel-helper-plugin-utils"
     }
   ]
 }

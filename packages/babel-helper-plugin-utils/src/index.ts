@@ -1,4 +1,16 @@
-export function declare(builder) {
+export function declare<
+  Args extends
+    | [any]
+    | [any, any?]
+    | [any, any?, any?]
+    | [any, any]
+    | [any, any, any?]
+    | [any, any, any],
+  Builder extends (...args: Args) => any
+>(
+  builder: Builder,
+): Builder extends (...args: infer A) => infer R ? (...args: A) => R : never {
+  // @ts-ignore
   return (api, options, dirname) => {
     if (!api.assertVersion) {
       // Inject a custom version of 'assertVersion' for Babel 6 and early
@@ -10,6 +22,7 @@ export function declare(builder) {
       });
     }
 
+    // @ts-ignore
     return builder(api, options || {}, dirname);
   };
 }
