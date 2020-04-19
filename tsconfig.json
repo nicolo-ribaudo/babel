@@ -312,6 +312,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-member-expression-literals"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-modules-amd"
     }
   ]
 }
