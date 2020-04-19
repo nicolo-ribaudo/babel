@@ -5,6 +5,7 @@ import { injectInitialization } from "@babel/helper-create-class-features-plugin
 
 import transpileEnum from "./enum";
 import transpileNamespace from "./namespace";
+import type { NodePath, Visitor } from "@babel/traverse";
 
 function isInType(path) {
   switch (path.parent.type) {
@@ -201,7 +202,7 @@ export default declare(
 
           // remove type imports
           for (let stmt of path.get("body")) {
-            if (t.isImportDeclaration(stmt)) {
+            if (stmt.isImportDeclaration()) {
               if (stmt.node.importKind === "type") {
                 stmt.remove();
                 continue;
@@ -217,7 +218,7 @@ export default declare(
                 }
 
                 let allElided = true;
-                const importsToRemove: Path<Node>[] = [];
+                const importsToRemove: NodePath<t.Node>[] = [];
 
                 for (const specifier of stmt.node.specifiers) {
                   const binding = stmt.scope.getBinding(specifier.local.name);
@@ -256,6 +257,7 @@ export default declare(
             }
 
             if (stmt.isExportDeclaration()) {
+              // @ts-expect-error todo(flow->ts) this might be not correct for ExportAllDeclaration
               stmt = stmt.get("declaration");
             }
 
@@ -272,6 +274,7 @@ export default declare(
               (stmt.isTSModuleDeclaration({ declare: true }) &&
                 stmt.get("id").isIdentifier())
             ) {
+              // @ts-expect-error todo(flow->ts): name might not be defined
               registerGlobalType(path.scope, stmt.node.id.name);
             }
           }
@@ -293,6 +296,7 @@ export default declare(
           if (
             !path.node.source &&
             path.node.specifiers.length > 0 &&
+            // @ts-expect-error todo(flow->ts) `local` might be undefined
             path.node.specifiers.every(({ local }) =>
               isGlobalType(path, local.name),
             )
@@ -303,6 +307,7 @@ export default declare(
 
         ExportSpecifier(path) {
           // remove type exports
+          // @ts-expect-error todo(flow->ts) add type annotation for NodePath.parent
           if (!path.parent.source && isGlobalType(path, path.node.local.name)) {
             path.remove();
           }
@@ -354,24 +359,25 @@ export default declare(
           if (node.typeParameters) node.typeParameters = null;
           if (node.superTypeParameters) node.superTypeParameters = null;
           if (node.implements) node.implements = null;
+          // @ts-expect-error todo(flow->ts) add check if node is ClassDeclaration
           if (node.abstract) node.abstract = null;
 
           // Similar to the logic in `transform-flow-strip-types`, we need to
           // handle `TSParameterProperty` and `ClassProperty` here because the
           // class transform would transform the class, causing more specific
           // visitors to not run.
-          path.get("body.body").forEach(child => {
+          (path.get("body.body") as NodePath[]).forEach(child => {
             if (child.isClassMethod() || child.isClassPrivateMethod()) {
               if (child.node.kind === "constructor") {
                 classMemberVisitors.constructor(child, path);
               } else {
-                classMemberVisitors.method(child, path);
+                classMemberVisitors.method(child);
               }
             } else if (
               child.isClassProperty() ||
               child.isClassPrivateProperty()
             ) {
-              classMemberVisitors.field(child, path);
+              classMemberVisitors.field(child);
             }
           });
         },
@@ -430,7 +436,7 @@ export default declare(
         },
 
         TSAsExpression(path) {
-          let { node } = path;
+          let node: t.Node = path.node;
           do {
             node = node.expression;
           } while (t.isTSAsExpression(node));
@@ -460,7 +466,7 @@ export default declare(
         TaggedTemplateExpression(path) {
           path.node.typeParameters = null;
         },
-      },
+      } as Visitor<any>,
     };
 
     function visitPattern({ node }) {

@@ -402,6 +402,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-strict-mode"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-typescript"
     }
   ]
 }

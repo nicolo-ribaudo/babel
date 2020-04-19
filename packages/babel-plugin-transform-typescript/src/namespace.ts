@@ -46,7 +46,7 @@ function getMemberExpression(t, name, itemName) {
   return t.memberExpression(t.identifier(name), t.identifier(itemName));
 }
 
-function handleNested(path, t, node, parentExport) {
+function handleNested(path, t, node, parentExport?) {
   const names = new Set();
   const realName = node.id;
   const name = path.scope.generateUid(realName.name);
