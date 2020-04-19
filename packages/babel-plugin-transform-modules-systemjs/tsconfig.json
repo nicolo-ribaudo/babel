@@ -9,6 +9,12 @@
   ],
   "references": [
     {
+      "path": "../babel-helper-hoist-variables"
+    },
+    {
+      "path": "../babel-helper-module-transforms"
+    },
+    {
       "path": "../babel-helper-plugin-utils"
     },
     {
@@ -16,12 +22,6 @@
     },
     {
       "path": "../babel-helper-plugin-test-runner"
-    },
-    {
-      "path": "../babel-traverse"
-    },
-    {
-      "path": "../babel-types"
     }
   ]
 }

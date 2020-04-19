@@ -315,6 +315,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-modules-amd"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-modules-systemjs"
     }
   ]
 }
