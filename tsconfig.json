@@ -63,6 +63,9 @@
     },
     {
       "path": "./packages/babel-helper-module-transforms"
+    },
+    {
+      "path": "./packages/babel-helpers"
     }
   ]
 }
