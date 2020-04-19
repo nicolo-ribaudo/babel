@@ -129,6 +129,9 @@
     },
     {
       "path": "./packages/babel-helper-define-map"
+    },
+    {
+      "path": "./packages/babel-helper-explode-class"
     }
   ]
 }

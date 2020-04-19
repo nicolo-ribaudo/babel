@@ -15,7 +15,7 @@ export default function (classPath) {
     path.replaceWith(uid);
   }
 
-  function memoiseDecorators(paths: Array<NodePath>) {
+  function memoiseDecorators(paths: Array<NodePath<t.Decorator>>) {
     if (!Array.isArray(paths) || !paths.length) return;
 
     // ensure correct evaluation order of decorators
@@ -30,7 +30,7 @@ export default function (classPath) {
   }
 
   maybeMemoise(classPath.get("superClass"));
-  memoiseDecorators(classPath.get("decorators"), true);
+  memoiseDecorators(classPath.get("decorators"));
 
   const methods: Array<NodePath> = classPath.get("body.body");
   for (const methodPath of methods) {
