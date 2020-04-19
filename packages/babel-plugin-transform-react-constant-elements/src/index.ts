@@ -1,5 +1,6 @@
 import { declare } from "@babel/helper-plugin-utils";
 import { types as t } from "@babel/core";
+import type { Visitor } from "../../babel-traverse/lib";
 
 export default declare((api, options) => {
   api.assertVersion(7);
@@ -17,7 +18,12 @@ export default declare((api, options) => {
 
   const HOISTED = new WeakSet();
 
-  const immutabilityVisitor = {
+  interface ImmutabilityVisitorState {
+    isImmutable: boolean;
+    mutablePropsAllowed?: boolean;
+  }
+
+  const immutabilityVisitor: Visitor<ImmutabilityVisitorState> = {
     enter(path, state) {
       const stop = () => {
         state.isImmutable = false;
@@ -85,7 +91,7 @@ export default declare((api, options) => {
         if (HOISTED.has(path.node)) return;
         HOISTED.add(path.node);
 
-        const state = { isImmutable: true };
+        const state: ImmutabilityVisitorState = { isImmutable: true };
 
         // This transform takes the option `allowMutablePropsOnTags`, which is an array
         // of JSX tags to allow mutable props (such as objects, functions) on. Use sparingly

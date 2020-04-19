@@ -345,6 +345,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-proto-to-assign"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-react-constant-elements"
     }
   ]
 }
