@@ -351,6 +351,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-react-display-name"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-react-inline-elements"
     }
   ]
 }
