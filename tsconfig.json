@@ -213,6 +213,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-optional-catch-binding"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-block-scoping"
     }
   ]
 }
