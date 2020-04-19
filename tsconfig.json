@@ -126,6 +126,9 @@
     },
     {
       "path": "./packages/babel-helper-create-regexp-features-plugin"
+    },
+    {
+      "path": "./packages/babel-helper-define-map"
     }
   ]
 }
