@@ -48,6 +48,9 @@
     },
     {
       "path": "./packages/babel-helper-module-imports"
+    },
+    {
+      "path": "./packages/babel-helper-member-expression-to-functions"
     }
   ]
 }

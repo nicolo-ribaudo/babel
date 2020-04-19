@@ -1,6 +1,7 @@
 import * as t from "@babel/types";
 
 class AssignmentMemoiser {
+  private _map: WeakMap<object, any>;
   constructor() {
     this._map = new WeakMap();
   }
@@ -314,7 +315,12 @@ const handle = {
         const ref = scope.generateUidIdentifierBasedOnNode(node);
         scope.push({ id: ref });
 
-        value.left = t.assignmentExpression("=", t.cloneNode(ref), value.left);
+        value.left = t.assignmentExpression(
+          "=",
+          t.cloneNode(ref),
+          // @ts-expect-error todo(flow->ts) value.left is possibly PrivateName, which is not usable here
+          value.left,
+        );
 
         parentPath.replaceWith(
           t.sequenceExpression([this.set(member, value), t.cloneNode(ref)]),
