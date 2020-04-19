@@ -18,7 +18,7 @@ import {
 import { logUsagePolyfills } from "../../debug";
 
 import type { InternalPluginOptions } from "../../types";
-import type { NodePath } from "@babel/traverse";
+import type { NodePath, Visitor } from "@babel/traverse";
 
 const NO_DIRECT_POLYFILL_IMPORT = `
   When setting \`useBuiltIns: 'usage'\`, polyfills are automatically imported when needed.
@@ -28,7 +28,7 @@ export default function (
   {
     types: t,
   }: {
-    types: any;
+    types: typeof import("@babel/types");
   },
   { include, exclude, polyfillTargets, debug }: InternalPluginOptions,
 ) {
@@ -40,15 +40,15 @@ export default function (
     getPlatformSpecificDefaultFor(polyfillTargets),
   );
 
-  const addAndRemovePolyfillImports = {
-    ImportDeclaration(path: NodePath) {
+  const addAndRemovePolyfillImports: Visitor<any> = {
+    ImportDeclaration(path) {
       if (isPolyfillSource(getImportSource(path))) {
         console.warn(NO_DIRECT_POLYFILL_IMPORT);
         path.remove();
       }
     },
 
-    Program(path: NodePath) {
+    Program(path) {
       path.get("body").forEach(bodyPath => {
         if (isPolyfillSource(getRequireSource(bodyPath))) {
           console.warn(NO_DIRECT_POLYFILL_IMPORT);
@@ -59,7 +59,7 @@ export default function (
 
     // Symbol()
     // new Promise
-    ReferencedIdentifier({ node: { name }, parent, scope }: NodePath) {
+    ReferencedIdentifier({ node: { name }, parent, scope }) {
       if (t.isMemberExpression(parent)) return;
       if (!has(BuiltIns, name)) return;
       if (scope.getBindingIdentifier(name)) return;
@@ -69,7 +69,7 @@ export default function (
     },
 
     // arr[Symbol.iterator]()
-    CallExpression(path: NodePath) {
+    CallExpression(path) {
       // we can't compile this
       if (path.node.arguments.length) return;
 
@@ -77,6 +77,7 @@ export default function (
 
       if (!t.isMemberExpression(callee)) return;
       if (!callee.computed) return;
+      // @ts-expect-error todo(flow->ts) typesafe replacement for NodePath.get
       if (!path.get("callee.property").matchesPattern("Symbol.iterator")) {
         return;
       }
@@ -85,7 +86,7 @@ export default function (
     },
 
     // Symbol.iterator in arr
-    BinaryExpression(path: NodePath) {
+    BinaryExpression(path) {
       if (path.node.operator !== "in") return;
       if (!path.get("left").matchesPattern("Symbol.iterator")) return;
 
@@ -93,7 +94,7 @@ export default function (
     },
 
     // yield*
-    YieldExpression(path: NodePath) {
+    YieldExpression(path) {
       if (path.node.delegate) {
         this.addImport("web.dom.iterable");
       }
@@ -101,13 +102,14 @@ export default function (
 
     // Array.from
     MemberExpression: {
-      enter(path: NodePath) {
+      enter(path) {
         const { node } = path;
         const { object, property } = node;
 
         // ignore namespace
         if (isNamespaced(path.get("object"))) return;
 
+        // @ts-expect-error todo(flow->ts) add assertion to ensure object is identifier
         let evaluatedPropType = object.name;
         let propertyName = "";
         let instanceType = "";
@@ -122,9 +124,11 @@ export default function (
             }
           }
         } else {
+          // @ts-expect-error todo(flow->ts) name might be not defined
           propertyName = property.name;
         }
 
+        // @ts-expect-error todo(flow->ts) add assertion to ensure object is identifier
         if (path.scope.getBindingIdentifier(object.name)) {
           const result = path.get("object").evaluate();
           if (result.value) {
@@ -154,7 +158,8 @@ export default function (
       },
 
       // Symbol.match
-      exit(path: NodePath) {
+      exit(path) {
+        // @ts-expect-error todo(flow->ts) `.object` is an expression and might not have `name` property
         const { name } = path.node.object;
 
         if (!has(BuiltIns, name)) return;
@@ -166,17 +171,20 @@ export default function (
     },
 
     // var { repeat, startsWith } = String
-    VariableDeclarator(path: NodePath) {
+    VariableDeclarator(path) {
       const { node } = path;
       const { id, init } = node;
 
       if (!t.isObjectPattern(id)) return;
 
       // doesn't reference the global
+      // @ts-expect-error todo(flow->ts) `init` is an expression and might have no name property
       if (init && path.scope.getBindingIdentifier(init.name)) return;
 
+      // @ts-expect-error todo(flow->ts) `properties` property might not exist
       for (const { key } of id.properties) {
         if (
+          // @ts-expect-error todo(flow->ts) `computed` does not exist on VariableDeclarator
           !node.computed &&
           t.isIdentifier(key) &&
           has(InstanceProperties, key.name)

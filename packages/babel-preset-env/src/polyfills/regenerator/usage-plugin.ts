@@ -1,5 +1,5 @@
 import { createImport } from "../../utils";
-import type { NodePath } from "@babel/traverse";
+import type { Visitor } from "@babel/traverse";
 
 export default function () {
   return {
@@ -8,7 +8,7 @@ export default function () {
       this.usesRegenerator = false;
     },
     visitor: {
-      Function(path: NodePath) {
+      Function(path) {
         const { node } = path;
 
         if (!this.usesRegenerator && (node.generator || node.async)) {
@@ -16,7 +16,7 @@ export default function () {
           createImport(path, "regenerator-runtime");
         }
       },
-    },
+    } as Visitor<any>,
     post() {
       if (this.opts.debug && this.usesRegenerator) {
         let filename = this.file.opts.filename;

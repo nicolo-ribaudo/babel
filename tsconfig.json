@@ -393,6 +393,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-unicode-regex"
+    },
+    {
+      "path": "./packages/babel-preset-env"
     }
   ]
 }

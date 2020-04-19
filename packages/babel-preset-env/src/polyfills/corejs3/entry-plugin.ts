@@ -1,5 +1,5 @@
-import corejs3Polyfills from "core-js-compat/data";
-import corejsEntries from "core-js-compat/entries";
+import corejs3Polyfills from "core-js-compat/data.json";
+import corejsEntries from "core-js-compat/entries.json";
 import getModulesListForTargetVersion from "core-js-compat/get-modules-list-for-target-version";
 import { filterItems } from "@babel/helper-compilation-targets";
 import {
@@ -13,7 +13,7 @@ import {
 import { logEntryPolyfills } from "../../debug";
 
 import type { InternalPluginOptions } from "../../types";
-import type { NodePath } from "@babel/traverse";
+import type { Visitor } from "@babel/traverse";
 
 function isBabelPolyfillSource(source) {
   return source === "@babel/polyfill" || source === "babel-polyfill";
@@ -38,6 +38,7 @@ export default function (
   { corejs, include, exclude, polyfillTargets, debug }: InternalPluginOptions,
 ) {
   const polyfills = filterItems(
+    // @ts-expect-error todo(flow->ts):
     corejs3Polyfills,
     include,
     exclude,
@@ -45,7 +46,9 @@ export default function (
     null,
   );
 
-  const available = new Set(getModulesListForTargetVersion(corejs.version));
+  const available = new Set<string>(
+    getModulesListForTargetVersion(corejs.version),
+  );
 
   function shouldReplace(source, modules) {
     if (!modules) return false;
@@ -61,8 +64,8 @@ export default function (
     return true;
   }
 
-  const isPolyfillImport = {
-    ImportDeclaration(path: NodePath) {
+  const isPolyfillImport: Visitor<any> = {
+    ImportDeclaration(path) {
       const source = getImportSource(path);
       if (!source) return;
       if (isBabelPolyfillSource(source)) {
@@ -75,7 +78,7 @@ export default function (
       }
     },
     Program: {
-      enter(path: NodePath) {
+      enter(path) {
         path.get("body").forEach(bodyPath => {
           const source = getRequireSource(bodyPath);
           if (!source) return;
@@ -89,7 +92,7 @@ export default function (
           }
         });
       },
-      exit(path: NodePath) {
+      exit(path) {
         const filtered = intersection(polyfills, this.polyfillsSet, available);
         const reversed = Array.from(filtered).reverse();
 
@@ -129,6 +132,7 @@ export default function (
           this.injectedPolyfills,
           this.file.opts.filename,
           polyfillTargets,
+          // @ts-expect-error todo(flow->ts)
           corejs3Polyfills,
         );
       }

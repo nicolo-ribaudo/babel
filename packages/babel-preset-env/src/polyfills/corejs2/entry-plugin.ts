@@ -10,7 +10,7 @@ import {
 import { logEntryPolyfills } from "../../debug";
 
 import type { InternalPluginOptions } from "../../types";
-import type { NodePath } from "@babel/traverse";
+import type { Visitor } from "@babel/traverse";
 
 export default function (
   _: any,
@@ -30,13 +30,13 @@ export default function (
     getPlatformSpecificDefaultFor(polyfillTargets),
   );
 
-  const isPolyfillImport = {
-    ImportDeclaration(path: NodePath) {
+  const isPolyfillImport: Visitor<any> = {
+    ImportDeclaration(path) {
       if (isPolyfillSource(getImportSource(path))) {
         this.replaceBySeparateModulesImport(path);
       }
     },
-    Program(path: NodePath) {
+    Program(path) {
       path.get("body").forEach(bodyPath => {
         if (isPolyfillSource(getRequireSource(bodyPath))) {
           this.replaceBySeparateModulesImport(bodyPath);

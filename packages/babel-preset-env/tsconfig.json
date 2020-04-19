@@ -1,0 +1,162 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./lib",
+    "rootDir": "./src"
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "references": [
+    {
+      "path": "../babel-helper-compilation-targets"
+    },
+    {
+      "path": "../babel-helper-module-imports"
+    },
+    {
+      "path": "../babel-helper-plugin-utils"
+    },
+    {
+      "path": "../babel-plugin-proposal-async-generator-functions"
+    },
+    {
+      "path": "../babel-plugin-proposal-dynamic-import"
+    },
+    {
+      "path": "../babel-plugin-proposal-json-strings"
+    },
+    {
+      "path": "../babel-plugin-proposal-nullish-coalescing-operator"
+    },
+    {
+      "path": "../babel-plugin-proposal-numeric-separator"
+    },
+    {
+      "path": "../babel-plugin-proposal-object-rest-spread"
+    },
+    {
+      "path": "../babel-plugin-proposal-optional-catch-binding"
+    },
+    {
+      "path": "../babel-plugin-proposal-optional-chaining"
+    },
+    {
+      "path": "../babel-plugin-proposal-unicode-property-regex"
+    },
+    {
+      "path": "../babel-plugin-syntax-top-level-await"
+    },
+    {
+      "path": "../babel-plugin-transform-arrow-functions"
+    },
+    {
+      "path": "../babel-plugin-transform-async-to-generator"
+    },
+    {
+      "path": "../babel-plugin-transform-block-scoped-functions"
+    },
+    {
+      "path": "../babel-plugin-transform-block-scoping"
+    },
+    {
+      "path": "../babel-plugin-transform-classes"
+    },
+    {
+      "path": "../babel-plugin-transform-computed-properties"
+    },
+    {
+      "path": "../babel-plugin-transform-destructuring"
+    },
+    {
+      "path": "../babel-plugin-transform-dotall-regex"
+    },
+    {
+      "path": "../babel-plugin-transform-duplicate-keys"
+    },
+    {
+      "path": "../babel-plugin-transform-exponentiation-operator"
+    },
+    {
+      "path": "../babel-plugin-transform-for-of"
+    },
+    {
+      "path": "../babel-plugin-transform-function-name"
+    },
+    {
+      "path": "../babel-plugin-transform-literals"
+    },
+    {
+      "path": "../babel-plugin-transform-member-expression-literals"
+    },
+    {
+      "path": "../babel-plugin-transform-modules-amd"
+    },
+    {
+      "path": "../babel-plugin-transform-modules-commonjs"
+    },
+    {
+      "path": "../babel-plugin-transform-modules-systemjs"
+    },
+    {
+      "path": "../babel-plugin-transform-modules-umd"
+    },
+    {
+      "path": "../babel-plugin-transform-named-capturing-groups-regex"
+    },
+    {
+      "path": "../babel-plugin-transform-new-target"
+    },
+    {
+      "path": "../babel-plugin-transform-object-super"
+    },
+    {
+      "path": "../babel-plugin-transform-parameters"
+    },
+    {
+      "path": "../babel-plugin-transform-property-literals"
+    },
+    {
+      "path": "../babel-plugin-transform-regenerator"
+    },
+    {
+      "path": "../babel-plugin-transform-reserved-words"
+    },
+    {
+      "path": "../babel-plugin-transform-shorthand-properties"
+    },
+    {
+      "path": "../babel-plugin-transform-spread"
+    },
+    {
+      "path": "../babel-plugin-transform-sticky-regex"
+    },
+    {
+      "path": "../babel-plugin-transform-template-literals"
+    },
+    {
+      "path": "../babel-plugin-transform-typeof-symbol"
+    },
+    {
+      "path": "../babel-plugin-transform-unicode-regex"
+    },
+    {
+      "path": "../babel-types"
+    },
+    {
+      "path": "../babel-cli"
+    },
+    {
+      "path": "../babel-core"
+    },
+    {
+      "path": "../babel-helper-fixtures"
+    },
+    {
+      "path": "../babel-helper-plugin-test-runner"
+    },
+    {
+      "path": "../babel-traverse"
+    }
+  ]
+}

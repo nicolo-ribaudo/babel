@@ -14,7 +14,7 @@ export function intersection<T>(
   second: Set<T>,
   third: Set<T>,
 ): Set<T> {
-  const result = new Set();
+  const result = new Set<T>();
   for (const el of first) {
     if (second.has(el) && third.has(el)) result.add(el);
   }
@@ -36,20 +36,22 @@ export function filterStageFromList(
   }, {});
 }
 
-export function getImportSource({ node }: NodePath) {
+export function getImportSource({ node }: NodePath<t.ImportDeclaration>) {
   if (node.specifiers.length === 0) return node.source.value;
 }
 
 export function getRequireSource({ node }: NodePath) {
   if (!t.isExpressionStatement(node)) return;
   const { expression } = node;
-  const isRequire =
+  if (
     t.isCallExpression(expression) &&
     t.isIdentifier(expression.callee) &&
     expression.callee.name === "require" &&
     expression.arguments.length === 1 &&
-    t.isStringLiteral(expression.arguments[0]);
-  if (isRequire) return expression.arguments[0].value;
+    t.isStringLiteral(expression.arguments[0])
+  ) {
+    return expression.arguments[0].value;
+  }
 }
 
 export function isPolyfillSource(source?: string | null): boolean {
@@ -70,6 +72,7 @@ export function createImport(path: NodePath, mod: string) {
 
 export function isNamespaced(path: NodePath) {
   if (!path.node) return false;
+  // @ts-expect-error todo(flow->ts): improve `path` argument type annotation
   const binding = path.scope.getBinding(path.node.name);
   if (!binding) return false;
   return binding.path.isImportNamespaceSpecifier();

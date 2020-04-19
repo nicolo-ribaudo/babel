@@ -156,7 +156,7 @@ export const getPolyfillPlugins = ({
   debug,
 }: {
   useBuiltIns: BuiltInsOption;
-  corejs: typeof SemVer | null | false;
+  corejs: SemVer | null | false;
   polyfillTargets: Targets;
   include: Set<string>;
   exclude: Set<string>;
@@ -272,7 +272,8 @@ export default declare((api, opts) => {
   const include = transformIncludesAndExcludes(optionsInclude);
   const exclude = transformIncludesAndExcludes(optionsExclude);
 
-  const transformTargets = forceAllTransforms || hasUglifyTarget ? {} : targets;
+  const transformTargets =
+    forceAllTransforms || hasUglifyTarget ? ({} as Targets) : targets;
 
   const compatData = getPluginList(shippedProposals, bugfixes);
   const shouldSkipExportNamespaceFrom =

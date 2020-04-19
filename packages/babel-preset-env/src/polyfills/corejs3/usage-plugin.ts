@@ -1,4 +1,4 @@
-import corejs3Polyfills from "core-js-compat/data";
+import corejs3Polyfills from "core-js-compat/data.json";
 import corejs3ShippedProposalsList from "@babel/compat-data/corejs3-shipped-proposals";
 import getModulesListForTargetVersion from "core-js-compat/get-modules-list-for-target-version";
 import { filterItems } from "@babel/helper-compilation-targets";
@@ -24,7 +24,7 @@ import {
 import { logUsagePolyfills } from "../../debug";
 
 import type { InternalPluginOptions } from "../../types";
-import type { NodePath } from "@babel/traverse";
+import type { Visitor } from "@babel/traverse";
 
 const NO_DIRECT_POLYFILL_IMPORT = `
   When setting \`useBuiltIns: 'usage'\`, polyfills are automatically imported when needed.
@@ -69,9 +69,11 @@ export default function (
     null,
   );
 
-  const available = new Set(getModulesListForTargetVersion(corejs.version));
+  const available = new Set<string>(
+    getModulesListForTargetVersion(corejs.version),
+  );
 
-  function resolveKey(path, computed) {
+  function resolveKey(path, computed?) {
     const { node, parent, scope } = path;
     if (path.isStringLiteral()) return node.value;
     const { name } = node;
@@ -100,9 +102,9 @@ export default function (
     return { builtIn, instanceType, isNamespaced: isNamespaced(path) };
   }
 
-  const addAndRemovePolyfillImports = {
+  const addAndRemovePolyfillImports: Visitor<any> = {
     // import 'core-js'
-    ImportDeclaration(path: NodePath) {
+    ImportDeclaration(path) {
       if (isPolyfillSource(getImportSource(path))) {
         console.warn(NO_DIRECT_POLYFILL_IMPORT);
         path.remove();
@@ -111,7 +113,7 @@ export default function (
 
     // require('core-js')
     Program: {
-      enter(path: NodePath) {
+      enter(path) {
         path.get("body").forEach(bodyPath => {
           if (isPolyfillSource(getRequireSource(bodyPath))) {
             console.warn(NO_DIRECT_POLYFILL_IMPORT);
@@ -120,7 +122,7 @@ export default function (
         });
       },
 
-      exit(path: NodePath) {
+      exit(path) {
         const filtered = intersection(polyfills, this.polyfillsSet, available);
         const reversed = Array.from(filtered).reverse();
 
@@ -141,7 +143,7 @@ export default function (
       this.addUnsupported(PromiseDependencies);
     },
 
-    Function({ node }: NodePath) {
+    Function({ node }) {
       // (async function () { }).finally(...)
       if (node.async) {
         this.addUnsupported(PromiseDependencies);
@@ -154,27 +156,27 @@ export default function (
     },
 
     // [...spread]
-    SpreadElement({ parentPath }: NodePath) {
+    SpreadElement({ parentPath }) {
       if (!parentPath.isObjectExpression()) {
         this.addUnsupported(CommonIterators);
       }
     },
 
     // yield*
-    YieldExpression({ node }: NodePath) {
+    YieldExpression({ node }) {
       if (node.delegate) {
         this.addUnsupported(CommonIterators);
       }
     },
 
     // Symbol(), new Promise
-    ReferencedIdentifier({ node: { name }, scope }: NodePath) {
+    ReferencedIdentifier({ node: { name }, scope }) {
       if (scope.getBindingIdentifier(name)) return;
 
       this.addBuiltInDependencies(name);
     },
 
-    MemberExpression(path: NodePath) {
+    MemberExpression(path) {
       const source = resolveSource(path.get("object"));
       const key = resolveKey(path.get("property"));
 
@@ -183,7 +185,7 @@ export default function (
       this.addPropertyDependencies(source, key);
     },
 
-    ObjectPattern(path: NodePath) {
+    ObjectPattern(path) {
       const { parentPath, parent, key } = path;
       let source;
 
@@ -199,6 +201,7 @@ export default function (
         const grand = parentPath.parentPath;
         if (grand.isCallExpression() || grand.isNewExpression()) {
           if (grand.node.callee === parent) {
+            // @ts-expect-error todo(flow->ts)
             source = resolveSource(grand.get("arguments")[key]);
           }
         }
@@ -214,7 +217,7 @@ export default function (
       }
     },
 
-    BinaryExpression(path: NodePath) {
+    BinaryExpression(path) {
       if (path.node.operator !== "in") return;
 
       const source = resolveSource(path.get("right"));
@@ -246,7 +249,7 @@ export default function (
         }
       };
 
-      this.addPropertyDependencies = function (source = {}, key) {
+      this.addPropertyDependencies = function (source: any = {}, key) {
         const { builtIn, instanceType, isNamespaced } = source;
         if (isNamespaced) return;
         if (PossibleGlobalObjects.has(builtIn)) {
@@ -274,6 +277,7 @@ export default function (
           this.injectedPolyfills,
           this.file.opts.filename,
           polyfillTargets,
+          // @ts-expect-error todo(flow->ts):
           corejs3Polyfills,
         );
       }

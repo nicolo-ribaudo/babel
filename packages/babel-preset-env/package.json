@@ -88,6 +88,8 @@
   "devDependencies": {
     "@babel/core": "workspace:*",
     "@babel/helper-plugin-test-runner": "workspace:*",
-    "@babel/plugin-syntax-dynamic-import": "^7.2.0"
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
+    "@babel/traverse": "workspace:^7.10.4",
+    "@babel/types": "workspace:^7.10.4"
   }
 }
