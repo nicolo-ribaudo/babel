@@ -138,6 +138,9 @@
     },
     {
       "path": "./packages/babel-helper-remap-async-to-generator"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-modules-commonjs"
     }
   ]
 }
