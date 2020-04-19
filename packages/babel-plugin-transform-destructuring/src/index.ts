@@ -1,5 +1,6 @@
 import { declare } from "@babel/helper-plugin-utils";
 import { types as t } from "@babel/core";
+import type { Scope } from "@babel/traverse";
 
 export default declare((api, options) => {
   api.assertVersion(7);
@@ -27,7 +28,7 @@ export default declare((api, options) => {
    */
 
   function variableDeclarationHasPattern(node) {
-    for (const declar of node.declarations as Array) {
+    for (const declar of node.declarations) {
       if (t.isPattern(declar.id)) {
         return true;
       }
@@ -40,7 +41,7 @@ export default declare((api, options) => {
    */
 
   function hasRest(pattern) {
-    for (const elem of pattern.elements as Array) {
+    for (const elem of pattern.elements) {
       if (t.isRestElement(elem)) {
         return true;
       }
@@ -53,7 +54,7 @@ export default declare((api, options) => {
    */
 
   function hasObjectRest(pattern) {
-    for (const elem of pattern.properties as Array) {
+    for (const elem of pattern.properties) {
       if (t.isRestElement(elem)) {
         return true;
       }
@@ -81,6 +82,15 @@ export default declare((api, options) => {
   };
 
   class DestructuringTransformer {
+    private blockHoist: any;
+    private operator: any;
+    arrays: any;
+    private nodes: any;
+    private scope: Scope;
+    private kind: any;
+    private arrayOnlySpread: any;
+    private allowArrayLike: any;
+    private addHelper: any;
     constructor(opts) {
       this.blockHoist = opts.blockHoist;
       this.operator = opts.operator;
@@ -122,6 +132,7 @@ export default declare((api, options) => {
       const declar = t.variableDeclaration("var", [
         t.variableDeclarator(t.cloneNode(id), t.cloneNode(init)),
       ]);
+      // @ts-expect-error todo(flow->ts): avoid mutations
       declar._blockHoist = this.blockHoist;
       return declar;
     }
@@ -139,7 +150,7 @@ export default declare((api, options) => {
       }
     }
 
-    toArray(node, count) {
+    toArray(node, count?) {
       if (
         this.arrayOnlySpread ||
         (t.isIdentifier(node) && this.arrays[node.name])
@@ -211,6 +222,7 @@ export default declare((api, options) => {
         } else if (t.isTemplateLiteral(prop.key)) {
           keys.push(t.cloneNode(prop.key));
         } else if (t.isLiteral(key)) {
+          // @ts-expect-error todo(flow->ts) NullLiteral
           keys.push(t.stringLiteral(String(key.value)));
         } else {
           keys.push(t.cloneNode(key));
@@ -225,7 +237,7 @@ export default declare((api, options) => {
           t.cloneNode(objRef),
         ]);
       } else {
-        let keyExpression = t.arrayExpression(keys);
+        let keyExpression: t.Expression = t.arrayExpression(keys);
 
         if (!allLiteral) {
           keyExpression = t.callExpression(
@@ -331,7 +343,7 @@ export default declare((api, options) => {
         return false;
       }
 
-      for (const elem of pattern.elements as Array) {
+      for (const elem of pattern.elements) {
         // deopt on holes
         if (!elem) return false;
 
@@ -339,7 +351,7 @@ export default declare((api, options) => {
         if (t.isMemberExpression(elem)) return false;
       }
 
-      for (const elem of arr.elements as Array) {
+      for (const elem of arr.elements) {
         // deopt on spread elements
         if (t.isSpreadElement(elem)) return false;
 
