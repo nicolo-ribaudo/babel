@@ -102,6 +102,9 @@
     },
     {
       "path": "./packages/babel-helper-builder-react-jsx"
+    },
+    {
+      "path": "./packages/babel-helper-builder-react-jsx-experimental"
     }
   ]
 }

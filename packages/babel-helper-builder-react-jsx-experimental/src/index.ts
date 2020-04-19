@@ -1,15 +1,16 @@
 import * as t from "@babel/types";
 import { addNamed, addNamespace, isModule } from "@babel/helper-module-imports";
 import annotateAsPure from "@babel/helper-annotate-as-pure";
+import type { Visitor, NodePath } from "@babel/traverse";
 
 const DEFAULT = {
   importSource: "react",
   runtime: "automatic",
   pragma: "React.createElement",
   pragmaFrag: "React.Fragment",
-};
+} as const;
 
-export function helper(babel, options) {
+export function helper(babel, options): Visitor<any> {
   const FILE_NAME_VAR = "_jsxFileName";
 
   const JSX_SOURCE_ANNOTATION_REGEX = /\*?\s*@jsxImportSource\s+([^\s]+)/;
@@ -267,7 +268,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
   // from <div key={key} {...props} />. This is an intermediary
   // step while we deprecate key spread from props. Afterwards,
   // we will stop using createElement in the transform.
-  function shouldUseCreateElement(path) {
+  function shouldUseCreateElement(path: NodePath<t.JSXElement>) {
     const openingPath = path.get("openingElement");
     const attributes = openingPath.node.attributes;
 
@@ -297,16 +298,18 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
   }
 
   function getImportNames(parentPath) {
-    const imports = new Set();
+    const imports = new Set<string>();
 
     parentPath.traverse({
-      "JSXElement|JSXFragment"(path) {
-        if (path.type === "JSXFragment") imports.add("Fragment");
-        const openingPath = path.get("openingElement");
+      "JSXElement|JSXFragment"(path: NodePath<t.JSXElement | t.JSXFragment>) {
+        if (path.isJSXFragment()) imports.add("Fragment");
+        // todo(flow->ts): babel-types field types
+        const openingPath = path.get("openingElement") as NodePath;
 
+        // @ts-expect-error todo(flow->ts): better `.parent` type annotation
         const validChildren = t.react.buildChildren(openingPath.parent);
         let importName;
-        if (path.type === "JSXElement" && shouldUseCreateElement(path)) {
+        if (path.isJSXElement() && shouldUseCreateElement(path)) {
           importName = "createElement";
         } else if (options.development) {
           importName = "jsxDEV";
@@ -354,7 +357,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
   }
 
   function addAutoImports(path, state) {
-    const imports = getImportNames(path, state);
+    const imports = getImportNames(path);
     if (isModule(path)) {
       // import {jsx} from "react";
       // import {createElement} from "react";
@@ -468,6 +471,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
       if (node.name === "this" && t.isReferenced(node, parent)) {
         return t.thisExpression();
       } else if (t.isValidIdentifier(node.name, false)) {
+        // @ts-expect-error todo(flow->ts) avoid type unsafe mutations
         node.type = "Identifier";
       } else {
         return t.stringLiteral(node.name);
@@ -542,10 +546,11 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
     if (t.isIdentifier(tagExpr)) {
       tagName = tagExpr.name;
     } else if (t.isLiteral(tagExpr)) {
+      // @ts-expect-error todo(flow->ts) NullLiteral
       tagName = tagExpr.value;
     }
 
-    const state = {
+    const state: any = {
       tagExpr: tagExpr,
       tagName: tagName,
       args: args,
@@ -556,7 +561,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
       options.pre(state, file);
     }
 
-    let attribs = [];
+    const attribsArray = [];
     const extracted = Object.create(null);
 
     // for React.jsx, key, __source (dev), and __self (dev) is passed in as
@@ -575,23 +580,21 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
             extracted[name] = convertAttributeValue(attr.node.value);
             break;
           default:
-            attribs.push(attr.node);
+            attribsArray.push(attr.node);
         }
       } else {
-        attribs.push(attr.node);
+        attribsArray.push(attr.node);
       }
     }
 
-    if (attribs.length || path.node.children.length) {
-      attribs = buildJSXOpeningElementAttributes(
-        attribs,
-        file,
-        path.node.children,
-      );
-    } else {
-      // attributes should never be null
-      attribs = t.objectExpression([]);
-    }
+    const attribs =
+      attribsArray.length || path.node.children.length
+        ? buildJSXOpeningElementAttributes(
+            attribsArray,
+            file,
+            path.node.children,
+          )
+        : t.objectExpression([]);
 
     args.push(attribs);
 
@@ -660,7 +663,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
     const tagName = null;
     const tagExpr = file.get("@babel/plugin-react-jsx/jsxFragIdentifier")();
 
-    const state = {
+    const state: any = {
       tagExpr: tagExpr,
       tagName: tagName,
       args: args,
@@ -722,7 +725,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
     const tagName = null;
     const tagExpr = file.get("@babel/plugin-react-jsx/jsxFragIdentifier")();
 
-    const state = {
+    const state: any = {
       tagExpr: tagExpr,
       tagName: tagName,
       args: args,
@@ -766,10 +769,11 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
     if (t.isIdentifier(tagExpr)) {
       tagName = tagExpr.name;
     } else if (t.isLiteral(tagExpr)) {
+      // @ts-expect-error todo(flow->ts) NullLiteral
       tagName = tagExpr.value;
     }
 
-    const state = {
+    const state: any = {
       tagExpr: tagExpr,
       tagName: tagName,
       args: args,
