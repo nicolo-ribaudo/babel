@@ -87,6 +87,9 @@
     },
     {
       "path": "./packages/babel-cli"
+    },
+    {
+      "path": "./packages/babel-helper-annotate-as-pure"
     }
   ]
 }
