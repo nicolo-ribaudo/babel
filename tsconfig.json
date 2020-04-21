@@ -411,6 +411,9 @@
     },
     {
       "path": "./packages/babel-preset-react"
+    },
+    {
+      "path": "./packages/babel-preset-typescript"
     }
   ]
 }
