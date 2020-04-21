@@ -225,6 +225,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-partial-application"
+    },
+    {
+      "path": "./packages/babel-plugin-syntax-pipeline-operator"
     }
   ]
 }
