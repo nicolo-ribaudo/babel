@@ -228,6 +228,9 @@
     },
     {
       "path": "./packages/babel-plugin-syntax-pipeline-operator"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-pipeline-operator"
     }
   ]
 }
