@@ -246,6 +246,9 @@
     },
     {
       "path": "./packages/babel-plugin-syntax-class-properties"
+    },
+    {
+      "path": "./packages/babel-plugin-syntax-flow"
     }
   ]
 }
