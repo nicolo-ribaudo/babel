@@ -327,6 +327,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-new-target"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-object-assign"
     }
   ]
 }
