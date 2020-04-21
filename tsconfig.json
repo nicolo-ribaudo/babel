@@ -249,6 +249,9 @@
     },
     {
       "path": "./packages/babel-plugin-syntax-flow"
+    },
+    {
+      "path": "./packages/babel-plugin-syntax-jsx"
     }
   ]
 }
