@@ -171,6 +171,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-dynamic-import"
+    },
+    {
+      "path": "./packages/babel-plugin-syntax-export-default-from"
     }
   ]
 }
