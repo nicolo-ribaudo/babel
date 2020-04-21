@@ -210,6 +210,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-object-rest-spread"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-optional-catch-binding"
     }
   ]
 }
