@@ -156,6 +156,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-class-properties"
+    },
+    {
+      "path": "./packages/babel-plugin-syntax-decorators"
     }
   ]
 }
