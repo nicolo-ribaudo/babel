@@ -384,6 +384,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-spread"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-sticky-regex"
     }
   ]
 }
