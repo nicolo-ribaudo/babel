@@ -321,6 +321,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-modules-umd"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-named-capturing-groups-regex"
     }
   ]
 }
