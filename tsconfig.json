@@ -105,6 +105,9 @@
     },
     {
       "path": "./packages/babel-helper-builder-react-jsx-experimental"
+    },
+    {
+      "path": "./packages/babel-helper-hoist-variables"
     }
   ]
 }
