@@ -120,6 +120,9 @@
     },
     {
       "path": "./packages/babel-helper-create-class-features-plugin"
+    },
+    {
+      "path": "./packages/babel-helper-regex"
     }
   ]
 }
