@@ -300,6 +300,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-function-name"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-instanceof"
     }
   ]
 }
