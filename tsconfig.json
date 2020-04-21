@@ -33,6 +33,9 @@
     },
     {
       "path": "./packages/babel-helper-split-export-declaration"
+    },
+    {
+      "path": "./packages/babel-polyfill"
     }
   ]
 }
