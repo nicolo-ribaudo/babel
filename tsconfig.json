@@ -252,6 +252,9 @@
     },
     {
       "path": "./packages/babel-plugin-syntax-jsx"
+    },
+    {
+      "path": "./packages/babel-plugin-syntax-record-and-tuple"
     }
   ]
 }
