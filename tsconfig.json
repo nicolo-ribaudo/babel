@@ -51,6 +51,9 @@
     },
     {
       "path": "./packages/babel-helper-member-expression-to-functions"
+    },
+    {
+      "path": "./packages/babel-helper-optimise-call-expression"
     }
   ]
 }
