@@ -177,6 +177,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-export-default-from"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-export-namespace-from"
     }
   ]
 }
