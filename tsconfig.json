@@ -216,6 +216,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-block-scoping"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-optional-chaining"
     }
   ]
 }

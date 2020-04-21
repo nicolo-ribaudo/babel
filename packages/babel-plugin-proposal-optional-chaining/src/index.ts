@@ -193,6 +193,7 @@ export default declare((api, options) => {
                 replacement.object = t.assignmentExpression(
                   "=",
                   baseRef,
+                  // @ts-expect-error todo(flow->ts) improve types
                   object,
                 );
               }
