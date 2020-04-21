@@ -192,6 +192,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-function-sent"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-json-strings"
     }
   ]
 }
