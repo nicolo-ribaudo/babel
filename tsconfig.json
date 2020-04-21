@@ -330,6 +330,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-object-assign"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-object-set-prototype-of-to-assign"
     }
   ]
 }
