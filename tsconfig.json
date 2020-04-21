@@ -420,6 +420,9 @@
     },
     {
       "path": "./packages/babel-runtime"
+    },
+    {
+      "path": "./packages/babel-runtime-corejs2"
     }
   ]
 }
