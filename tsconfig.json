@@ -72,6 +72,9 @@
     },
     {
       "path": "./codemods/babel-plugin-codemod-object-assign-to-object-spread"
+    },
+    {
+      "path": "./codemods/babel-plugin-codemod-optional-catch-binding"
     }
   ]
 }
