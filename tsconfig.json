@@ -195,6 +195,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-json-strings"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-nullish-coalescing-operator"
     }
   ]
 }
