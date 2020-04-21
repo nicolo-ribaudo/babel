@@ -111,6 +111,9 @@
     },
     {
       "path": "./packages/babel-helper-call-delegate"
+    },
+    {
+      "path": "./packages/babel-helper-compilation-targets"
     }
   ]
 }
