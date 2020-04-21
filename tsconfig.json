@@ -30,6 +30,9 @@
     },
     {
       "path": "./packages/babel-helper-function-name"
+    },
+    {
+      "path": "./packages/babel-helper-split-export-declaration"
     }
   ]
 }
