@@ -258,6 +258,9 @@
     },
     {
       "path": "./packages/babel-plugin-syntax-top-level-await"
+    },
+    {
+      "path": "./packages/babel-plugin-syntax-typescript"
     }
   ]
 }
