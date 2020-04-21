@@ -309,6 +309,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-literals"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-member-expression-literals"
     }
   ]
 }
