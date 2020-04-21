@@ -255,6 +255,9 @@
     },
     {
       "path": "./packages/babel-plugin-syntax-record-and-tuple"
+    },
+    {
+      "path": "./packages/babel-plugin-syntax-top-level-await"
     }
   ]
 }
