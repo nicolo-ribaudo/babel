@@ -378,6 +378,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-typeof-symbol"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-shorthand-properties"
     }
   ]
 }
