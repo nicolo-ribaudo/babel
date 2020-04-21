@@ -375,6 +375,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-reserved-words"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-typeof-symbol"
     }
   ]
 }
