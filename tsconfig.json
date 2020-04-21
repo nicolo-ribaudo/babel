@@ -366,6 +366,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-react-jsx-self"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-react-jsx-source"
     }
   ]
 }
