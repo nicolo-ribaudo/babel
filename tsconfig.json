@@ -348,6 +348,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-react-constant-elements"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-react-display-name"
     }
   ]
 }
