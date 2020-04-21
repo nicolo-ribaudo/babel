@@ -153,6 +153,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-async-generator-functions"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-class-properties"
     }
   ]
 }
