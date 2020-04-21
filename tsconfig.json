@@ -336,6 +336,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-object-super"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-property-literals"
     }
   ]
 }
