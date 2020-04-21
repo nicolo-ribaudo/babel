@@ -372,6 +372,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-regenerator"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-reserved-words"
     }
   ]
 }
