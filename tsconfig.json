@@ -264,6 +264,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-arrow-functions"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-async-to-generator"
     }
   ]
 }
