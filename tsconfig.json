@@ -282,6 +282,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-dotall-regex"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-duplicate-keys"
     }
   ]
 }
