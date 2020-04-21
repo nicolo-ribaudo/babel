@@ -324,6 +324,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-named-capturing-groups-regex"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-new-target"
     }
   ]
 }
