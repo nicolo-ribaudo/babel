@@ -147,6 +147,9 @@
     },
     {
       "path": "./packages/babel-node"
+    },
+    {
+      "path": "./packages/babel-plugin-external-helpers"
     }
   ]
 }
