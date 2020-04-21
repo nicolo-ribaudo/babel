@@ -405,6 +405,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-typescript"
+    },
+    {
+      "path": "./packages/babel-preset-flow"
     }
   ]
 }
