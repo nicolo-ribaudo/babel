@@ -1,6 +1,6 @@
 import semver from "semver";
 import { OptionValidator } from "@babel/helper-validator-option";
-import { name as packageName } from "../package.json";
+import { name as packageName } from "./package";
 import { unreleasedLabels } from "./targets";
 import type { Target, Targets } from "./types";
 

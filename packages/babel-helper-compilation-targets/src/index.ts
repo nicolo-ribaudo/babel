@@ -11,7 +11,7 @@ import {
 import { OptionValidator } from "@babel/helper-validator-option";
 import { browserNameMap } from "./targets";
 import { TargetNames } from "./options";
-import { name as packageName } from "../package.json";
+import { name as packageName } from "./package";
 import type { Targets, InputTargets, Browsers, TargetsTuple } from "./types";
 
 export type { Targets, InputTargets };
@@ -57,7 +57,7 @@ export function isBrowsersQueryValid(browsers: Browsers | Targets): boolean {
   return typeof browsers === "string" || Array.isArray(browsers);
 }
 
-function validateBrowsers(browsers: Browsers | void) {
+function validateBrowsers(browsers: Browsers | undefined) {
   v.invariant(
     browsers === undefined || isBrowsersQueryValid(browsers),
     `'${String(browsers)}' is not a valid browserslist query`,
@@ -170,7 +170,7 @@ function generateTargets(inputTargets: InputTargets): Targets {
 }
 
 export default function getTargets(
-  inputTargets: InputTargets = {},
+  inputTargets: InputTargets = {} as InputTargets,
   options: any = {},
 ): Targets {
   let { browsers } = inputTargets;
@@ -221,7 +221,7 @@ export default function getTargets(
   }
 
   // Parse remaining targets
-  const result: Targets = {};
+  const result: Targets = {} as Targets;
   const decimalWarnings = [];
   for (const target of Object.keys(targets).sort()) {
     const value = targets[target];
