@@ -69,6 +69,9 @@
     },
     {
       "path": "./packages/babel-core"
+    },
+    {
+      "path": "./codemods/babel-plugin-codemod-object-assign-to-object-spread"
     }
   ]
 }
