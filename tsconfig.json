@@ -222,6 +222,9 @@
     },
     {
       "path": "./packages/babel-plugin-syntax-partial-application"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-partial-application"
     }
   ]
 }
