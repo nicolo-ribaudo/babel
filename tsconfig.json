@@ -243,6 +243,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-unicode-property-regex"
+    },
+    {
+      "path": "./packages/babel-plugin-syntax-class-properties"
     }
   ]
 }
