@@ -234,6 +234,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-private-methods"
+    },
+    {
+      "path": "./packages/babel-plugin-syntax-throw-expressions"
     }
   ]
 }
