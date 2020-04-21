@@ -183,6 +183,9 @@
     },
     {
       "path": "./packages/babel-plugin-syntax-function-bind"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-function-bind"
     }
   ]
 }
