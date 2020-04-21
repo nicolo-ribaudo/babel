@@ -219,6 +219,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-optional-chaining"
+    },
+    {
+      "path": "./packages/babel-plugin-syntax-partial-application"
     }
   ]
 }
