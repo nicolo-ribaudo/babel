@@ -3,7 +3,7 @@ import {
   version as babelCoreVersion,
   parseSync as babelParse,
 } from "@babel/core";
-import packageJson from "../package.json";
+const packageJson = require("../package.json");
 import {
   normalizeBabelParseConfig,
   normalizeESLintConfig,
@@ -37,7 +37,9 @@ function baseParse(code, options) {
     ast = babelParse(code, normalizeBabelParseConfig(options));
   } catch (err) {
     if (err instanceof SyntaxError) {
+      // @ts-expect-error todo(flow->ts) improve SyntaxError type
       err.lineNumber = err.loc.line;
+      // @ts-expect-error todo(flow->ts) improve SyntaxError type
       err.column = err.loc.column;
     }
 

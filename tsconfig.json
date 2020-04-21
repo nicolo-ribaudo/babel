@@ -75,6 +75,9 @@
     },
     {
       "path": "./codemods/babel-plugin-codemod-optional-catch-binding"
+    },
+    {
+      "path": "./eslint/babel-eslint-parser"
     }
   ]
 }

@@ -87,7 +87,6 @@ function convertNodes(ast, code) {
     for (const [type, visitorKey] of Object.entries(conflictTypes)) {
       // backup conflicted visitor keys
       oldVisitorKeys.set(type, t.VISITOR_KEYS[type]);
-
       t.VISITOR_KEYS[type] = visitorKey;
     }
     for (const [type, visitorKey] of Object.entries(newTypes)) {

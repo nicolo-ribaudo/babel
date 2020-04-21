@@ -19,6 +19,7 @@ const flowFlippedAliasKeys = t.FLIPPED_ALIAS_KEYS.Flow.concat([
 
 const visitorKeysMap = Object.entries(t.VISITOR_KEYS).reduce(
   (acc, [key, value]) => {
+    // @ts-expect-error todo(flow->ts): incompatible types
     if (!flowFlippedAliasKeys.includes(value)) {
       acc[key] = value;
     }
@@ -48,10 +49,12 @@ const propertyTypes = {
 
 class PatternVisitor extends OriginalPatternVisitor {
   ArrayPattern(node) {
+    // @ts-expect-error todo(flow->ts): incompatible types
     node.elements.forEach(this.visit, this);
   }
 
   ObjectPattern(node) {
+    // @ts-expect-error todo(flow->ts): dependency types
     node.properties.forEach(this.visit, this);
   }
 }
@@ -66,6 +69,7 @@ class Referencer extends OriginalReferencer {
     // Visit type annotations.
     this._checkIdentifierOrVisit(node.typeAnnotation);
     if (t.isAssignmentPattern(node)) {
+      // @ts-expect-error todo(flow->ts)
       this._checkIdentifierOrVisit(node.left.typeAnnotation);
     }
 
@@ -75,11 +79,14 @@ class Referencer extends OriginalReferencer {
       options = { processRightHandNodes: false };
     }
 
+    // @ts-expect-error todo(flow->ts): dependency types
     const visitor = new PatternVisitor(this.options, node, callback);
+    // @ts-expect-error todo(flow->ts): using private api
     visitor.visit(node);
 
     // Process the right hand nodes recursively.
     if (options.processRightHandNodes) {
+      // @ts-expect-error todo(flow->ts): dependency types
       visitor.rightHandNodes.forEach(this.visit, this);
     }
   }
@@ -103,6 +110,7 @@ class Referencer extends OriginalReferencer {
 
     // Close the type parameter scope.
     if (typeParamScope) {
+      // @ts-expect-error todo(flow->ts): dependency types
       this.close(node);
     }
   }
@@ -119,6 +127,7 @@ class Referencer extends OriginalReferencer {
 
     // Close the type parameter scope.
     if (typeParamScope) {
+      // @ts-expect-error todo(flow->ts): dependency types
       this.close(node);
     }
   }
@@ -139,9 +148,11 @@ class Referencer extends OriginalReferencer {
 
     // TODO: Handle mixins
     this._visitArray(node.extends);
+    // @ts-expect-error todo(flow->ts): dependency types
     this.visit(node.body);
 
     if (typeParamScope) {
+      // @ts-expect-error todo(flow->ts): dependency types
       this.close(node);
     }
   }
@@ -151,9 +162,11 @@ class Referencer extends OriginalReferencer {
 
     const typeParamScope = this._nestTypeParamScope(node);
 
+    // @ts-expect-error todo(flow->ts): dependency types
     this.visit(node.right);
 
     if (typeParamScope) {
+      // @ts-expect-error todo(flow->ts): dependency types
       this.close(node);
     }
   }
@@ -204,11 +217,13 @@ class Referencer extends OriginalReferencer {
 
     const typeParamScope = this._nestTypeParamScope(node);
     if (typeParamScope) {
+      // @ts-expect-error todo(flow->ts): dependency types
       this.close(node);
     }
   }
 
   _createScopeVariable(node, name) {
+    // @ts-expect-error todo(flow->ts): dependency types
     this.currentScope().variableScope.__define(
       name,
       new Definition("Variable", name, node, null, null, null),
@@ -220,8 +235,10 @@ class Referencer extends OriginalReferencer {
       return null;
     }
 
+    // @ts-expect-error todo(flow->ts): dependency types
     const parentScope = this.scopeManager.__currentScope;
     const scope = new escope.Scope(
+      // @ts-expect-error todo(flow->ts): dependency types
       this.scopeManager,
       "type-parameters",
       parentScope,
@@ -229,6 +246,7 @@ class Referencer extends OriginalReferencer {
       false,
     );
 
+    // @ts-expect-error todo(flow->ts): dependency types
     this.scopeManager.__nestScope(scope);
     for (let j = 0; j < node.typeParameters.params.length; j++) {
       const name = node.typeParameters.params[j];
@@ -303,6 +321,7 @@ class Referencer extends OriginalReferencer {
     if (node?.typeAnnotation) {
       this._visitTypeAnnotation(node.typeAnnotation);
     } else if (node?.type === "Identifier") {
+      // @ts-expect-error todo(flow->ts): dependency types
       this.visit(node);
     } else {
       this._visitTypeAnnotation(node);
@@ -312,6 +331,7 @@ class Referencer extends OriginalReferencer {
   _visitArray(nodeList) {
     if (nodeList) {
       for (const node of nodeList) {
+        // @ts-expect-error todo(flow->ts): dependency types
         this.visit(node);
       }
     }
@@ -319,7 +339,7 @@ class Referencer extends OriginalReferencer {
 }
 
 export default function analyzeScope(ast, parserOptions) {
-  const options = {
+  const options: any = {
     ignoreEval: true,
     optimistic: false,
     directive: false,
@@ -336,8 +356,10 @@ export default function analyzeScope(ast, parserOptions) {
   options.childVisitorKeys = childVisitorKeys;
 
   const scopeManager = new escope.ScopeManager(options);
+  // @ts-expect-error todo(flow->ts): dependency types
   const referencer = new Referencer(options, scopeManager);
 
+  // @ts-expect-error todo(flow->ts): private api
   referencer.visit(ast);
 
   return scopeManager;
