@@ -93,6 +93,9 @@
     },
     {
       "path": "./packages/babel-helper-bindify-decorators"
+    },
+    {
+      "path": "./packages/babel-helper-explode-assignable-expression"
     }
   ]
 }
