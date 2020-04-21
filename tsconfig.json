@@ -279,6 +279,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-destructuring"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-dotall-regex"
     }
   ]
 }
