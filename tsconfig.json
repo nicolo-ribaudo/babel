@@ -306,6 +306,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-jscript"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-literals"
     }
   ]
 }
