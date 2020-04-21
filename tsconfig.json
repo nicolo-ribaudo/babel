@@ -285,6 +285,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-duplicate-keys"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-exponentiation-operator"
     }
   ]
 }
