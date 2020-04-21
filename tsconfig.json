@@ -408,6 +408,9 @@
     },
     {
       "path": "./packages/babel-preset-flow"
+    },
+    {
+      "path": "./packages/babel-preset-react"
     }
   ]
 }
