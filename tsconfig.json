@@ -399,6 +399,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-runtime"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-strict-mode"
     }
   ]
 }
