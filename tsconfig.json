@@ -81,6 +81,9 @@
     },
     {
       "path": "./eslint/babel-eslint-plugin"
+    },
+    {
+      "path": "./eslint/babel-eslint-plugin-development"
     }
   ]
 }
