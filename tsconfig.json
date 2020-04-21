@@ -198,6 +198,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-nullish-coalescing-operator"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-logical-assignment-operators"
     }
   ]
 }
