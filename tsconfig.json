@@ -180,6 +180,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-export-namespace-from"
+    },
+    {
+      "path": "./packages/babel-plugin-syntax-function-bind"
     }
   ]
 }
