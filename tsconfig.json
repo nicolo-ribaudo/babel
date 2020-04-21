@@ -96,6 +96,9 @@
     },
     {
       "path": "./packages/babel-helper-explode-assignable-expression"
+    },
+    {
+      "path": "./packages/babel-helper-builder-binary-assignment-operator-visitor"
     }
   ]
 }
