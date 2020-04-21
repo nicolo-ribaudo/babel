@@ -201,6 +201,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-logical-assignment-operators"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-numeric-separator"
     }
   ]
 }
