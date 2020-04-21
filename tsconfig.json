@@ -390,6 +390,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-template-literals"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-unicode-regex"
     }
   ]
 }
