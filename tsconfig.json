@@ -303,6 +303,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-instanceof"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-jscript"
     }
   ]
 }
