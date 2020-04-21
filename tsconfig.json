@@ -423,6 +423,9 @@
     },
     {
       "path": "./packages/babel-runtime-corejs2"
+    },
+    {
+      "path": "./packages/babel-runtime-corejs3"
     }
   ]
 }
