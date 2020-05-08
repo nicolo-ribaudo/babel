@@ -32,7 +32,8 @@ testContext.global = testContext;
 
 // Initialize the test context with the polyfill, and then freeze the global to prevent implicit
 // global creation in tests, which could cause things to bleed between tests.
-runModuleInTestContext("@babel/polyfill", __filename);
+runModuleInTestContext("core-js-bundle", __filename);
+runModuleInTestContext("regenerator-runtime/runtime", __filename);
 
 // Populate the "babelHelpers" global with Babel's helper utilities.
 runCodeInTestContext(buildExternalHelpers(), {
