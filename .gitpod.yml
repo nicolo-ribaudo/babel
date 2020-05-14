@@ -1,0 +1,7 @@
+tasks:
+  - init: make bootstrap
+
+vscode:
+  extensions:
+    - dbaeumer.vscode-eslint@2.1.5:9Wg0Glx/TwD8ElFBg+FKcQ==
+    - jyee721.babel-ast-explorer@0.0.2:nd4A98p8hqzVZIh2MurFGA==
