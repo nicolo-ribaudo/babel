@@ -114,10 +114,11 @@ check-compat-data-ci:
 lint: lint-js lint-ts
 
 lint-js:
-	BABEL_ENV=test $(YARN) eslint scripts $(SOURCES) '*.{js,ts}' --format=codeframe --ext .js,.cjs,.mjs,.ts
+	BABEL_ENV=test $(YARN) eslint scripts $(SOURCES) '*.{js,ts}' --format=codeframe --ext .js,.jsx,.cjs,.mjs,.ts,.tsx
 
+#todo(flow->ts): remove this
 lint-ts:
-	scripts/lint-ts-typings.sh
+	BABEL_ENV=test true
 
 fix: fix-json fix-js
 
