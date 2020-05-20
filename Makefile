@@ -45,14 +45,10 @@ generate-standalone:
 generate-type-helpers:
 	$(NODE) packages/babel-types/scripts/generateTypeHelpers.js
 
-build-typings: build-flow-typings build-typescript-typings
+build-typings: build-flow-typings
 
 build-flow-typings:
 	$(NODE) packages/babel-types/scripts/generators/flow.js > packages/babel-types/lib/index.js.flow
-
-build-typescript-typings:
-	$(NODE) packages/babel-types/scripts/generators/typescript.js > packages/babel-types/lib/index.d.ts
-	$(NODE) packages/babel-types/scripts/generators/typescript.js --ts3.7 > packages/babel-types/lib/index-ts3.7.d.ts
 
 build-standalone: build-babel-standalone
 
