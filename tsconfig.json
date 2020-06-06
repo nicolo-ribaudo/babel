@@ -432,6 +432,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-react-pure-annotations"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-unicode-escapes"
     }
   ]
 }
