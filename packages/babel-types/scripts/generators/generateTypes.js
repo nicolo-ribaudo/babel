@@ -44,6 +44,9 @@ interface BaseNode {
   end: number | null;
   loc: SourceLocation | null;
   type: Node["type"];
+  extra?: {
+    [key: string]: any;
+  };
 }
 
 export type CommentTypeShorthand = "leading" | "inner" | "trailing";
