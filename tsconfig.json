@@ -429,6 +429,9 @@
     },
     {
       "path": "./packages/babel-plugin-proposal-private-property-in-object"
+    },
+    {
+      "path": "./packages/babel-plugin-transform-react-pure-annotations"
     }
   ]
 }
