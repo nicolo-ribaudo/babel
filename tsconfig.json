@@ -426,6 +426,9 @@
     },
     {
       "path": "./packages/babel-runtime-corejs3"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-private-property-in-object"
     }
   ]
 }
