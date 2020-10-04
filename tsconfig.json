@@ -438,6 +438,9 @@
     },
     {
       "path": "./packages/babel-plugin-transform-unicode-escapes"
+    },
+    {
+      "path": "./packages/babel-helper-validator-option"
     }
   ]
 }

@@ -1,7 +1,8 @@
 import { findSuggestion } from "./find-suggestion";
 
 export class OptionValidator {
-  declare descriptor: string;
+  // todo(flow->ts): declare field syntax does not work with babel config in a project
+  descriptor: string;
   constructor(descriptor: string) {
     this.descriptor = descriptor;
   }
@@ -33,7 +34,7 @@ export class OptionValidator {
     name: string,
     value?: boolean,
     defaultValue?: boolean,
-  ): boolean | void {
+  ): boolean | undefined {
     if (value === undefined) {
       value = defaultValue;
     } else {
@@ -49,7 +50,7 @@ export class OptionValidator {
     name: string,
     value?: string,
     defaultValue?: string,
-  ): string | void {
+  ): string | undefined {
     if (value === undefined) {
       value = defaultValue;
     } else {

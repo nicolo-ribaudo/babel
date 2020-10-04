@@ -157,6 +157,9 @@
     },
     {
       "path": "../babel-traverse"
+    },
+    {
+      "path": "../babel-helper-validator-option"
     }
   ]
 }
