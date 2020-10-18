@@ -221,8 +221,9 @@ clone-license:
 prepublish-build: clean-lib clean-runtime-helpers
 	NODE_ENV=production BABEL_ENV=production $(MAKE) build-bundle
 	$(MAKE) prepublish-build-standalone clone-license
-	# We don't want to publish .d.ts files yet
+	# todo: We don't want to publish .d.ts files yet
 	rm -rf packages/*/dts
+	# yarn tsc -b .
 
 prepublish:
 	$(MAKE) check-yarn-bug-1882
