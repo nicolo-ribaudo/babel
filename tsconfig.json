@@ -447,6 +447,9 @@
     },
     {
       "path": "./packages/babel-plugin-syntax-class-static-block"
+    },
+    {
+      "path": "./packages/babel-plugin-proposal-class-static-block"
     }
   ]
 }

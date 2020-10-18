@@ -1,6 +1,7 @@
 import { declare } from "@babel/helper-plugin-utils";
 import syntaxClassStaticBlock from "@babel/plugin-syntax-class-static-block";
-
+import type * as t from "@babel/types";
+import type { NodePath } from "@babel/traverse";
 /**
  * Generate a uid that is not in `denyList`
  *
@@ -26,17 +27,14 @@ export default declare(({ types: t, template, assertVersion }) => {
     name: "proposal-class-static-block",
     inherits: syntaxClassStaticBlock,
     visitor: {
-      Class(
-        path: NodePath<{
-          new (...args: any): any;
-        }>,
-      ) {
+      Class(path: NodePath<t.Class>) {
         const { scope } = path;
         const classBody = path.get("body");
-        const privateNames = new Set();
+        const privateNames = new Set<string>();
         let staticBlockPath;
         for (const path of classBody.get("body")) {
           if (path.isPrivate()) {
+            // @ts-expect-error todo(flow->ts) NodePath.get types
             privateNames.add(path.get("key.id").node.name);
           } else if (path.isStaticBlock()) {
             staticBlockPath = path;
