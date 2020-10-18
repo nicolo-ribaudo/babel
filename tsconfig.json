@@ -441,6 +441,9 @@
     },
     {
       "path": "./packages/babel-helper-validator-option"
+    },
+    {
+      "path": "./packages/babel-plugin-syntax-module-string-names"
     }
   ]
 }
