@@ -444,6 +444,9 @@
     },
     {
       "path": "./packages/babel-plugin-syntax-module-string-names"
+    },
+    {
+      "path": "./packages/babel-plugin-syntax-class-static-block"
     }
   ]
 }
