@@ -38,7 +38,7 @@ const synchronize = <ArgsT, ResultT>(
   return gensync(gen).sync;
 };
 
-// eslint-disable-next-line require-yield, no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars,require-yield
 function* genTrue(data: any) {
   return true;
 }

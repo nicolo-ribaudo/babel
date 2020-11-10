@@ -13,7 +13,7 @@ export type { ConfigFile, IgnoreFile, RelativeConfig, FilePackageData };
 
 // eslint-disable-next-line require-yield
 export function* findConfigUpwards(
-  // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   rootDir: string,
 ): Handler<string | null> {
   return null;
@@ -31,11 +31,11 @@ export function* findPackageData(filepath: string): Handler<FilePackageData> {
 
 // eslint-disable-next-line require-yield
 export function* findRelativeConfig(
-  // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   pkgData: FilePackageData,
-  // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   envName: string,
-  // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   caller: CallerMetadata | void,
 ): Handler<RelativeConfig> {
   return { pkg: null, config: null, ignore: null };
@@ -43,11 +43,11 @@ export function* findRelativeConfig(
 
 // eslint-disable-next-line require-yield
 export function* findRootConfig(
-  // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   dirname: string,
-  // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   envName: string,
-  // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   caller: CallerMetadata | void,
 ): Handler<ConfigFile | null> {
   return null;
@@ -57,9 +57,9 @@ export function* findRootConfig(
 export function* loadConfig(
   name: string,
   dirname: string,
-  // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   envName: string,
-  // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   caller: CallerMetadata | void,
 ): Handler<ConfigFile> {
   throw new Error(`Cannot load ${name} relative to ${dirname} in a browser`);
@@ -67,7 +67,7 @@ export function* loadConfig(
 
 // eslint-disable-next-line require-yield
 export function* resolveShowConfigPath(
-  // eslint-disable-line no-unused-vars
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   dirname: string,
 ): Handler<string | null> {
   return null;
@@ -75,12 +75,12 @@ export function* resolveShowConfigPath(
 
 export const ROOT_CONFIG_FILENAMES = [];
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function resolvePlugin(name: string, dirname: string): string | null {
   return null;
 }
 
-// eslint-disable-next-line no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function resolvePreset(name: string, dirname: string): string | null {
   return null;
 }
