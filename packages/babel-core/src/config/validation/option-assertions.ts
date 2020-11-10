@@ -227,7 +227,7 @@ export function assertArray<T>(
   return value;
 }
 
-export function assertIgnoreList<T>(
+export function assertIgnoreList(
   loc: OptionPath,
   value: unknown[] | null | undefined,
 ): IgnoreList | void {
