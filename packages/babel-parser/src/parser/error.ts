@@ -1,6 +1,6 @@
-// @flow
 /* eslint sort-keys: "error" */
-import { getLineInfo, type Position } from "../util/location";
+import { getLineInfo } from "../util/location";
+import type { Position } from "../util/location";
 import CommentsParser from "./comments";
 
 // This function is used to raise exceptions on parse errors. It
@@ -10,13 +10,13 @@ import CommentsParser from "./comments";
 // message.
 
 type ErrorContext = {
-  pos: number,
-  loc: Position,
-  missingPlugin?: Array<string>,
-  code?: string,
+  pos: number;
+  loc: Position;
+  missingPlugin?: Array<string>;
+  code?: string;
 };
 
-export { ErrorMessages as Errors } from "./error-message.js";
+export { ErrorMessages as Errors } from "./error-message";
 
 export default class ParserError extends CommentsParser {
   // Forward-declaration: defined in tokenizer/index.js
@@ -35,27 +35,30 @@ export default class ParserError extends CommentsParser {
     return loc;
   }
 
-  raise(pos: number, errorTemplate: string, ...params: any): Error | empty {
+  raise(pos: number, errorTemplate: string, ...params: any): Error | never {
     return this.raiseWithData(pos, undefined, errorTemplate, ...params);
   }
 
   raiseWithData(
     pos: number,
-    data?: {
-      missingPlugin?: Array<string>,
-      code?: string,
-    },
+    data:
+      | {
+          missingPlugin?: Array<string>;
+          code?: string;
+        }
+      | undefined
+      | null,
     errorTemplate: string,
     ...params: any
-  ): Error | empty {
+  ): Error | never {
     const loc = this.getLocationForPosition(pos);
     const message =
       errorTemplate.replace(/%(\d+)/g, (_, i: number) => params[i]) +
       ` (${loc.line}:${loc.column})`;
-    return this._raise(Object.assign(({ loc, pos }: Object), data), message);
+    return this._raise(Object.assign({ loc, pos } as any, data), message);
   }
 
-  _raise(errorContext: ErrorContext, message: string): Error | empty {
+  _raise(errorContext: ErrorContext, message: string): Error | never {
     // $FlowIgnore
     const err: SyntaxError & ErrorContext = new SyntaxError(message);
     Object.assign(err, errorContext);

@@ -49,14 +49,14 @@ function getPropRef(node, nodes, file, scope) {
 }
 
 export default function (
-  node: Object,
-  nodes: Array<Object>,
+  node: any,
+  nodes: Array<any>,
   file,
   scope: Scope,
   allowedSingleIdent?: boolean,
 ): {
-  uid: Object,
-  ref: Object,
+  uid: any;
+  ref: any;
 } {
   let obj;
   if (t.isIdentifier(node) && allowedSingleIdent) {

@@ -1,4 +1,3 @@
-// @flow
 import corejs3Polyfills from "core-js-compat/data";
 import { coerce, SemVer } from "semver";
 import corejs2Polyfills from "@babel/compat-data/corejs2-built-ins";
@@ -146,12 +145,12 @@ export const validateUseBuiltInsOption = (
 };
 
 export type NormalizedCorejsOption = {
-  proposals: boolean,
-  version: typeof SemVer | null | false,
+  proposals: boolean;
+  version: typeof SemVer | null | false;
 };
 
 export function normalizeCoreJSOption(
-  corejs?: CorejsOption,
+  corejs: CorejsOption | undefined | null,
   useBuiltIns: BuiltInsOption,
 ): NormalizedCorejsOption {
   let proposals = false;

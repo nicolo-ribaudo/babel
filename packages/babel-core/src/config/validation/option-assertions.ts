@@ -1,5 +1,3 @@
-// @flow
-
 import type {
   ConfigFileSearch,
   BabelrcSearch,
@@ -21,10 +19,10 @@ import type {
 export type { RootPath } from "./options";
 
 export type ValidatorSet = {
-  [string]: Validator<any>,
+  [x: string]: Validator<any>;
 };
 
-export type Validator<T> = (OptionPath, mixed) => T;
+export type Validator<T> = (b: OptionPath, a: unknown) => T;
 
 export function msg(loc: NestingPath | GeneralPath) {
   switch (loc.type) {
@@ -51,19 +49,24 @@ export function access(loc: GeneralPath, name: string | number): AccessPath {
   };
 }
 
-export type OptionPath = $ReadOnly<{
-  type: "option",
-  name: string,
-  parent: NestingPath,
+export type OptionPath = Readonly<{
+  type: "option";
+  name: string;
+  parent: NestingPath;
 }>;
-type AccessPath = $ReadOnly<{
-  type: "access",
-  name: string | number,
-  parent: GeneralPath,
+
+type AccessPath = Readonly<{
+  type: "access";
+  name: string | number;
+  parent: GeneralPath;
 }>;
+
 type GeneralPath = OptionPath | AccessPath;
 
-export function assertRootMode(loc: OptionPath, value: mixed): RootMode | void {
+export function assertRootMode(
+  loc: OptionPath,
+  value: unknown,
+): RootMode | void {
   if (
     value !== undefined &&
     value !== "root" &&
@@ -79,7 +82,7 @@ export function assertRootMode(loc: OptionPath, value: mixed): RootMode | void {
 
 export function assertSourceMaps(
   loc: OptionPath,
-  value: mixed,
+  value: unknown,
 ): SourceMapsOption | void {
   if (
     value !== undefined &&
@@ -96,7 +99,7 @@ export function assertSourceMaps(
 
 export function assertCompact(
   loc: OptionPath,
-  value: mixed,
+  value: unknown,
 ): CompactOption | void {
   if (value !== undefined && typeof value !== "boolean" && value !== "auto") {
     throw new Error(`${msg(loc)} must be a boolean, "auto", or undefined`);
@@ -106,7 +109,7 @@ export function assertCompact(
 
 export function assertSourceType(
   loc: OptionPath,
-  value: mixed,
+  value: unknown,
 ): SourceTypeOption | void {
   if (
     value !== undefined &&
@@ -123,11 +126,11 @@ export function assertSourceType(
 
 export function assertCallerMetadata(
   loc: OptionPath,
-  value: mixed,
+  value: unknown,
 ): CallerMetadata | void {
   const obj = assertObject(loc, value);
   if (obj) {
-    if (typeof obj[("name": string)] !== "string") {
+    if (typeof obj["name" as string] !== "string") {
       throw new Error(
         `${msg(loc)} set but does not contain "name" property string`,
       );
@@ -153,12 +156,12 @@ export function assertCallerMetadata(
       }
     }
   }
-  return (value: any);
+  return value as any;
 }
 
 export function assertInputSourceMap(
   loc: OptionPath,
-  value: mixed,
+  value: unknown,
 ): RootInputSourceMapOption | void {
   if (
     value !== undefined &&
@@ -170,7 +173,7 @@ export function assertInputSourceMap(
   return value;
 }
 
-export function assertString(loc: GeneralPath, value: mixed): string | void {
+export function assertString(loc: GeneralPath, value: unknown): string | void {
   if (value !== undefined && typeof value !== "string") {
     throw new Error(`${msg(loc)} must be a string, or undefined`);
   }
@@ -179,7 +182,7 @@ export function assertString(loc: GeneralPath, value: mixed): string | void {
 
 export function assertFunction(
   loc: GeneralPath,
-  value: mixed,
+  value: unknown,
 ): Function | void {
   if (value !== undefined && typeof value !== "function") {
     throw new Error(`${msg(loc)} must be a function, or undefined`);
@@ -187,7 +190,10 @@ export function assertFunction(
   return value;
 }
 
-export function assertBoolean(loc: GeneralPath, value: mixed): boolean | void {
+export function assertBoolean(
+  loc: GeneralPath,
+  value: unknown,
+): boolean | void {
   if (value !== undefined && typeof value !== "boolean") {
     throw new Error(`${msg(loc)} must be a boolean, or undefined`);
   }
@@ -196,8 +202,10 @@ export function assertBoolean(loc: GeneralPath, value: mixed): boolean | void {
 
 export function assertObject(
   loc: GeneralPath,
-  value: mixed,
-): { +[string]: mixed } | void {
+  value: unknown,
+): {
+  readonly [x: string]: unknown;
+} | void {
   if (
     value !== undefined &&
     (typeof value !== "object" || Array.isArray(value) || !value)
@@ -209,8 +217,8 @@ export function assertObject(
 
 export function assertArray(
   loc: GeneralPath,
-  value: mixed,
-): ?$ReadOnlyArray<mixed> {
+  value: unknown,
+): ReadonlyArray<unknown> | undefined | null {
   if (value != null && !Array.isArray(value)) {
     throw new Error(`${msg(loc)} must be an array, or undefined`);
   }
@@ -219,15 +227,15 @@ export function assertArray(
 
 export function assertIgnoreList(
   loc: OptionPath,
-  value: mixed,
+  value: unknown,
 ): IgnoreList | void {
   const arr = assertArray(loc, value);
   if (arr) {
     arr.forEach((item, i) => assertIgnoreItem(access(loc, i), item));
   }
-  return (arr: any);
+  return arr as any;
 }
-function assertIgnoreItem(loc: GeneralPath, value: mixed): IgnoreItem {
+function assertIgnoreItem(loc: GeneralPath, value: unknown): IgnoreItem {
   if (
     typeof value !== "string" &&
     typeof value !== "function" &&
@@ -244,7 +252,7 @@ function assertIgnoreItem(loc: GeneralPath, value: mixed): IgnoreItem {
 
 export function assertConfigApplicableTest(
   loc: OptionPath,
-  value: mixed,
+  value: unknown,
 ): ConfigApplicableTest | void {
   if (value === undefined) return value;
 
@@ -261,10 +269,10 @@ export function assertConfigApplicableTest(
       `${msg(loc)} must be a string/Function/RegExp, or an array of those`,
     );
   }
-  return (value: any);
+  return value as any;
 }
 
-function checkValidTest(value: mixed): boolean {
+function checkValidTest(value: unknown): boolean {
   return (
     typeof value === "string" ||
     typeof value === "function" ||
@@ -274,7 +282,7 @@ function checkValidTest(value: mixed): boolean {
 
 export function assertConfigFileSearch(
   loc: OptionPath,
-  value: mixed,
+  value: unknown,
 ): ConfigFileSearch | void {
   if (
     value !== undefined &&
@@ -283,7 +291,7 @@ export function assertConfigFileSearch(
   ) {
     throw new Error(
       `${msg(loc)} must be a undefined, a boolean, a string, ` +
-        `got ${JSON.stringify((value: any))}`,
+        `got ${JSON.stringify(value as any)}`,
     );
   }
 
@@ -292,7 +300,7 @@ export function assertConfigFileSearch(
 
 export function assertBabelrcSearch(
   loc: OptionPath,
-  value: mixed,
+  value: unknown,
 ): BabelrcSearch | void {
   if (value === undefined || typeof value === "boolean") return value;
 
@@ -307,15 +315,15 @@ export function assertBabelrcSearch(
   } else if (!checkValidTest(value)) {
     throw new Error(
       `${msg(loc)} must be a undefined, a boolean, a string/Function/RegExp ` +
-        `or an array of those, got ${JSON.stringify((value: any))}`,
+        `or an array of those, got ${JSON.stringify(value as any)}`,
     );
   }
-  return (value: any);
+  return value as any;
 }
 
 export function assertPluginList(
   loc: OptionPath,
-  value: mixed,
+  value: unknown,
 ): PluginList | void {
   const arr = assertArray(loc, value);
   if (arr) {
@@ -323,9 +331,9 @@ export function assertPluginList(
     // for plugin array for use during config chain processing.
     arr.forEach((item, i) => assertPluginItem(access(loc, i), item));
   }
-  return (arr: any);
+  return arr as any;
 }
-function assertPluginItem(loc: GeneralPath, value: mixed): PluginItem {
+function assertPluginItem(loc: GeneralPath, value: unknown): PluginItem {
   if (Array.isArray(value)) {
     if (value.length === 0) {
       throw new Error(`${msg(loc)} must include an object`);
@@ -361,9 +369,9 @@ function assertPluginItem(loc: GeneralPath, value: mixed): PluginItem {
     assertPluginTarget(loc, value);
   }
 
-  return (value: any);
+  return value as any;
 }
-function assertPluginTarget(loc: GeneralPath, value: mixed): PluginTarget {
+function assertPluginTarget(loc: GeneralPath, value: unknown): PluginTarget {
   if (
     (typeof value !== "object" || !value) &&
     typeof value !== "string" &&

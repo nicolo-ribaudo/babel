@@ -1,12 +1,10 @@
-// @flow
-
 // duplicated from transform-file so we do not have to import anything here
 type TransformFile = {
-  (filename: string, callback: Function): void,
-  (filename: string, opts: ?Object, callback: Function): void,
+  (filename: string, callback: Function): void;
+  (filename: string, opts: any | undefined | null, callback: Function): void;
 };
 
-export const transformFile: TransformFile = (function transformFile(
+export const transformFile: TransformFile = function transformFile(
   filename,
   opts,
   callback,
@@ -16,7 +14,7 @@ export const transformFile: TransformFile = (function transformFile(
   }
 
   callback(new Error("Transforming files is not supported in browsers"), null);
-}: Function);
+} as Function;
 
 export function transformFileSync() {
   throw new Error("Transforming files is not supported in browsers");

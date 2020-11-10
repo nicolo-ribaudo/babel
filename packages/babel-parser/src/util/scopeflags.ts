@@ -1,17 +1,6 @@
-// @flow
-
 // Each scope gets a bitset that may contain these flags
 // prettier-ignore
-export const SCOPE_OTHER        = 0b00000000,
-             SCOPE_PROGRAM      = 0b00000001,
-             SCOPE_FUNCTION     = 0b00000010,
-             SCOPE_ARROW        = 0b00000100,
-             SCOPE_SIMPLE_CATCH = 0b00001000,
-             SCOPE_SUPER        = 0b00010000,
-             SCOPE_DIRECT_SUPER = 0b00100000,
-             SCOPE_CLASS        = 0b01000000,
-             SCOPE_TS_MODULE    = 0b10000000,
-             SCOPE_VAR = SCOPE_PROGRAM | SCOPE_FUNCTION | SCOPE_TS_MODULE;
+export const SCOPE_OTHER        = 0b00000000, SCOPE_PROGRAM      = 0b00000001, SCOPE_FUNCTION     = 0b00000010, SCOPE_ARROW        = 0b00000100, SCOPE_SIMPLE_CATCH = 0b00001000, SCOPE_SUPER        = 0b00010000, SCOPE_DIRECT_SUPER = 0b00100000, SCOPE_CLASS        = 0b01000000, SCOPE_TS_MODULE    = 0b10000000, SCOPE_VAR = SCOPE_PROGRAM | SCOPE_FUNCTION | SCOPE_TS_MODULE;
 
 export type ScopeFlags =
   | typeof SCOPE_OTHER

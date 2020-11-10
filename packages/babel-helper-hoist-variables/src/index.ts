@@ -14,7 +14,7 @@ const visitor = {
 
     const nodes = [];
 
-    const declarations: Array<Object> = path.get("declarations");
+    const declarations: Array<any> = path.get("declarations");
     let firstId;
 
     for (const declar of declarations) {

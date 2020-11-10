@@ -6,7 +6,7 @@ import * as t from "@babel/types";
  * Infer the type of the current `NodePath`.
  */
 
-export function getTypeAnnotation(): Object {
+export function getTypeAnnotation(): any {
   if (this.typeAnnotation) return this.typeAnnotation;
 
   let type = this._getTypeAnnotation() || t.anyTypeAnnotation();
@@ -18,7 +18,7 @@ export function getTypeAnnotation(): Object {
  * todo: split up this method
  */
 
-export function _getTypeAnnotation(): ?Object {
+export function _getTypeAnnotation(): any | undefined | null {
   const node = this.node;
 
   if (!node) {
@@ -91,7 +91,7 @@ export function couldBeBaseType(name: string): boolean {
   if (t.isAnyTypeAnnotation(type)) return true;
 
   if (t.isUnionTypeAnnotation(type)) {
-    for (const type2 of (type.types: Array<Object>)) {
+    for (const type2 of type.types as Array<any>) {
       if (t.isAnyTypeAnnotation(type2) || _isBaseType(name, type2, true)) {
         return true;
       }

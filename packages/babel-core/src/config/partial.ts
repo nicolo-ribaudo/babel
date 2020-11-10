@@ -1,29 +1,23 @@
-// @flow
-
 import path from "path";
-import gensync, { type Handler } from "gensync";
+import gensync from "gensync";
+import type { Handler } from "gensync";
 import Plugin from "./plugin";
 import { mergeOptions } from "./util";
 import { createItemFromDescriptor } from "./item";
-import {
-  buildRootChain,
-  type ConfigContext,
-  type FileHandling,
-} from "./config-chain";
+import { buildRootChain } from "./config-chain";
+import type { ConfigContext, FileHandling } from "./config-chain";
 import { getEnv } from "./helpers/environment";
-import {
-  validate,
-  type ValidatedOptions,
-  type RootMode,
-} from "./validation/options";
+import { validate } from "./validation/options";
+
+import type { ValidatedOptions, RootMode } from "./validation/options";
 
 import {
   findConfigUpwards,
   resolveShowConfigPath,
   ROOT_CONFIG_FILENAMES,
-  type ConfigFile,
-  type IgnoreFile,
 } from "./files";
+
+import type { ConfigFile, IgnoreFile } from "./files";
 
 function* resolveRootMode(
   rootDir: string,
@@ -43,12 +37,12 @@ function* resolveRootMode(
       if (upwardRootDir !== null) return upwardRootDir;
 
       throw Object.assign(
-        (new Error(
+        new Error(
           `Babel was run with rootMode:"upward" but a root could not ` +
             `be found when searching upward from "${rootDir}".\n` +
             `One of the following config files must be in the directory tree: ` +
             `"${ROOT_CONFIG_FILENAMES.join(", ")}".`,
-        ): any),
+        ) as any,
         {
           code: "BABEL_ROOT_NOT_FOUND",
           dirname: rootDir,
@@ -61,17 +55,17 @@ function* resolveRootMode(
 }
 
 type PrivPartialConfig = {
-  options: ValidatedOptions,
-  context: ConfigContext,
-  fileHandling: FileHandling,
-  ignore: IgnoreFile | void,
-  babelrc: ConfigFile | void,
-  config: ConfigFile | void,
-  files: Set<string>,
+  options: ValidatedOptions;
+  context: ConfigContext;
+  fileHandling: FileHandling;
+  ignore: IgnoreFile | void;
+  babelrc: ConfigFile | void;
+  config: ConfigFile | void;
+  files: Set<string>;
 };
 
 export default function* loadPrivatePartialConfig(
-  inputOpts: mixed,
+  inputOpts: unknown,
 ): Handler<PrivPartialConfig | null> {
   if (
     inputOpts != null &&
@@ -152,8 +146,7 @@ export default function* loadPrivatePartialConfig(
 }
 
 type LoadPartialConfigOpts = {
-  showIgnoredFiles?: boolean,
-  ...
+  showIgnoredFiles?: boolean;
 };
 
 export const loadPartialConfig = gensync<[any], PartialConfig | null>(
@@ -165,7 +158,10 @@ export const loadPartialConfig = gensync<[any], PartialConfig | null>(
       ({ showIgnoredFiles, ...opts } = opts);
     }
 
-    const result: ?PrivPartialConfig = yield* loadPrivatePartialConfig(opts);
+    const result:
+      | PrivPartialConfig
+      | undefined
+      | null = yield* loadPrivatePartialConfig(opts);
     if (!result) return null;
 
     const { options, babelrc, ignore, config, fileHandling, files } = result;

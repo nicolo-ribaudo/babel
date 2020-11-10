@@ -1,14 +1,10 @@
-// @flow
-
 import { loadPlugin, loadPreset } from "./files";
 
 import { getItemDescriptor } from "./item";
 
-import {
-  makeWeakCacheSync,
-  makeStrongCacheSync,
-  type CacheConfigurator,
-} from "./caching";
+import { makeWeakCacheSync, makeStrongCacheSync } from "./caching";
+
+import type { CacheConfigurator } from "./caching";
 
 import type {
   ValidatedOptions,
@@ -20,25 +16,25 @@ import type {
 // for the plugins and presets so we don't load the plugins/presets unless
 // the options object actually ends up being applicable.
 export type OptionsAndDescriptors = {
-  options: ValidatedOptions,
-  plugins: () => Array<UnloadedDescriptor>,
-  presets: () => Array<UnloadedDescriptor>,
+  options: ValidatedOptions;
+  plugins: () => Array<UnloadedDescriptor>;
+  presets: () => Array<UnloadedDescriptor>;
 };
 
 // Represents a plugin or presets at a given location in a config object.
 // At this point these have been resolved to a specific object or function,
 // but have not yet been executed to call functions with options.
 export type UnloadedDescriptor = {
-  name: string | void,
-  value: {} | Function,
-  options: {} | void | false,
-  dirname: string,
-  alias: string,
-  ownPass?: boolean,
+  name: string | void;
+  value: {} | Function;
+  options: {} | void | false;
+  dirname: string;
+  alias: string;
+  ownPass?: boolean;
   file?: {
-    request: string,
-    resolved: string,
-  } | void,
+    request: string;
+    resolved: string;
+  } | void;
 };
 
 function isEqualDescriptor(
@@ -58,9 +54,9 @@ function isEqualDescriptor(
 }
 
 export type ValidatedFile = {
-  filepath: string,
-  dirname: string,
-  options: ValidatedOptions,
+  filepath: string;
+  dirname: string;
+  options: ValidatedOptions;
 };
 
 /**
@@ -253,9 +249,9 @@ export function createDescriptor(
     alias,
     ownPass,
   }: {
-    type?: "plugin" | "preset",
-    alias: string,
-    ownPass?: boolean,
+    type?: "plugin" | "preset";
+    alias: string;
+    ownPass?: boolean;
   },
 ): UnloadedDescriptor {
   const desc = getItemDescriptor(pair);

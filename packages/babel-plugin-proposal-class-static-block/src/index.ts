@@ -26,7 +26,11 @@ export default declare(({ types: t, template, assertVersion }) => {
     name: "proposal-class-static-block",
     inherits: syntaxClassStaticBlock,
     visitor: {
-      Class(path: NodePath<Class>) {
+      Class(
+        path: NodePath<{
+          new (...args: any): any;
+        }>,
+      ) {
         const { scope } = path;
         const classBody = path.get("body");
         const privateNames = new Set();

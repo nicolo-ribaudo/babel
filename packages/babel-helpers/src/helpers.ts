@@ -1,5 +1,3 @@
-// @flow
-
 import template from "@babel/template";
 
 const helpers = Object.create(null);

@@ -1,5 +1,3 @@
-// @flow
-
 import corejs3Polyfills from "core-js-compat/data";
 import corejsEntries from "core-js-compat/entries";
 import getModulesListForTargetVersion from "core-js-compat/get-modules-list-for-target-version";

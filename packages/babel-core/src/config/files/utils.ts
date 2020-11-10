@@ -1,17 +1,16 @@
-// @flow
-
 import type { Gensync, Handler } from "gensync";
 
-import { makeStrongCache, type CacheConfigurator } from "../caching";
+import { makeStrongCache } from "../caching";
+import type { CacheConfigurator } from "../caching";
 import * as fs from "../../gensync-utils/fs";
 import nodeFs from "fs";
 
 export function makeStaticFileCache<T>(
-  fn: (string, string) => T,
+  fn: (b: string, a: string) => T,
 ): Gensync<[string], T | null> {
-  return (makeStrongCache(function* (
+  return makeStrongCache(function* (
     filepath: string,
-    cache: CacheConfigurator<?void>,
+    cache: CacheConfigurator<void | undefined | null>,
   ): Handler<null | T> {
     const cached = cache.invalidate(() => fileMtime(filepath));
 
@@ -20,7 +19,7 @@ export function makeStaticFileCache<T>(
     }
 
     return fn(filepath, yield* fs.readFile(filepath, "utf8"));
-  }): Gensync<any, *>);
+  }) as Gensync<any, any>;
 }
 
 function fileMtime(filepath: string): number | null {

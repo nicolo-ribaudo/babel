@@ -66,7 +66,7 @@ export default declare(api => {
         let proto;
         const { node } = path;
 
-        for (const prop of (node.properties: Array)) {
+        for (const prop of node.properties as Array) {
           if (isProtoKey(prop)) {
             proto = prop.value;
             pull(node.properties, prop);

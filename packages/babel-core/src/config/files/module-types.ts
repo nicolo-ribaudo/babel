@@ -12,7 +12,7 @@ try {
 export default function* loadCjsOrMjsDefault(
   filepath: string,
   asyncError: string,
-): Handler<mixed> {
+): Handler<unknown> {
   switch (guessJSModuleType(filepath)) {
     case "cjs":
       return loadCjsDefault(filepath);
@@ -43,7 +43,7 @@ function guessJSModuleType(filename: string): "cjs" | "mjs" | "unknown" {
 }
 
 function loadCjsDefault(filepath: string) {
-  const module = (require(filepath): mixed);
+  const module = require(filepath) as unknown;
   // TODO (Babel 8): Remove "undefined" fallback
   return module?.__esModule ? module.default || undefined : module;
 }

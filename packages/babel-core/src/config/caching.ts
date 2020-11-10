@@ -1,6 +1,5 @@
-// @flow
-
-import gensync, { type Handler } from "gensync";
+import gensync from "gensync";
+import type { Handler } from "gensync";
 import {
   maybeAsync,
   isAsync,
@@ -16,24 +15,25 @@ export type SimpleCacheConfigurator = SimpleCacheConfiguratorFn &
   SimpleCacheConfiguratorObj;
 
 type SimpleCacheConfiguratorFn = {
-  (boolean): void,
-  <T>(handler: () => T): T,
+  (a: boolean): void;
+  <T>(handler: () => T): T;
 };
+
 type SimpleCacheConfiguratorObj = {
-  forever: () => void,
-  never: () => void,
-  using: <T>(handler: () => T) => T,
-  invalidate: <T>(handler: () => T) => T,
+  forever: () => void;
+  never: () => void;
+  using: <T>(handler: () => T) => T;
+  invalidate: <T>(handler: () => T) => T;
 };
 
 export type CacheEntry<ResultT, SideChannel> = Array<{
-  value: ResultT,
-  valid: SideChannel => Handler<boolean>,
+  value: ResultT;
+  valid: (a: SideChannel) => Handler<boolean>;
 }>;
 
 const synchronize = <ArgsT, ResultT>(
-  gen: (...ArgsT) => Handler<ResultT>,
   // $FlowIssue https://github.com/facebook/flow/issues/7279
+  gen: () => Handler<ResultT>,
 ): ((...args: ArgsT) => ResultT) => {
   return gensync(gen).sync;
 };
@@ -44,28 +44,34 @@ function* genTrue(data: any) {
 }
 
 export function makeWeakCache<ArgT, ResultT, SideChannel>(
-  handler: (ArgT, CacheConfigurator<SideChannel>) => Handler<ResultT> | ResultT,
-): (ArgT, SideChannel) => Handler<ResultT> {
-  return makeCachedFunction<ArgT, ResultT, SideChannel, *>(WeakMap, handler);
+  handler: (
+    b: ArgT,
+    a: CacheConfigurator<SideChannel>,
+  ) => Handler<ResultT> | ResultT,
+): (b: ArgT, a: SideChannel) => Handler<ResultT> {
+  return makeCachedFunction<ArgT, ResultT, SideChannel, any>(WeakMap, handler);
 }
 
 export function makeWeakCacheSync<ArgT, ResultT, SideChannel>(
-  handler: (ArgT, CacheConfigurator<SideChannel>) => ResultT,
-): (ArgT, SideChannel) => ResultT {
+  handler: (b: ArgT, a: CacheConfigurator<SideChannel>) => ResultT,
+): (b: ArgT, a: SideChannel) => ResultT {
   return synchronize<[ArgT, SideChannel], ResultT>(
     makeWeakCache<ArgT, ResultT, SideChannel>(handler),
   );
 }
 
 export function makeStrongCache<ArgT, ResultT, SideChannel>(
-  handler: (ArgT, CacheConfigurator<SideChannel>) => Handler<ResultT> | ResultT,
-): (ArgT, SideChannel) => Handler<ResultT> {
-  return makeCachedFunction<ArgT, ResultT, SideChannel, *>(Map, handler);
+  handler: (
+    b: ArgT,
+    a: CacheConfigurator<SideChannel>,
+  ) => Handler<ResultT> | ResultT,
+): (b: ArgT, a: SideChannel) => Handler<ResultT> {
+  return makeCachedFunction<ArgT, ResultT, SideChannel, any>(Map, handler);
 }
 
 export function makeStrongCacheSync<ArgT, ResultT, SideChannel>(
-  handler: (ArgT, CacheConfigurator<SideChannel>) => ResultT,
-): (ArgT, SideChannel) => ResultT {
+  handler: (b: ArgT, a: CacheConfigurator<SideChannel>) => ResultT,
+): (b: ArgT, a: SideChannel) => ResultT {
   return synchronize<[ArgT, SideChannel], ResultT>(
     makeStrongCache<ArgT, ResultT, SideChannel>(handler),
   );
@@ -96,10 +102,15 @@ export function makeStrongCacheSync<ArgT, ResultT, SideChannel>(
  *   6. Store the result in the cache
  *   7. RETURN the result
  */
-function makeCachedFunction<ArgT, ResultT, SideChannel, Cache: *>(
-  CallCache: Class<Cache>,
-  handler: (ArgT, CacheConfigurator<SideChannel>) => Handler<ResultT> | ResultT,
-): (ArgT, SideChannel) => Handler<ResultT> {
+function makeCachedFunction<ArgT, ResultT, SideChannel, Cache extends any>(
+  CallCache: {
+    new (...args: any): Cache;
+  },
+  handler: (
+    b: ArgT,
+    a: CacheConfigurator<SideChannel>,
+  ) => Handler<ResultT> | ResultT,
+): (b: ArgT, a: SideChannel) => Handler<ResultT> {
   const callCacheSync = new CallCache();
   const callCacheAsync = new CallCache();
   const futureCache = new CallCache();
@@ -121,19 +132,19 @@ function makeCachedFunction<ArgT, ResultT, SideChannel, Cache: *>(
 
     const handlerResult: Handler<ResultT> | ResultT = handler(arg, cache);
 
-    let finishLock: ?Lock<ResultT>;
+    let finishLock: Lock<ResultT> | undefined | null;
     let value: ResultT;
 
     if (isIterableIterator(handlerResult)) {
       // Flow refines handlerResult to Generator<any, any, any>
-      const gen = (handlerResult: Generator<*, ResultT, *>);
+      const gen = handlerResult as Generator<any, ResultT, any>;
 
       value = yield* onFirstPause(gen, () => {
         finishLock = setupAsyncLocks(cache, futureCache, arg);
       });
     } else {
       // $FlowIgnore doesn't refine handlerResult to ResultT
-      value = (handlerResult: ResultT);
+      value = handlerResult as ResultT;
     }
 
     updateFunctionCache(callCache, cache, arg, value);
@@ -154,14 +165,22 @@ type CacheMap<ArgT, ResultT, SideChannel> =
 function* getCachedValue<
   ArgT,
   ResultT,
-  SideChannel,
-  // $FlowIssue https://github.com/facebook/flow/issues/4528
-  Cache: CacheMap<ArgT, ResultT, SideChannel>,
+  SideChannel, // $FlowIssue https://github.com/facebook/flow/issues/4528
+  Cache extends CacheMap<ArgT, ResultT, SideChannel>
 >(
   cache: Cache,
   arg: ArgT,
   data: SideChannel,
-): Handler<{ valid: true, value: ResultT } | { valid: false, value: null }> {
+): Handler<
+  | {
+      valid: true;
+      value: ResultT;
+    }
+  | {
+      valid: false;
+      value: null;
+    }
+> {
   const cachedValue: CacheEntry<ResultT, SideChannel> | void = cache.get(arg);
 
   if (cachedValue) {
@@ -179,7 +198,16 @@ function* getCachedValueOrWait<ArgT, ResultT, SideChannel>(
   futureCache: CacheMap<ArgT, Lock<ResultT>, SideChannel>,
   arg: ArgT,
   data: SideChannel,
-): Handler<{ valid: true, value: ResultT } | { valid: false, value: null }> {
+): Handler<
+  | {
+      valid: true;
+      value: ResultT;
+    }
+  | {
+      valid: false;
+      value: null;
+    }
+> {
   const cached = yield* getCachedValue(callCache, arg, data);
   if (cached.valid) {
     return cached;
@@ -211,9 +239,8 @@ function setupAsyncLocks<ArgT, ResultT, SideChannel>(
 function updateFunctionCache<
   ArgT,
   ResultT,
-  SideChannel,
-  // $FlowIssue https://github.com/facebook/flow/issues/4528
-  Cache: CacheMap<ArgT, ResultT, SideChannel>,
+  SideChannel, // $FlowIssue https://github.com/facebook/flow/issues/4528
+  Cache extends CacheMap<ArgT, ResultT, SideChannel>
 >(
   cache: Cache,
   config: CacheConfigurator<SideChannel>,
@@ -253,7 +280,7 @@ class CacheConfigurator<SideChannel = void> {
 
   _configured: boolean = false;
 
-  _pairs: Array<[mixed, (SideChannel) => Handler<mixed>]> = [];
+  _pairs: Array<[unknown, (a: SideChannel) => Handler<unknown>]> = [];
 
   _data: SideChannel;
 
@@ -294,7 +321,7 @@ class CacheConfigurator<SideChannel = void> {
     this._configured = true;
   }
 
-  using<T>(handler: SideChannel => T): T {
+  using<T>(handler: (a: SideChannel) => T): T {
     if (!this._active) {
       throw new Error("Cannot change caching after evaluation has completed.");
     }
@@ -313,7 +340,7 @@ class CacheConfigurator<SideChannel = void> {
     );
 
     if (isThenable(key)) {
-      return key.then((key: mixed) => {
+      return key.then((key: unknown) => {
         this._pairs.push([key, fn]);
         return key;
       });
@@ -323,12 +350,12 @@ class CacheConfigurator<SideChannel = void> {
     return key;
   }
 
-  invalidate<T>(handler: SideChannel => T): T {
+  invalidate<T>(handler: (a: SideChannel) => T): T {
     this._invalidate = true;
     return this.using(handler);
   }
 
-  validator(): SideChannel => Handler<boolean> {
+  validator(): (a: SideChannel) => Handler<boolean> {
     const pairs = this._pairs;
     return function* (data: SideChannel) {
       for (const [key, fn] of pairs) {
@@ -364,7 +391,7 @@ function makeSimpleConfigurator(
   cacheFn.using = cb => cache.using(() => assertSimpleType(cb()));
   cacheFn.invalidate = cb => cache.invalidate(() => assertSimpleType(cb()));
 
-  return (cacheFn: any);
+  return cacheFn as any;
 }
 
 // Types are limited here so that in the future these values can be used
@@ -376,7 +403,7 @@ export type SimpleType =
   | null
   | void
   | Promise<SimpleType>;
-export function assertSimpleType(value: mixed): SimpleType {
+export function assertSimpleType(value: unknown): SimpleType {
   if (isThenable(value)) {
     throw new Error(
       `You appear to be using an async cache handler, ` +

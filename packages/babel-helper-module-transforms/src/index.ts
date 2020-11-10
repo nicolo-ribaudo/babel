@@ -10,8 +10,11 @@ import rewriteLiveReferences from "./rewrite-live-references";
 import normalizeAndLoadModuleMetadata, {
   hasExports,
   isSideEffectImport,
-  type ModuleMetadata,
-  type SourceModuleMetadata,
+} from "./normalize-and-load-metadata";
+
+import type {
+  ModuleMetadata,
+  SourceModuleMetadata,
 } from "./normalize-and-load-metadata";
 
 export { default as getModuleName } from "./get-module-name";

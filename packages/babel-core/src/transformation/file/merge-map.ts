@@ -1,6 +1,4 @@
-// @flow
-
-import typeof { SourceMap } from "convert-source-map";
+type SourceMap = typeof import("convert-source-map").SourceMap;
 import sourceMap from "source-map";
 
 export default function mergeSourceMap(
@@ -93,14 +91,14 @@ export default function mergeSourceMap(
   return result;
 }
 
-function makeMappingKey(item: { line: number, columnStart: number }) {
+function makeMappingKey(item: { line: number; columnStart: number }) {
   return `${item.line}/${item.columnStart}`;
 }
 
 function eachOverlappingGeneratedOutputRange(
   outputFile: ResolvedFileMappings,
   inputGeneratedRange: ResolvedGeneratedRange,
-  callback: ResolvedGeneratedRange => mixed,
+  callback: (a: ResolvedGeneratedRange) => unknown,
 ) {
   // Find the Babel-generated mappings that overlap with this range in the
   // input sourcemap. Generated locations within the input sourcemap
@@ -137,10 +135,10 @@ function filterApplicableOriginalRanges(
 function eachInputGeneratedRange(
   map: ResolvedMappings,
   callback: (
-    ResolvedGeneratedRange,
-    ResolvedOriginalRange,
-    ResolvedSource,
-  ) => mixed,
+    c: ResolvedGeneratedRange,
+    b: ResolvedOriginalRange,
+    a: ResolvedSource,
+  ) => unknown,
 ) {
   for (const { source, mappings } of map.sources) {
     for (const { original, generated } of mappings) {
@@ -151,34 +149,39 @@ function eachInputGeneratedRange(
   }
 }
 
-type ResolvedMappings = {|
-  file: ?string,
-  sourceRoot: ?string,
-  sources: Array<ResolvedFileMappings>,
-|};
-type ResolvedFileMappings = {|
-  source: ResolvedSource,
-  mappings: OriginalMappings,
-|};
-type OriginalMappings = Array<{|
-  original: ResolvedOriginalRange,
-  generated: Array<ResolvedGeneratedRange>,
-|}>;
-type ResolvedSource = {|
-  path: string,
-  content: string | null,
-|};
-type ResolvedOriginalRange = {|
-  line: number,
-  columnStart: number,
-  columnEnd: number,
-  name: string | null,
-|};
-type ResolvedGeneratedRange = {|
-  line: number,
-  columnStart: number,
-  columnEnd: number,
-|};
+type ResolvedMappings = {
+  file: string | undefined | null;
+  sourceRoot: string | undefined | null;
+  sources: Array<ResolvedFileMappings>;
+};
+
+type ResolvedFileMappings = {
+  source: ResolvedSource;
+  mappings: OriginalMappings;
+};
+
+type OriginalMappings = Array<{
+  original: ResolvedOriginalRange;
+  generated: Array<ResolvedGeneratedRange>;
+}>;
+
+type ResolvedSource = {
+  path: string;
+  content: string | null;
+};
+
+type ResolvedOriginalRange = {
+  line: number;
+  columnStart: number;
+  columnEnd: number;
+  name: string | null;
+};
+
+type ResolvedGeneratedRange = {
+  line: number;
+  columnStart: number;
+  columnEnd: number;
+};
 
 function buildMappingData(map: SourceMap): ResolvedMappings {
   const consumer = new sourceMap.SourceMapConsumer({
@@ -270,7 +273,7 @@ function buildMappingData(map: SourceMap): ResolvedMappings {
 
 function findInsertionLocation<T>(
   array: Array<T>,
-  callback: T => number,
+  callback: (a: T) => number,
 ): number {
   let left = 0;
   let right = array.length;
@@ -304,7 +307,7 @@ function findInsertionLocation<T>(
 
 function filterSortedArray<T>(
   array: Array<T>,
-  callback: T => number,
+  callback: (a: T) => number,
 ): Array<T> {
   const start = findInsertionLocation(array, callback);
 

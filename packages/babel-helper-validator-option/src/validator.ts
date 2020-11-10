@@ -1,5 +1,4 @@
-// @flow
-import { findSuggestion } from "./find-suggestion.js";
+import { findSuggestion } from "./find-suggestion";
 
 export class OptionValidator {
   declare descriptor: string;
@@ -16,7 +15,7 @@ export class OptionValidator {
    *   The property values of `TopLevelOptionShape` can be arbitrary
    * @memberof OptionValidator
    */
-  validateTopLevelOptions(options: Object, TopLevelOptionShape: Object): void {
+  validateTopLevelOptions(options: any, TopLevelOptionShape: any): void {
     const validOptionNames = Object.keys(TopLevelOptionShape);
     for (const option of Object.keys(options)) {
       if (!validOptionNames.includes(option)) {

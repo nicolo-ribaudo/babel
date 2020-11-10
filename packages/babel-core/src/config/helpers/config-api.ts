@@ -1,36 +1,38 @@
-// @flow
-
 import semver from "semver";
 import { version as coreVersion } from "../../";
-import {
-  assertSimpleType,
-  type CacheConfigurator,
-  type SimpleCacheConfigurator,
-  type SimpleType,
+import { assertSimpleType } from "../caching";
+
+import type {
+  CacheConfigurator,
+  SimpleCacheConfigurator,
+  SimpleType,
 } from "../caching";
 
 import type { CallerMetadata } from "../validation/options";
 
 type EnvFunction = {
-  (): string,
-  <T>((string) => T): T,
-  (string): boolean,
-  (Array<string>): boolean,
+  (): string;
+  <T>(a: (a: string) => T): T;
+  (a: string): boolean;
+  (a: Array<string>): boolean;
 };
 
-type CallerFactory = ((CallerMetadata | void) => mixed) => SimpleType;
+type CallerFactory = (a: (a: CallerMetadata | void) => unknown) => SimpleType;
 
-export type PluginAPI = {|
-  version: string,
-  cache: SimpleCacheConfigurator,
-  env: EnvFunction,
-  async: () => boolean,
-  assertVersion: typeof assertVersion,
-  caller?: CallerFactory,
-|};
+export type PluginAPI = {
+  version: string;
+  cache: SimpleCacheConfigurator;
+  env: EnvFunction;
+  async: () => boolean;
+  assertVersion: typeof assertVersion;
+  caller?: CallerFactory;
+};
 
 export default function makeAPI(
-  cache: CacheConfigurator<{ envName: string, caller: CallerMetadata | void }>,
+  cache: CacheConfigurator<{
+    envName: string;
+    caller: CallerMetadata | void;
+  }>,
 ): PluginAPI {
   const env: any = value =>
     cache.using(data => {
@@ -40,7 +42,7 @@ export default function makeAPI(
       }
       if (!Array.isArray(value)) value = [value];
 
-      return value.some((entry: mixed) => {
+      return value.some((entry: unknown) => {
         if (typeof entry !== "string") {
           throw new Error("Unexpected non-string value");
         }
@@ -95,12 +97,9 @@ function assertVersion(range: string | number): void {
     Error.stackTraceLimit = limit;
   }
 
-  throw Object.assign(
-    err,
-    ({
-      code: "BABEL_VERSION_UNSUPPORTED",
-      version: coreVersion,
-      range,
-    }: any),
-  );
+  throw Object.assign(err, {
+    code: "BABEL_VERSION_UNSUPPORTED",
+    version: coreVersion,
+    range,
+  } as any);
 }

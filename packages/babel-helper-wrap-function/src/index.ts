@@ -30,7 +30,7 @@ const buildDeclarationWrapper = template(`
   }
 `);
 
-function classOrObjectMethod(path: NodePath, callId: Object) {
+function classOrObjectMethod(path: NodePath, callId: any) {
   const node = path.node;
   const body = node.body;
 
@@ -57,7 +57,7 @@ function classOrObjectMethod(path: NodePath, callId: Object) {
     .unwrapFunctionEnvironment();
 }
 
-function plainFunction(path: NodePath, callId: Object) {
+function plainFunction(path: NodePath, callId: any) {
   const node = path.node;
   const isDeclaration = path.isFunctionDeclaration();
   const functionId = node.id;
@@ -123,7 +123,7 @@ function plainFunction(path: NodePath, callId: Object) {
   }
 }
 
-export default function wrapFunction(path: NodePath, callId: Object) {
+export default function wrapFunction(path: NodePath, callId: any) {
   if (path.isMethod()) {
     classOrObjectMethod(path, callId);
   } else {

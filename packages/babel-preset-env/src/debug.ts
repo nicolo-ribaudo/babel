@@ -1,9 +1,6 @@
-// @flow
+import { getInclusionReasons } from "@babel/helper-compilation-targets";
 
-import {
-  getInclusionReasons,
-  type Targets,
-} from "@babel/helper-compilation-targets";
+import type { Targets } from "@babel/helper-compilation-targets";
 
 const wordEnds = (size: number) => {
   return size > 1 ? "s" : "";
@@ -14,7 +11,9 @@ const wordEnds = (size: number) => {
 export const logPluginOrPolyfill = (
   item: string,
   targetVersions: Targets,
-  list: { [key: string]: Targets },
+  list: {
+    [key: string]: Targets;
+  },
 ) => {
   const filteredList = getInclusionReasons(item, targetVersions, list);
 
@@ -32,7 +31,9 @@ export const logEntryPolyfills = (
   polyfills: Set<string>,
   filename: string,
   polyfillTargets: Targets,
-  allBuiltInsList: { [key: string]: Targets },
+  allBuiltInsList: {
+    [key: string]: Targets;
+  },
 ) => {
   // normalize filename to generate consistent preset-env test fixtures
   if (process.env.BABEL_ENV === "test") {
@@ -63,7 +64,9 @@ export const logUsagePolyfills = (
   polyfills: Set<string>,
   filename: string,
   polyfillTargets: Targets,
-  allBuiltInsList: { [key: string]: Targets },
+  allBuiltInsList: {
+    [key: string]: Targets;
+  },
 ) => {
   // normalize filename to generate consistent preset-env test fixtures
   if (process.env.BABEL_ENV === "test") {

@@ -1,5 +1,3 @@
-// @flow
-
 import fs from "fs";
 import gensync from "gensync";
 
@@ -20,7 +18,7 @@ export const exists = gensync<[string], boolean>({
   errback: (path, cb) => fs.access(path, undefined, err => cb(null, !err)),
 });
 
-export const stat = gensync<[string], *>({
+export const stat = gensync<[string], any>({
   sync: fs.statSync,
   errback: fs.stat,
 });

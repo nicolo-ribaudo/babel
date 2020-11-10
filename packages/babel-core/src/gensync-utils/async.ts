@@ -1,7 +1,6 @@
-// @flow
+import gensync from "gensync";
 
-import gensync, { type Gensync, type Handler } from "gensync";
-
+import type { Gensync, Handler } from "gensync";
 type MaybePromise<T> = T | Promise<T>;
 
 const id = x => x;
@@ -22,7 +21,7 @@ export const isAsync = gensync<[], boolean>({
 // but the current execution context is synchronous, it will throw the
 // provided error.
 // This is used to handle user-provided functions which could be asynchronous.
-export function maybeAsync<T, Args: any[]>(
+export function maybeAsync<T, Args extends any[]>(
   fn: (...args: Args) => T,
   message: string,
 ): Gensync<Args, T> {
@@ -38,10 +37,10 @@ export function maybeAsync<T, Args: any[]>(
   });
 }
 
-const withKind = (gensync<[any], any>({
+const withKind = gensync<[any], any>({
   sync: cb => cb("sync"),
   async: cb => cb("async"),
-}): <T>(cb: (kind: "sync" | "async") => MaybePromise<T>) => Handler<T>);
+}) as <T>(cb: (kind: "sync" | "async") => MaybePromise<T>) => Handler<T>;
 
 // This function wraps a generator (or a Gensync) into another function which,
 // when called, will run the provided generator in a sync or async way, depending
@@ -57,7 +56,11 @@ const withKind = (gensync<[any], any>({
 //         return wrappedFn(x);
 //       })
 //     )
-export function forwardAsync<ActionArgs: mixed[], ActionReturn, Return>(
+export function forwardAsync<
+  ActionArgs extends unknown[],
+  ActionReturn,
+  Return
+>(
   action: (...args: ActionArgs) => Handler<ActionReturn>,
   cb: (
     adapted: (...args: ActionArgs) => MaybePromise<ActionReturn>,
@@ -73,7 +76,7 @@ export function forwardAsync<ActionArgs: mixed[], ActionReturn, Return>(
 // If the given generator is executed asynchronously, the first time that it
 // is paused (i.e. When it yields a gensync generator which can't be run
 // synchronously), call the "firstPause" callback.
-export const onFirstPause = (gensync<[any, any], any>({
+export const onFirstPause = gensync<[any, any], any>({
   name: "onFirstPause",
   arity: 2,
   sync: function (item) {
@@ -91,15 +94,15 @@ export const onFirstPause = (gensync<[any, any], any>({
       firstPause();
     }
   },
-}): <T>(gen: Generator<*, T, *>, cb: Function) => Handler<T>);
+}) as <T>(gen: Generator<any, T, any>, cb: Function) => Handler<T>;
 
 // Wait for the given promise to be resolved
-export const waitFor = (gensync<[any], any>({
+export const waitFor = gensync<[any], any>({
   sync: id,
   async: id,
-}): <T>(p: T | Promise<T>) => Handler<T>);
+}) as <T>(p: T | Promise<T>) => Handler<T>;
 
-export function isThenable(val: mixed): boolean %checks {
+export function isThenable(val: unknown): boolean {
   return (
     /*:: val instanceof Promise && */
     !!val &&

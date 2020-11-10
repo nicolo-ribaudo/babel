@@ -1,12 +1,14 @@
-// @flow
-
 import type Parser from "./parser";
 
-export type Plugin = string | [string, Object];
+export type Plugin = string | [string, any];
 
-export type PluginList = $ReadOnlyArray<Plugin>;
+export type PluginList = ReadonlyArray<Plugin>;
 
-export type MixinPlugin = (superClass: Class<Parser>) => Class<Parser>;
+export type MixinPlugin = (superClass: {
+  new (...args: any): Parser;
+}) => {
+  new (...args: any): Parser;
+};
 
 export function hasPlugin(plugins: PluginList, name: string): boolean {
   return plugins.some(plugin => {
@@ -129,7 +131,9 @@ import placeholders from "./plugins/placeholders";
 import v8intrinsic from "./plugins/v8intrinsic";
 
 // NOTE: order is important. estree must come first; placeholders must come last.
-export const mixinPlugins: { [name: string]: MixinPlugin } = {
+export const mixinPlugins: {
+  [name: string]: MixinPlugin;
+} = {
   estree,
   jsx,
   flow,
@@ -138,6 +142,6 @@ export const mixinPlugins: { [name: string]: MixinPlugin } = {
   placeholders,
 };
 
-export const mixinPluginNames: $ReadOnlyArray<string> = Object.keys(
+export const mixinPluginNames: ReadonlyArray<string> = Object.keys(
   mixinPlugins,
 );

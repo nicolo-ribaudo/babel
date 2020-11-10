@@ -1,5 +1,3 @@
-// @flow
-
 import corejs2Polyfills from "@babel/compat-data/corejs2-built-ins";
 import { filterItems } from "@babel/helper-compilation-targets";
 import getPlatformSpecificDefaultFor from "./get-platform-specific-default";

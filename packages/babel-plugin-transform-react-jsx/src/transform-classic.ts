@@ -57,7 +57,7 @@ export default declare((api, options) => {
       let pragmaFragSet = !!options.pragma;
 
       if (file.ast.comments) {
-        for (const comment of (file.ast.comments: Array<Object>)) {
+        for (const comment of file.ast.comments as Array<any>) {
           const jsxMatches = JSX_ANNOTATION_REGEX.exec(comment.value);
           if (jsxMatches) {
             pragma = jsxMatches[1];

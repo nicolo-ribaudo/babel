@@ -1,5 +1,3 @@
-// @flow
-
 import corejs2Polyfills from "@babel/compat-data/corejs2-built-ins";
 import { filterItems } from "@babel/helper-compilation-targets";
 import getPlatformSpecificDefaultFor from "./get-platform-specific-default";
@@ -27,7 +25,11 @@ const NO_DIRECT_POLYFILL_IMPORT = `
   Please remove the \`import '@babel/polyfill'\` call or use \`useBuiltIns: 'entry'\` instead.`;
 
 export default function (
-  { types: t }: { types: Object },
+  {
+    types: t,
+  }: {
+    types: any;
+  },
   { include, exclude, polyfillTargets, debug }: InternalPluginOptions,
 ) {
   const polyfills = filterItems(

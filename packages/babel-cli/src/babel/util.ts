@@ -1,5 +1,3 @@
-// @flow
-
 import readdirRecursive from "fs-readdir-recursive";
 import * as babel from "@babel/core";
 import path from "path";
@@ -60,8 +58,8 @@ const CALLER = {
 export function transform(
   filename: string,
   code: string,
-  opts: Object,
-): Promise<Object> {
+  opts: any,
+): Promise<any> {
   opts = {
     ...opts,
     caller: CALLER,
@@ -76,10 +74,7 @@ export function transform(
   });
 }
 
-export function compile(
-  filename: string,
-  opts: Object | Function,
-): Promise<Object> {
+export function compile(filename: string, opts: any | Function): Promise<any> {
   opts = {
     ...opts,
     caller: CALLER,
@@ -114,7 +109,7 @@ process.on("uncaughtException", function (err) {
   process.exitCode = 1;
 });
 
-export function requireChokidar(): Object {
+export function requireChokidar(): any {
   try {
     // todo(babel 8): revert `@nicolo-ribaudo/chokidar-2` hack
     return parseInt(process.version) >= 8

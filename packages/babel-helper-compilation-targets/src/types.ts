@@ -1,5 +1,3 @@
-// @flow
-
 // Targets
 export type Target =
   | "node"
@@ -15,18 +13,16 @@ export type Target =
   | "samsung";
 
 export type Targets = {
-  [target: Target]: string,
+  [target in Target]: string;
 };
 
-export type TargetsTuple = {|
-  [target: Target]: string,
-|};
+export type TargetsTuple = {
+  [target in Target]: string;
+};
 
 export type Browsers = string | Array<string>;
 
 export type InputTargets = {
-  ...Targets,
-
-  browsers?: Browsers,
-  esmodules?: boolean,
-};
+  browsers?: Browsers;
+  esmodules?: boolean;
+} & Targets;

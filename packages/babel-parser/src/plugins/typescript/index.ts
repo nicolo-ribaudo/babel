@@ -1,5 +1,3 @@
-// @flow
-
 /*:: declare var invariant; */
 
 // Error messages are colocated with the plugin.
@@ -13,7 +11,6 @@ import * as N from "../../types";
 import type { Pos, Position } from "../../util/location";
 import type Parser from "../../parser";
 import {
-  type BindingTypes,
   BIND_NONE,
   SCOPE_TS_MODULE,
   SCOPE_OTHER,
@@ -26,6 +23,7 @@ import {
   BIND_CLASS,
   BIND_LEXICAL,
 } from "../../util/scopeflags";
+import type { BindingTypes } from "../../util/scopeflags";
 import TypeScriptScopeHandler from "./scope";
 import * as charCodes from "charcodes";
 import type { ExpressionErrors } from "../../parser/util";
@@ -41,7 +39,7 @@ type TsModifier =
   | "private"
   | "protected";
 
-function nonNull<T>(x: ?T): T {
+function nonNull<T>(x?: T | null): T {
   if (x == null) {
     // $FlowIgnore
     throw new Error(`Unexpected ${x} value.`);
@@ -141,9 +139,15 @@ function keywordTypeFromName(
   }
 }
 
-export default (superClass: Class<Parser>): Class<Parser> =>
+export default (superClass: {
+  new (...args: any): Parser;
+}): {
+  new (...args: any): Parser;
+} =>
   class extends superClass {
-    getScopeHandler(): Class<TypeScriptScopeHandler> {
+    getScopeHandler(): {
+      new (...args: any): TypeScriptScopeHandler;
+    } {
       return TypeScriptScopeHandler;
     }
 
@@ -171,7 +175,9 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     }
 
     /** Parses a modifier matching one the given modifier names. */
-    tsParseModifier<T: TsModifier>(allowedModifiers: T[]): ?T {
+    tsParseModifier<T extends TsModifier>(
+      allowedModifiers: T[],
+    ): T | undefined | null {
       if (!this.match(tt.name)) {
         return undefined;
       }
@@ -191,13 +197,17 @@ export default (superClass: Class<Parser>): Class<Parser> =>
      *    this.tsParseModifiers(node, ["public"]);
      *    this.tsParseModifiers(node, ["abstract", "readonly"]);
      */
-    tsParseModifiers<T: TsModifier>(
-      modified: { [key: TsModifier]: ?true },
+    tsParseModifiers<T extends TsModifier>(
+      modified: {
+        [key in TsModifier]: true | undefined | null;
+      },
       allowedModifiers: T[],
     ): void {
       for (;;) {
         const startPos = this.state.start;
-        const modifier: ?T = this.tsParseModifier(allowedModifiers);
+        const modifier: T | undefined | null = this.tsParseModifier(
+          allowedModifiers,
+        );
 
         if (!modifier) break;
 
@@ -224,7 +234,10 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       throw new Error("Unreachable");
     }
 
-    tsParseList<T: N.Node>(kind: ParsingContext, parseElement: () => T): T[] {
+    tsParseList<T extends N.Node>(
+      kind: ParsingContext,
+      parseElement: () => T,
+    ): T[] {
       const result: T[] = [];
       while (!this.tsIsListTerminator(kind)) {
         // Skipping "parseListElement" from the TS source since that's just for error handling.
@@ -233,7 +246,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       return result;
     }
 
-    tsParseDelimitedList<T: N.Node>(
+    tsParseDelimitedList<T extends N.Node>(
       kind: ParsingContext,
       parseElement: () => T,
     ): T[] {
@@ -250,11 +263,11 @@ export default (superClass: Class<Parser>): Class<Parser> =>
      * If !expectSuccess, returns undefined instead of failing to parse.
      * If expectSuccess, parseElement should always return a defined value.
      */
-    tsParseDelimitedListWorker<T: N.Node>(
+    tsParseDelimitedListWorker<T extends N.Node>(
       kind: ParsingContext,
-      parseElement: () => ?T,
+      parseElement: () => T | undefined | null,
       expectSuccess: boolean,
-    ): ?(T[]) {
+    ): T[] | undefined | null {
       const result = [];
 
       for (;;) {
@@ -286,7 +299,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       return result;
     }
 
-    tsParseBracketedList<T: N.Node>(
+    tsParseBracketedList<T extends N.Node>(
       kind: ParsingContext,
       parseElement: () => T,
       bracket: boolean,
@@ -385,7 +398,10 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       return this.finishNode(node, "TSTypeParameter");
     }
 
-    tsTryParseTypeParameters(): ?N.TsTypeParameterDeclaration {
+    tsTryParseTypeParameters():
+      | N.TsTypeParameterDeclaration
+      | undefined
+      | null {
       if (this.isRelational("<")) {
         return this.tsParseTypeParameters();
       }
@@ -412,7 +428,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       return this.finishNode(node, "TSTypeParameterDeclaration");
     }
 
-    tsTryNextParseConstantContext(): ?N.TsTypeReference {
+    tsTryNextParseConstantContext(): N.TsTypeReference | undefined | null {
       if (this.lookahead().type === tt._const) {
         this.next();
         return this.tsParseTypeReference();
@@ -442,8 +458,8 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       }
     }
 
-    tsParseBindingListForSignature(): $ReadOnlyArray<
-      N.Identifier | N.RestElement | N.ObjectPattern | N.ArrayPattern,
+    tsParseBindingListForSignature(): ReadonlyArray<
+      N.Identifier | N.RestElement | N.ObjectPattern | N.ArrayPattern
     > {
       return this.parseBindingList(tt.parenR, charCodes.rightParenthesis).map(
         pattern => {
@@ -459,7 +475,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
               pattern.type,
             );
           }
-          return (pattern: any);
+          return pattern as any;
         },
       );
     }
@@ -484,7 +500,9 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       return this.eat(tt.name) && this.match(tt.colon);
     }
 
-    tsTryParseIndexSignature(node: N.Node): ?N.TsIndexSignature {
+    tsTryParseIndexSignature(
+      node: N.Node,
+    ): N.TsIndexSignature | undefined | null {
       if (
         !(
           this.match(tt.bracketL) &&
@@ -569,7 +587,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       return this.finishNode(node, "TSTypeLiteral");
     }
 
-    tsParseObjectTypeMembers(): $ReadOnlyArray<N.TsTypeElement> {
+    tsParseObjectTypeMembers(): ReadonlyArray<N.TsTypeElement> {
       this.expect(tt.braceL);
       const members = this.tsParseList(
         "TypeMembers",
@@ -709,7 +727,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
           !type.typeParameters &&
           type.typeName.type === "Identifier"
         ) {
-          labeledNode.label = (type.typeName: N.Identifier);
+          labeledNode.label = type.typeName as N.Identifier;
         } else {
           this.raise(type.start, TSErrors.InvalidTupleMemberLabel);
           // This produces an invalid AST, but at least we don't drop
@@ -1050,11 +1068,11 @@ export default (superClass: Class<Parser>): Class<Parser> =>
           // : asserts this
           if (thisTypePredicate.type === "TSThisType") {
             const node: N.TsTypePredicate = this.startNodeAtNode(t);
-            node.parameterName = (thisTypePredicate: N.TsThisType);
+            node.parameterName = thisTypePredicate as N.TsThisType;
             node.asserts = true;
             thisTypePredicate = this.finishNode(node, "TSTypePredicate");
           } else {
-            (thisTypePredicate: N.TsTypePredicate).asserts = true;
+            (thisTypePredicate as N.TsTypePredicate).asserts = true;
           }
           t.typeAnnotation = thisTypePredicate;
           return this.finishNode(t, "TSTypeAnnotation");
@@ -1089,21 +1107,24 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       });
     }
 
-    tsTryParseTypeOrTypePredicateAnnotation(): ?N.TsTypeAnnotation {
+    tsTryParseTypeOrTypePredicateAnnotation():
+      | N.TsTypeAnnotation
+      | undefined
+      | null {
       return this.match(tt.colon)
         ? this.tsParseTypeOrTypePredicateAnnotation(tt.colon)
         : undefined;
     }
 
-    tsTryParseTypeAnnotation(): ?N.TsTypeAnnotation {
+    tsTryParseTypeAnnotation(): N.TsTypeAnnotation | undefined | null {
       return this.match(tt.colon) ? this.tsParseTypeAnnotation() : undefined;
     }
 
-    tsTryParseType(): ?N.TsType {
+    tsTryParseType(): N.TsType | undefined | null {
       return this.tsEatThenParseType(tt.colon);
     }
 
-    tsParseTypePredicatePrefix(): ?N.Identifier {
+    tsParseTypePredicatePrefix(): N.Identifier | undefined | null {
       const id = this.parseIdentifier();
       if (this.isContextual("is") && !this.hasPrecedingLineBreak()) {
         this.next();
@@ -1187,7 +1208,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
 
     tsParseHeritageClause(
       descriptor: string,
-    ): $ReadOnlyArray<N.TsExpressionWithTypeArguments> {
+    ): ReadonlyArray<N.TsExpressionWithTypeArguments> {
       const originalStart = this.state.start;
 
       const delimitedList = this.tsParseDelimitedList(
@@ -1356,7 +1377,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
 
     tsParseModuleOrNamespaceDeclaration(
       node: N.TsModuleDeclaration,
-      nested?: boolean = false,
+      nested: boolean = false,
     ): N.TsModuleDeclaration {
       node.id = this.parseIdentifier();
 
@@ -1460,7 +1481,9 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       return res;
     }
 
-    tsTryParseAndCatch<T: ?N.NodeBase>(f: () => T): ?T {
+    tsTryParseAndCatch<T extends N.NodeBase | undefined | null>(
+      f: () => T,
+    ): T | undefined | null {
       const result = this.tryParse(abort => f() || abort());
 
       if (result.aborted || !result.node) return undefined;
@@ -1468,7 +1491,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       return result.node;
     }
 
-    tsTryParse<T>(f: () => ?T): ?T {
+    tsTryParse<T>(f: () => T | undefined | null): T | undefined | null {
       const state = this.state.clone();
       const result = f();
       if (result !== undefined && result !== false) {
@@ -1479,7 +1502,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       }
     }
 
-    tsTryParseDeclare(nany: any): ?N.Declaration {
+    tsTryParseDeclare(nany: any): N.Declaration | undefined | null {
       if (this.isLineTerminator()) {
         return;
       }
@@ -1533,7 +1556,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     }
 
     // Note: this won't be called unless the keyword is allowed in `shouldParseExportDeclaration`.
-    tsTryParseExportDeclaration(): ?N.Declaration {
+    tsTryParseExportDeclaration(): N.Declaration | undefined | null {
       return this.tsParseDeclaration(
         this.startNode(),
         this.state.value,
@@ -1541,7 +1564,10 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       );
     }
 
-    tsParseExpressionStatement(node: any, expr: N.Identifier): ?N.Declaration {
+    tsParseExpressionStatement(
+      node: any,
+      expr: N.Identifier,
+    ): N.Declaration | undefined | null {
       switch (expr.name) {
         case "declare": {
           const declaration = this.tsTryParseDeclare(node);
@@ -1577,7 +1603,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       node: any,
       value: string,
       next: boolean,
-    ): ?N.Declaration {
+    ): N.Declaration | undefined | null {
       switch (value) {
         case "abstract":
           if (this.tsCheckLineTerminatorAndMatch(tt._class, next)) {
@@ -1643,7 +1669,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     tsTryParseGenericAsyncArrowFunction(
       startPos: number,
       startLoc: Position,
-    ): ?N.ArrowFunctionExpression {
+    ): N.ArrowFunctionExpression | undefined | null {
       if (!this.isRelational("<")) {
         return undefined;
       }
@@ -1651,7 +1677,10 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       const oldMaybeInArrowParameters = this.state.maybeInArrowParameters;
       this.state.maybeInArrowParameters = true;
 
-      const res: ?N.ArrowFunctionExpression = this.tsTryParseAndCatch(() => {
+      const res:
+        | N.ArrowFunctionExpression
+        | undefined
+        | null = this.tsTryParseAndCatch(() => {
         const node: N.ArrowFunctionExpression = this.startNodeAt(
           startPos,
           startLoc,
@@ -1726,14 +1755,14 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     }
 
     parseAssignableListItem(
-      allowModifiers: ?boolean,
+      allowModifiers: boolean | undefined | null,
       decorators: N.Decorator[],
     ): N.Pattern | N.TSParameterProperty {
       // Store original location/position to include modifiers in range
       const startPos = this.state.start;
       const startLoc = this.state.startLoc;
 
-      let accessibility: ?N.Accessibility;
+      let accessibility: N.Accessibility | undefined | null;
       let readonly = false;
       if (allowModifiers !== undefined) {
         accessibility = this.parseAccessModifier();
@@ -1756,7 +1785,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
         if (elt.type !== "Identifier" && elt.type !== "AssignmentPattern") {
           this.raise(pp.start, TSErrors.UnsupportedParameterPropertyKind);
         }
-        pp.parameter = ((elt: any): N.Identifier | N.AssignmentPattern);
+        pp.parameter = (elt as any) as N.Identifier | N.AssignmentPattern;
         return this.finishNode(pp, "TSParameterProperty");
       }
 
@@ -1770,7 +1799,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     parseFunctionBodyAndFinish(
       node: N.BodilessFunctionOrMethodBase,
       type: string,
-      isMethod?: boolean = false,
+      isMethod: boolean = false,
     ): void {
       if (this.match(tt.colon)) {
         node.returnType = this.tsParseTypeOrTypePredicateAnnotation(tt.colon);
@@ -1810,7 +1839,9 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       }
     }
 
-    tsCheckForInvalidTypeCasts(items: $ReadOnlyArray<?N.Expression>) {
+    tsCheckForInvalidTypeCasts(
+      items: ReadonlyArray<N.Expression | undefined | null>,
+    ) {
       items.forEach(node => {
         if (node?.type === "TSTypeCastExpression") {
           this.raise(
@@ -1822,9 +1853,10 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     }
 
     toReferencedList(
-      exprList: $ReadOnlyArray<?N.Expression>,
-      isInParens?: boolean, // eslint-disable-line no-unused-vars
-    ): $ReadOnlyArray<?N.Expression> {
+      exprList: ReadonlyArray<N.Expression | undefined | null>,
+      // eslint-disable-line no-unused-vars
+      isInParens?: boolean,
+    ): ReadonlyArray<N.Expression | undefined | null> {
       // Handles invalid scenarios like: `f(a:b)`, `(a:b);`, and `(a:b,c:d)`.
       //
       // Note that `f<T>(a:b)` goes through a different path and is handled
@@ -1847,7 +1879,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       base: N.Expression,
       startPos: number,
       startLoc: Position,
-      noCalls: ?boolean,
+      noCalls: boolean | undefined | null,
       state: N.ParseSubscriptState,
     ): N.Expression {
       if (!this.hasPrecedingLineBreak() && this.match(tt.bang)) {
@@ -1968,9 +2000,12 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     }
 
     checkReservedWord(
-      word: string, // eslint-disable-line no-unused-vars
-      startLoc: number, // eslint-disable-line no-unused-vars
-      checkKeywords: boolean, // eslint-disable-line no-unused-vars
+      // eslint-disable-line no-unused-vars
+      word: string,
+      // eslint-disable-line no-unused-vars
+      startLoc: number,
+      // eslint-disable-line no-unused-vars
+      checkKeywords: boolean,
       // eslint-disable-next-line no-unused-vars
       isBinding: boolean,
     ): void {
@@ -1980,14 +2015,14 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     }
 
     /*
-    Don't bother doing this check in TypeScript code because:
-    1. We may have a nested export statement with the same name:
-      export const x = 0;
-      export namespace N {
-        export const x = 1;
-      }
-    2. We have a type checker to warn us about this sort of thing.
-    */
+  Don't bother doing this check in TypeScript code because:
+  1. We may have a nested export statement with the same name:
+    export const x = 0;
+    export namespace N {
+      export const x = 1;
+    }
+  2. We have a type checker to warn us about this sort of thing.
+  */
     checkDuplicateExports() {}
 
     parseImport(node: N.Node): N.AnyImport {
@@ -2094,7 +2129,10 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       return super.parseExportDefaultExpression();
     }
 
-    parseStatementContent(context: ?string, topLevel: ?boolean): N.Statement {
+    parseStatementContent(
+      context?: string | null,
+      topLevel?: boolean | null,
+    ): N.Statement {
       if (this.state.type === tt._const) {
         const ahead = this.lookahead();
         if (ahead.type === tt.name && ahead.value === "enum") {
@@ -2107,7 +2145,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       return super.parseStatementContent(context, topLevel);
     }
 
-    parseAccessModifier(): ?N.Accessibility {
+    parseAccessModifier(): N.Accessibility | undefined | null {
       return this.tsParseModifier(["public", "protected", "private"]);
     }
 
@@ -2143,20 +2181,20 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       if (idx) {
         classBody.body.push(idx);
 
-        if ((member: any).abstract) {
+        if ((member as any).abstract) {
           this.raise(member.start, TSErrors.IndexSignatureHasAbstract);
         }
         if (isStatic) {
           this.raise(member.start, TSErrors.IndexSignatureHasStatic);
         }
-        if ((member: any).accessibility) {
+        if ((member as any).accessibility) {
           this.raise(
             member.start,
             TSErrors.IndexSignatureHasAccessibility,
-            (member: any).accessibility,
+            (member as any).accessibility,
           );
         }
-        if ((member: any).declare) {
+        if ((member as any).declare) {
           this.raise(member.start, TSErrors.IndexSignatureHasDeclare);
         }
 
@@ -2174,11 +2212,11 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       const optional = this.eat(tt.question);
       if (optional) methodOrProp.optional = true;
 
-      if ((methodOrProp: any).readonly && this.match(tt.parenL)) {
+      if ((methodOrProp as any).readonly && this.match(tt.parenL)) {
         this.raise(methodOrProp.start, TSErrors.ClassMethodHasReadonly);
       }
 
-      if ((methodOrProp: any).declare && this.match(tt.parenL)) {
+      if ((methodOrProp as any).declare && this.match(tt.parenL)) {
         this.raise(methodOrProp.start, TSErrors.ClassMethodHasDeclare);
       }
     }
@@ -2210,7 +2248,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       expr: N.Expression,
       startPos: number,
       startLoc: Position,
-      refNeedsArrowPos?: ?Pos,
+      refNeedsArrowPos?: Pos | null,
     ): N.Expression {
       // only do the expensive clone if there is a question mark
       // and if we come from inside parens
@@ -2266,7 +2304,9 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       return node;
     }
 
-    parseExportDeclaration(node: N.ExportNamedDeclaration): ?N.Declaration {
+    parseExportDeclaration(
+      node: N.ExportNamedDeclaration,
+    ): N.Declaration | undefined | null {
       // Store original location/position
       const startPos = this.state.start;
       const startLoc = this.state.startLoc;
@@ -2274,7 +2314,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       // "export declare" is equivalent to just "export".
       const isDeclare = this.eatContextual("declare");
 
-      let declaration: ?N.Declaration;
+      let declaration: N.Declaration | undefined | null;
 
       if (this.match(tt.name)) {
         declaration = this.tsTryParseExportDeclaration();
@@ -2304,7 +2344,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     parseClassId(
       node: N.Class,
       isStatement: boolean,
-      optionalId: ?boolean,
+      optionalId?: boolean | null,
     ): void {
       if ((!isStatement || optionalId) && this.isContextual("implements")) {
         return;
@@ -2314,7 +2354,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
         node,
         isStatement,
         optionalId,
-        (node: any).declare ? BIND_TS_AMBIENT : BIND_CLASS,
+        (node as any).declare ? BIND_TS_AMBIENT : BIND_CLASS,
       );
       const typeParameters = this.tsTryParseTypeParameters();
       if (typeParameters) node.typeParameters = typeParameters;
@@ -2450,7 +2490,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     parseMaybeAssign(...args): N.Expression {
       // Note: When the JSX plugin is on, type assertions (`<T> x`) aren't valid syntax.
 
-      let state: ?State;
+      let state: State | undefined | null;
       let jsx;
       let typeCast;
 
@@ -2544,7 +2584,9 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     }
 
     // Handle type assertions
-    parseMaybeUnary(refExpressionErrors?: ?ExpressionErrors): N.Expression {
+    parseMaybeUnary(
+      refExpressionErrors?: ExpressionErrors | null,
+    ): N.Expression {
       if (!this.hasPlugin("jsx") && this.isRelational("<")) {
         return this.tsParseTypeAssertion();
       } else {
@@ -2552,7 +2594,9 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       }
     }
 
-    parseArrow(node: N.ArrowFunctionExpression): ?N.ArrowFunctionExpression {
+    parseArrow(
+      node: N.ArrowFunctionExpression,
+    ): N.ArrowFunctionExpression | undefined | null {
       if (this.match(tt.colon)) {
         // This is different from how the TS parser does it.
         // TS uses lookahead. The Babel Parser parses it as a parenthesized expression and converts.
@@ -2587,7 +2631,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
           this.raise(param.start, TSErrors.PatternIsOptional);
         }
 
-        ((param: any): N.Identifier).optional = true;
+        ((param as any) as N.Identifier).optional = true;
       }
       const type = this.tsTryParseTypeAnnotation();
       if (type) param.typeAnnotation = type;
@@ -2615,7 +2659,12 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     checkLVal(
       expr: N.Expression,
       bindingType: BindingTypes = BIND_NONE,
-      checkClashes: ?{ [key: string]: boolean },
+      checkClashes:
+        | {
+            [key: string]: boolean;
+          }
+        | undefined
+        | null,
       contextDescription: string,
     ): void {
       switch (expr.type) {
@@ -2729,7 +2778,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       }
     }
 
-    toAssignableList(exprList: N.Expression[]): $ReadOnlyArray<N.Pattern> {
+    toAssignableList(exprList: N.Expression[]): ReadonlyArray<N.Pattern> {
       for (let i = 0; i < exprList.length; i++) {
         const expr = exprList[i];
         if (!expr) continue;

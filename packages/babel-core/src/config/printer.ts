@@ -1,5 +1,3 @@
-// @flow
-
 import type {
   OptionsAndDescriptors,
   UnloadedDescriptor,
@@ -12,19 +10,19 @@ export const ChainFormatter = {
 };
 
 type PrintableConfig = {
-  content: OptionsAndDescriptors,
-  type: $Values<typeof ChainFormatter>,
-  callerName: ?string,
-  filepath: ?string,
-  index: ?number,
-  envName: ?string,
+  content: OptionsAndDescriptors;
+  type: typeof ChainFormatter[keyof typeof ChainFormatter];
+  callerName: string | undefined | null;
+  filepath: string | undefined | null;
+  index: number | undefined | null;
+  envName: string | undefined | null;
 };
 
 const Formatter = {
   title(
-    type: $Values<typeof ChainFormatter>,
-    callerName: ?string,
-    filepath: ?string,
+    type: typeof ChainFormatter[keyof typeof ChainFormatter],
+    callerName: string | undefined | null,
+    filepath: string | undefined | null,
   ): string {
     let title = "";
     if (type === ChainFormatter.Programmatic) {
@@ -38,7 +36,10 @@ const Formatter = {
     }
     return title;
   },
-  loc(index: ?number, envName: ?string): string {
+  loc(
+    index: number | undefined | null,
+    envName: string | undefined | null,
+  ): string {
     let loc = "";
     if (index != null) {
       loc += `.overrides[${index}]`;
@@ -67,7 +68,9 @@ const Formatter = {
   },
 };
 
-function descriptorToConfig(d: UnloadedDescriptor): string | {} | Array<mixed> {
+function descriptorToConfig(
+  d: UnloadedDescriptor,
+): string | {} | Array<unknown> {
   let name = d.file?.request;
   if (name == null) {
     if (typeof d.value === "object") {
@@ -95,14 +98,20 @@ export class ConfigPrinter {
   _stack: Array<PrintableConfig> = [];
   configure(
     enabled: boolean,
-    type: $Values<typeof ChainFormatter>,
-    { callerName, filepath }: { callerName?: string, filepath?: string },
+    type: typeof ChainFormatter[keyof typeof ChainFormatter],
+    {
+      callerName,
+      filepath,
+    }: {
+      callerName?: string;
+      filepath?: string;
+    },
   ) {
     if (!enabled) return () => {};
     return (
       content: OptionsAndDescriptors,
-      index: ?number,
-      envName: ?string,
+      index?: number | null,
+      envName?: string | null,
     ) => {
       this._stack.push({
         type,

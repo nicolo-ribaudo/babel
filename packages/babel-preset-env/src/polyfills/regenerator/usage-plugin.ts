@@ -1,5 +1,3 @@
-// @flow
-
 import { createImport } from "../../utils";
 import type { NodePath } from "@babel/traverse";
 

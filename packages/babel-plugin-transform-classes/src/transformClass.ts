@@ -10,7 +10,11 @@ import annotateAsPure from "@babel/helper-annotate-as-pure";
 
 import addCreateSuperHelper from "./inline-createSuper-helpers";
 
-type ReadonlySet<T> = Set<T> | { has(val: T): boolean };
+type ReadonlySet<T> =
+  | Set<T>
+  | {
+      has(val: T): boolean;
+    };
 
 function buildConstructor(classRef, constructorBody, node) {
   const func = t.functionDeclaration(
@@ -150,7 +154,7 @@ export default function transformClass(
   }
 
   function pushBody() {
-    const classBodyPaths: Array<Object> = classState.path.get("body.body");
+    const classBodyPaths: Array<any> = classState.path.get("body.body");
 
     for (const path of classBodyPaths) {
       const node = path.node;
@@ -420,7 +424,12 @@ export default function transformClass(
   /**
    * Push a method to its respective mutatorMap.
    */
-  function pushMethod(node: { type: "ClassMethod" }, path?: NodePath) {
+  function pushMethod(
+    node: {
+      type: "ClassMethod";
+    },
+    path?: NodePath,
+  ) {
     const scope = path ? path.scope : classState.scope;
 
     if (node.kind === "method") {
@@ -493,7 +502,9 @@ export default function transformClass(
    */
   function pushConstructor(
     superReturns,
-    method: { type: "ClassMethod" },
+    method: {
+      type: "ClassMethod";
+    },
     path: NodePath,
   ) {
     // https://github.com/babel/babel/issues/1077

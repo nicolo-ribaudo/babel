@@ -27,7 +27,7 @@ export default declare((api, options) => {
    */
 
   function variableDeclarationHasPattern(node) {
-    for (const declar of (node.declarations: Array)) {
+    for (const declar of node.declarations as Array) {
       if (t.isPattern(declar.id)) {
         return true;
       }
@@ -40,7 +40,7 @@ export default declare((api, options) => {
    */
 
   function hasRest(pattern) {
-    for (const elem of (pattern.elements: Array)) {
+    for (const elem of pattern.elements as Array) {
       if (t.isRestElement(elem)) {
         return true;
       }
@@ -53,7 +53,7 @@ export default declare((api, options) => {
    */
 
   function hasObjectRest(pattern) {
-    for (const elem of (pattern.properties: Array)) {
+    for (const elem of pattern.properties as Array) {
       if (t.isRestElement(elem)) {
         return true;
       }
@@ -331,7 +331,7 @@ export default declare((api, options) => {
         return false;
       }
 
-      for (const elem of (pattern.elements: Array)) {
+      for (const elem of pattern.elements as Array) {
         // deopt on holes
         if (!elem) return false;
 
@@ -339,7 +339,7 @@ export default declare((api, options) => {
         if (t.isMemberExpression(elem)) return false;
       }
 
-      for (const elem of (arr.elements: Array)) {
+      for (const elem of arr.elements as Array) {
         // deopt on spread elements
         if (t.isSpreadElement(elem)) return false;
 

@@ -1,6 +1,6 @@
-// @flow
-
-type ObjectMap<V> = { [name: string]: V };
+type ObjectMap<V> = {
+  [name: string]: V;
+};
 
 const ArrayNatureIterators = [
   "es.array.iterator",

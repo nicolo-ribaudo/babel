@@ -1,6 +1,5 @@
-// @flow
 import traverse from "@babel/traverse";
-import typeof { SourceMap } from "convert-source-map";
+type SourceMap = typeof import("convert-source-map").SourceMap;
 import type { Handler } from "gensync";
 
 import type { ResolvedConfig, PluginPasses } from "../config";
@@ -14,22 +13,22 @@ import generateCode from "./file/generate";
 import type File from "./file/file";
 
 export type FileResultCallback = {
-  (Error, null): any,
-  (null, FileResult | null): any,
+  (b: Error, a: null): any;
+  (b: null, a: FileResult | null): any;
 };
 
 export type FileResult = {
-  metadata: {},
-  options: {},
-  ast: {} | null,
-  code: string | null,
-  map: SourceMap | null,
+  metadata: {};
+  options: {};
+  ast: {} | null;
+  code: string | null;
+  map: SourceMap | null;
 };
 
 export function* run(
   config: ResolvedConfig,
   code: string,
-  ast: ?(BabelNodeFile | BabelNodeProgram),
+  ast?: BabelNodeFile | BabelNodeProgram | null,
 ): Handler<FileResult> {
   const file = yield* normalizeFile(
     config.passes,
@@ -130,7 +129,7 @@ function* transformFile(file: File, pluginPasses: PluginPasses): Handler<void> {
   }
 }
 
-function isThenable(val: mixed): boolean {
+function isThenable(val: unknown): boolean {
   return (
     !!val &&
     (typeof val === "object" || typeof val === "function") &&

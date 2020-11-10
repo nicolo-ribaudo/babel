@@ -1,5 +1,3 @@
-// @flow
-
 import * as t from "@babel/types";
 import type { NodePath } from "@babel/traverse";
 import { addSideEffect } from "@babel/helper-module-imports";
@@ -24,7 +22,9 @@ export function intersection<T>(
 }
 
 export function filterStageFromList(
-  list: { [feature: string]: Targets },
+  list: {
+    [feature: string]: Targets;
+  },
   stageList: Set<string>,
 ) {
   return Object.keys(list).reduce((result, item) => {
@@ -52,7 +52,7 @@ export function getRequireSource({ node }: NodePath) {
   if (isRequire) return expression.arguments[0].value;
 }
 
-export function isPolyfillSource(source: ?string): boolean {
+export function isPolyfillSource(source?: string | null): boolean {
   return source === "@babel/polyfill" || source === "core-js";
 }
 

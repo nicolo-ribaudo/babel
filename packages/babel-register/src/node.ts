@@ -105,7 +105,7 @@ export function revert() {
 
 register();
 
-export default function register(opts?: Object = {}) {
+export default function register(opts: any = {}) {
   // Clone to avoid mutating the arguments object with the 'delete's below.
   opts = {
     ...opts,

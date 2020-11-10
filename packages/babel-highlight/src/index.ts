@@ -76,7 +76,7 @@ function getTokenType(match) {
 /**
  * Highlight `text` using the token definitions in `defs`.
  */
-function highlightTokens(defs: Object, text: string) {
+function highlightTokens(defs: any, text: string) {
   return text.replace(jsTokens, function (...args) {
     const type = getTokenType(args);
     const colorize = defs[type];
@@ -92,7 +92,7 @@ function highlightTokens(defs: Object, text: string) {
 }
 
 type Options = {
-  forceColor?: boolean,
+  forceColor?: boolean;
 };
 
 /**

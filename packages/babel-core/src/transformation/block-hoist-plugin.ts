@@ -1,8 +1,8 @@
-// @flow
-
 import sortBy from "lodash/sortBy";
 
-import loadConfig, { type Plugin } from "../config";
+import loadConfig from "../config";
+
+import type { Plugin } from "../config";
 
 let LOADED_PLUGIN: Plugin | void;
 

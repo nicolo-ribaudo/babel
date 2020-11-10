@@ -1,5 +1,3 @@
-// @flow
-
 import browserslist from "browserslist";
 import { findSuggestion } from "@babel/helper-validator-option";
 import browserModulesData from "@babel/compat-data/native-modules";
@@ -52,7 +50,7 @@ function validateTargetNames(targets: Targets): TargetsTuple {
     }
   }
 
-  return (targets: any);
+  return targets as any;
 }
 
 export function isBrowsersQueryValid(browsers: Browsers | Targets): boolean {
@@ -69,7 +67,7 @@ function validateBrowsers(browsers: Browsers | void) {
 }
 
 function getLowestVersions(browsers: Array<string>): Targets {
-  return browsers.reduce((all: Object, browser: string): Object => {
+  return browsers.reduce((all: any, browser: string): any => {
     const [browserName, browserVersion] = browser.split(" ");
     const normalizedBrowserName = browserNameMap[browserName];
 
@@ -112,7 +110,10 @@ function getLowestVersions(browsers: Array<string>): Targets {
 }
 
 function outputDecimalWarning(
-  decimalTargets: Array<{| target: string, value: string |}>,
+  decimalTargets: Array<{
+    target: string;
+    value: string;
+  }>,
 ): void {
   if (!decimalTargets.length) {
     return;
@@ -165,12 +166,12 @@ function generateTargets(inputTargets: InputTargets): Targets {
   const input = { ...inputTargets };
   delete input.esmodules;
   delete input.browsers;
-  return ((input: any): Targets);
+  return (input as any) as Targets;
 }
 
 export default function getTargets(
   inputTargets: InputTargets = {},
-  options: Object = {},
+  options: any = {},
 ): Targets {
   let { browsers } = inputTargets;
 

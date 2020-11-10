@@ -1,11 +1,10 @@
-// @flow
-
 import { types as tt, TokenType } from "../tokenizer/types";
 import type Parser from "../parser";
 import type { ExpressionErrors } from "../parser/util";
 import * as N from "../types";
 import type { Position } from "../util/location";
-import { type BindingTypes, BIND_NONE } from "../util/scopeflags";
+import { BIND_NONE } from "../util/scopeflags";
+import type { BindingTypes } from "../util/scopeflags";
 import { Errors } from "../parser/error";
 
 function isSimpleProperty(node: N.Node): boolean {
@@ -17,7 +16,11 @@ function isSimpleProperty(node: N.Node): boolean {
   );
 }
 
-export default (superClass: Class<Parser>): Class<Parser> =>
+export default (superClass: {
+  new (...args: any): Parser;
+}): {
+  new (...args: any): Parser;
+} =>
   class extends superClass {
     estreeParseRegExpLiteral({ pattern, flags }: N.RegExpLiteral): N.Node {
       let regex = null;
@@ -91,7 +94,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
 
     initFunction(
       node: N.BodilessFunctionOrMethodBase,
-      isAsync: ?boolean,
+      isAsync?: boolean | null,
     ): void {
       super.initFunction(node, isAsync);
       node.expression = false;
@@ -99,21 +102,26 @@ export default (superClass: Class<Parser>): Class<Parser> =>
 
     checkDeclaration(node: N.Pattern | N.ObjectProperty): void {
       if (isSimpleProperty(node)) {
-        this.checkDeclaration(((node: any): N.EstreeProperty).value);
+        this.checkDeclaration(((node as any) as N.EstreeProperty).value);
       } else {
         super.checkDeclaration(node);
       }
     }
 
     getObjectOrClassMethodParams(method: N.ObjectMethod | N.ClassMethod) {
-      return ((method: any): N.EstreeProperty | N.EstreeMethodDefinition).value
-        .params;
+      return ((method as any) as N.EstreeProperty | N.EstreeMethodDefinition)
+        .value.params;
     }
 
     checkLVal(
       expr: N.Expression,
       bindingType: BindingTypes = BIND_NONE,
-      checkClashes: ?{ [key: string]: boolean },
+      checkClashes:
+        | {
+            [key: string]: boolean;
+          }
+        | undefined
+        | null,
       contextDescription: string,
       disallowLetBinding?: boolean,
     ): void {
@@ -143,8 +151,10 @@ export default (superClass: Class<Parser>): Class<Parser> =>
     checkProto(
       prop: N.ObjectMember | N.SpreadElement,
       isRecord: boolean,
-      protoRef: { used: boolean },
-      refExpressionErrors: ?ExpressionErrors,
+      protoRef: {
+        used: boolean;
+      },
+      refExpressionErrors?: ExpressionErrors | null,
     ): void {
       // $FlowIgnore: check prop.method and fallback to super method
       if (prop.method) {
@@ -175,7 +185,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
 
     parseBlockBody(
       node: N.BlockStatementLike,
-      allowDirectives: ?boolean,
+      allowDirectives: boolean | undefined | null,
       topLevel: boolean,
       end: TokenType,
     ): void {
@@ -214,7 +224,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       classBody.body.push(method);
     }
 
-    parseExprAtom(refExpressionErrors?: ?ExpressionErrors): N.Expression {
+    parseExprAtom(refExpressionErrors?: ExpressionErrors | null): N.Expression {
       switch (this.state.type) {
         case tt.num:
         case tt.string:
@@ -243,7 +253,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       }
     }
 
-    parseLiteral<T: N.Literal>(
+    parseLiteral<T extends N.Literal>(
       value: any,
       type: /*T["kind"]*/ string,
       startPos?: number,
@@ -258,14 +268,14 @@ export default (superClass: Class<Parser>): Class<Parser> =>
 
     parseFunctionBody(
       node: N.Function,
-      allowExpression: ?boolean,
-      isMethod?: boolean = false,
+      allowExpression?: boolean | null,
+      isMethod: boolean = false,
     ): void {
       super.parseFunctionBody(node, allowExpression, isMethod);
       node.expression = node.body.type !== "BlockStatement";
     }
 
-    parseMethod<T: N.MethodLike>(
+    parseMethod<T extends N.MethodLike>(
       node: T,
       isGenerator: boolean,
       isAsync: boolean,
@@ -300,45 +310,47 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       isAsync: boolean,
       isPattern: boolean,
       isAccessor: boolean,
-    ): ?N.ObjectMethod {
-      const node: N.EstreeProperty = (super.parseObjectMethod(
+    ): N.ObjectMethod | undefined | null {
+      const node: N.EstreeProperty = super.parseObjectMethod(
         prop,
         isGenerator,
         isAsync,
         isPattern,
         isAccessor,
-      ): any);
+      ) as any;
 
       if (node) {
         node.type = "Property";
-        if (((node: any): N.ClassMethod).kind === "method") node.kind = "init";
+        if (((node as any) as N.ClassMethod).kind === "method") {
+          node.kind = "init";
+        }
         node.shorthand = false;
       }
 
-      return (node: any);
+      return node as any;
     }
 
     parseObjectProperty(
       prop: N.ObjectProperty,
-      startPos: ?number,
-      startLoc: ?Position,
+      startPos: number | undefined | null,
+      startLoc: Position | undefined | null,
       isPattern: boolean,
-      refExpressionErrors: ?ExpressionErrors,
-    ): ?N.ObjectProperty {
-      const node: N.EstreeProperty = (super.parseObjectProperty(
+      refExpressionErrors?: ExpressionErrors | null,
+    ): N.ObjectProperty | undefined | null {
+      const node: N.EstreeProperty = super.parseObjectProperty(
         prop,
         startPos,
         startLoc,
         isPattern,
         refExpressionErrors,
-      ): any);
+      ) as any;
 
       if (node) {
         node.kind = "init";
         node.type = "Property";
       }
 
-      return (node: any);
+      return node as any;
     }
 
     toAssignable(node: N.Node, isLHS: boolean = false): N.Node {
@@ -361,15 +373,17 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       }
     }
 
-    finishCallExpression<T: N.CallExpression | N.OptionalCallExpression>(
+    finishCallExpression<T extends N.CallExpression | N.OptionalCallExpression>(
       node: T,
       optional: boolean,
     ): N.Expression {
       super.finishCallExpression(node, optional);
 
       if (node.callee.type === "Import") {
-        ((node: N.Node): N.EstreeImportExpression).type = "ImportExpression";
-        ((node: N.Node): N.EstreeImportExpression).source = node.arguments[0];
+        ((node as N.Node) as N.EstreeImportExpression).type =
+          "ImportExpression";
+        ((node as N.Node) as N.EstreeImportExpression).source =
+          node.arguments[0];
         // $FlowIgnore - arguments isn't optional in the type definition
         delete node.arguments;
         // $FlowIgnore - callee isn't optional in the type definition
@@ -422,7 +436,7 @@ export default (superClass: Class<Parser>): Class<Parser> =>
       base: N.Expression,
       startPos: number,
       startLoc: Position,
-      noCalls: ?boolean,
+      noCalls: boolean | undefined | null,
       state: N.ParseSubscriptState,
     ) {
       const node = super.parseSubscript(

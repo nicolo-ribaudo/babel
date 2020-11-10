@@ -1,5 +1,3 @@
-// @flow
-
 import fs from "fs";
 import path from "path";
 import buildDebug from "debug";
@@ -7,7 +5,8 @@ import cloneDeep from "lodash/cloneDeep";
 import type { Handler } from "gensync";
 import * as t from "@babel/types";
 import type { PluginPasses } from "../config";
-import convertSourceMap, { typeof Converter } from "convert-source-map";
+import convertSourceMap from "convert-source-map";
+type Converter = typeof import("convert-source-map").Converter;
 import File from "./file/file";
 import parser from "../parser";
 
@@ -15,16 +14,16 @@ const debug = buildDebug("babel:transform:file");
 const LARGE_INPUT_SOURCEMAP_THRESHOLD = 1_000_000;
 
 export type NormalizedFile = {
-  code: string,
-  ast: {},
-  inputMap: Converter | null,
+  code: string;
+  ast: {};
+  inputMap: Converter | null;
 };
 
 export default function* normalizeFile(
   pluginPasses: PluginPasses,
-  options: Object,
+  options: any,
   code: string,
-  ast: ?(BabelNodeFile | BabelNodeProgram),
+  ast?: BabelNodeFile | BabelNodeProgram | null,
 ): Handler<File> {
   code = `${code || ""}`;
 
@@ -67,9 +66,9 @@ export default function* normalizeFile(
       if (typeof options.filename === "string" && lastComment) {
         try {
           // when `lastComment` is non-null, EXTERNAL_SOURCEMAP_REGEX must have matches
-          const match: [string, string] = (EXTERNAL_SOURCEMAP_REGEX.exec(
+          const match: [string, string] = EXTERNAL_SOURCEMAP_REGEX.exec(
             lastComment,
-          ): any);
+          ) as any;
           const inputMapContent: Buffer = fs.readFileSync(
             path.resolve(path.dirname(options.filename), match[1]),
           );

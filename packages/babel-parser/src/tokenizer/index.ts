@@ -1,5 +1,3 @@
-// @flow
-
 /*:: declare var invariant; */
 
 import type { Options } from "../options";
@@ -7,8 +5,10 @@ import * as N from "../types";
 import type { Position } from "../util/location";
 import * as charCodes from "charcodes";
 import { isIdentifierStart, isIdentifierChar } from "../util/identifier";
-import { types as tt, keywords as keywordTypes, type TokenType } from "./types";
-import { type TokContext, types as ct } from "./context";
+import { types as tt, keywords as keywordTypes } from "./types";
+import type { TokenType } from "./types";
+import { types as ct } from "./context";
+import type { TokContext } from "./context";
 import ParserErrors, { Errors } from "../parser/error";
 import { SourceLocation } from "../util/location";
 import {

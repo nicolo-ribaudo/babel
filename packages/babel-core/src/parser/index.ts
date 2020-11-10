@@ -9,7 +9,7 @@ export type ParseResult = AstRoot;
 
 export default function* parser(
   pluginPasses: PluginPasses,
-  { parserOpts, highlightCode = true, filename = "unknown" }: Object,
+  { parserOpts, highlightCode = true, filename = "unknown" }: any,
   code: string,
 ): Handler<ParseResult> {
   try {

@@ -1,5 +1,3 @@
-// @flow
-
 const { min } = Math;
 
 // a minimal leven distance implementation

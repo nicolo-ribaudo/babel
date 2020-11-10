@@ -1,10 +1,8 @@
-// @flow
-
 import {
   CLASS_ELEMENT_KIND_ACCESSOR,
   CLASS_ELEMENT_FLAG_STATIC,
-  type ClassElementTypes,
 } from "./scopeflags";
+import type { ClassElementTypes } from "./scopeflags";
 import { Errors } from "../parser/error";
 
 export class ClassScope {
@@ -19,7 +17,7 @@ export class ClassScope {
   undefinedPrivateNames: Map<string, number> = new Map();
 }
 
-type raiseFunction = (number, string, ...any) => void;
+type raiseFunction = (b: number, a: string) => void;
 
 export default class ClassScopeHandler {
   stack: Array<ClassScope> = [];

@@ -1,33 +1,26 @@
-// @flow
-
 import gensync from "gensync";
 
-import loadConfig, { type InputOptions, type ResolvedConfig } from "./config";
-import {
-  run,
-  type FileResult,
-  type FileResultCallback,
-} from "./transformation";
+import loadConfig from "./config";
+import type { InputOptions, ResolvedConfig } from "./config";
+import { run } from "./transformation";
 
+import type { FileResult, FileResultCallback } from "./transformation";
 type AstRoot = BabelNodeFile | BabelNodeProgram;
 
 type TransformFromAst = {
-  (ast: AstRoot, code: string, callback: FileResultCallback): void,
+  (ast: AstRoot, code: string, callback: FileResultCallback): void;
   (
     ast: AstRoot,
     code: string,
-    opts: ?InputOptions,
+    opts: InputOptions | undefined | null,
     callback: FileResultCallback,
-  ): void,
-
-  // Here for backward-compatibility. Ideally use ".transformSync" if you want
-  // a synchronous API.
-  (ast: AstRoot, code: string, opts: ?InputOptions): FileResult | null,
+  ): void;
+  (ast: AstRoot, code: string, opts?: InputOptions | null): FileResult | null;
 };
 
 const transformFromAstRunner = gensync<
-  [AstRoot, string, ?InputOptions],
-  FileResult | null,
+  [AstRoot, string, InputOptions | undefined | null],
+  FileResult | null
 >(function* (ast, code, opts) {
   const config: ResolvedConfig | null = yield* loadConfig(opts);
   if (config === null) return null;
@@ -37,7 +30,7 @@ const transformFromAstRunner = gensync<
   return yield* run(config, code, ast);
 });
 
-export const transformFromAst: TransformFromAst = (function transformFromAst(
+export const transformFromAst: TransformFromAst = function transformFromAst(
   ast,
   code,
   opts,
@@ -55,7 +48,7 @@ export const transformFromAst: TransformFromAst = (function transformFromAst(
   }
 
   transformFromAstRunner.errback(ast, code, opts, callback);
-}: Function);
+} as Function;
 
 export const transformFromAstSync = transformFromAstRunner.sync;
 export const transformFromAstAsync = transformFromAstRunner.async;

@@ -1,31 +1,26 @@
-// @flow
-
-import gensync, { type Handler } from "gensync";
+import gensync from "gensync";
+import type { Handler } from "gensync";
 import { forwardAsync } from "../gensync-utils/async";
 
 import { mergeOptions } from "./util";
 import * as context from "../index";
 import Plugin from "./plugin";
 import { getItemDescriptor } from "./item";
-import {
-  buildPresetChain,
-  type ConfigContext,
-  type ConfigChain,
-  type PresetInstance,
+import { buildPresetChain } from "./config-chain";
+import type {
+  ConfigContext,
+  ConfigChain,
+  PresetInstance,
 } from "./config-chain";
 import type { UnloadedDescriptor } from "./config-descriptors";
 import traverse from "@babel/traverse";
-import {
-  makeWeakCache,
-  makeWeakCacheSync,
-  type CacheConfigurator,
-} from "./caching";
+import { makeWeakCache, makeWeakCacheSync } from "./caching";
+import type { CacheConfigurator } from "./caching";
 import {
   validate,
-  type CallerMetadata,
   checkNoUnwrappedItemOptionPairs,
-  type PluginItem,
 } from "./validation/options";
+import type { CallerMetadata, PluginItem } from "./validation/options";
 import { validatePluginObject } from "./validation/plugins";
 import makeAPI from "./helpers/config-api";
 
@@ -33,17 +28,17 @@ import loadPrivatePartialConfig from "./partial";
 import type { ValidatedOptions } from "./validation/options";
 
 type LoadedDescriptor = {
-  value: {},
-  options: {},
-  dirname: string,
-  alias: string,
+  value: {};
+  options: {};
+  dirname: string;
+  alias: string;
 };
 
 export type { InputOptions } from "./validation/options";
 
 export type ResolvedConfig = {
-  options: Object,
-  passes: PluginPasses,
+  options: any;
+  passes: PluginPasses;
 };
 
 export type { Plugin };
@@ -53,12 +48,12 @@ export type PluginPasses = Array<PluginPassList>;
 // Context not including filename since it is used in places that cannot
 // process 'ignore'/'only' and other filename-based logic.
 type SimpleContext = {
-  envName: string,
-  caller: CallerMetadata | void,
+  envName: string;
+  caller: CallerMetadata | void;
 };
 
 export default gensync<[any], ResolvedConfig | null>(function* loadFullConfig(
-  inputOpts: mixed,
+  inputOpts: unknown,
 ): Handler<ResolvedConfig | null> {
   const result = yield* loadPrivatePartialConfig(inputOpts);
   if (!result) {
@@ -98,10 +93,10 @@ export default gensync<[any], ResolvedConfig | null>(function* loadFullConfig(
       rawPresets: Array<UnloadedDescriptor>,
       pluginDescriptorsPass: Array<UnloadedDescriptor>,
     ) {
-      const presets: Array<{|
-        preset: ConfigChain | null,
-        pass: Array<UnloadedDescriptor>,
-      |}> = [];
+      const presets: Array<{
+        preset: ConfigChain | null;
+        pass: Array<UnloadedDescriptor>;
+      }> = [];
 
       for (let i = 0; i < rawPresets.length; i++) {
         const descriptor = rawPresets[i];
@@ -158,7 +153,7 @@ export default gensync<[any], ResolvedConfig | null>(function* loadFullConfig(
 
   if (ignored) return null;
 
-  const opts: Object = optionDefaults;
+  const opts: any = optionDefaults;
   mergeOptions(opts, options);
 
   yield* enhanceError(context, function* loadPluginDescriptors() {
@@ -198,8 +193,8 @@ export default gensync<[any], ResolvedConfig | null>(function* loadFullConfig(
   };
 });
 
-function enhanceError<T: Function>(context, fn: T): T {
-  return (function* (arg1, arg2) {
+function enhanceError<T extends Function>(context, fn: T): T {
+  return function* (arg1, arg2) {
     try {
       return yield* fn(arg1, arg2);
     } catch (e) {
@@ -211,7 +206,7 @@ function enhanceError<T: Function>(context, fn: T): T {
 
       throw e;
     }
-  }: any);
+  } as any;
 }
 
 /**

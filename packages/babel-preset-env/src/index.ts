@@ -1,5 +1,3 @@
-//@flow
-
 import { SemVer } from "semver";
 import { logPluginOrPolyfill } from "./debug";
 import getOptionSpecificExcludesFor from "./get-option-specific-excludes";
@@ -24,14 +22,13 @@ import getTargets, {
   prettifyTargets,
   filterItems,
   isRequired,
-  type Targets,
-  type InputTargets,
 } from "@babel/helper-compilation-targets";
+import type { Targets, InputTargets } from "@babel/helper-compilation-targets";
 import availablePlugins from "./available-plugins";
 import { filterStageFromList } from "./utils";
 import { declare } from "@babel/helper-plugin-utils";
 
-import typeof ModuleTransformationsType from "./module-transformations";
+type ModuleTransformationsType = typeof import("./module-transformations").default;
 import type { BuiltInsOption, ModuleOption } from "./types";
 
 // TODO: Remove in Babel 8
@@ -77,7 +74,7 @@ const getPlugin = (pluginName: string) => {
   return plugin;
 };
 
-export const transformIncludesAndExcludes = (opts: Array<string>): Object => {
+export const transformIncludesAndExcludes = (opts: Array<string>): any => {
   return opts.reduce(
     (result, opt) => {
       const target = opt.match(/^(es|es6|es7|esnext|web)\./)
@@ -101,14 +98,14 @@ export const getModulesPluginNames = ({
   shouldTransformDynamicImport,
   shouldTransformExportNamespaceFrom,
   shouldParseTopLevelAwait,
-}: {|
-  modules: ModuleOption,
-  transformations: ModuleTransformationsType,
-  shouldTransformESM: boolean,
-  shouldTransformDynamicImport: boolean,
-  shouldTransformExportNamespaceFrom: boolean,
-  shouldParseTopLevelAwait: boolean,
-|}) => {
+}: {
+  modules: ModuleOption;
+  transformations: ModuleTransformationsType;
+  shouldTransformESM: boolean;
+  shouldTransformDynamicImport: boolean;
+  shouldTransformExportNamespaceFrom: boolean;
+  shouldParseTopLevelAwait: boolean;
+}) => {
   const modulesPluginNames = [];
   if (modules !== false && transformations[modules]) {
     if (shouldTransformESM) {
@@ -158,15 +155,15 @@ export const getPolyfillPlugins = ({
   regenerator,
   debug,
 }: {
-  useBuiltIns: BuiltInsOption,
-  corejs: typeof SemVer | null | false,
-  polyfillTargets: Targets,
-  include: Set<string>,
-  exclude: Set<string>,
-  proposals: boolean,
-  shippedProposals: boolean,
-  regenerator: boolean,
-  debug: boolean,
+  useBuiltIns: BuiltInsOption;
+  corejs: typeof SemVer | null | false;
+  polyfillTargets: Targets;
+  include: Set<string>;
+  exclude: Set<string>;
+  proposals: boolean;
+  shippedProposals: boolean;
+  regenerator: boolean;
+  debug: boolean;
 }) => {
   const polyfillPlugins = [];
   if (useBuiltIns === "usage" || useBuiltIns === "entry") {
@@ -269,7 +266,7 @@ export default declare((api, opts) => {
 
   const targets = getTargets(
     // $FlowIgnore optionsTargets doesn't have an "uglify" property anymore
-    (optionsTargets: InputTargets),
+    optionsTargets as InputTargets,
     { ignoreBrowserslistConfig, configPath, browserslistEnv },
   );
   const include = transformIncludesAndExcludes(optionsInclude);

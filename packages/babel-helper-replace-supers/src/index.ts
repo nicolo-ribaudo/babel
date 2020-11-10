@@ -1,4 +1,3 @@
-// @flow
 import type { HubInterface, NodePath } from "@babel/traverse";
 import traverse from "@babel/traverse";
 import memberExpressionToFunctions from "@babel/helper-member-expression-to-functions";
@@ -239,22 +238,20 @@ const looseHandlers = {
   },
 };
 
-type ReplaceSupersOptionsBase = {|
-  methodPath: NodePath,
-  superRef: Object,
-  isLoose: boolean,
-  file: any,
-|};
+type ReplaceSupersOptionsBase = {
+  methodPath: NodePath;
+  superRef: any;
+  isLoose: boolean;
+  file: any;
+};
 
 type ReplaceSupersOptions =
-  | {|
-      ...ReplaceSupersOptionsBase,
-      getObjectRef: () => BabelNode,
-    |}
-  | {|
-      ...ReplaceSupersOptionsBase,
-      objectRef: BabelNode,
-    |};
+  | ({
+      getObjectRef: () => BabelNode;
+    } & ReplaceSupersOptionsBase)
+  | ({
+      objectRef: BabelNode;
+    } & ReplaceSupersOptionsBase);
 
 export default class ReplaceSupers {
   constructor(opts: ReplaceSupersOptions) {
@@ -279,7 +276,7 @@ export default class ReplaceSupers {
   declare isStatic: boolean;
   declare methodPath: NodePath;
   declare opts: ReplaceSupersOptions;
-  declare superRef: Object;
+  declare superRef: any;
 
   getObjectRef() {
     return t.cloneNode(this.opts.objectRef || this.opts.getObjectRef());

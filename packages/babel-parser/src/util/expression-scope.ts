@@ -1,5 +1,3 @@
-// @flow
-
 /*:: declare var invariant; */
 /**
  * @module util/expression-scope
@@ -51,8 +49,7 @@ const kExpression = 0,
   kParameterDeclaration = 3;
 
 type ExpressionScopeType = 0 | 1 | 2 | 3;
-
-type raiseFunction = (number, string, ...any) => void;
+type raiseFunction = (b: number, a: string) => void;
 
 class ExpressionScope {
   type: ExpressionScopeType;
