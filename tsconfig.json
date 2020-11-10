@@ -12,6 +12,9 @@
     },
     {
       "path": "./packages/babel-code-frame"
+    },
+    {
+      "path": "./packages/babel-types"
     }
   ]
 }
