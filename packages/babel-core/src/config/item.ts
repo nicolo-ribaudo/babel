@@ -41,7 +41,7 @@ export function createConfigItem(
 export function getItemDescriptor(item: unknown): UnloadedDescriptor | void {
   if ((item as any)?.[CONFIG_ITEM_BRAND]) {
     /*:: invariant(item instanceof ConfigItem) */
-    return item._descriptor;
+    return (item as ConfigItem)._descriptor;
   }
 
   return undefined;
