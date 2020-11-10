@@ -177,6 +177,12 @@ function get<T extends t.Node, K extends keyof T>(
 function get<T extends t.Node>(
   this: NodePath<T>,
   key: string,
+  context?: true | TraversalContext,
+): NodePath | NodePath[];
+
+function get<T extends t.Node>(
+  this: NodePath<T>,
+  key: string,
   context: true | TraversalContext = true,
 ): NodePath | NodePath[] {
   if (context === true) context = this.context;
