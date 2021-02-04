@@ -2,6 +2,7 @@
   "name": "@babel/eslint-plugin",
   "version": "7.13.10",
   "description": "Companion rules for @babel/eslint-parser",
+  "type": "module",
   "main": "./lib/index.js",
   "type": "commonjs",
   "exports": {

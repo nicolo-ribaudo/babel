@@ -12,6 +12,7 @@
     "directory": "packages/babel-register"
   },
   "author": "Sebastian McKenzie <sebmck@gmail.com>",
+  "type": "module",
   "main": "lib/index.js",
   "browser": {
     "./lib/nodeWrapper.js": "./lib/browser.js"

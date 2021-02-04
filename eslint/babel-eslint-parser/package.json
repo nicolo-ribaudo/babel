@@ -19,6 +19,7 @@
   "engines": {
     "node": "^10.13.0 || ^12.13.0 || >=14.0.0"
   },
+  "type": "module",
   "main": "./lib/index.js",
   "type": "commonjs",
   "exports": {
