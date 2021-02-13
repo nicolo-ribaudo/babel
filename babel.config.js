@@ -37,6 +37,7 @@ module.exports = function (api) {
     "codemods/*/test",
     "eslint/*/src",
     "eslint/*/test",
+    "test/core-internal-plugins/*",
   ];
 
   switch (env) {

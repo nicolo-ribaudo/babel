@@ -216,7 +216,7 @@ function buildHelper(
     overrides: [
       {
         exclude: /typeof/,
-        plugins: ["@babel/plugin-transform-typeof-symbol"],
+        plugins: ["internal:transform-typeof-symbol"],
       },
     ],
   }).code;
