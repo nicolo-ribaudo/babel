@@ -28,6 +28,8 @@ import presetTypescript from "@babel/preset-typescript";
 
 import { runScripts } from "./transformScriptTags";
 
+export { internalPluginName } from "@babel/core";
+
 const isArray =
   Array.isArray ||
   (arg => Object.prototype.toString.call(arg) === "[object Array]");
@@ -39,15 +41,20 @@ const isArray =
  * Returns undefined if the preset or plugin is not available; passes through
  * name unmodified if it (or the first element of the pair) is not a string.
  */
-function loadBuiltin(builtinTable, name) {
-  if (isArray(name) && typeof name[0] === "string") {
-    if (Object.prototype.hasOwnProperty.call(builtinTable, name[0])) {
-      return [builtinTable[name[0]]].concat(name.slice(1));
+function loadBuiltin(builtinTable, desc) {
+  const name = Array.isArray(desc) ? desc[0] : desc;
+
+  if (typeof name === "string") {
+    if (/^internal:/.test(name)) return desc;
+
+    if (Object.prototype.hasOwnProperty.call(builtinTable, name)) {
+      const plugin = builtinTable[name];
+      return Array.isArray(desc) ? [plugin].concat(desc.slice(1)) : plugin;
     }
+
     return;
-  } else if (typeof name === "string") {
-    return builtinTable[name];
   }
+
   // Could be an actual preset/plugin module
   return name;
 }

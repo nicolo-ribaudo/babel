@@ -38,6 +38,8 @@ export {
 } from "./transform-ast";
 export { parse, parseSync, parseAsync } from "./parse";
 
+export { internalPluginName } from "./internal-plugins";
+
 /**
  * Recommended set of compilable extensions. Not used in @babel/core directly, but meant as
  * as an easy source for tooling making use of @babel/core.

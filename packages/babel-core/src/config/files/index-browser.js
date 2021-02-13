@@ -11,6 +11,8 @@ import type {
 
 import type { CallerMetadata } from "../validation/options";
 
+import { hasInternalProtocol, loadInternal } from "./internal-plugins";
+
 export type { ConfigFile, IgnoreFile, RelativeConfig, FilePackageData };
 
 // eslint-disable-next-line require-yield
@@ -69,18 +71,22 @@ export const ROOT_CONFIG_FILENAMES = [];
 
 // eslint-disable-next-line no-unused-vars
 export function resolvePlugin(name: string, dirname: string): string | null {
-  return null;
+  return hasInternalProtocol(name) ? name : null;
 }
 
 // eslint-disable-next-line no-unused-vars
 export function resolvePreset(name: string, dirname: string): string | null {
-  return null;
+  return hasInternalProtocol(name) ? name : null;
 }
 
 export function loadPlugin(
   name: string,
   dirname: string,
 ): { filepath: string, value: mixed } {
+  if (hasInternalProtocol(name)) {
+    return { filepath: name, value: loadInternal("plugin", name) };
+  }
+
   throw new Error(
     `Cannot load plugin ${name} relative to ${dirname} in a browser`,
   );
@@ -90,6 +96,10 @@ export function loadPreset(
   name: string,
   dirname: string,
 ): { filepath: string, value: mixed } {
+  if (hasInternalProtocol(name)) {
+    return { filepath: name, value: loadInternal("preset", name) };
+  }
+
   throw new Error(
     `Cannot load preset ${name} relative to ${dirname} in a browser`,
   );

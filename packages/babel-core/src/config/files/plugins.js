@@ -7,11 +7,13 @@
 import buildDebug from "debug";
 import path from "path";
 
+import { hasInternalProtocol, loadInternal } from "./internal-plugins";
+
 const debug = buildDebug("babel:config:loading:files:plugins");
 
 const EXACT_RE = /^module:/;
-const BABEL_PLUGIN_PREFIX_RE = /^(?!@|module:|[^/]+\/|babel-plugin-)/;
-const BABEL_PRESET_PREFIX_RE = /^(?!@|module:|[^/]+\/|babel-preset-)/;
+const BABEL_PLUGIN_PREFIX_RE = /^(?!@|module:|internal:|[^/]+\/|babel-plugin-)/;
+const BABEL_PRESET_PREFIX_RE = /^(?!@|module:|internal:|[^/]+\/|babel-preset-)/;
 const BABEL_PLUGIN_ORG_RE = /^(@babel\/)(?!plugin-|[^/]+\/)/;
 const BABEL_PRESET_ORG_RE = /^(@babel\/)(?!preset-|[^/]+\/)/;
 const OTHER_PLUGIN_ORG_RE = /^(@(?!babel\/)[^/]+\/)(?![^/]*babel-plugin(?:-|\/|$)|[^/]+\/)/;
@@ -30,38 +32,54 @@ export function loadPlugin(
   name: string,
   dirname: string,
 ): { filepath: string, value: mixed } {
-  const filepath = resolvePlugin(name, dirname);
-  if (!filepath) {
-    throw new Error(`Plugin ${name} not found relative to ${dirname}`);
-  }
-
-  const value = requireModule("plugin", filepath);
-  debug("Loaded plugin %o from %o.", name, dirname);
-
-  return { filepath, value };
+  return loadPluginOrPreset("plugin", resolvePlugin, name, dirname);
 }
 
 export function loadPreset(
   name: string,
   dirname: string,
 ): { filepath: string, value: mixed } {
-  const filepath = resolvePreset(name, dirname);
-  if (!filepath) {
-    throw new Error(`Preset ${name} not found relative to ${dirname}`);
+  return loadPluginOrPreset("preset", resolvePreset, name, dirname);
+}
+
+function loadPluginOrPreset(
+  type: "plugin" | "preset",
+  resolver: typeof resolvePlugin,
+  name: string,
+  dirname: string,
+): { filepath: string, value: mixed } {
+  const specifier = resolver(name, dirname);
+  if (!specifier) {
+    const capitalized = type === "plugin" ? "Plugin" : "Preset";
+    throw new Error(`${capitalized} ${name} not found relative to ${dirname}`);
   }
 
-  const value = requireModule("preset", filepath);
+  const value = hasInternalProtocol(specifier)
+    ? loadInternal(type, specifier)
+    : requireModule(type, specifier);
 
-  debug("Loaded preset %o from %o.", name, dirname);
+  debug("Loaded %o %o from %o.", type, name, dirname);
 
-  return { filepath, value };
+  return { filepath: specifier, value };
 }
 
 function standardizeName(type: "plugin" | "preset", name: string) {
+  if (hasInternalProtocol(name)) return name;
+
   // Let absolute and relative paths through.
   if (path.isAbsolute(name)) return name;
 
   const isPreset = type === "preset";
+
+  if (EXACT_RE.test(name)) {
+    const specifier = name.replace(EXACT_RE, "");
+    if (hasInternalProtocol(specifier)) {
+      throw new Error(
+        `Cannot mark a plugin both as 'module:' and 'internal:' (${name})`,
+      );
+    }
+    return specifier;
+  }
 
   return (
     name
@@ -82,8 +100,6 @@ function standardizeName(type: "plugin" | "preset", name: string) {
       )
       // @foo -> @foo/babel-preset
       .replace(OTHER_ORG_DEFAULT_RE, `$1/babel-${type}`)
-      // module:mypreset -> mypreset
-      .replace(EXACT_RE, "")
   );
 }
 
@@ -91,8 +107,12 @@ function resolveStandardizedName(
   type: "plugin" | "preset",
   name: string,
   dirname: string = process.cwd(),
-) {
+): string {
   const standardizedName = standardizeName(type, name);
+
+  if (hasInternalProtocol(standardizedName)) {
+    return standardizedName;
+  }
 
   try {
     return require.resolve(standardizedName, {
