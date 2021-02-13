@@ -1,5 +1,4 @@
 import { declare } from "@babel/helper-plugin-utils";
-import syntaxNumericSeparator from "@babel/plugin-syntax-numeric-separator";
 
 /**
  * Given a bigIntLiteral or NumericLiteral, remove numeric
@@ -19,7 +18,6 @@ export default declare(api => {
 
   return {
     name: "internal:transform-numeric-separator",
-    inherits: syntaxNumericSeparator,
 
     visitor: {
       NumericLiteral: remover,

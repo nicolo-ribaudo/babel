@@ -1,5 +1,4 @@
 import { declare } from "@babel/helper-plugin-utils";
-import syntaxLogicalAssignmentOperators from "@babel/plugin-syntax-logical-assignment-operators";
 import { types as t } from "@babel/core";
 
 export default declare(api => {
@@ -7,7 +6,6 @@ export default declare(api => {
 
   return {
     name: "internal:transform-logical-assignment-operators",
-    inherits: syntaxLogicalAssignmentOperators,
 
     visitor: {
       AssignmentExpression(path) {

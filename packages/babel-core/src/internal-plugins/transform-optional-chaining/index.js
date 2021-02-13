@@ -3,7 +3,6 @@ import {
   isTransparentExprWrapper,
   skipTransparentExprWrappers,
 } from "@babel/helper-skip-transparent-expression-wrappers";
-import syntaxOptionalChaining from "@babel/plugin-syntax-optional-chaining";
 import { types as t, template } from "@babel/core";
 import { willPathCastToBoolean, findOutermostTransparentParent } from "./util";
 
@@ -52,7 +51,6 @@ export default declare((api, options) => {
 
   return {
     name: "internal:transform-optional-chaining",
-    inherits: syntaxOptionalChaining,
 
     visitor: {
       "OptionalCallExpression|OptionalMemberExpression"(path) {

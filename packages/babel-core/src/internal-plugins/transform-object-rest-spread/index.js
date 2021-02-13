@@ -1,5 +1,4 @@
 import { declare } from "@babel/helper-plugin-utils";
-import syntaxObjectRestSpread from "@babel/plugin-syntax-object-rest-spread";
 import { types as t } from "@babel/core";
 import { convertFunctionParams } from "@babel/plugin-transform-parameters";
 
@@ -211,7 +210,6 @@ export default declare((api, opts) => {
 
   return {
     name: "internal:transform-object-rest-spread",
-    inherits: syntaxObjectRestSpread,
 
     visitor: {
       // function a({ b, ...c }) {}

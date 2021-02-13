@@ -1,12 +1,10 @@
 import { declare } from "@babel/helper-plugin-utils";
-import syntaxOptionalCatchBinding from "@babel/plugin-syntax-optional-catch-binding";
 
 export default declare(api => {
   api.assertVersion(7);
 
   return {
     name: "internal:transform-optional-catch-binding",
-    inherits: syntaxOptionalCatchBinding,
 
     visitor: {
       CatchClause(path) {

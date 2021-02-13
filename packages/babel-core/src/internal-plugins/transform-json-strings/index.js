@@ -1,5 +1,4 @@
 import { declare } from "@babel/helper-plugin-utils";
-import syntaxJsonStrings from "@babel/plugin-syntax-json-strings";
 
 export default declare(api => {
   api.assertVersion(7);
@@ -16,7 +15,6 @@ export default declare(api => {
 
   return {
     name: "internal:transform-json-strings",
-    inherits: syntaxJsonStrings,
 
     visitor: {
       "DirectiveLiteral|StringLiteral"({ node }) {

@@ -1,5 +1,4 @@
 import { declare } from "@babel/helper-plugin-utils";
-import syntaxNullishCoalescingOperator from "@babel/plugin-syntax-nullish-coalescing-operator";
 import { types as t, template } from "@babel/core";
 
 export default declare((api, { loose = false }) => {
@@ -7,7 +6,6 @@ export default declare((api, { loose = false }) => {
 
   return {
     name: "internal:transform-nullish-coalescing-operator",
-    inherits: syntaxNullishCoalescingOperator,
 
     visitor: {
       LogicalExpression(path) {

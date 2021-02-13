@@ -1,6 +1,5 @@
 import { declare } from "@babel/helper-plugin-utils";
 import remapAsyncToGenerator from "@babel/helper-remap-async-to-generator";
-import syntaxAsyncGenerators from "@babel/plugin-syntax-async-generators";
 import { types as t } from "@babel/core";
 import rewriteForAwait from "./for-await";
 
@@ -79,7 +78,6 @@ export default declare(api => {
 
   return {
     name: "internal:transform-async-generator-functions",
-    inherits: syntaxAsyncGenerators,
 
     visitor: {
       Program(path, state) {

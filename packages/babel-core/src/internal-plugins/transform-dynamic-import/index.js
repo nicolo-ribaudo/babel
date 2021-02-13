@@ -1,5 +1,4 @@
 import { declare } from "@babel/helper-plugin-utils";
-import syntaxDynamicImport from "@babel/plugin-syntax-dynamic-import";
 
 const SUPPORTED_MODULES = ["commonjs", "amd", "systemjs"];
 
@@ -21,7 +20,6 @@ export default declare(api => {
 
   return {
     name: "internal:transform-dynamic-import",
-    inherits: syntaxDynamicImport,
 
     pre() {
       this.file.set(
