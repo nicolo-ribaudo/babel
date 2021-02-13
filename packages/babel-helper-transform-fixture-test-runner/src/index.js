@@ -197,7 +197,11 @@ function run(task) {
       opts,
     );
 
-    return resolveOptionPluginOrPreset(newOpts, optionsDir);
+    return resolveOptionPluginOrPreset(
+      newOpts,
+      optionsDir,
+      babel.internalPluginName,
+    );
   }
 
   let execCode = exec.code;
@@ -371,7 +375,7 @@ export default function (
   taskOpts = {},
   dynamicOpts?: Function,
 ) {
-  const suites = getFixtures(fixturesLoc);
+  const suites = getFixtures(fixturesLoc, babel.internalPluginName);
 
   for (const testSuite of suites) {
     if (suiteOpts.ignoreSuites?.includes(testSuite.title)) continue;

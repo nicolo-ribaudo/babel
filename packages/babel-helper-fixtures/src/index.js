@@ -256,12 +256,19 @@ function pushTask(taskName, taskDir, suite, suiteName) {
   delete test.options.ignoreOutput;
 }
 
-function wrapPackagesArray(type, names, optionsDir) {
+function wrapPackagesArray(
+  type,
+  names,
+  optionsDir,
+  internalPluginName: ?(name: string) => string | undefined,
+) {
   return names.map(function (val) {
     if (typeof val === "string") val = [val];
 
-    // relative path (outside of monorepo)
-    if (val[0][0] === ".") {
+    if (internalPluginName?.(val[0])) {
+      val[0] = internalPluginName(val[0]);
+    } else if (val[0][0] === ".") {
+      // relative path (outside of monorepo)
       if (!optionsDir) {
         throw new Error(
           "Please provide an options.json in test dir when using a " +
@@ -293,15 +300,22 @@ function wrapPackagesArray(type, names, optionsDir) {
 export function resolveOptionPluginOrPreset(
   options: {},
   optionsDir: string,
+  internalPluginName?: (name: string) => string | undefined,
 ): {} {
   if (options.plugins) {
-    options.plugins = wrapPackagesArray("plugin", options.plugins, optionsDir);
+    options.plugins = wrapPackagesArray(
+      "plugin",
+      options.plugins,
+      optionsDir,
+      internalPluginName,
+    );
   }
   if (options.presets) {
     options.presets = wrapPackagesArray(
       "preset",
       options.presets,
       optionsDir,
+      internalPluginName,
     ).map(function (val) {
       if (val.length > 3) {
         throw new Error(
@@ -317,7 +331,10 @@ export function resolveOptionPluginOrPreset(
   return options;
 }
 
-export default function get(entryLoc): Array<Suite> {
+export default function get(
+  entryLoc,
+  internalPluginName?: (name: string) => string | undefined,
+): Array<Suite> {
   const suites = [];
 
   let rootOpts = {};
@@ -342,6 +359,7 @@ export default function get(entryLoc): Array<Suite> {
       suite.options = resolveOptionPluginOrPreset(
         require(suiteOptsLoc),
         suite.filename,
+        internalPluginName,
       );
     }
 
