@@ -11,7 +11,7 @@ export default declare((api, options) => {
   }
 
   return createRegExpFeaturePlugin({
-    name: "proposal-unicode-property-regex",
+    name: "internal:transform-unicode-property-regex",
     feature: "unicodePropertyEscape",
     options: { useUnicodeFlag },
   });

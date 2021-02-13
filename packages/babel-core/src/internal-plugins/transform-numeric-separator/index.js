@@ -18,7 +18,7 @@ export default declare(api => {
   api.assertVersion(7);
 
   return {
-    name: "proposal-numeric-separator",
+    name: "internal:transform-numeric-separator",
     inherits: syntaxNumericSeparator,
 
     visitor: {

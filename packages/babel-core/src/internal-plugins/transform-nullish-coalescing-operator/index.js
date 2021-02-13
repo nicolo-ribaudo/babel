@@ -6,7 +6,7 @@ export default declare((api, { loose = false }) => {
   api.assertVersion(7);
 
   return {
-    name: "proposal-nullish-coalescing-operator",
+    name: "internal:transform-nullish-coalescing-operator",
     inherits: syntaxNullishCoalescingOperator,
 
     visitor: {

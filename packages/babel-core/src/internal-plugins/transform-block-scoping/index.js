@@ -18,7 +18,7 @@ export default declare((api, opts) => {
   }
 
   return {
-    name: "transform-block-scoping",
+    name: "internal:transform-block-scoping",
 
     visitor: {
       VariableDeclaration(path) {

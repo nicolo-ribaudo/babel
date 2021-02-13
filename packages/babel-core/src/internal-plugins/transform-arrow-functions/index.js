@@ -6,7 +6,7 @@ export default declare((api, options) => {
 
   const { spec } = options;
   return {
-    name: "transform-arrow-functions",
+    name: "internal:transform-arrow-functions",
 
     visitor: {
       ArrowFunctionExpression(

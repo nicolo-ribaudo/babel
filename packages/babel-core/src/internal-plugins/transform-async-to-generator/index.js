@@ -10,7 +10,7 @@ export default declare((api, options) => {
 
   if (method && module) {
     return {
-      name: "transform-async-to-generator",
+      name: "internal:transform-async-to-generator",
 
       visitor: {
         Function(path, state) {
@@ -30,7 +30,7 @@ export default declare((api, options) => {
   }
 
   return {
-    name: "transform-async-to-generator",
+    name: "internal:transform-async-to-generator",
 
     visitor: {
       Function(path, state) {

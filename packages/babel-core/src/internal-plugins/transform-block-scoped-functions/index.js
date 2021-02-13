@@ -26,7 +26,7 @@ export default declare(api => {
   }
 
   return {
-    name: "transform-block-scoped-functions",
+    name: "internal:transform-block-scoped-functions",
 
     visitor: {
       BlockStatement(path) {

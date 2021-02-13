@@ -6,7 +6,7 @@ export default declare(api => {
   api.assertVersion(7);
 
   return {
-    name: "transform-exponentiation-operator",
+    name: "internal:transform-exponentiation-operator",
 
     visitor: build({
       operator: "**",

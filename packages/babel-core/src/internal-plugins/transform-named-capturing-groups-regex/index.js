@@ -8,7 +8,7 @@ export default function (core, options) {
   }
 
   return createRegExpFeaturePlugin({
-    name: "transform-named-capturing-groups-regex",
+    name: "internal:transform-named-capturing-groups-regex",
     feature: "namedCaptureGroups",
     options: { runtime },
   });

@@ -210,7 +210,7 @@ export default declare((api, opts) => {
   }
 
   return {
-    name: "proposal-object-rest-spread",
+    name: "internal:transform-object-rest-spread",
     inherits: syntaxObjectRestSpread,
 
     visitor: {

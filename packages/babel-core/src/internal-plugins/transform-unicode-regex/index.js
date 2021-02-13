@@ -6,7 +6,7 @@ export default declare(api => {
   api.assertVersion(7);
 
   return createRegExpFeaturePlugin({
-    name: "transform-unicode-regex",
+    name: "internal:transform-unicode-regex",
     feature: "unicodeFlag",
   });
 });

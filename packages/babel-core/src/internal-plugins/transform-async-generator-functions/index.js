@@ -78,7 +78,7 @@ export default declare(api => {
   };
 
   return {
-    name: "proposal-async-generator-functions",
+    name: "internal:transform-async-generator-functions",
     inherits: syntaxAsyncGenerators,
 
     visitor: {

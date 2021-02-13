@@ -5,7 +5,7 @@ export default declare(api => {
   api.assertVersion(7);
 
   return {
-    name: "transform-new-target",
+    name: "internal:transform-new-target",
 
     visitor: {
       MetaProperty(path) {

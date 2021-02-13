@@ -5,7 +5,7 @@ export default declare(api => {
   api.assertVersion(7);
 
   return {
-    name: "transform-function-name",
+    name: "internal:transform-function-name",
 
     visitor: {
       FunctionExpression: {

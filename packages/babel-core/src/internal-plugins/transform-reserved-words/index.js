@@ -5,7 +5,7 @@ export default declare(api => {
   api.assertVersion(7);
 
   return {
-    name: "transform-reserved-words",
+    name: "internal:transform-reserved-words",
 
     visitor: {
       "BindingIdentifier|ReferencedIdentifier"(path) {

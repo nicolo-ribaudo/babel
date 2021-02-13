@@ -5,7 +5,7 @@ export default declare(api => {
   api.assertVersion(7);
 
   return {
-    name: "transform-shorthand-properties",
+    name: "internal:transform-shorthand-properties",
 
     visitor: {
       ObjectMethod(path) {

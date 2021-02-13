@@ -49,7 +49,7 @@ export default declare((api, options) => {
   }
 
   return {
-    name: "transform-spread",
+    name: "internal:transform-spread",
 
     visitor: {
       ArrayExpression(path) {

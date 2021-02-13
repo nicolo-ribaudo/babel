@@ -51,7 +51,7 @@ export default declare((api, options) => {
   }
 
   return {
-    name: "proposal-optional-chaining",
+    name: "internal:transform-optional-chaining",
     inherits: syntaxOptionalChaining,
 
     visitor: {

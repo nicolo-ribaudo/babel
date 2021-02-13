@@ -460,7 +460,7 @@ export default declare((api, options) => {
   }
 
   return {
-    name: "transform-destructuring",
+    name: "internal:transform-destructuring",
 
     visitor: {
       ExportNamedDeclaration(path) {

@@ -12,7 +12,7 @@ export default declare(api => {
   api.assertVersion(7);
 
   return {
-    name: "transform-duplicate-keys",
+    name: "internal:transform-duplicate-keys",
 
     visitor: {
       ObjectExpression(path) {

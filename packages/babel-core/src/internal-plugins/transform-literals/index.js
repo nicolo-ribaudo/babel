@@ -4,7 +4,7 @@ export default declare(api => {
   api.assertVersion(7);
 
   return {
-    name: "transform-literals",
+    name: "internal:transform-literals",
 
     visitor: {
       NumericLiteral({ node }) {

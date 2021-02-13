@@ -5,7 +5,7 @@ export default declare(api => {
   api.assertVersion(7);
 
   return {
-    name: "transform-sticky-regex",
+    name: "internal:transform-sticky-regex",
 
     visitor: {
       RegExpLiteral(path) {

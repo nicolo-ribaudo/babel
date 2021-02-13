@@ -113,7 +113,7 @@ export default declare((api, options) => {
   }
 
   return {
-    name: "transform-computed-properties",
+    name: "internal:transform-computed-properties",
 
     visitor: {
       ObjectExpression: {

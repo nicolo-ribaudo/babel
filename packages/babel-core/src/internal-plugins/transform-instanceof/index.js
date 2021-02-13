@@ -5,7 +5,7 @@ export default declare(api => {
   api.assertVersion(7);
 
   return {
-    name: "transform-instanceof",
+    name: "internal:transform-instanceof",
 
     visitor: {
       BinaryExpression(path) {

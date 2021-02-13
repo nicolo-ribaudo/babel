@@ -5,7 +5,7 @@ export default declare(api => {
   api.assertVersion(7);
 
   return {
-    name: "transform-typeof-symbol",
+    name: "internal:transform-typeof-symbol",
 
     visitor: {
       Scope({ scope }) {

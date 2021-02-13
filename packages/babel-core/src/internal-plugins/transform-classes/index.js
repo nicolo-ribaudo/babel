@@ -25,7 +25,7 @@ export default declare((api, options) => {
   const VISITED = Symbol();
 
   return {
-    name: "transform-classes",
+    name: "internal:transform-classes",
 
     visitor: {
       ExportDefaultDeclaration(path: NodePath) {

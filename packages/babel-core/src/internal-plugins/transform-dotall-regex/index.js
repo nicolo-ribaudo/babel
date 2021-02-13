@@ -6,7 +6,7 @@ export default declare(api => {
   api.assertVersion(7);
 
   return createRegExpFeaturePlugin({
-    name: "transform-dotall-regex",
+    name: "internal:transform-dotall-regex",
     feature: "dotAllFlag",
   });
 });

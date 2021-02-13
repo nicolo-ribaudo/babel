@@ -20,7 +20,7 @@ export default declare(api => {
   api.assertVersion(7);
 
   return {
-    name: "proposal-dynamic-import",
+    name: "internal:transform-dynamic-import",
     inherits: syntaxDynamicImport,
 
     pre() {
