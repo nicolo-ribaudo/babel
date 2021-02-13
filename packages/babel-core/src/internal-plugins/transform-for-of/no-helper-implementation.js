@@ -1,4 +1,5 @@
-import { template, types as t } from "@babel/core";
+import * as t from "@babel/types";
+import template from "@babel/template";
 
 // This is the legacy implementation, which inlines all the code.
 // It must be kept for compatibility reasons.

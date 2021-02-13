@@ -3,7 +3,8 @@ import {
   isTransparentExprWrapper,
   skipTransparentExprWrappers,
 } from "@babel/helper-skip-transparent-expression-wrappers";
-import { types as t, template } from "@babel/core";
+import * as t from "@babel/types";
+import template from "@babel/template";
 import { willPathCastToBoolean, findOutermostTransparentParent } from "./util";
 
 const { ast } = template.expression;

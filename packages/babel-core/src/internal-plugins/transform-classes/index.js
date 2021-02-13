@@ -3,7 +3,7 @@ import { declare } from "@babel/helper-plugin-utils";
 import annotateAsPure from "@babel/helper-annotate-as-pure";
 import nameFunction from "@babel/helper-function-name";
 import splitExportDeclaration from "@babel/helper-split-export-declaration";
-import { types as t } from "@babel/core";
+import * as t from "@babel/types";
 import type { NodePath } from "@babel/traverse";
 import globals from "globals";
 import transformClass from "./transformClass";

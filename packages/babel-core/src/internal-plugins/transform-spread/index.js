@@ -1,6 +1,6 @@
 import { declare } from "@babel/helper-plugin-utils";
 import { skipTransparentExprWrappers } from "@babel/helper-skip-transparent-expression-wrappers";
-import { types as t } from "@babel/core";
+import * as t from "@babel/types";
 
 export default declare((api, options) => {
   api.assertVersion(7);

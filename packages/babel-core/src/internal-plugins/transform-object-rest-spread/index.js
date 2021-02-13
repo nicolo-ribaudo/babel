@@ -1,6 +1,6 @@
 import { declare } from "@babel/helper-plugin-utils";
-import { types as t } from "@babel/core";
-import { convertFunctionParams } from "@babel/plugin-transform-parameters";
+import * as t from "@babel/types";
+import { convertFunctionParams } from "../transform-parameters";
 
 // TODO: Remove in Babel 8
 // @babel/types <=7.3.3 counts FOO as referenced in var { x: FOO }.

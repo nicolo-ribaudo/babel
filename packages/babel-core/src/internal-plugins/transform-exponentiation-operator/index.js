@@ -1,6 +1,6 @@
 import { declare } from "@babel/helper-plugin-utils";
 import build from "@babel/helper-builder-binary-assignment-operator-visitor";
-import { types as t } from "@babel/core";
+import * as t from "@babel/types";
 
 export default declare(api => {
   api.assertVersion(7);

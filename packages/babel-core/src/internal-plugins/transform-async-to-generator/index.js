@@ -1,7 +1,7 @@
 import { declare } from "@babel/helper-plugin-utils";
 import remapAsyncToGenerator from "@babel/helper-remap-async-to-generator";
 import { addNamed } from "@babel/helper-module-imports";
-import { types as t } from "@babel/core";
+import * as t from "@babel/types";
 
 export default declare((api, options) => {
   api.assertVersion(7);

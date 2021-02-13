@@ -1,5 +1,6 @@
 import { declare } from "@babel/helper-plugin-utils";
-import { template, types as t } from "@babel/core";
+import * as t from "@babel/types";
+import template from "@babel/template";
 
 import transformWithoutHelper from "./no-helper-implementation";
 

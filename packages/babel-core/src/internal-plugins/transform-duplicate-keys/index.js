@@ -1,5 +1,5 @@
 import { declare } from "@babel/helper-plugin-utils";
-import { types as t } from "@babel/core";
+import * as t from "@babel/types";
 
 function getName(key) {
   if (t.isIdentifier(key)) {

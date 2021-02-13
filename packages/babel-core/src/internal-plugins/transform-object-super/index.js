@@ -1,6 +1,6 @@
 import { declare } from "@babel/helper-plugin-utils";
 import ReplaceSupers from "@babel/helper-replace-supers";
-import { types as t } from "@babel/core";
+import * as t from "@babel/types";
 
 function replacePropertySuper(path, getObjectRef, file) {
   const replaceSupers = new ReplaceSupers({

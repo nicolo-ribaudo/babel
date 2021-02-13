@@ -1,4 +1,5 @@
-import { types as t, template } from "@babel/core";
+import * as t from "@babel/types";
+import template from "@babel/template";
 
 const buildForAwait = template(`
   async function wrapper() {
