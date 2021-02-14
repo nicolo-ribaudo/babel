@@ -8,8 +8,6 @@ import * as t from "@babel/types";
 import template from "@babel/template";
 import annotateAsPure from "@babel/helper-annotate-as-pure";
 
-import addCreateSuperHelper from "./inline-createSuper-helpers";
-
 type ReadonlySet<T> = Set<T> | { has(val: T): boolean };
 
 function buildConstructor(classRef, constructorBody, node) {
@@ -569,7 +567,7 @@ export default function transformClass(
         t.variableDeclaration("var", [
           t.variableDeclarator(
             superFnId,
-            t.callExpression(addCreateSuperHelper(classState.file), [
+            t.callExpression(classState.file.addHelper("createSuper"), [
               t.cloneNode(classState.classRef),
             ]),
           ),
