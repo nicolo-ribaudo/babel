@@ -2,8 +2,6 @@ import { declare } from "@babel/helper-plugin-utils";
 import * as t from "@babel/types";
 import template from "@babel/template";
 
-import transformWithoutHelper from "./no-helper-implementation";
-
 export default declare((api, options) => {
   const { loose, assumeArray, allowArrayLike } = options;
 
@@ -16,13 +14,6 @@ export default declare((api, options) => {
   if (assumeArray === true && allowArrayLike === true) {
     throw new Error(
       `The assumeArray and allowArrayLike options cannot be used together in @babel/plugin-transform-for-of`,
-    );
-  }
-
-  // TODO: Remove in Babel 8
-  if (allowArrayLike && /^7\.\d\./.test(api.version)) {
-    throw new Error(
-      `The allowArrayLike is only supported when using @babel/core@^7.10.0`,
     );
   }
 
@@ -173,12 +164,6 @@ export default declare((api, options) => {
           t.isArrayTypeAnnotation(right.getTypeAnnotation())
         ) {
           path.replaceWith(_ForOfStatementArray(path));
-          return;
-        }
-
-        if (!state.availableHelper(builder.helper)) {
-          // Babel <7.9.0 doesn't support this helper
-          transformWithoutHelper(loose, path, state);
           return;
         }
 
