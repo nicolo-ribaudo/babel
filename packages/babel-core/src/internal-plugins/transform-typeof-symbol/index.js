@@ -34,7 +34,7 @@ export default declare(() => {
           }
         }
 
-        let isUnderHelper = path.findParent(path => {
+        const isUnderHelper = path.findParent(path => {
           if (path.isFunction()) {
             return (
               path.get("body.directives.0")?.node.value.value ===
@@ -46,23 +46,6 @@ export default declare(() => {
         if (isUnderHelper) return;
 
         const helper = this.addHelper("typeof");
-
-        // TODO: This is needed for backward compatibility with
-        // @babel/helpers <= 7.8.3.
-        // Remove in Babel 8
-        isUnderHelper = path.findParent(path => {
-          return (
-            (path.isVariableDeclarator() && path.node.id === helper) ||
-            (path.isFunctionDeclaration() &&
-              path.node.id &&
-              path.node.id.name === helper.name)
-          );
-        });
-
-        if (isUnderHelper) {
-          return;
-        }
-
         const call = t.callExpression(helper, [node.argument]);
         const arg = path.get("argument");
         if (arg.isIdentifier() && !path.scope.hasBinding(arg.node.name, true)) {
