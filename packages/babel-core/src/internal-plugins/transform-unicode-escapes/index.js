@@ -1,9 +1,7 @@
 import { declare } from "@babel/helper-plugin-utils";
 import * as t from "@babel/types";
 
-export default declare(api => {
-  api.assertVersion(7);
-
+export default declare(() => {
   const surrogate = /[\ud800-\udfff]/g;
   const unicodeEscape = /(\\+)u\{([0-9a-fA-F]+)\}/g;
 

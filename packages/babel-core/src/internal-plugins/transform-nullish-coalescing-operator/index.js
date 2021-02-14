@@ -3,8 +3,6 @@ import * as t from "@babel/types";
 import template from "@babel/template";
 
 export default declare((api, { loose = false }) => {
-  api.assertVersion(7);
-
   return {
     name: "internal:transform-nullish-coalescing-operator",
 

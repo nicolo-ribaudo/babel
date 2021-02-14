@@ -15,9 +15,7 @@ the @babel/plugin-syntax-dynamic-import plugin and let your
 bundler handle dynamic imports.
 `;
 
-export default declare(api => {
-  api.assertVersion(7);
-
+export default declare(() => {
   return {
     name: "internal:transform-dynamic-import",
 

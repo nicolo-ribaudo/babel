@@ -3,8 +3,6 @@ import { skipTransparentExprWrappers } from "@babel/helper-skip-transparent-expr
 import * as t from "@babel/types";
 
 export default declare((api, options) => {
-  api.assertVersion(7);
-
   const { loose, allowArrayLike } = options;
 
   function getSpreadLiteral(spread, scope) {

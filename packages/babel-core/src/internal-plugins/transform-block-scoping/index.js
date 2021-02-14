@@ -7,8 +7,6 @@ import { visitor as tdzVisitor } from "./tdz";
 const DONE = new WeakSet();
 
 export default declare((api, opts) => {
-  api.assertVersion(7);
-
   const { throwIfClosureRequired = false, tdz: tdzEnabled = false } = opts;
   if (typeof throwIfClosureRequired !== "boolean") {
     throw new Error(`.throwIfClosureRequired must be a boolean, or undefined`);

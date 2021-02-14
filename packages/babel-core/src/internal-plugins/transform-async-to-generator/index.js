@@ -4,8 +4,6 @@ import { addNamed } from "@babel/helper-module-imports";
 import * as t from "@babel/types";
 
 export default declare((api, options) => {
-  api.assertVersion(7);
-
   const { method, module } = options;
 
   if (method && module) {

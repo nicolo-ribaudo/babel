@@ -10,8 +10,6 @@ import { willPathCastToBoolean, findOutermostTransparentParent } from "./util";
 const { ast } = template.expression;
 
 export default declare((api, options) => {
-  api.assertVersion(7);
-
   const { loose = false } = options;
 
   function isSimpleMemberExpression(expression) {

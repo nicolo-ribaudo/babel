@@ -5,8 +5,6 @@ import template from "@babel/template";
 import transformWithoutHelper from "./no-helper-implementation";
 
 export default declare((api, options) => {
-  api.assertVersion(7);
-
   const { loose, assumeArray, allowArrayLike } = options;
 
   if (loose === true && assumeArray === true) {

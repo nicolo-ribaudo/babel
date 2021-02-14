@@ -2,8 +2,6 @@ import { declare } from "@babel/helper-plugin-utils";
 import * as t from "@babel/types";
 
 export default declare((api, options) => {
-  api.assertVersion(7);
-
   const {
     loose = false,
     useBuiltIns = false,

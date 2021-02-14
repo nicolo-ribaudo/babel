@@ -1,7 +1,6 @@
 import { declare } from "@babel/helper-plugin-utils";
 
-export default declare(api => {
-  api.assertVersion(7);
+export default declare(() => {
   const regex = /(\\*)([\u2028\u2029])/g;
   function replace(match, escapes, separator) {
     // If there's an odd number, that means the separator itself was escaped.

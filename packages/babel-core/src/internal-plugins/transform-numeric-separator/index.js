@@ -13,9 +13,7 @@ function remover({ node }: NodePath<BigIntLiteral | NumericLiteral>) {
   }
 }
 
-export default declare(api => {
-  api.assertVersion(7);
-
+export default declare(() => {
   return {
     name: "internal:transform-numeric-separator",
 

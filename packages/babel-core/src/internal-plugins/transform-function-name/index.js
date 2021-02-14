@@ -1,9 +1,7 @@
 import { declare } from "@babel/helper-plugin-utils";
 import nameFunction from "@babel/helper-function-name";
 
-export default declare(api => {
-  api.assertVersion(7);
-
+export default declare(() => {
   return {
     name: "internal:transform-function-name",
 

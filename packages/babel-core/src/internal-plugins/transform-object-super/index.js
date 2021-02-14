@@ -12,9 +12,7 @@ function replacePropertySuper(path, getObjectRef, file) {
   replaceSupers.replace();
 }
 
-export default declare(api => {
-  api.assertVersion(7);
-
+export default declare(() => {
   return {
     name: "internal:transform-object-super",
 

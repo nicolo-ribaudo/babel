@@ -14,8 +14,6 @@ const ZERO_REFS = (() => {
 })();
 
 export default declare((api, opts) => {
-  api.assertVersion(7);
-
   const { useBuiltIns = false, loose = false } = opts;
 
   if (typeof loose !== "boolean") {

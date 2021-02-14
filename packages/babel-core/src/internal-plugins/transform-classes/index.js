@@ -17,8 +17,6 @@ const builtinClasses = new Set([
 ]);
 
 export default declare((api, options) => {
-  api.assertVersion(7);
-
   const { loose } = options;
 
   // todo: investigate traversal requeueing

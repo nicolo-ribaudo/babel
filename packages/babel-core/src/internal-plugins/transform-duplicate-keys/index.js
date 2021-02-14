@@ -8,9 +8,7 @@ function getName(key) {
   return key.value.toString();
 }
 
-export default declare(api => {
-  api.assertVersion(7);
-
+export default declare(() => {
   return {
     name: "internal:transform-duplicate-keys",
 

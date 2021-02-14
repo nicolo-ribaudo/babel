@@ -4,8 +4,6 @@ import convertFunctionRest from "./rest";
 export { convertFunctionParams };
 
 export default declare((api, options) => {
-  api.assertVersion(7);
-
   const { loose } = options;
   return {
     name: "internal:transform-parameters",

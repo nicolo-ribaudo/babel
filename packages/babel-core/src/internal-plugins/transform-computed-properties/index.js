@@ -3,8 +3,6 @@ import * as t from "@babel/types";
 import template from "@babel/template";
 
 export default declare((api, options) => {
-  api.assertVersion(7);
-
   const { loose } = options;
   const pushComputedProps = loose
     ? pushComputedPropsLoose

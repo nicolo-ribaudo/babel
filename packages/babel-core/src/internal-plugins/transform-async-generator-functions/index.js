@@ -3,9 +3,7 @@ import remapAsyncToGenerator from "@babel/helper-remap-async-to-generator";
 import * as t from "@babel/types";
 import rewriteForAwait from "./for-await";
 
-export default declare(api => {
-  api.assertVersion(7);
-
+export default declare(() => {
   const yieldStarVisitor = {
     Function(path) {
       path.skip();

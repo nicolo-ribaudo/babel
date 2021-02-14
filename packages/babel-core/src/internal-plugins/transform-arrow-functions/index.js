@@ -2,8 +2,6 @@ import { declare } from "@babel/helper-plugin-utils";
 import type NodePath from "@babel/traverse";
 
 export default declare((api, options) => {
-  api.assertVersion(7);
-
   const { spec } = options;
   return {
     name: "internal:transform-arrow-functions",
