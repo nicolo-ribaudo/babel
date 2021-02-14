@@ -24,7 +24,7 @@ const outputFileSync = function (filePath, data) {
 const presetLocs = [path.join(rootDir, "./packages/babel-preset-react")];
 
 const pluginLocs = [
-  path.join(rootDir, "./packages/babel-plugin-transform-arrow-functions"),
+  "internal:transform-arrow-functions",
   path.join(rootDir, "./packages/babel-plugin-transform-strict-mode"),
   path.join(rootDir, "./packages/babel-plugin-transform-modules-commonjs"),
 ].join(",");

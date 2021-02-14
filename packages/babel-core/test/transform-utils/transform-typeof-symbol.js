@@ -1,7 +1,5 @@
-import * as babel from "@babel/core";
+import * as babel from "../..";
 import fs from "fs";
-
-import transformTypeofSymbol from "..";
 
 const readFile = path =>
   new Promise((resolve, reject) =>
@@ -35,7 +33,7 @@ describe("@babel/plugin-transform-typeof-symbol", () => {
 
       const withPlugin = babel.transformFromAstSync(ast, src, {
         configFile: false,
-        plugins: [transformTypeofSymbol],
+        plugins: ["internal:transform-typeof-symbol"],
       });
       const withoutPlugin = babel.transformFromAstSync(ast, src, {
         configFile: false,

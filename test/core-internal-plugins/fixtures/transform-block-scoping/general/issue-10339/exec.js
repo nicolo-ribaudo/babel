@@ -15,7 +15,7 @@ let functionPath;
 transform(code, {
   configFile: false,
   plugins: [
-    __dirname + "/../../../../lib",
+    "internal:transform-block-scoping",
     {
       post({ path }) {
         programPath = path;

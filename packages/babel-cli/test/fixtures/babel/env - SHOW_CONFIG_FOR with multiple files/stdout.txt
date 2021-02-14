@@ -19,7 +19,7 @@ programmatic options from @babel/cli
     "<ROOTDIR>/packages/babel-preset-react"
   ],
   "plugins": [
-    "<ROOTDIR>/packages/babel-plugin-transform-arrow-functions",
+    "internal:transform-arrow-functions",
     "<ROOTDIR>/packages/babel-plugin-transform-strict-mode",
     "<ROOTDIR>/packages/babel-plugin-transform-modules-commonjs"
   ],

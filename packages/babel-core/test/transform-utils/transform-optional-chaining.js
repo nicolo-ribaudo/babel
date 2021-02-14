@@ -1,5 +1,7 @@
-import { willPathCastToBoolean } from "../src/util";
-import { parseSync, traverse } from "@babel/core";
+import { willPathCastToBoolean } from "../../src/internal-plugins/transform-optional-chaining/util";
+
+import { parseSync } from "../..";
+import traverse from "@babel/traverse";
 
 function getPath(input, parserOpts) {
   let targetPath;
