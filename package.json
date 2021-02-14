@@ -72,7 +72,8 @@
     "codemods/*",
     "eslint/*",
     "packages/*",
-    "test/esm"
+    "test/esm",
+    "test/core-internal-plugins"
   ],
   "resolutions": {
     "browserslist": "npm:4.14.5",

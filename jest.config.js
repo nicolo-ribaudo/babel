@@ -1,22 +1,25 @@
+let testRegex = `./(packages|codemods|eslint)/[^/]+/test/.+\\.m?js$|./test/core-internal-plugins/.+\\.m?js$`;
+// The eslint/* packages use ESLint v6, which has dropped support for Node v6.
+// TODO: Remove this process.version check in Babel 8.
+if (Number(process.versions.node.split(".")[0]) < 10) {
+  testRegex = testRegex.replace("|eslint", "");
+}
+
 module.exports = {
   collectCoverageFrom: [
     "packages/*/src/**/*.{js,mjs,ts}",
     "codemods/*/src/**/*.{js,mjs,ts}",
     "eslint/*/src/**/*.{js,mjs,ts}",
   ],
-  // The eslint/* packages use ESLint v6, which has dropped support for Node v6.
-  // TODO: Remove this process.version check in Babel 8.
-  testRegex: `./(packages|codemods${
-    Number(process.versions.node.split(".")[0]) < 10 ? "" : "|eslint"
-  })/[^/]+/test/.+\\.m?js$`,
+  testRegex,
   testPathIgnorePatterns: [
     "/node_modules/",
-    "/test/fixtures/",
+    "/fixtures/",
     "/test/debug-fixtures/",
     "/babel-parser/test/expressions/",
     "/test/tmp/",
     "/test/__data__/",
-    "/test/helpers/",
+    "/helpers/",
     "<rootDir>/test/warning\\.js",
     "<rootDir>/build/",
     "_browser\\.js",

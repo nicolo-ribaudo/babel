@@ -1,0 +1,9 @@
+{
+  "name": "@babel/test-core-internal-plugins",
+  "private": true,
+  "devDependencies": {
+    "@babel/core": "workspace:*",
+    "@babel/helper-transform-fixture-test-runner": "workspace:*",
+    "babel-plugin-polyfill-corejs3": "^0.1.0"
+  }
+}
