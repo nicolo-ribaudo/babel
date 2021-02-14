@@ -2,17 +2,6 @@ import { declare } from "@babel/helper-plugin-utils";
 import * as t from "@babel/types";
 import { convertFunctionParams } from "../transform-parameters";
 
-// TODO: Remove in Babel 8
-// @babel/types <=7.3.3 counts FOO as referenced in var { x: FOO }.
-// We need to detect this bug to know if "unused" means 0 or 1 references.
-const ZERO_REFS = (() => {
-  const node = t.identifier("a");
-  const property = t.objectProperty(t.identifier("key"), node);
-  const pattern = t.objectPattern([property]);
-
-  return t.isReferenced(node, property, pattern) ? 1 : 0;
-})();
-
 export default declare((api, opts) => {
   const { useBuiltIns = false, loose = false } = opts;
 
@@ -120,7 +109,7 @@ export default declare((api, opts) => {
     Object.keys(bindings).forEach(bindingName => {
       const bindingParentPath = bindings[bindingName].parentPath;
       if (
-        path.scope.getBinding(bindingName).references > ZERO_REFS ||
+        path.scope.getBinding(bindingName).references > 0 ||
         !bindingParentPath.isObjectProperty()
       ) {
         return;
@@ -552,18 +541,7 @@ export default declare((api, opts) => {
         if (loose) {
           helper = getExtendsHelper(file);
         } else {
-          try {
-            helper = file.addHelper("objectSpread2");
-          } catch {
-            // TODO: This is needed to workaround https://github.com/babel/babel/issues/10187
-            // and https://github.com/babel/babel/issues/10179 for older @babel/core versions
-            // where #10187 isn't fixed.
-            this.file.declarations["objectSpread2"] = null;
-
-            // objectSpread2 has been introduced in v7.5.0
-            // We have to maintain backward compatibility.
-            helper = file.addHelper("objectSpread");
-          }
+          helper = file.addHelper("objectSpread2");
         }
 
         let exp = null;
