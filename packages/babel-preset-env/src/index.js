@@ -30,6 +30,7 @@ import getTargets, {
 import availablePlugins from "./available-plugins";
 import { filterStageFromList } from "./utils";
 import { declare } from "@babel/helper-plugin-utils";
+import * as babel from "@babel/core";
 
 import typeof ModuleTransformationsType from "./module-transformations";
 import type { BuiltInsOption, ModuleOption } from "./types";
@@ -66,7 +67,8 @@ function getPluginList(proposals: boolean, bugfixes: boolean) {
 }
 
 const getPlugin = (pluginName: string) => {
-  const plugin = availablePlugins[pluginName];
+  const plugin =
+    babel.internalPluginName?.(pluginName) ?? availablePlugins[pluginName];
 
   if (!plugin) {
     throw new Error(
