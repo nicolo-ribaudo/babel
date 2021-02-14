@@ -14,7 +14,9 @@ import filter from "gulp-filter";
 import gulp from "gulp";
 import { rollup } from "rollup";
 import { babel as rollupBabel } from "@rollup/plugin-babel";
+import rollupAlias from "@rollup/plugin-alias";
 import rollupCommonJs from "@rollup/plugin-commonjs";
+import rollupDataURI from "@rollup/plugin-data-uri";
 import rollupJson from "@rollup/plugin-json";
 import rollupNodePolyfills from "rollup-plugin-node-polyfills";
 import rollupNodeResolve from "@rollup/plugin-node-resolve";
@@ -153,14 +155,20 @@ function generateStandalone() {
   return gulp
     .src(babelStandalonePluginConfigGlob, { base: monorepoRoot })
     .pipe(
-      through.obj((file, enc, callback) => {
+      through.obj(async (file, enc, callback) => {
         fancyLog("Generating @babel/standalone files");
         const pluginConfig = JSON.parse(file.contents);
         let imports = "";
         let list = "";
         let allList = "";
 
-        for (const plugin of pluginConfig) {
+        const babel = await import("./packages/babel-core/lib/index.js");
+
+        for (const plugin of pluginConfig.internal) {
+          allList += `"${plugin}": "${babel.internalPluginName(plugin)}",`;
+        }
+
+        for (const plugin of pluginConfig.external) {
           const camelPlugin = camelCase(plugin);
           imports += `import ${camelPlugin} from "@babel/plugin-${plugin}";`;
           list += `${camelPlugin},`;
@@ -256,14 +264,30 @@ function buildRollup(packages, targetBrowsers) {
       const external = Object.keys(dependencies).concat(
         Object.keys(peerDependencies)
       );
-      let nodeResolveBrowser = false,
-        babelEnvName = "rollup";
-      switch (src) {
-        case "packages/babel-standalone":
-          nodeResolveBrowser = true;
-          babelEnvName = "standalone";
-          break;
+
+      let nodeResolveBrowser = false;
+      let babelEnvName = "rollup";
+      let aliases;
+      if (src === "packages/babel-standalone") {
+        nodeResolveBrowser = true;
+        babelEnvName = "standalone";
+
+        // @babel/preset-env depends on all the plugins, because it must also work
+        // with older @babel/core versions.
+        // Since when bundling @babel/standalone all the package versions are fixed, we
+        // can remap @babel/preset-env's dependencies to the internal plugins.
+
+        const babel = await import("./packages/babel-core/lib/index.js");
+        const plugins = require("./packages/babel-standalone/scripts/pluginConfig.json");
+
+        aliases = plugins.internal.map(name => ({
+          find: `@babel/plugin-${name}`,
+          replacement: `data:application/json, "${babel.internalPluginName(
+            name
+          )}"`,
+        }));
       }
+
       const input = getIndexFromPackage(src);
       fancyLog(`Compiling '${chalk.cyan(input)}' with rollup ...`);
       const bundle = await rollup({
@@ -277,6 +301,7 @@ function buildRollup(packages, targetBrowsers) {
           }
         },
         plugins: [
+          aliases && rollupAlias({ entries: aliases }),
           rollupBabelSource(),
           rollupReplace({
             "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
@@ -300,6 +325,7 @@ function buildRollup(packages, targetBrowsers) {
             extends: "./babel.config.js",
             extensions: [".mjs", ".cjs", ".ts", ".js"],
           }),
+          rollupDataURI(),
           rollupNodeResolve({
             extensions: [".mjs", ".cjs", ".ts", ".js", ".json"],
             browser: nodeResolveBrowser,
