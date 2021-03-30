@@ -1,0 +1,6 @@
+{
+  "plugins": ["bugfix-super-spread"],
+  "assumptions": {
+    "constantSuper": true
+  }
+}

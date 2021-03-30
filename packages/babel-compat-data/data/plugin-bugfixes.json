@@ -100,6 +100,28 @@
     "samsung": "5",
     "electron": "0.37"
   },
+  "transform-classes": {
+    "chrome": "46",
+    "opera": "33",
+    "edge": "13",
+    "firefox": "45",
+    "safari": "10",
+    "node": "5",
+    "ios": "10",
+    "samsung": "5",
+    "electron": "0.36"
+  },
+  "bugfix/transform-spread-super": {
+    "chrome": "46",
+    "opera": "33",
+    "edge": "13",
+    "firefox": "36",
+    "safari": "10",
+    "node": "5",
+    "ios": "10",
+    "samsung": "5",
+    "electron": "0.36"
+  },
   "transform-template-literals": {
     "chrome": "41",
     "opera": "28",

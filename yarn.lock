@@ -975,6 +975,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@babel/plugin-bugfix-super-spread@workspace:packages/babel-plugin-bugfix-super-spread":
+  version: 0.0.0-use.local
+  resolution: "@babel/plugin-bugfix-super-spread@workspace:packages/babel-plugin-bugfix-super-spread"
+  dependencies:
+    "@babel/core": "workspace:*"
+    "@babel/helper-plugin-test-runner": "workspace:*"
+    "@babel/helper-plugin-utils": "workspace:^7.13.0"
+    "@babel/helper-replace-supers": "workspace:^7.13.12"
+  peerDependencies:
+    "@babel/core": ^7.13.0
+  languageName: unknown
+  linkType: soft
+
 "@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining@workspace:^7.13.12, @babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining@workspace:packages/babel-plugin-bugfix-v8-spread-parameters-in-optional-chaining":
   version: 0.0.0-use.local
   resolution: "@babel/plugin-bugfix-v8-spread-parameters-in-optional-chaining@workspace:packages/babel-plugin-bugfix-v8-spread-parameters-in-optional-chaining"

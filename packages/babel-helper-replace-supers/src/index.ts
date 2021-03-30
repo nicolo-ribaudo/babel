@@ -139,6 +139,9 @@ const specHandlers = {
   },
 
   _getThisRefs() {
+    if (this.thisRef) {
+      return { this: t.cloneNode(this.thisRef) };
+    }
     if (!this.isDerivedConstructor) {
       return { this: t.thisExpression() };
     }
@@ -233,7 +236,7 @@ const looseHandlers = {
 
     return t.assignmentExpression(
       "=",
-      t.memberExpression(t.thisExpression(), prop, computed),
+      t.memberExpression(this._getThisRef(), prop, computed),
       value,
     );
   },
@@ -242,21 +245,26 @@ const looseHandlers = {
     const { computed } = superMember.node;
     const prop = this.prop(superMember);
 
-    return t.memberExpression(t.thisExpression(), prop, computed);
+    return t.memberExpression(this._getThisRef(), prop, computed);
   },
 
   call(superMember, args) {
-    return optimiseCall(this.get(superMember), t.thisExpression(), args, false);
+    return optimiseCall(this.get(superMember), this._getThisRef(), args, false);
   },
 
   optionalCall(superMember, args) {
-    return optimiseCall(this.get(superMember), t.thisExpression(), args, true);
+    return optimiseCall(this.get(superMember), this._getThisRef(), args, true);
+  },
+
+  _getThisRef() {
+    return this.thisRef ? t.cloneNode(this.thisRef) : t.thisExpression();
   },
 };
 
 type ReplaceSupersOptionsBase = {
   methodPath: NodePath<any>;
-  superRef: any;
+  superRef: t.Expression;
+  thisRef?: t.Expression;
   constantSuper?: boolean;
   file: any;
   // objectRef might have been shadowed in child scopes,
@@ -324,6 +332,7 @@ export default class ReplaceSupers {
       isPrivateMethod: this.isPrivateMethod,
       getObjectRef: this.getObjectRef.bind(this),
       superRef: this.superRef,
+      thisRef: this.opts.thisRef,
       ...handler,
     });
   }

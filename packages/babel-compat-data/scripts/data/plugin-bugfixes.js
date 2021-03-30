@@ -31,6 +31,10 @@ module.exports = {
     ],
     replaces: "transform-block-scoping",
   },
+  "bugfix/transform-spread-super": {
+    features: ["spread syntax for iterable objects"],
+    replaces: "transform-spread",
+  },
   "bugfix/transform-tagged-template-caching": {
     features: ["template literals / TemplateStrings permanent caching"],
     replaces: "transform-template-literals",
