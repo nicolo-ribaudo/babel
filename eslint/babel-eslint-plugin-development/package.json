@@ -12,9 +12,8 @@
     "email": "nicolo.ribaudo@gmail.com",
     "url": "https://github.com/nicolo-ribaudo"
   },
-  "type": "module",
-  "main": "./lib/index.js",
   "type": "commonjs",
+  "main": "./lib/index.js",
   "exports": {
     ".": "./lib/index.js",
     "./package.json": "./package.json"

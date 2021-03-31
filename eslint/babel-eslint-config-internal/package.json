@@ -10,9 +10,8 @@
     "directory": "eslint/babel-eslint-config-internal"
   },
   "private": true,
-  "type": "module",
-  "main": "./index.js",
   "type": "commonjs",
+  "main": "./index.js",
   "exports": {
     ".": "./index.js",
     "./package.json": "./package.json"

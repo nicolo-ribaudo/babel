@@ -187,7 +187,6 @@ export type Node =
   | ModuleExpression
   | ModuleSpecifier
   | NewExpression
-  | Noop
   | NullLiteral
   | NullLiteralTypeAnnotation
   | NullableTypeAnnotation
@@ -486,12 +485,8 @@ export interface FunctionDeclaration extends BaseNode {
   generator?: boolean;
   async?: boolean;
   declare?: boolean | null;
-  returnType?: TypeAnnotation | TSTypeAnnotation | Noop | null;
-  typeParameters?:
-    | TypeParameterDeclaration
-    | TSTypeParameterDeclaration
-    | Noop
-    | null;
+  returnType?: TypeAnnotation | TSTypeAnnotation | null;
+  typeParameters?: TypeParameterDeclaration | TSTypeParameterDeclaration | null;
 }
 
 export interface FunctionExpression extends BaseNode {
@@ -501,12 +496,8 @@ export interface FunctionExpression extends BaseNode {
   body: BlockStatement;
   generator?: boolean;
   async?: boolean;
-  returnType?: TypeAnnotation | TSTypeAnnotation | Noop | null;
-  typeParameters?:
-    | TypeParameterDeclaration
-    | TSTypeParameterDeclaration
-    | Noop
-    | null;
+  returnType?: TypeAnnotation | TSTypeAnnotation | null;
+  typeParameters?: TypeParameterDeclaration | TSTypeParameterDeclaration | null;
 }
 
 export interface Identifier extends BaseNode {
@@ -514,7 +505,7 @@ export interface Identifier extends BaseNode {
   name: string;
   decorators?: Array<Decorator> | null;
   optional?: boolean | null;
-  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | Noop | null;
+  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | null;
 }
 
 export interface IfStatement extends BaseNode {
@@ -622,12 +613,8 @@ export interface ObjectMethod extends BaseNode {
   generator?: boolean;
   async?: boolean;
   decorators?: Array<Decorator> | null;
-  returnType?: TypeAnnotation | TSTypeAnnotation | Noop | null;
-  typeParameters?:
-    | TypeParameterDeclaration
-    | TSTypeParameterDeclaration
-    | Noop
-    | null;
+  returnType?: TypeAnnotation | TSTypeAnnotation | null;
+  typeParameters?: TypeParameterDeclaration | TSTypeParameterDeclaration | null;
 }
 
 export interface ObjectProperty extends BaseNode {
@@ -643,7 +630,7 @@ export interface RestElement extends BaseNode {
   type: "RestElement";
   argument: LVal;
   decorators?: Array<Decorator> | null;
-  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | Noop | null;
+  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | null;
 }
 
 /**
@@ -653,7 +640,7 @@ export interface RestProperty extends BaseNode {
   type: "RestProperty";
   argument: LVal;
   decorators?: Array<Decorator> | null;
-  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | Noop | null;
+  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | null;
 }
 
 export interface ReturnStatement extends BaseNode {
@@ -744,14 +731,14 @@ export interface AssignmentPattern extends BaseNode {
   left: Identifier | ObjectPattern | ArrayPattern | MemberExpression;
   right: Expression;
   decorators?: Array<Decorator> | null;
-  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | Noop | null;
+  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | null;
 }
 
 export interface ArrayPattern extends BaseNode {
   type: "ArrayPattern";
   elements: Array<null | PatternLike>;
   decorators?: Array<Decorator> | null;
-  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | Noop | null;
+  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | null;
 }
 
 export interface ArrowFunctionExpression extends BaseNode {
@@ -761,12 +748,8 @@ export interface ArrowFunctionExpression extends BaseNode {
   async?: boolean;
   expression: boolean;
   generator?: boolean;
-  returnType?: TypeAnnotation | TSTypeAnnotation | Noop | null;
-  typeParameters?:
-    | TypeParameterDeclaration
-    | TSTypeParameterDeclaration
-    | Noop
-    | null;
+  returnType?: TypeAnnotation | TSTypeAnnotation | null;
+  typeParameters?: TypeParameterDeclaration | TSTypeParameterDeclaration | null;
 }
 
 export interface ClassBody extends BaseNode {
@@ -793,11 +776,7 @@ export interface ClassExpression extends BaseNode {
     | TypeParameterInstantiation
     | TSTypeParameterInstantiation
     | null;
-  typeParameters?:
-    | TypeParameterDeclaration
-    | TSTypeParameterDeclaration
-    | Noop
-    | null;
+  typeParameters?: TypeParameterDeclaration | TSTypeParameterDeclaration | null;
 }
 
 export interface ClassDeclaration extends BaseNode {
@@ -814,11 +793,7 @@ export interface ClassDeclaration extends BaseNode {
     | TypeParameterInstantiation
     | TSTypeParameterInstantiation
     | null;
-  typeParameters?:
-    | TypeParameterDeclaration
-    | TSTypeParameterDeclaration
-    | Noop
-    | null;
+  typeParameters?: TypeParameterDeclaration | TSTypeParameterDeclaration | null;
 }
 
 export interface ExportAllDeclaration extends BaseNode {
@@ -911,19 +886,15 @@ export interface ClassMethod extends BaseNode {
   decorators?: Array<Decorator> | null;
   optional?: boolean | null;
   override?: boolean;
-  returnType?: TypeAnnotation | TSTypeAnnotation | Noop | null;
-  typeParameters?:
-    | TypeParameterDeclaration
-    | TSTypeParameterDeclaration
-    | Noop
-    | null;
+  returnType?: TypeAnnotation | TSTypeAnnotation | null;
+  typeParameters?: TypeParameterDeclaration | TSTypeParameterDeclaration | null;
 }
 
 export interface ObjectPattern extends BaseNode {
   type: "ObjectPattern";
   properties: Array<RestElement | ObjectProperty>;
   decorators?: Array<Decorator> | null;
-  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | Noop | null;
+  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | null;
 }
 
 export interface SpreadElement extends BaseNode {
@@ -1498,10 +1469,6 @@ export interface JSXClosingFragment extends BaseNode {
   type: "JSXClosingFragment";
 }
 
-export interface Noop extends BaseNode {
-  type: "Noop";
-}
-
 export interface Placeholder extends BaseNode {
   type: "Placeholder";
   expectedNode:
@@ -1535,7 +1502,7 @@ export interface ClassProperty extends BaseNode {
   type: "ClassProperty";
   key: Identifier | StringLiteral | NumericLiteral | Expression;
   value?: Expression | null;
-  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | Noop | null;
+  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | null;
   decorators?: Array<Decorator> | null;
   computed?: boolean;
   static?: boolean;
@@ -1568,7 +1535,7 @@ export interface ClassPrivateProperty extends BaseNode {
   value?: Expression | null;
   decorators?: Array<Decorator> | null;
   static: any;
-  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | Noop | null;
+  typeAnnotation?: TypeAnnotation | TSTypeAnnotation | null;
 }
 
 export interface ClassPrivateMethod extends BaseNode {
@@ -1587,12 +1554,8 @@ export interface ClassPrivateMethod extends BaseNode {
   generator?: boolean;
   optional?: boolean | null;
   override?: boolean;
-  returnType?: TypeAnnotation | TSTypeAnnotation | Noop | null;
-  typeParameters?:
-    | TypeParameterDeclaration
-    | TSTypeParameterDeclaration
-    | Noop
-    | null;
+  returnType?: TypeAnnotation | TSTypeAnnotation | null;
+  typeParameters?: TypeParameterDeclaration | TSTypeParameterDeclaration | null;
 }
 
 export interface ImportAttribute extends BaseNode {
@@ -1657,9 +1620,9 @@ export interface TSParameterProperty extends BaseNode {
 export interface TSDeclareFunction extends BaseNode {
   type: "TSDeclareFunction";
   id?: Identifier | null;
-  typeParameters?: TSTypeParameterDeclaration | Noop | null;
+  typeParameters?: TSTypeParameterDeclaration | null;
   params: Array<Identifier | Pattern | RestElement>;
-  returnType?: TSTypeAnnotation | Noop | null;
+  returnType?: TSTypeAnnotation | null;
   async?: boolean;
   declare?: boolean | null;
   generator?: boolean;
@@ -1669,9 +1632,9 @@ export interface TSDeclareMethod extends BaseNode {
   type: "TSDeclareMethod";
   decorators?: Array<Decorator> | null;
   key: Identifier | StringLiteral | NumericLiteral | Expression;
-  typeParameters?: TSTypeParameterDeclaration | Noop | null;
+  typeParameters?: TSTypeParameterDeclaration | null;
   params: Array<Identifier | Pattern | RestElement | TSParameterProperty>;
-  returnType?: TSTypeAnnotation | Noop | null;
+  returnType?: TSTypeAnnotation | null;
   abstract?: boolean | null;
   access?: "public" | "private" | "protected" | null;
   accessibility?: "public" | "private" | "protected" | null;

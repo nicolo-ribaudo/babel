@@ -271,6 +271,8 @@ if (process.env.CIRCLE_PR_NUMBER) {
   versionSuffix = "+pr." + process.env.CIRCLE_PR_NUMBER;
 }
 
+Error.stackTraceLimit = Infinity;
+
 const babelVersion =
   require("./packages/babel-core/package.json").version + versionSuffix;
 function buildRollup(packages, targetBrowsers) {
@@ -375,7 +377,7 @@ function buildRollup(packages, targetBrowsers) {
             targetBrowsers &&
               rollupNodePolyfills({
                 sourceMap: sourcemap,
-                include: "**/*.{js,cjs,ts}",
+                include: "**/*.{js,cjs,ts,mjs}",
               }),
           ].filter(Boolean),
         });
@@ -462,7 +464,7 @@ const libBundles = [
   "packages/babel-plugin-bugfix-v8-spread-parameters-in-optional-chaining",
 ].map(src => ({
   src,
-  format: "cjs",
+  format: "es",
   dest: "lib",
 }));
 
@@ -471,7 +473,7 @@ const dtsBundles = ["packages/babel-types"];
 const standaloneBundle = [
   {
     src: "packages/babel-standalone",
-    format: "umd",
+    format: "es",
     name: "Babel",
     filename: "babel.js",
     dest: "",

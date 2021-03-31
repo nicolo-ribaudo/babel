@@ -800,15 +800,6 @@
       "./helpers/classPrivateMethodGet.js"
     ],
     "./helpers/esm/classPrivateMethodGet": "./helpers/esm/classPrivateMethodGet.js",
-    "./helpers/classPrivateMethodSet": [
-      {
-        "node": "./helpers/classPrivateMethodSet.js",
-        "import": "./helpers/esm/classPrivateMethodSet.js",
-        "default": "./helpers/classPrivateMethodSet.js"
-      },
-      "./helpers/classPrivateMethodSet.js"
-    ],
-    "./helpers/esm/classPrivateMethodSet": "./helpers/esm/classPrivateMethodSet.js",
     "./package": "./package.json",
     "./package.json": "./package.json",
     "./regenerator": "./regenerator/index.js",

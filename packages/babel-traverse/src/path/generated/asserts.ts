@@ -341,7 +341,6 @@ export interface NodePathAssetions {
     opts?: object,
   ): asserts this is NodePath<t.ModuleSpecifier>;
   assertNewExpression(opts?: object): asserts this is NodePath<t.NewExpression>;
-  assertNoop(opts?: object): asserts this is NodePath<t.Noop>;
   assertNullLiteral(opts?: object): asserts this is NodePath<t.NullLiteral>;
   assertNullLiteralTypeAnnotation(
     opts?: object,

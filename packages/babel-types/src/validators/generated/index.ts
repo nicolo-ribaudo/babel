@@ -2742,23 +2742,6 @@ export function isJSXClosingFragment(
 
   return false;
 }
-export function isNoop(
-  node: object | null | undefined,
-  opts?: object | null,
-): node is t.Noop {
-  if (!node) return false;
-
-  const nodeType = (node as t.Node).type;
-  if (nodeType === "Noop") {
-    if (typeof opts === "undefined") {
-      return true;
-    } else {
-      return shallowEqual(node, opts);
-    }
-  }
-
-  return false;
-}
 export function isPlaceholder(
   node: object | null | undefined,
   opts?: object | null,

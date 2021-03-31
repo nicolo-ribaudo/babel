@@ -4,8 +4,10 @@ import type { HubInterface } from "@babel/traverse";
 import { codeFrameColumns } from "@babel/code-frame";
 import traverse from "@babel/traverse";
 import * as t from "@babel/types";
-import { getModuleName } from "@babel/helper-module-transforms";
 import semver from "semver";
+
+// @ts-expect-error
+import getModuleName from "./get-module-name.cjs";
 
 import type { NormalizedFile } from "../normalize-file";
 

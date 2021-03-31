@@ -963,9 +963,6 @@ export function jsxClosingFragment(): t.JSXClosingFragment {
   return builder("JSXClosingFragment", ...arguments);
 }
 export { jsxClosingFragment as jSXClosingFragment };
-export function noop(): t.Noop {
-  return builder("Noop", ...arguments);
-}
 export function placeholder(
   expectedNode:
     | "Identifier"
@@ -995,7 +992,7 @@ export function bindExpression(
 export function classProperty(
   key: t.Identifier | t.StringLiteral | t.NumericLiteral | t.Expression,
   value?: t.Expression | null,
-  typeAnnotation?: t.TypeAnnotation | t.TSTypeAnnotation | t.Noop | null,
+  typeAnnotation?: t.TypeAnnotation | t.TSTypeAnnotation | null,
   decorators?: Array<t.Decorator> | null,
   computed?: boolean,
   _static?: boolean,
@@ -1084,9 +1081,9 @@ export function tsParameterProperty(
 export { tsParameterProperty as tSParameterProperty };
 export function tsDeclareFunction(
   id: t.Identifier | null | undefined,
-  typeParameters: t.TSTypeParameterDeclaration | t.Noop | null | undefined,
+  typeParameters: t.TSTypeParameterDeclaration | null | undefined,
   params: Array<t.Identifier | t.Pattern | t.RestElement>,
-  returnType?: t.TSTypeAnnotation | t.Noop | null,
+  returnType?: t.TSTypeAnnotation | null,
 ): t.TSDeclareFunction {
   return builder("TSDeclareFunction", ...arguments);
 }
@@ -1094,11 +1091,11 @@ export { tsDeclareFunction as tSDeclareFunction };
 export function tsDeclareMethod(
   decorators: Array<t.Decorator> | null | undefined,
   key: t.Identifier | t.StringLiteral | t.NumericLiteral | t.Expression,
-  typeParameters: t.TSTypeParameterDeclaration | t.Noop | null | undefined,
+  typeParameters: t.TSTypeParameterDeclaration | null | undefined,
   params: Array<
     t.Identifier | t.Pattern | t.RestElement | t.TSParameterProperty
   >,
-  returnType?: t.TSTypeAnnotation | t.Noop | null,
+  returnType?: t.TSTypeAnnotation | null,
 ): t.TSDeclareMethod {
   return builder("TSDeclareMethod", ...arguments);
 }
