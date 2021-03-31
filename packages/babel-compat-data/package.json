@@ -16,6 +16,8 @@
     "./plugins": "./plugins.js",
     "./native-modules": "./native-modules.js",
     "./corejs2-built-ins": "./corejs2-built-ins.js",
+    "./corejs3-built-ins": "./corejs3-built-ins.js",
+    "./corejs3-entries": "./corejs3-entries.js",
     "./corejs3-shipped-proposals": "./corejs3-shipped-proposals.js",
     "./overlapping-plugins": "./overlapping-plugins.js",
     "./plugin-bugfixes": "./plugin-bugfixes.js"
@@ -28,6 +30,9 @@
     "compat-table",
     "compat-data"
   ],
+  "dependencies": {
+    "core-js-compat": "^3.9.0"
+  },
   "devDependencies": {
     "@mdn/browser-compat-data": "^3.1.1",
     "core-js-compat": "^3.9.0",
