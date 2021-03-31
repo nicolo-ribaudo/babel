@@ -53,7 +53,8 @@ module.exports = function (api) {
   };
 
   let targets = {};
-  let convertESM = true;
+  let convertESM = false;
+  let addImportExtension = true;
   let ignoreLib = true;
   let includeRegeneratorRuntime = false;
   let needsPolyfillsForOldNode = false;
@@ -69,6 +70,7 @@ module.exports = function (api) {
     "packages/*/test",
     "codemods/*/test",
     "eslint/*/test",
+    "/**/babel-polyfills",
   ];
 
   switch (env) {
@@ -76,6 +78,7 @@ module.exports = function (api) {
     case "standalone":
       includeRegeneratorRuntime = true;
       convertESM = false;
+      addImportExtension = false;
       ignoreLib = false;
       // rollup-commonjs will converts node_modules to ESM
       unambiguousSources.push(
@@ -87,6 +90,7 @@ module.exports = function (api) {
       break;
     case "rollup":
       convertESM = false;
+      addImportExtension = false;
       ignoreLib = false;
       // rollup-commonjs will converts node_modules to ESM
       unambiguousSources.push(
@@ -105,8 +109,11 @@ module.exports = function (api) {
       break;
     case "development":
       envOpts.debug = true;
-    // fall through
+      addImportExtension = true;
+      targets = { node: "current" };
+      break;
     case "test":
+      addImportExtension = false;
       targets = { node: "current" };
       break;
   }
@@ -158,7 +165,7 @@ module.exports = function (api) {
 
       convertESM ? "@babel/proposal-export-namespace-from" : null,
       convertESM ? "@babel/transform-modules-commonjs" : null,
-      convertESM ? pluginNodeImportInteropBabel : pluginNodeImportInteropRollup,
+      convertESM ? pluginNodeImportInteropBabel : null, //pluginNodeImportInteropRollup,
       convertESM ? pluginImportMetaUrl : null,
 
       pluginPackageJsonMacro,
@@ -201,6 +208,9 @@ module.exports = function (api) {
       {
         test: unambiguousSources.map(normalize),
         sourceType: "unambiguous",
+        plugins: [addImportExtension && pluginAddImportExtension].filter(
+          Boolean
+        ),
       },
       includeRegeneratorRuntime && {
         exclude: /regenerator-runtime/,
@@ -573,6 +583,37 @@ function pluginImportMetaUrl({ types: t, template }) {
             }
           },
         });
+      },
+    },
+  };
+}
+
+function pluginAddImportExtension() {
+  return {
+    visitor: {
+      "ImportDeclaration|ExportDeclaration"({ node }) {
+        const { source } = node;
+        if (!source) return;
+
+        if (source.value.startsWith(".") && !/\.[a-z]+$/.test(source.value)) {
+          const dir = pathUtils.dirname(this.filename);
+
+          for (const [src, lib = src] of [["ts", "js"], ["js"], ["cjs"]]) {
+            try {
+              fs.statSync(pathUtils.join(dir, `${source.value}.${src}`));
+              source.value += `.${lib}`;
+              return;
+            } catch {}
+          }
+
+          source.value += "/index.js";
+        }
+        if (
+          source.value.startsWith("lodash/") ||
+          source.value.startsWith("core-js-compat/")
+        ) {
+          source.value += ".js";
+        }
       },
     },
   };
