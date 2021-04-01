@@ -19,7 +19,13 @@ export default function* loadCjsOrMjsDefault(
       try {
         return loadCjsDefault(filepath, fallbackToTranspiledModule);
       } catch (e) {
-        if (e.code !== "ERR_REQUIRE_ESM") throw e;
+        if (
+          e.code !== "ERR_REQUIRE_ESM" &&
+          // Workaround for https://github.com/facebook/jest/issues/11258
+          e.message !== "Cannot use import statement outside a module"
+        ) {
+          throw e;
+        }
       }
     // fall through
     case "mjs":
@@ -52,6 +58,6 @@ function loadCjsDefault(filepath: string, fallbackToTranspiledModule: boolean) {
 async function loadMjsDefault(filepath: string) {
   // import() expects URLs, not file paths.
   // https://github.com/nodejs/node/issues/31710
-  const module = await import(pathToFileURL(filepath));
+  const module = await import(pathToFileURL(filepath).href);
   return module.default;
 }

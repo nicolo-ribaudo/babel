@@ -1,4 +1,5 @@
 module.exports = {
+  resolver: "<rootDir>/jest-resolver.js",
   collectCoverageFrom: [
     "packages/*/src/**/*.{js,mjs,ts}",
     "codemods/*/src/**/*.{js,mjs,ts}",
