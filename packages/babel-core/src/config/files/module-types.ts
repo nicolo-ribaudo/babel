@@ -22,7 +22,8 @@ export default function* loadCjsOrMjsDefault(
         if (
           e.code !== "ERR_REQUIRE_ESM" &&
           // Workaround for https://github.com/facebook/jest/issues/11258
-          e.message !== "Cannot use import statement outside a module"
+          e.message !== "Cannot use import statement outside a module" &&
+          e.message !== "Unexpected token 'export'"
         ) {
           throw e;
         }

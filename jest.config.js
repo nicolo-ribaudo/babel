@@ -1,3 +1,10 @@
+// env vars from the cli are always strings, so !!ENV_VAR returns true for "false"
+function bool(value) {
+  return value && value !== "false" && value !== "0";
+}
+
+const isESMBuild = bool(process.env.BABEL_ESM_BUILD);
+
 module.exports = {
   resolver: "<rootDir>/jest-resolver.js",
   collectCoverageFrom: [
@@ -21,7 +28,10 @@ module.exports = {
     "<rootDir>/test/warning\\.js",
     "<rootDir>/build/",
     "_browser\\.js",
-  ],
+    isESMBuild && "<rootDir>/eslint",
+    isESMBuild && "/babel-register/",
+    isESMBuild && "/babel-node/",
+  ].filter(Boolean),
   testEnvironment: "node",
   setupFilesAfterEnv: ["<rootDir>/test/testSetupFile.js"],
   transformIgnorePatterns: [
