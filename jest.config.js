@@ -31,6 +31,7 @@ module.exports = {
     isESMBuild && "<rootDir>/eslint",
     isESMBuild && "/babel-register/",
     isESMBuild && "/babel-node/",
+    isESMBuild && "/babel-standalone/",
   ].filter(Boolean),
   testEnvironment: "node",
   setupFilesAfterEnv: ["<rootDir>/test/testSetupFile.js"],
