@@ -551,6 +551,21 @@ function pluginAddImportExtension() {
         if (source.value.startsWith(".") && !/\.[a-z]+$/.test(source.value)) {
           const dir = pathUtils.dirname(this.filename);
 
+          try {
+            const pkg = JSON.parse(
+              fs.readFileSync(
+                pathUtils.join(dir, `${source.value}/package.json`)
+              ),
+              "utf8"
+            );
+
+            if (pkg.main) source.value = pathUtils.join(source.value, pkg.main);
+          } catch {}
+
+          try {
+            if (fs.statSync(pathUtils.join(dir, source.value)).isFile()) return;
+          } catch {}
+
           for (const [src, lib = src] of [["ts", "js"], ["js"], ["cjs"]]) {
             try {
               fs.statSync(pathUtils.join(dir, `${source.value}.${src}`));
