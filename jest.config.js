@@ -3,7 +3,7 @@ function bool(value) {
   return value && value !== "false" && value !== "0";
 }
 
-const isESMBuild = bool(process.env.BABEL_ESM_BUILD);
+const isESMBuild = true; // bool(process.env.BABEL_ESM_BUILD);
 
 module.exports = {
   resolver: "<rootDir>/jest-resolver.js",

@@ -113,7 +113,7 @@ module.exports = function (api) {
       targets = { node: "current" };
       break;
     case "test":
-      addImportExtension = false;
+      addImportExtension = true;
       targets = { node: "current" };
       break;
   }
