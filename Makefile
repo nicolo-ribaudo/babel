@@ -121,6 +121,9 @@ test-only:
 
 test: lint test-only
 
+test-esm:
+	NODE_OPTIONS="--experimental-vm-modules" BABEL_ESM_BUILD=true $(MAKE) test-only
+
 test-ci: build-standalone-ci
 	BABEL_ENV=test $(YARN) jest --maxWorkers=4 --ci
 	$(MAKE) test-clean
