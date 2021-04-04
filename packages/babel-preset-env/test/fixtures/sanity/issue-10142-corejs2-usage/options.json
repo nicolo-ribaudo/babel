@@ -2,5 +2,5 @@
   "presets": [
     ["env", { "useBuiltIns": "usage", "corejs": 2, "modules": false }]
   ],
-  "plugins": ["./plugin.js"]
+  "plugins": ["./plugin.cjs"]
 }

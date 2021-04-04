@@ -10,5 +10,5 @@
       }
     ]
   ],
-  "plugins": ["./plugin.js"]
+  "plugins": ["./plugin.cjs"]
 }

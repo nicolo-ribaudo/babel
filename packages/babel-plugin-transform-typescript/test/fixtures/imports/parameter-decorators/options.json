@@ -7,6 +7,6 @@
         "legacy": true
       }
     ],
-    "./plugin"
+    "./plugin.cjs"
   ]
 }

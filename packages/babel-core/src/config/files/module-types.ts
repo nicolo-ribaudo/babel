@@ -6,9 +6,6 @@ import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
 
-// Workaround for https://github.com/facebook/jest/issues/11259
-const knownESM = new Set();
-
 export default function* loadCjsOrMjsDefault(
   filepath: string,
   asyncError: string,
@@ -22,15 +19,9 @@ export default function* loadCjsOrMjsDefault(
       try {
         return loadCjsDefault(filepath, fallbackToTranspiledModule);
       } catch (e) {
-        if (
-          e.code !== "ERR_REQUIRE_ESM" &&
-          // Workaround for https://github.com/facebook/jest/issues/11258
-          e.message !== "Cannot use import statement outside a module" &&
-          e.message !== "Unexpected token 'export'"
-        ) {
+        if (e.code !== "ERR_REQUIRE_ESM") {
           throw e;
         }
-        knownESM.add(filepath);
       }
     // fall through
     case "mjs":
@@ -42,7 +33,6 @@ export default function* loadCjsOrMjsDefault(
 }
 
 function guessJSModuleType(filename: string): "cjs" | "mjs" | "unknown" {
-  if (knownESM.has(filename)) return "mjs";
   switch (path.extname(filename)) {
     case ".cjs":
       return "cjs";
