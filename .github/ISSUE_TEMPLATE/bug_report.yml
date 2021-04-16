@@ -1,24 +1,22 @@
 name: "\U0001F41B Bug Report"
-about: "If something isn't working as expected."
-labels: ["i: bug", "i: needs triage"]
-issue_body: true
-inputs:
-  - type: description
+description: "If something isn't working as expected."
+title: "[Bug]: "
+labels: ["i: needs triage"]
+body:
+  - type: markdown
     attributes:
       value: Thanks for taking the time to file a bug report! Please fill out this form as completely as possible.
 
-  - type: dropdown
+  - type: checkboxes
     attributes:
-      label: Would you like to work on a fix?
-      choices:
-        - "yes"
-        - "no"
+      options:
+        - label: Would you like to work on a fix?
 
   - type: dropdown
     attributes:
       label: How are you using Babel?
       required: true
-      choices:
+      options:
         - babel-loader (webpack)
         - "@rollup/plugin-babel"
         - "@babel/eslint-parser"
@@ -43,13 +41,14 @@ inputs:
         var your => (code) => here;
         ```
 
-  - type: select
+  - type: dropdown
     attributes:
       label: Configuration file name
       description: |
         **NOTE**: If it's possible that Babel is not correctly loading your config, it's probably because you are using
         `.babelrc`/`package.json` instead of `babel.config.json`.
-      choices:
+      multiple: true
+      options:
         - babel.config.json
         - babel.config.js
         - babel.config.cjs
@@ -84,7 +83,8 @@ inputs:
     attributes:
       label: Environment
       required: true
-      description: "Tip: you can run `npx envinfo --preset babel` and paste the result below"
+      description: |
+        **Tip:** you can run `npx envinfo --preset babel` and paste the result below
       placeholder: |
         - Babel version(s): [e.g. v7.12.0]
         - Node: [e.g. Node 15]
@@ -95,11 +95,9 @@ inputs:
   - type: textarea
     attributes:
       label: Possible solution
-      required: true
       description: "If you have suggestions on a fix for the bug."
 
   - type: textarea
     attributes:
       label: Additional context
-      required: true
       description: "Add any other context about the problem here. Or a screenshot if applicable."
