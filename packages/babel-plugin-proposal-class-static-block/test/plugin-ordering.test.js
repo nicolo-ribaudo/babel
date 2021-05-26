@@ -2,7 +2,7 @@ import * as babel from "@babel/core";
 import proposalClassStaticBlock from "..";
 
 describe("plugin ordering", () => {
-  it("should work when @babel/plugin-proposal-class-static-block is after class features plugin", () => {
+  it("should work when @babel/plugin-proposal-class-static-block is after class features plugin", async () => {
     const source = `class Foo {
       static {
         this.foo = Foo.bar;
@@ -11,7 +11,7 @@ describe("plugin ordering", () => {
     }
     `;
     expect(
-      babel.transform(source, {
+      await babel.transformAsync(source, {
         filename: "example.js",
         highlightCode: false,
         configFile: false,

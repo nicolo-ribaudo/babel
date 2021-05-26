@@ -1,6 +1,9 @@
 import { runCodeInTestContext } from "..";
 import { fileURLToPath } from "url";
 
+// Workaround for https://github.com/facebook/jest/issues/11434
+import "../babel-helper-create-class-features-plugin/lib/fields";
+
 const filename = fileURLToPath(import.meta.url);
 
 describe("helper-transform-fixture-test-runner", function () {

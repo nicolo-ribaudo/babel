@@ -47,5 +47,6 @@
   "bin": {
     "babel": "./bin/babel.js",
     "babel-external-helpers": "./bin/babel-external-helpers.js"
-  }
+  },
+  "type": "module"
 }
