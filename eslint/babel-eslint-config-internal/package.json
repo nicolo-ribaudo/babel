@@ -11,6 +11,6 @@
   },
   "peerDependencies": {
     "@babel/eslint-parser": "^7.15.0",
-    "eslint-plugin-flowtype": "^4.6.0"
+    "eslint-plugin-flowtype": "^4.6.0 || ^5.7.2"
   }
 }

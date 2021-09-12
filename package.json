@@ -78,7 +78,8 @@
     "packages/*",
     "test/esm",
     "test/runtime-integration/*",
-    "benchmark"
+    "benchmark",
+    "eslint/babel-eslint-parser/test/eslint-8"
   ],
   "resolutions": {
     "browserslist": "npm:4.16.6",
