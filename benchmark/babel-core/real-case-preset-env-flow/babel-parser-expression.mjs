@@ -1,6 +1,6 @@
 import Benchmark from "benchmark";
-import baseline from "@babel-baseline/core";
-import current from "@babel/core";
+import * as baseline from "@babel-baseline/core";
+import * as current from "@babel/core";
 import parser from "@babel-baseline/parser";
 import { report } from "../../util.mjs";
 import { readFileSync } from "fs";

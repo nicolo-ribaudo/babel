@@ -2,7 +2,7 @@ import path from "path";
 import fs from "fs";
 import { createRequire } from "module";
 import helpers from "@babel/helpers";
-import babel from "@babel/core";
+import * as babel from "@babel/core";
 import template from "@babel/template";
 import t from "@babel/types";
 import { fileURLToPath } from "url";
