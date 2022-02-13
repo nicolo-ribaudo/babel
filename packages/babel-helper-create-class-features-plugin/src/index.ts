@@ -171,7 +171,11 @@ export function createClassFeaturePlugin({
           }
         }
 
-        if (!props.length && !isDecorated) return;
+        if (process.env.BABEL_8_BREAKING) {
+          if (!props.length) return;
+        } else {
+          if (!props.length && !isDecorated) return;
+        }
 
         const innerBinding = path.node.id;
         let ref: t.Identifier;
@@ -210,14 +214,35 @@ export function createClassFeaturePlugin({
           pureStaticNodes: t.FunctionDeclaration[],
           wrapClass: (path: NodePath<t.Class>) => NodePath;
 
-        if (isDecorated) {
-          staticNodes = pureStaticNodes = keysNodes = [];
-          ({ instanceNodes, wrapClass } = buildDecoratedClass(
-            ref,
-            path,
-            elements,
-            this.file,
-          ));
+        if (!process.env.BABEL_8_BREAKING) {
+          if (isDecorated) {
+            staticNodes = pureStaticNodes = keysNodes = [];
+            ({ instanceNodes, wrapClass } = buildDecoratedClass(
+              ref,
+              path,
+              elements,
+              this.file,
+            ));
+          } else {
+            keysNodes = extractComputedKeys(
+              ref,
+              path,
+              computedPaths,
+              this.file,
+            );
+            ({ staticNodes, pureStaticNodes, instanceNodes, wrapClass } =
+              buildFieldsInitNodes(
+                ref,
+                path.node.superClass,
+                props,
+                privateNamesMap,
+                state,
+                setPublicClassFields ?? loose,
+                privateFieldsAsProperties ?? loose,
+                constantSuper ?? loose,
+                innerBinding,
+              ));
+          }
         } else {
           keysNodes = extractComputedKeys(ref, path, computedPaths, this.file);
           ({ staticNodes, pureStaticNodes, instanceNodes, wrapClass } =
@@ -240,7 +265,9 @@ export function createClassFeaturePlugin({
             constructor,
             instanceNodes,
             (referenceVisitor, state) => {
-              if (isDecorated) return;
+              if (!process.env.BABEL_8_BREAKING) {
+                if (isDecorated) return;
+              }
               for (const prop of props) {
                 // @ts-expect-error: TS doesn't infer that prop.node is not a StaticBlock
                 if (t.isStaticBlock?.(prop.node) || prop.node.static) continue;
@@ -264,21 +291,23 @@ export function createClassFeaturePlugin({
       },
 
       ExportDefaultDeclaration(path: NodePath<t.ExportDefaultDeclaration>) {
-        if (this.file.get(versionKey) !== version) return;
+        if (!process.env.BABEL_8_BREAKING) {
+          if (this.file.get(versionKey) !== version) return;
 
-        const decl = path.get("declaration");
+          const decl = path.get("declaration");
 
-        if (decl.isClassDeclaration() && hasDecorators(decl.node)) {
-          if (decl.node.id) {
-            // export default class Foo {}
-            //   -->
-            // class Foo {} export { Foo as default }
-            splitExportDeclaration(path);
-          } else {
-            // Annyms class declarations can be
-            // transformed as if they were expressions
-            // @ts-expect-error
-            decl.node.type = "ClassExpression";
+          if (decl.isClassDeclaration() && hasDecorators(decl.node)) {
+            if (decl.node.id) {
+              // export default class Foo {}
+              //   -->
+              // class Foo {} export { Foo as default }
+              splitExportDeclaration(path);
+            } else {
+              // Annyms class declarations can be
+              // transformed as if they were expressions
+              // @ts-expect-error
+              decl.node.type = "ClassExpression";
+            }
           }
         }
       },
