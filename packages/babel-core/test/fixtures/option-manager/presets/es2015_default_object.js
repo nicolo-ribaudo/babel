@@ -12,7 +12,7 @@ module.exports = function() {
     plugins: [
       [
         require('../../../../../babel-plugin-syntax-decorators'),
-        { legacy: true }
+        { version: 'legacy' }
       ],
     ]
   };
