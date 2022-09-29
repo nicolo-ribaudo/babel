@@ -37,7 +37,7 @@ jobs:
       - name: Run test262
         run: |
           cd babel-test262-runner
-          node lib/run-tests arrow | tee ~/test262.tap
+          node lib/run-tests I_AM_SURE | tee ~/test262.tap
         env:
           BABEL_PATH: ".."
       - name: Output Test262 results
@@ -61,3 +61,8 @@ jobs:
         run: |
           cd babel-test262-runner
           node lib/compare-results ~/test262-main.tap ~/test262.tap | tee ~/diff.tap
+      - name: Create artifact with diff results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test262-diff
+          path: ~/diff.tap
