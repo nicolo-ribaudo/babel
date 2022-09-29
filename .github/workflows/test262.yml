@@ -8,6 +8,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
+  actions: read
   contents: read
 
 jobs:
@@ -48,3 +49,15 @@ jobs:
         with:
           name: test262-result
           path: ~/test262.tap
+      - name: Download previous results
+        run: |
+          cd babel-test262-runner
+          node lib/download-main-artifact/index.mjs ~/test262-main.tap
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_OWNER: nicolo-ribaudo
+          BRANCH: run-test262
+      - name: Compare previous main branch & current results
+        run: |
+          cd babel-test262-runner
+          node lib/compare-results ~/test262-main.tap ~/test262.tap | tee ~/diff.tap
