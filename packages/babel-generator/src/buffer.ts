@@ -304,6 +304,23 @@ export default class Buffer {
   }
 
   /**
+   * This will only detect at most 1 newline after a call to `flush()`,
+   * but this has not been found so far, and an accurate count can be achieved if needed later.
+   */
+  getNewlineCount(): number {
+    const queueCursor = this._queueCursor;
+    let count = 0;
+    if (queueCursor === 0) return this._last === charcodes.lineFeed ? 1 : 0;
+    for (let i = queueCursor - 1; i >= 0; i--) {
+      if (this._queue[i].char !== charcodes.lineFeed) {
+        break;
+      }
+      count++;
+    }
+    return this._last === charcodes.lineFeed ? count + 1 : count;
+  }
+
+  /**
    * check if current _last + queue ends with newline, return the character before newline
    *
    * @param {*} ch
