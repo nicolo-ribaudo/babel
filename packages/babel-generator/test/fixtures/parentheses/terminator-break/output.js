@@ -3,7 +3,6 @@ function foo1() {
     "bar"
   );
 }
-
 function foo2() {
   return (// foobar
     "bar"
