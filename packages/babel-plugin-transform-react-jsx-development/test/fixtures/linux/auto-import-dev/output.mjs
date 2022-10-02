@@ -19,7 +19,8 @@ var x = /*#__PURE__*/_jsxDEV(_Fragment, {
       fileName: _jsxFileName,
       lineNumber: 6,
       columnNumber: 7
-    }, this), /*#__PURE__*/_createElement("div", { ...props,
+    }, this), /*#__PURE__*/_createElement("div", {
+      ...props,
       key: "4",
       __self: this,
       __source: {
