@@ -1,5 +1,4 @@
 let result;
-
 class C {
   static #x = "#x";
   static #y = "#y";
@@ -8,7 +7,6 @@ class C {
   static c = "c";
   static {
     var _m, _m2;
-
     var {
       [_m = C.a]: a
     } = C,

@@ -1,5 +1,4 @@
 const _excluded = ["text", "className", "id"];
-
 function render(_ref) {
   let text = _ref.text,
       className = _ref.className,

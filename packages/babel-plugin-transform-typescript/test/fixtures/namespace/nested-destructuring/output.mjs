@@ -1,7 +1,5 @@
 class C {}
-
 let N;
-
 (function (_N) {
   const {
     a

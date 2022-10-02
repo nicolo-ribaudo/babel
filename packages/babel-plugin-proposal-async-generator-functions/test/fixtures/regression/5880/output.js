@@ -1,9 +1,7 @@
 (async () => {
   var _iteratorAbruptCompletion = false;
   var _didIteratorError = false;
-
   var _iteratorError;
-
   try {
     for (var _iterator = babelHelpers.asyncIterator(iterable), _step; _iteratorAbruptCompletion = !(_step = await _iterator.next()).done; _iteratorAbruptCompletion = false) {
       const _step$value = babelHelpers.slicedToArray(_step.value, 1),

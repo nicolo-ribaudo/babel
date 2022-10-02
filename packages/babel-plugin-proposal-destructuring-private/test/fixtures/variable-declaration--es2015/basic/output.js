@@ -1,10 +1,8 @@
 class C {}
-
 var _x = {
   writable: true,
   value: void 0
 };
-
 (() => {
   var {
     a = 1

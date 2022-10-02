@@ -1,8 +1,6 @@
 const _excluded = ["outsetArrows"];
-
 function Foo(_ref) {
   var _div;
-
   let {
     outsetArrows
   } = _ref,

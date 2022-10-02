@@ -1,9 +1,7 @@
 class C {}
-
 function _self() {
   return C;
 }
-
 var _x = {
   writable: true,
   value: "x"
@@ -17,7 +15,6 @@ var _z = {
   value: void 0
 };
 babelHelpers.defineProperty(C, "self", C);
-
 (() => {
   var [_p, _p2,, _p3] = [C, C],
       x = babelHelpers.classStaticPrivateFieldSpecGet(_p === void 0 ? C.self : _p, C, _x),

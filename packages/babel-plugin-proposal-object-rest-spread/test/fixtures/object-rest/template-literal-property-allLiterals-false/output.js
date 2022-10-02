@@ -1,5 +1,4 @@
 const input = {};
-
 const _ref = prefix + 'state',
       _ref2 = `${prefix}consents`,
       {

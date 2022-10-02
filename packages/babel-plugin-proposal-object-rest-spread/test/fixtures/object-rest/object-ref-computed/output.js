@@ -1,7 +1,6 @@
-var key, x, y, z; // impure
-
+var key, x, y, z;
+// impure
 key = 1;
-
 var _ = {
   1: {
     a: 1,
@@ -15,15 +14,15 @@ var _ = {
   }
 } = _,
     x = babelHelpers.objectWithoutProperties(_[_key], ["y"]);
-
 expect(x).toEqual({
   a: 1
 });
 expect(key).toBe(2);
-expect(y).toBe(1); // takes care of the order
+expect(y).toBe(1);
+
+// takes care of the order
 
 key = 1;
-
 var _$ = {
   2: {
     y: 2,
@@ -46,7 +45,6 @@ var _$ = {
 } = _$,
     rest_y = babelHelpers.objectWithoutProperties(_$[_key3], ["y"]),
     rest_z = babelHelpers.objectWithoutProperties(_$[_key2], ["z"]);
-
 expect(y).toBe(2);
 expect(rest_y).toEqual({
   z: 3

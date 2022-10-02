@@ -2,7 +2,6 @@
 function a(b) {
   var _iterator = babelHelpers.createForOfIteratorHelper(b),
       _step;
-
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
       const y = _step.value;

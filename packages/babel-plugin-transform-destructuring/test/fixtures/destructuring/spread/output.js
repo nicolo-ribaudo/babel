@@ -3,7 +3,6 @@ function isSorted(_ref) {
       x = _ref2[0],
       y = _ref2[1],
       wow = _ref2.slice(2);
-
   if (!zs.length) return true;
   if (y > x) return isSorted(zs);
   return false;

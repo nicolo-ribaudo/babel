@@ -1,7 +1,6 @@
-var key, x, y, z; // impure
-
+var key, x, y, z;
+// impure
 key = 1;
-
 var _$a = {
   1: 1,
   a: 1
@@ -11,15 +10,15 @@ var _$a = {
   [_key]: y
 } = _$a,
     x = babelHelpers.objectWithoutProperties(_$a, [_key].map(babelHelpers.toPropertyKey));
-
 expect(x).toEqual({
   a: 1
 });
 expect(key).toBe(2);
-expect(y).toBe(1); // takes care of the order
+expect(y).toBe(1);
+
+// takes care of the order
 
 key = 1;
-
 var _$ = {
   2: 2,
   3: 3
@@ -31,10 +30,10 @@ var _$ = {
   [_key3]: z
 } = _$,
     rest = babelHelpers.objectWithoutProperties(_$, [_key2, _key3].map(babelHelpers.toPropertyKey));
-
 expect(y).toBe(2);
-expect(z).toBe(3); // pure, computed property should remain as-is
+expect(z).toBe(3);
 
+// pure, computed property should remain as-is
 key = 2;
 var _$z = {
   2: "two",

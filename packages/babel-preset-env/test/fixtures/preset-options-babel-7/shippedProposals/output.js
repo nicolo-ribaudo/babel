@@ -11,11 +11,9 @@ var n = babelHelpers.objectSpread2({
   x: x,
   y: y
 }, z);
-
 function agf() {
   return _agf.apply(this, arguments);
 }
-
 function _agf() {
   _agf = babelHelpers.wrapAsyncGenerator( /*#__PURE__*/babelHelpers.regeneratorRuntime().mark(function _callee() {
     return babelHelpers.regeneratorRuntime().wrap(function _callee$(_context) {
@@ -24,11 +22,9 @@ function _agf() {
           case 0:
             _context.next = 2;
             return babelHelpers.awaitAsyncGenerator(1);
-
           case 2:
             _context.next = 4;
             return 2;
-
           case 4:
           case "end":
             return _context.stop();

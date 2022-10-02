@@ -4,7 +4,6 @@ class C {
   static {
     var x,
         a = "a";
-
     for (const _ref of [C]) {
       x = _ref.#x, ({
         [a]: a
@@ -13,6 +12,5 @@ class C {
         const a = "A";
       }
     }
-
   }
 }

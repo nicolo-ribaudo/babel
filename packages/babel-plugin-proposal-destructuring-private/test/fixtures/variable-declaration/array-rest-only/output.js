@@ -1,6 +1,5 @@
 const _excluded = ["0"];
 let result;
-
 class C {
   static #x;
   static {

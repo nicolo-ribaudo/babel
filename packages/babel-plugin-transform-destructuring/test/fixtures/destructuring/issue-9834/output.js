@@ -1,5 +1,4 @@
 var input = {};
-
 var _ref = prefix + 'state',
     _ref2 = `${prefix}consents`,
     givenName = input.given_name,

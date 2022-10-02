@@ -3,7 +3,6 @@ class C {
   static #x;
   static {
     const a = "a";
-
     for (const _ref of [C]) {
       const x = _ref.#x,
             {
@@ -13,6 +12,5 @@ class C {
         const a = "A";
       }
     }
-
   }
 }

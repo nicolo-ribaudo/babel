@@ -1,5 +1,4 @@
 var _ref3;
-
 const {
   a = _ref => {
     let rest = babelHelpers.extends({}, (babelHelpers.objectDestructuringEmpty(_ref), _ref));

@@ -1,10 +1,8 @@
 const _excluded = ["a", "b", "c"];
-
 const get = () => {
   fireTheMissiles();
   return 3;
 };
-
 const f = _ref => {
   let {
     a = get(),

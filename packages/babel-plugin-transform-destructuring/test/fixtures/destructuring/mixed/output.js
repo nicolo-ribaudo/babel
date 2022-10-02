@@ -1,5 +1,4 @@
 var rect = {};
-
 var _rect$topLeft = babelHelpers.slicedToArray(rect.topLeft, 2),
     x1 = _rect$topLeft[0],
     y1 = _rect$topLeft[1],

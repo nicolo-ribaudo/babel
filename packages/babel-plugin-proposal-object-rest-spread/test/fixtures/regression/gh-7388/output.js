@@ -1,5 +1,4 @@
 const _excluded = ["a"];
-
 function fn0(obj0) {
   const {
     fn1 = (obj1 = {}) => {
