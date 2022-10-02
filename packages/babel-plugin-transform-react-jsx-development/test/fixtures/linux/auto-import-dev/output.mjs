@@ -2,7 +2,6 @@ var _jsxFileName = "<CWD>/packages/babel-plugin-transform-react-jsx-development/
 import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 import { createElement as _createElement } from "react";
 import { Fragment as _Fragment } from "react/jsx-dev-runtime";
-
 var x = /*#__PURE__*/_jsxDEV(_Fragment, {
   children: /*#__PURE__*/_jsxDEV("div", {
     children: [/*#__PURE__*/_jsxDEV("div", {}, "1", false, {
