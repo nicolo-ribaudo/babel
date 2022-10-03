@@ -53,53 +53,53 @@ var numVal2: empty;
 var numVal3: mixed;
 var numVal4: number = otherNumVal;
 var a1: {
-    numVal: number
-  };
+  numVal: number
+};
 var a2: {
-    numVal: number
-  };
+  numVal: number
+};
 var a3: {
-    numVal: number,
-    [indexer: string]: number,
-  };
+  numVal: number,
+  [indexer: string]: number,
+};
 var a4: ?{
-    numVal: number
-  };
+  numVal: number
+};
 var a5: {
-    numVal: number,
-    strVal: string,
-  };
+  numVal: number,
+  strVal: string,
+};
 var a6: {
-    subObj: {
-      strVal: string
-    }
-  };
+  subObj: {
+    strVal: string
+  }
+};
 var a7: {
-    subObj: ?{
-      strVal: string
-    }
-  };
+  subObj: ?{
+    strVal: string
+  }
+};
 var a8: {
-    param1: number,
-    param2: string,
-  };
+  param1: number,
+  param2: string,
+};
 var a9: {
-    param1: number,
-    param2?: string,
-  };
+  param1: number,
+  param2?: string,
+};
 var a10: {
-    [a: number]: string,
-    [b: number]: string,
-  };
+  [a: number]: string,
+  [b: number]: string,
+};
 var a11: {
-    add(x: number, ...y: Array<string>): void
-  };
+  add(x: number, ...y: Array<string>): void
+};
 var a12: {
-    subtract: (x: number, ...y: Array<string>) => void
-  };
+  subtract: (x: number, ...y: Array<string>) => void
+};
 var a13: {
-    id<T>(x: T): T
-  };
+  id<T>(x: T): T
+};
 var a14: Array<number> = [1, 2, 3];
 a13 = class Foo<T> {};
 a14 = class Foo<T> extends Bar<T> {};
@@ -135,19 +135,19 @@ var x2: () => number | (() => string) = fn;
 var x3: typeof Y = Y;
 var x4: typeof Y | number = Y;
 var {
-    x5
-  }: {
-    x5: string
-  } = {
-    x5: "hello"
-  };
+  x5
+}: {
+  x5: string
+} = {
+  x5: "hello"
+};
 var {
-    x6
-  }: {
-    x6: string
-  } = {
-    x6: "hello"
-  };
+  x6
+}: {
+  x6: string
+} = {
+  x6: "hello"
+};
 var [x7]: Array<string> = ["hello"];
 function foo21({
   x
@@ -186,53 +186,53 @@ export interface qux<T> {
 }
 var a21: ?Array<?string>;
 var a22: {|
-    numVal: number
-  |};
+  numVal: number
+|};
 var a23: {|
-    numVal: number
-  |};
+  numVal: number
+|};
 var a24: {|
-    numVal: number,
-    [indexer: string]: number,
-  |};
+  numVal: number,
+  [indexer: string]: number,
+|};
 var a25: ?{|
-    numVal: number
-  |};
+  numVal: number
+|};
 var a26: {|
-    numVal: number,
-    strVal: string,
-  |};
+  numVal: number,
+  strVal: string,
+|};
 var a27: {|
-    subObj: {
-      strVal: string
-    }
-  |};
+  subObj: {
+    strVal: string
+  }
+|};
 var a28: {|
-    subObj: ?{
-      strVal: string
-    }
-  |};
+  subObj: ?{
+    strVal: string
+  }
+|};
 var a29: {|
-    param1: number,
-    param2: string,
-  |};
+  param1: number,
+  param2: string,
+|};
 var a30: {|
-    param1: number,
-    param2?: string,
-  |};
+  param1: number,
+  param2?: string,
+|};
 var a31: {|
-    [a: number]: string,
-    [b: number]: string,
-  |};
+  [a: number]: string,
+  [b: number]: string,
+|};
 var a32: {|
-    add(x: number, ...y: Array<string>): void
-  |};
+  add(x: number, ...y: Array<string>): void
+|};
 var a33: {|
-    subtract: (x: number, ...y: Array<string>) => void
-  |};
+  subtract: (x: number, ...y: Array<string>) => void
+|};
 var a34: {|
-    id<T>(x: T): T
-  |};
+  id<T>(x: T): T
+|};
 function foo27(numVal: number = 2) {}
 function foo28(numVal?: number = 2) {}
 export type * from "foo";

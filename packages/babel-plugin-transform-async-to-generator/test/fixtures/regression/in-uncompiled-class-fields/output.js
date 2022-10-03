@@ -13,8 +13,8 @@ class A {
     var _this2 = this;
     return function () {
       var _ref2 = babelHelpers.asyncToGenerator(function* (x, y, z) {
-          return _this2;
-        });
+        return _this2;
+      });
       return function (_x, _x2, _x3) {
         return _ref2.apply(this, arguments);
       };

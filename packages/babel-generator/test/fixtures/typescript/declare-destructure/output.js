@@ -1,7 +1,7 @@
 declare const {
-    x,
-    y
-  }: {
-    x: number;
-    y: number;
-  };
+  x,
+  y
+}: {
+  x: number;
+  y: number;
+};

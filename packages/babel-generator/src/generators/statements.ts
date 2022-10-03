@@ -292,7 +292,7 @@ export function VariableDeclaration(
           this.newline();
         }
       : undefined,
-    indent: true,
+    indent: node.declarations.length > 1 ? true : false,
   });
 
   if (isFor(parent)) {

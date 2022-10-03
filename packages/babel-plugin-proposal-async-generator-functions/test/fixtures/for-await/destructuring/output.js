@@ -9,9 +9,9 @@ function _f() {
     try {
       for (var _iterator = babelHelpers.asyncIterator(a), _step; _iteratorAbruptCompletion = !(_step = yield _iterator.next()).done; _iteratorAbruptCompletion = false) {
         let {
-            x,
-            y: [z]
-          } = _step.value;
+          x,
+          y: [z]
+        } = _step.value;
         g(x, z);
       }
     } catch (err) {

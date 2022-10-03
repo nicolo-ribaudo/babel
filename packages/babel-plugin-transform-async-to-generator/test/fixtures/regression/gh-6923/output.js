@@ -8,17 +8,17 @@ function _foo() {
         case 0:
           /*#__PURE__*/(function () {
             var _ref = babelHelpers.asyncToGenerator( /*#__PURE__*/babelHelpers.regeneratorRuntime().mark(function _callee(number) {
-                var tmp;
-                return babelHelpers.regeneratorRuntime().wrap(function _callee$(_context) {
-                  while (1) switch (_context.prev = _context.next) {
-                    case 0:
-                      tmp = number;
-                    case 1:
-                    case "end":
-                      return _context.stop();
-                  }
-                }, _callee);
-              }));
+              var tmp;
+              return babelHelpers.regeneratorRuntime().wrap(function _callee$(_context) {
+                while (1) switch (_context.prev = _context.next) {
+                  case 0:
+                    tmp = number;
+                  case 1:
+                  case "end":
+                    return _context.stop();
+                }
+              }, _callee);
+            }));
             return function (_x) {
               return _ref.apply(this, arguments);
             };

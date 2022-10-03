@@ -14,8 +14,8 @@ class Test {
       console.log(_this2);
       setTimeout( /*#__PURE__*/function () {
         var _ref2 = babelHelpers.asyncToGenerator(function* (arg) {
-            console.log(_this2);
-          });
+          console.log(_this2);
+        });
         return function (_x) {
           return _ref2.apply(this, arguments);
         };
@@ -37,8 +37,8 @@ class Test {
       console.log(_this4);
       setTimeout( /*#__PURE__*/function () {
         var _ref4 = babelHelpers.asyncToGenerator(function* (arg) {
-            console.log(_this4);
-          });
+          console.log(_this4);
+        });
         return function (_x2) {
           return _ref4.apply(this, arguments);
         };

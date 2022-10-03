@@ -16,17 +16,17 @@ export function enable({
 }) {
   isWatchMode = true;
   const {
-      FSWatcher
-    } = requireChokidar();
+    FSWatcher
+  } = requireChokidar();
   const options: WatchOptions = {
-      disableGlobbing: !enableGlobbing,
-      persistent: true,
-      ignoreInitial: true,
-      awaitWriteFinish: {
-        stabilityThreshold: 50,
-        pollInterval: 10
-      }
-    };
+    disableGlobbing: !enableGlobbing,
+    persistent: true,
+    ignoreInitial: true,
+    awaitWriteFinish: {
+      stabilityThreshold: 50,
+      pollInterval: 10
+    }
+  };
   watcher = new FSWatcher(options);
   watcher.on("unlink", unwatchFile);
 }
