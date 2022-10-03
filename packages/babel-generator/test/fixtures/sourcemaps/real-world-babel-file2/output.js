@@ -14,10 +14,10 @@ const ZERO_DECIMAL_INTEGER = /\.0+$/;
 const NON_DECIMAL_LITERAL = /^0[box]/;
 const PURE_ANNOTATION_RE = /^\s*[@#]__PURE__\s*$/;
 const {
-  needsParens,
-  needsWhitespaceAfter,
-  needsWhitespaceBefore
-} = n;
+    needsParens,
+    needsWhitespaceAfter,
+    needsWhitespaceBefore
+  } = n;
 export type Format = {
   shouldPrintComment: (comment: string) => boolean;
   retainLines: boolean;
@@ -407,8 +407,8 @@ class Printer {
       this._noLineTerminator = false;
     } else {
       const terminatorState = {
-        printed: false
-      };
+          printed: false
+        };
       this._parenPushNewlineState = terminatorState;
       this.print(node, parent);
       /**
@@ -431,9 +431,9 @@ class Printer {
       format.concise = true;
     }
     const printMethod = this[(nodeType as Exclude<t.Node["type"], // removed
-    "Noop"
-    // renamed
-    | t.DeprecatedAliases["type"]>)];
+      "Noop"
+      // renamed
+      | t.DeprecatedAliases["type"]>)];
     if (printMethod === undefined) {
       throw new ReferenceError(`unknown node of type ${JSON.stringify(nodeType)} with constructor ${JSON.stringify(node.constructor.name)}`);
     }
@@ -502,8 +502,8 @@ class Printer {
     if (!nodes?.length) return;
     if (opts.indent) this.indent();
     const newlineOpts: AddNewlinesOptions = {
-      addNewlines: opts.addNewlines
-    };
+        addNewlines: opts.addNewlines
+      };
     const len = nodes.length;
     for (let i = 0; i < len; i++) {
       const node = nodes[i];

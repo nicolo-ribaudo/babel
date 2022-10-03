@@ -3,7 +3,7 @@ class C {
   m() {
     #x in (#x in this);
     var {
-      #x: x
-    } = this;
+        #x: x
+      } = this;
   }
 }

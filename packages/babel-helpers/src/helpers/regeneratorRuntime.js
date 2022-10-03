@@ -134,7 +134,8 @@ export default function _regeneratorRuntime() {
   exports.isGeneratorFunction = function (genFun) {
     var ctor = typeof genFun === "function" && genFun.constructor;
     return ctor
-      ? ctor === GeneratorFunction || // For the native GeneratorFunction constructor, the best we can
+      ? ctor === GeneratorFunction ||
+          // For the native GeneratorFunction constructor, the best we can
           // do is to check its .name property.
           (ctor.displayName || ctor.name) === "GeneratorFunction"
       : false;
@@ -204,7 +205,8 @@ export default function _regeneratorRuntime() {
           invoke(method, arg, resolve, reject);
         });
       }
-      return (previousPromise = // If enqueue has been called before, then we want to wait until
+      return (previousPromise =
+        // If enqueue has been called before, then we want to wait until
         // all previous Promises have been resolved before calling invoke,
         // so that results are always delivered in the correct order. If
         // enqueue has not been called before, then it is important to
@@ -218,7 +220,8 @@ export default function _regeneratorRuntime() {
         // important to get this right, even though it requires care.
         previousPromise
           ? previousPromise.then(
-              callInvokeWithMethodAndArg, // Avoid propagating failures to Promises returned by later
+              callInvokeWithMethodAndArg,
+              // Avoid propagating failures to Promises returned by later
               // invocations of the iterator.
               callInvokeWithMethodAndArg,
             )

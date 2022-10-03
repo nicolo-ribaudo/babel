@@ -14,13 +14,13 @@ export function File(this: Printer, node: t.File) {
 export function Program(this: Printer, node: t.Program) {
   this.printInnerComments(node, false);
 
-  const newline = node.body.length ? 2 : 1;
-  const len = node.directives?.length || 0;
-  if (len) {
+  const directivesLen = node.directives?.length;
+  if (directivesLen) {
+    const newline = node.body.length ? 2 : 1;
     this.printSequence(node.directives, node, {
       trailingCommentsLineOffset: newline,
     });
-    if (!node.directives[len - 1].trailingComments?.length) {
+    if (!node.directives[directivesLen - 1].trailingComments?.length) {
       this.newline(newline);
     }
   }
@@ -32,14 +32,14 @@ export function BlockStatement(this: Printer, node: t.BlockStatement) {
   this.token("{");
   this.printInnerComments(node);
 
-  const newline = node.body.length ? 2 : 1;
-  const len = node.directives?.length || 0;
-  if (len) {
+  const directivesLen = node.directives?.length;
+  if (directivesLen) {
+    const newline = node.body.length ? 2 : 1;
     this.printSequence(node.directives, node, {
       indent: true,
       trailingCommentsLineOffset: newline,
     });
-    if (!node.directives[len - 1].trailingComments?.length) {
+    if (!node.directives[directivesLen - 1].trailingComments?.length) {
       this.newline(newline);
     }
   }

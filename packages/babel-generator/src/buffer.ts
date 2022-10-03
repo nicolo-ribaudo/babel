@@ -317,7 +317,9 @@ export default class Buffer {
       }
       count++;
     }
-    return this._last === charcodes.lineFeed ? count + 1 : count;
+    return count === queueCursor && this._last === charcodes.lineFeed
+      ? count + 1
+      : count;
   }
 
   /**
@@ -436,15 +438,16 @@ export default class Buffer {
 
   getCurrentColumn(): number {
     const queue = this._queue;
+    const queueCursor = this._queueCursor;
 
     let lastIndex = -1;
     let len = 0;
-    for (let i = 0; i < this._queueCursor; i++) {
+    for (let i = 0; i < queueCursor; i++) {
       const item = queue[i];
       if (item.char === charcodes.lineFeed) {
-        lastIndex = i;
-        len += item.repeat;
+        lastIndex = len;
       }
+      len += item.repeat;
     }
 
     return lastIndex === -1 ? this._position.column + len : len - 1 - lastIndex;

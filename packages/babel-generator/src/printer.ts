@@ -255,41 +255,11 @@ class Printer {
 
   /**
    * Add a newline (or many newlines), maintaining formatting.
-   */
-
-  newline(i: number = 1, force?: boolean): void {
-    this.newlineRelative(i, force);
-
-    // if (this.format.retainLines || this.format.compact) return;
-
-    // if (this.format.concise) {
-    //   this.space();
-    //   return;
-    // }
-
-    // const charBeforeNewline = this.endsWithCharAndNewline();
-    // // never allow more than two lines
-    // if (charBeforeNewline === charCodes.lineFeed) return;
-
-    // if (
-    //   charBeforeNewline === charCodes.leftCurlyBrace ||
-    //   charBeforeNewline === charCodes.colon
-    // ) {
-    //   i--;
-    // }
-    // if (i <= 0) return;
-
-    // for (let j = 0; j < i; j++) {
-    //   this._newline();
-    // }
-  }
-
-  /**
    * This function checks the number of newlines in the queue and subtracts them.
    * It currently has some limitations.
    * @see {Buffer#getNewlineCount}
    */
-  newlineRelative(i: number, force: boolean): number {
+  newline(i: number = 1, force?: boolean): void {
     if (i <= 0) return;
 
     if (!force) {
@@ -305,13 +275,11 @@ class Printer {
 
     i -= this._buf.getNewlineCount();
 
-    if (i <= 0) return i;
-
     for (let j = 0; j < i; j++) {
       this._newline();
     }
 
-    return i;
+    return;
   }
 
   endsWith(char: number): boolean {
@@ -417,6 +385,17 @@ class Printer {
       this.endsWith(charCodes.lineFeed)
     ) {
       this._buf.queueIndentation(this._indentChar, this._getIndent());
+    }
+  }
+
+  _shouldIndent(firstChar: number) {
+    // we've got a newline before us so prepend on the indentation
+    if (
+      this._indent &&
+      firstChar !== charCodes.lineFeed &&
+      this.endsWith(charCodes.lineFeed)
+    ) {
+      return true;
     }
   }
 
@@ -591,7 +570,9 @@ class Printer {
     node: t.Node | null,
     parent?: t.Node,
     noLineTerminator?: boolean,
-    trailingCommentsLineOffset?: number, // trailingCommentsLineOffset also used to check if called from printJoin
+    // trailingCommentsLineOffset also used to check if called from printJoin
+    // it will be ignored if `noLineTerminator||this._noLineTerminator`
+    trailingCommentsLineOffset?: number,
   ) {
     if (!node) return;
 
@@ -848,6 +829,9 @@ class Printer {
 
     // don't add newlines at the beginning of the file
     if (this._buf.hasContent()) {
+      // Here is the logic of the original line wrapping according to the node layout, we are not using it now.
+      // We currently add at most one newline to each node in the list, ignoring `opts.addNewlines`.
+
       // let lines = 0;
       // if (!leading) lines++; // always include at least a single line after
       // if (opts.addNewlines) lines += opts.addNewlines(leading, node) || 0;
@@ -915,10 +899,14 @@ class Printer {
           val = val.replace(newlineRegex, "\n");
         }
 
-        const indentSize = Math.max(
-          this._getIndent(),
-          this.format.retainLines ? 0 : this._buf.getCurrentColumn(),
-        );
+        let indentSize = this.format.retainLines
+          ? 0
+          : this._buf.getCurrentColumn();
+
+        if (this._shouldIndent(charCodes.slash) || this.format.retainLines) {
+          indentSize += this._getIndent();
+        }
+
         val = val.replace(/\n(?!$)/g, `\n${" ".repeat(indentSize)}`);
       }
     } else if (!this._noLineTerminator) {
@@ -952,41 +940,59 @@ class Printer {
       const nodeLoc = node.loc;
       const len = comments.length;
       let hasLoc = !!nodeLoc;
+      const nodeStartLine = hasLoc ? nodeLoc.start.line : 0;
+      const nodeEndLine = hasLoc ? nodeLoc.end.line : 0;
       let lastLine = 0;
+      let leadingCommentNewline = 0;
 
       for (let i = 0; i < len; i++) {
         const comment = comments[i];
 
         if (hasLoc && "loc" in comment && !this._printedComments.has(comment)) {
+          const commentStartLine = comment.loc.start.line;
+          const commentEndLine = comment.loc.end.line;
           if (type === COMMENT_TYPE.LEADING) {
-            const offset = i === 0 ? 0 : comment.loc.start.line - lastLine;
-            lastLine = comment.loc.end.line;
+            let offset = 0;
+            if (i === 0) {
+              // Because currently we cannot handle blank lines before leading comments,
+              // we always wrap before and after multi-line comments.
+              if (
+                this._buf.hasContent() &&
+                (len > 1 || commentStartLine != commentEndLine)
+              ) {
+                offset = leadingCommentNewline = 1;
+              }
+            } else {
+              offset = commentStartLine - lastLine;
+            }
+            lastLine = commentEndLine;
 
             this.newline(offset);
             this._printComment(comment, COMMENT_SKIP_NEWLINE.SKIP_ALL);
 
             if (i + 1 === len) {
-              this.newline(nodeLoc.start.line - lastLine);
-              lastLine = nodeLoc.start.line;
+              this.newline(
+                Math.max(nodeStartLine - lastLine, leadingCommentNewline),
+              );
+              lastLine = nodeStartLine;
             }
           } else if (type === COMMENT_TYPE.INNER) {
             const offset =
-              comment.loc.start.line -
-              (i === 0 ? nodeLoc.start.line : lastLine);
-            lastLine = comment.loc.end.line;
+              commentStartLine - (i === 0 ? nodeStartLine : lastLine);
+            lastLine = commentEndLine;
 
             this.newline(offset);
             this._printComment(comment, COMMENT_SKIP_NEWLINE.SKIP_ALL);
 
             if (i + 1 === len) {
-              this.newline(Math.min(1, nodeLoc.end.line - lastLine)); // TODO: Improve here when inner comments processing is stronger
-              lastLine = nodeLoc.end.line;
+              this.newline(Math.min(1, nodeEndLine - lastLine)); // TODO: Improve here when inner comments processing is stronger
+              lastLine = nodeEndLine;
             }
           } else {
             const offset =
-              comment.loc.start.line -
-              (i === 0 ? nodeLoc.end.line - lineOffset : lastLine);
-            lastLine = comment.loc.end.line;
+              commentStartLine -
+              (i === 0 ? nodeEndLine - lineOffset : lastLine);
+            lastLine = commentEndLine;
 
             this.newline(offset);
             this._printComment(comment, COMMENT_SKIP_NEWLINE.SKIP_ALL);

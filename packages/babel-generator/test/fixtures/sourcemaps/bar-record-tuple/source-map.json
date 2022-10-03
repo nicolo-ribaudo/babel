@@ -10,5 +10,5 @@
   "sourcesContent": [
     "let a = [| 1 |];\nlet b = {| a: 1 |};"
   ],
-  "mappings": "AAAA,IAAIA,CAAC,GAAG,EAAG,CAAC,EAAG;AACf,IAAIC,CAAC,GAAG;EAAGD,CAAC,EAAE;AAAC,EAAG"
+  "mappings": "AAAA,IAAIA,CAAC,GAAG,EAAG,CAAC,EAAG;AACf,IAAIC,CAAC,GAAG;IAAGD,CAAC,EAAE;EAAC,EAAG"
 }

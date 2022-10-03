@@ -1,6 +1,6 @@
 var fn = async (
-arg) =>
-{};
+  arg) =>
+  {};
 
 async (x) =>
 {};

@@ -1,17 +1,17 @@
 var a: {
-  (): number
-};
+    (): number
+  };
 var a: {
-  (): number
-};
+    (): number
+  };
 var a: {
-  y: string,
-  (): number,
-  (x: string): string,
-};
+    y: string,
+    (): number,
+    (x: string): string,
+  };
 var a: {
-  <T>(x: T): number
-};
+    <T>(x: T): number
+  };
 interface A {
   (): number
 }
