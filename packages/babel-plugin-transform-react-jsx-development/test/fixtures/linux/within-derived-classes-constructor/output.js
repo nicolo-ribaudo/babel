@@ -33,10 +33,10 @@ class C {
       }
     }
     const E = class extends A {
-      constructor() {
-        super();
-      }
-    };
+        constructor() {
+          super();
+        }
+      };
   }
 }
 class E extends A {
