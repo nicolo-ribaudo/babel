@@ -1,6 +1,6 @@
 var foo = qux(createReactClass({
-  displayName: "foo"
-}));
+    displayName: "foo"
+  }));
 var bar = qux(React.createClass({
-  displayName: "bar"
-}));
+    displayName: "bar"
+  }));

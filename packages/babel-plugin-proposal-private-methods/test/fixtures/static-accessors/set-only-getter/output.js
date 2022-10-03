@@ -8,11 +8,11 @@ function _get_privateFieldValue() {
   return babelHelpers.classStaticPrivateFieldSpecGet(this, Cl, _privateField);
 }
 var _privateFieldValue = {
-  get: _get_privateFieldValue,
-  set: void 0
-};
+    get: _get_privateFieldValue,
+    set: void 0
+  };
 var _privateField = {
-  writable: true,
-  value: 0
-};
+    writable: true,
+    value: 0
+  };
 var cl = new Cl();

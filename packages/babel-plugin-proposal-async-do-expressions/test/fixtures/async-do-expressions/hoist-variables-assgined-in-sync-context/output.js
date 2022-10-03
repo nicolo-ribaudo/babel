@@ -1,5 +1,5 @@
 var y;
 const x = (async () => {
-  y = 21;
-  return y + y;
-})();
+    y = 21;
+    return y + y;
+  })();

@@ -1,5 +1,5 @@
 var _iterator = babelHelpers.createForOfIteratorHelper(b),
-    _step;
+  _step;
 try {
   myLabel: //woops
   for (_iterator.s(); !(_step = _iterator.n()).done;) {

@@ -2,14 +2,14 @@
 
 var _obj;
 const Base = {
-  test: 1
-};
+    test: 1
+  };
 const obj = _obj = {
-  test: 2,
-  get() {
-    return babelHelpers.get(babelHelpers.getPrototypeOf(_obj), "test", this);
-  }
-};
+    test: 2,
+    get() {
+      return babelHelpers.get(babelHelpers.getPrototypeOf(_obj), "test", this);
+    }
+  };
 Object.setPrototypeOf(obj, Base);
 expect(obj.test).toBe(2);
 expect(obj.get()).toBe(1);

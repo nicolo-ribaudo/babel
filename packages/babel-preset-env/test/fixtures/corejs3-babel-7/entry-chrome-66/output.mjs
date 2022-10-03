@@ -19,12 +19,12 @@ import "core-js/modules/web.url.js";
 import "core-js/modules/web.url.to-json.js";
 import "core-js/modules/web.url-search-params.js";
 const foo = {
-  a: true
-};
+    a: true
+  };
 const bar = {
-  ...foo,
-  b: false
-};
+    ...foo,
+    b: false
+  };
 async function baz() {
   for await (const x of someAsyncThing()) {
     console.log(x);

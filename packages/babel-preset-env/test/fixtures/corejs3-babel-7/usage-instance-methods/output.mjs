@@ -31,8 +31,8 @@ e.padStart.apply(); // .apply
 f.padEnd.call(); // .call
 String.prototype.startsWith.call; // prototype.call
 var _k = k,
-    codePointAt = _k.codePointAt,
-    endsWith = _k.endsWith; // destructuring
+  codePointAt = _k.codePointAt,
+  endsWith = _k.endsWith; // destructuring
 
 var asdf = "copyWithin";
 var asdf2 = "split";
@@ -41,4 +41,4 @@ i[asdf]; // computed with identifier
 j["search"]; // computed with template
 k[asdf3]; // computed with concat strings
 var _k2 = k,
-    _a = _k2[asdf2]; // computed
+  _a = _k2[asdf2]; // computed

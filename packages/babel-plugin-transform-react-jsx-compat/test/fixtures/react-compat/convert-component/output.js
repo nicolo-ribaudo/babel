@@ -1,3 +1,3 @@
 var x = Component({
-  foo: "bar"
-}, Namespace.Component(null));
+    foo: "bar"
+  }, Namespace.Component(null));

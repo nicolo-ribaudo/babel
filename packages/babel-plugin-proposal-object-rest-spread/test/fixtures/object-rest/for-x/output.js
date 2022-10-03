@@ -1,12 +1,12 @@
 const _excluded = ["a"],
-      _excluded2 = ["a"],
-      _excluded3 = ["a"];
+  _excluded2 = ["a"],
+  _excluded3 = ["a"];
 // ForXStatement
 for (var _ref of []) {
   var {
-    a
-  } = _ref,
-      b = babelHelpers.objectWithoutProperties(_ref, _excluded);
+      a
+    } = _ref,
+    b = babelHelpers.objectWithoutProperties(_ref, _excluded);
 }
 for (var _ref2 of []) {
   var _ref3 = _ref2;

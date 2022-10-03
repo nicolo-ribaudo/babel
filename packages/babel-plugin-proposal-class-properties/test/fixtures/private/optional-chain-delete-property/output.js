@@ -5,13 +5,13 @@ class Foo {
   static test() {
     var _deep$very$o, _babelHelpers$classSt, _babelHelpers$classSt2, _fnDeep$very$o, _babelHelpers$classSt3, _babelHelpers$classSt4;
     const o = {
-      Foo: Foo
-    };
+        Foo: Foo
+      };
     const deep = {
-      very: {
-        o
-      }
-    };
+        very: {
+          o
+        }
+      };
     function fn() {
       return o;
     }
@@ -51,12 +51,12 @@ class Foo {
   }
 }
 var _x = {
-  writable: true,
-  value: 1
-};
+    writable: true,
+    value: 1
+  };
 var _self = {
-  writable: true,
-  value: Foo
-};
+    writable: true,
+    value: Foo
+  };
 babelHelpers.defineProperty(Foo, "self", Foo);
 Foo.test();

@@ -1,12 +1,12 @@
 var o = /*#__PURE__*/function () {
-  "use strict";
+    "use strict";
 
-  function o() {
-    babelHelpers.classCallCheck(this, o);
-  }
-  babelHelpers.createClass(o, [{
-    key: "\uD842\uDFB7\u91CE\u5BB6",
-    value: function () {}
-  }]);
-  return o;
-}();
+    function o() {
+      babelHelpers.classCallCheck(this, o);
+    }
+    babelHelpers.createClass(o, [{
+      key: "\uD842\uDFB7\u91CE\u5BB6",
+      value: function () {}
+    }]);
+    return o;
+  }();

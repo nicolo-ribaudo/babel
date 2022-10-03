@@ -14,6 +14,6 @@ class Foo {
   }
 }
 var _foo = {
-  writable: true,
-  value: "foo"
-};
+    writable: true,
+    value: "foo"
+  };

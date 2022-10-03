@@ -33,18 +33,18 @@ function _AsyncGenerator(gen) { var front, back; function resume(key, arg) { try
 _AsyncGenerator.prototype["function" == typeof Symbol && Symbol.asyncIterator || "@@asyncIterator"] = function () { return this; }, _AsyncGenerator.prototype.next = function (arg) { return this._invoke("next", arg); }, _AsyncGenerator.prototype["throw"] = function (arg) { return this._invoke("throw", arg); }, _AsyncGenerator.prototype["return"] = function (arg) { return this._invoke("return", arg); };
 function _OverloadYield(value, kind) { this.v = value, this.k = kind; }
 var _x$y$a$b = {
-  x: 1,
-  y: 2,
-  a: 3,
-  b: 4
-},
-    x = _x$y$a$b.x,
-    y = _x$y$a$b.y,
-    z = _objectWithoutProperties(_x$y$a$b, ["x", "y"]);
+    x: 1,
+    y: 2,
+    a: 3,
+    b: 4
+  },
+  x = _x$y$a$b.x,
+  y = _x$y$a$b.y,
+  z = _objectWithoutProperties(_x$y$a$b, ["x", "y"]);
 var n = _objectSpread({
-  x: x,
-  y: y
-}, z);
+    x: x,
+    y: y
+  }, z);
 function agf() {
   return _agf.apply(this, arguments);
 }

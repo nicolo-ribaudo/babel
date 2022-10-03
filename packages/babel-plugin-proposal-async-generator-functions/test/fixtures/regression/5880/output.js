@@ -5,7 +5,7 @@
   try {
     for (var _iterator = babelHelpers.asyncIterator(iterable), _step; _iteratorAbruptCompletion = !(_step = await _iterator.next()).done; _iteratorAbruptCompletion = false) {
       const _step$value = babelHelpers.slicedToArray(_step.value, 1),
-            value = _step$value[0];
+        value = _step$value[0];
     }
   } catch (err) {
     _didIteratorError = true;

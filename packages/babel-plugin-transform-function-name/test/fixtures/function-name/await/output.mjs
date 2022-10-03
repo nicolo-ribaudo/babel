@@ -1,4 +1,4 @@
 export {};
 var obj = {
-  await: function _await() {}
-};
+    await: function _await() {}
+  };

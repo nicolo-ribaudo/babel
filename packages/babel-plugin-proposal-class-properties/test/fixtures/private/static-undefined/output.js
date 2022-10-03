@@ -7,6 +7,6 @@ class Foo {
   }
 }
 var _bar = {
-  writable: true,
-  value: void 0
-};
+    writable: true,
+    value: void 0
+  };

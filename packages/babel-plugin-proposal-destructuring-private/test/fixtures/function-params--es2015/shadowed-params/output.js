@@ -8,8 +8,8 @@ class C {
   }
   m(a = 1, _p, _p2, ..._p3) {
     var x = babelHelpers.classPrivateFieldGet(_p, _x),
-        b = _p2,
-        c = _p3;
+      b = _p2,
+      c = _p3;
     return function (b) {
       var b = 1;
     }(b);

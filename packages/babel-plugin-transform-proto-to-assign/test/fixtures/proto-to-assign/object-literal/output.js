@@ -1,7 +1,7 @@
 var foo = babelHelpers.extends({}, bar);
 var foo = babelHelpers.extends({}, bar, {
-  bar: "foo"
-});
+    bar: "foo"
+  });
 var foo = babelHelpers.extends({}, bar, {
-  bar: "foo"
-});
+    bar: "foo"
+  });

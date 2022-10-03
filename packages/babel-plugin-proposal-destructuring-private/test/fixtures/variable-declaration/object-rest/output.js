@@ -8,14 +8,14 @@ class C {
   static {
     var _m, _m2;
     var {
-      [_m = C.a]: a
-    } = C,
-        x = C.#x,
-        {
-      [_m2 = C.b]: b
-    } = C,
-        y = C.#y,
-        z = babelHelpers.objectWithoutProperties(C, [_m, _m2].map(babelHelpers.toPropertyKey));
+        [_m = C.a]: a
+      } = C,
+      x = C.#x,
+      {
+        [_m2 = C.b]: b
+      } = C,
+      y = C.#y,
+      z = babelHelpers.objectWithoutProperties(C, [_m, _m2].map(babelHelpers.toPropertyKey));
     result = {
       a,
       b,

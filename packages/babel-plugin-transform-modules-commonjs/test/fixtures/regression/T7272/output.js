@@ -5,6 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.state = void 0;
 var state = function state(_state) {
-  return _state.a;
-};
+    return _state.a;
+  };
 exports.state = state;

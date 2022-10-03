@@ -5,8 +5,8 @@
     factory(exports);
   } else {
     var mod = {
-      exports: {}
-    };
+        exports: {}
+      };
     factory(mod.exports);
     global.umdModuleNameWithOverriddenGlobalInput = mod.exports;
   }

@@ -1,7 +1,7 @@
 class Foo {
   constructor() {
     var _newtarget = this.constructor,
-        _class;
+      _class;
     this.test = function _target() {
       this instanceof _target ? this.constructor : void 0;
     };

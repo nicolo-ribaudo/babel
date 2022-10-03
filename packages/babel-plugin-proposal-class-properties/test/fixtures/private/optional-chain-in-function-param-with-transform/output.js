@@ -4,13 +4,13 @@ class Foo {
   }
   static test() {
     const o = {
-      Foo: Foo
-    };
+        Foo: Foo
+      };
     const deep = {
-      very: {
-        o
-      }
-    };
+        very: {
+          o
+        }
+      };
     function fn() {
       return o;
     }
@@ -55,18 +55,18 @@ class Foo {
   }
 }
 var _x = {
-  writable: true,
-  value: 1
-};
+    writable: true,
+    value: 1
+  };
 var _m = {
-  writable: true,
-  value: function () {
-    return babelHelpers.classStaticPrivateFieldSpecGet(this, Foo, _x);
-  }
-};
+    writable: true,
+    value: function () {
+      return babelHelpers.classStaticPrivateFieldSpecGet(this, Foo, _x);
+    }
+  };
 var _self = {
-  writable: true,
-  value: Foo
-};
+    writable: true,
+    value: Foo
+  };
 babelHelpers.defineProperty(Foo, "self", Foo);
 Foo.test();

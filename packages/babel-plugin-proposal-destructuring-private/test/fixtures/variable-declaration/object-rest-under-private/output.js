@@ -6,12 +6,12 @@ class C {
   static #x = C;
   static {
     var {
-      x
-    } = C,
-        {
-      y,
-      ...z
-    } = C.#x;
+        x
+      } = C,
+      {
+        y,
+        ...z
+      } = C.#x;
     result = {
       x,
       y,

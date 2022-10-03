@@ -1,5 +1,5 @@
 let foo = 'hello';
 export const Component = () => {
-  foo = 'goodbye';
-  return <span>{foo}</span>;
-};
+    foo = 'goodbye';
+    return <span>{foo}</span>;
+  };

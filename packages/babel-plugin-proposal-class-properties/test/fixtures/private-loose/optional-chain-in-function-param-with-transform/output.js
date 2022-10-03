@@ -7,13 +7,13 @@ class Foo {
   }
   static test() {
     const o = {
-      Foo: Foo
-    };
+        Foo: Foo
+      };
     const deep = {
-      very: {
-        o
-      }
-    };
+        very: {
+          o
+        }
+      };
     function fn() {
       return o;
     }

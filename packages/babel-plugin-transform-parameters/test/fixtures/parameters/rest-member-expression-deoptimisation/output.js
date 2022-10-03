@@ -1,55 +1,55 @@
 var x = function (foo) {
-  for (var _len = arguments.length, bar = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    bar[_key - 1] = arguments[_key];
-  }
-  console.log(bar);
-};
+    for (var _len = arguments.length, bar = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      bar[_key - 1] = arguments[_key];
+    }
+    console.log(bar);
+  };
 var y = function (foo) {
-  var x = function z(bar) {
-    bar[1] = 5;
+    var x = function z(bar) {
+        bar[1] = 5;
+      };
   };
-};
 var b = function (x, y) {
-  for (var _len2 = arguments.length, args = new Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
-    args[_key2 - 2] = arguments[_key2];
-  }
-  console.log(args[0]);
-  args.pop();
-  console.log(args[1]);
-};
-var z = function (foo) {
-  for (var _len3 = arguments.length, bar = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
-    bar[_key3 - 1] = arguments[_key3];
-  }
-  var x = function () {
-    bar[1] = 5;
+    for (var _len2 = arguments.length, args = new Array(_len2 > 2 ? _len2 - 2 : 0), _key2 = 2; _key2 < _len2; _key2++) {
+      args[_key2 - 2] = arguments[_key2];
+    }
+    console.log(args[0]);
+    args.pop();
+    console.log(args[1]);
   };
-};
+var z = function (foo) {
+    for (var _len3 = arguments.length, bar = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+      bar[_key3 - 1] = arguments[_key3];
+    }
+    var x = function () {
+        bar[1] = 5;
+      };
+  };
 var a = function (foo) {
-  for (var _len4 = arguments.length, bar = new Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
-    bar[_key4 - 1] = arguments[_key4];
-  }
-  return bar.join(",");
-};
+    for (var _len4 = arguments.length, bar = new Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
+      bar[_key4 - 1] = arguments[_key4];
+    }
+    return bar.join(",");
+  };
 var b = function (foo) {
-  var join = "join";
-  for (var _len5 = arguments.length, bar = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
-    bar[_key5 - 1] = arguments[_key5];
-  }
-  return bar[join];
-};
+    var join = "join";
+    for (var _len5 = arguments.length, bar = new Array(_len5 > 1 ? _len5 - 1 : 0), _key5 = 1; _key5 < _len5; _key5++) {
+      bar[_key5 - 1] = arguments[_key5];
+    }
+    return bar[join];
+  };
 var b = function () {
-  for (var _len6 = arguments.length, bar = new Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
-    bar[_key6] = arguments[_key6];
-  }
-  return bar.len;
-};
+    for (var _len6 = arguments.length, bar = new Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
+      bar[_key6] = arguments[_key6];
+    }
+    return bar.len;
+  };
 var b = function (foo) {
-  return (arguments.length <= 1 ? 0 : arguments.length - 1) * 2;
-};
+    return (arguments.length <= 1 ? 0 : arguments.length - 1) * 2;
+  };
 var b = function (foo, baz) {
-  return arguments.length <= 2 ? 0 : arguments.length - 2;
-};
+    return arguments.length <= 2 ? 0 : arguments.length - 2;
+  };
 function x() {
   for (var _len7 = arguments.length, rest = new Array(_len7), _key7 = 0; _key7 < _len7; _key7++) {
     rest[_key7] = arguments[_key7];
@@ -118,7 +118,7 @@ function forOf() {
     rest[_key16] = arguments[_key16];
   }
   var _iterator = babelHelpers.createForOfIteratorHelper(this),
-      _step;
+    _step;
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
       rest[0] = _step.value;

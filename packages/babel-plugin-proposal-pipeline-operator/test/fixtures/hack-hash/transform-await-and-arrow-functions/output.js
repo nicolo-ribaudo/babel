@@ -1,6 +1,6 @@
 const triple = function (x) {
-  return x * 3;
-};
+    return x * 3;
+  };
 async function myFunction(n) {
   var _ref;
   return _ref = Math.abs(n), triple(await Promise.resolve(_ref));

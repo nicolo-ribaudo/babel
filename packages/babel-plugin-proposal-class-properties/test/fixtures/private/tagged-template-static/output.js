@@ -4,8 +4,8 @@ class Foo {
   }
 }
 var _tag = {
-  writable: true,
-  value: function () {
-    return this;
-  }
-};
+    writable: true,
+    value: function () {
+      return this;
+    }
+  };

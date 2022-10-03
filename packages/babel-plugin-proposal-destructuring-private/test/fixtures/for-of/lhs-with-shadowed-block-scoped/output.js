@@ -3,7 +3,7 @@ class C {
   static #x;
   static {
     var x,
-        a = "a";
+      a = "a";
     for (const _ref of [C]) {
       x = _ref.#x, ({
         [a]: a

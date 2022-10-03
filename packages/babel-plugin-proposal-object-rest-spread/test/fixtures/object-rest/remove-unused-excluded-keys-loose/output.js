@@ -1,5 +1,5 @@
 const _excluded = ["excluded", "excluded2", "used", "used2"],
-      _excluded2 = ["unused"];
+  _excluded2 = ["unused"];
 // should not remove when destructuring into existing bindings
 var _c = c2;
 ({
@@ -10,11 +10,11 @@ _c;
 class Comp extends React.Component {
   render() {
     const _this$props = this.props,
-          {
-      used,
-      used2: usedRenamed
-    } = _this$props,
-          props = babelHelpers.objectWithoutPropertiesLoose(_this$props, _excluded);
+      {
+        used,
+        used2: usedRenamed
+      } = _this$props,
+      props = babelHelpers.objectWithoutPropertiesLoose(_this$props, _excluded);
     console.log(used, usedRenamed);
     return React.createElement("input", props);
   }

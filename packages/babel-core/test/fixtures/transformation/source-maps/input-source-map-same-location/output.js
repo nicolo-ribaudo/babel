@@ -1,3 +1,3 @@
 var foo = function () {
-  return 4;
-};
+    return 4;
+  };

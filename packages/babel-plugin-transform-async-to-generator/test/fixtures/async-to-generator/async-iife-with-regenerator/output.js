@@ -24,17 +24,17 @@ babelHelpers.asyncToGenerator( /*#__PURE__*/babelHelpers.regeneratorRuntime().ma
 }))();
 /*#__PURE__*/(function () {
   var _notIIFE = babelHelpers.asyncToGenerator( /*#__PURE__*/babelHelpers.regeneratorRuntime().mark(function _callee3() {
-    return babelHelpers.regeneratorRuntime().wrap(function _callee3$(_context3) {
-      while (1) switch (_context3.prev = _context3.next) {
-        case 0:
-          _context3.next = 2;
-          return 'ok';
-        case 2:
-        case "end":
-          return _context3.stop();
-      }
-    }, _callee3);
-  }));
+      return babelHelpers.regeneratorRuntime().wrap(function _callee3$(_context3) {
+        while (1) switch (_context3.prev = _context3.next) {
+          case 0:
+            _context3.next = 2;
+            return 'ok';
+          case 2:
+          case "end":
+            return _context3.stop();
+        }
+      }, _callee3);
+    }));
   function notIIFE() {
     return _notIIFE.apply(this, arguments);
   }

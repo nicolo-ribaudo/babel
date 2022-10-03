@@ -5,9 +5,9 @@ function foo() {
     return x * x;
   }.bind(this));
   var f = function f(x, y) {
-    babelHelpers.newArrowCheck(this, _this);
-    return x * y;
-  }.bind(this);
+      babelHelpers.newArrowCheck(this, _this);
+      return x * y;
+    }.bind(this);
   (function () {
     var _this2 = this;
     return function () {

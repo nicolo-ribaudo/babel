@@ -1,3 +1,3 @@
 var t = function (i) {
-  return i * 5;
-};
+    return i * 5;
+  };

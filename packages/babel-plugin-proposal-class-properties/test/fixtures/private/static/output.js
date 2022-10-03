@@ -7,9 +7,9 @@ class Foo {
   }
 }
 var _bar = {
-  writable: true,
-  value: "foo"
-};
+    writable: true,
+    value: "foo"
+  };
 expect("bar" in Foo).toBe(false);
 expect(Foo.test()).toBe("foo");
 expect(Foo.test()).toBe("foo");

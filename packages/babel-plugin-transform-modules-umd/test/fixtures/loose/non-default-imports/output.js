@@ -5,8 +5,8 @@
     factory(require("./lib/render"));
   } else {
     var mod = {
-      exports: {}
-    };
+        exports: {}
+      };
     factory(global.render);
     global.input = mod.exports;
   }

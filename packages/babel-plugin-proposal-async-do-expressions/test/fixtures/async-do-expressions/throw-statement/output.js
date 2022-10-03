@@ -1,3 +1,3 @@
 const x = (async () => {
-  throw new Error("sync");
-})();
+    throw new Error("sync");
+  })();

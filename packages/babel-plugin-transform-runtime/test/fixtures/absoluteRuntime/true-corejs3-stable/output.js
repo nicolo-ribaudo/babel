@@ -19,7 +19,7 @@ function makeIterator() {
   }, _marked);
 }
 var _iterator = babelHelpers.createForOfIteratorHelper(makeIterator()),
-    _step;
+  _step;
 try {
   for (_iterator.s(); !(_step = _iterator.n()).done;) {
     var itItem = _step.value;

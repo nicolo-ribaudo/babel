@@ -74,14 +74,14 @@ class C {
   }
 }
 var _a = {
-  writable: true,
-  value: {
-    b: {
-      c: {
-        d: 2
+    writable: true,
+    value: {
+      b: {
+        c: {
+          d: 2
+        }
       }
     }
-  }
-};
+  };
 C.test();
 C.testNullish();

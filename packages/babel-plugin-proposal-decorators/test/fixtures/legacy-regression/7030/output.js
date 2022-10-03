@@ -10,17 +10,17 @@ function generateAsyncAction(type) {
   return request;
 }
 var A = /*#__PURE__*/function (_B) {
-  "use strict";
+    "use strict";
 
-  babelHelpers.inherits(A, _B);
-  var _super = babelHelpers.createSuper(A);
-  function A(timestamp) {
-    var _this;
-    babelHelpers.classCallCheck(this, A);
-    _this = _super.call(this);
-    _this.timestamp = timestamp;
-    _this.moment = moment(timestamp);
-    return _this;
-  }
-  return babelHelpers.createClass(A);
-}(B);
+    babelHelpers.inherits(A, _B);
+    var _super = babelHelpers.createSuper(A);
+    function A(timestamp) {
+      var _this;
+      babelHelpers.classCallCheck(this, A);
+      _this = _super.call(this);
+      _this.timestamp = timestamp;
+      _this.moment = moment(timestamp);
+      return _this;
+    }
+    return babelHelpers.createClass(A);
+  }(B);

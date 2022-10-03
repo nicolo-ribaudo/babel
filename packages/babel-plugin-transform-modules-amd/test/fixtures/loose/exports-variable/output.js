@@ -8,7 +8,7 @@ define(["exports"], function (_exports) {
   var foo = 1;
   _exports.foo = foo;
   var foo2 = 1,
-      bar = 2;
+    bar = 2;
   _exports.bar = bar;
   _exports.foo2 = foo2;
   var foo3 = function () {};

@@ -6,8 +6,8 @@ class MyClass {
       writable: true,
       value: function () {
         var _ref = babelHelpers.asyncToGenerator(function* () {
-          console.log(_this);
-        });
+            console.log(_this);
+          });
         return function value() {
           return _ref.apply(this, arguments);
         };
@@ -23,8 +23,8 @@ var _myAsyncMethod2 = /*#__PURE__*/new WeakMap();
       writable: true,
       value: function () {
         var _ref2 = babelHelpers.asyncToGenerator(function* () {
-          console.log(_this2);
-        });
+            console.log(_this2);
+          });
         return function value() {
           return _ref2.apply(this, arguments);
         };
@@ -40,8 +40,8 @@ export default class MyClass3 {
       writable: true,
       value: function () {
         var _ref3 = babelHelpers.asyncToGenerator(function* () {
-          console.log(_this3);
-        });
+            console.log(_this3);
+          });
         return function value() {
           return _ref3.apply(this, arguments);
         };

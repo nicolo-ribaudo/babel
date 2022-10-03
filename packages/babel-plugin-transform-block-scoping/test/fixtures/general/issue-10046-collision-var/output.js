@@ -1,10 +1,10 @@
 var run = function () {
-  return false;
-};
+    return false;
+  };
 if (true) {
   var run = function () {
-    return true;
-  };
+      return true;
+    };
 }
 function test() {
   return run();

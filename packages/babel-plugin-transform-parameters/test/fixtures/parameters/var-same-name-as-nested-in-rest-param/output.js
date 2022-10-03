@@ -3,8 +3,8 @@ function f() {
     _ref[_key] = arguments[_key];
   }
   var x = _ref[0],
-      _ref$ = _ref[1],
-      y = _ref$ === void 0 ? x : _ref$;
+    _ref$ = _ref[1],
+    y = _ref$ === void 0 ? x : _ref$;
   return x;
 }
 function g() {
@@ -12,8 +12,8 @@ function g() {
     _ref2[_key2] = arguments[_key2];
   }
   var x = _ref2[0],
-      _ref2$ = _ref2[1],
-      y = _ref2$ === void 0 ? x : _ref2$;
+    _ref2$ = _ref2[1],
+    y = _ref2$ === void 0 ? x : _ref2$;
   return function (x) {
     var x = 1;
     return x;

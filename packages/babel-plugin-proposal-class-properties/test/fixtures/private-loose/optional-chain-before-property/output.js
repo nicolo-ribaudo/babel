@@ -7,13 +7,13 @@ class Foo {
   static test() {
     var _deep$very$o, _deep$very$o2, _deep$very$o3, _ref, _ref2, _self2, _babelHelpers$classPr, _ref3, _ref4, _getSelf, _ref5, _ref6, _babelHelpers$classPr2, _call, _getSelf2, _getSelf3, _fnDeep$very$o, _fnDeep$very$o2, _fnDeep$very$o3, _ref7, _ref8, _self3, _babelHelpers$classPr3, _ref9, _ref10, _getSelf4, _ref11, _ref12, _babelHelpers$classPr4, _call2, _getSelf5, _getSelf6;
     const o = {
-      Foo: Foo
-    };
+        Foo: Foo
+      };
     const deep = {
-      very: {
-        o
-      }
-    };
+        very: {
+          o
+        }
+      };
     function fn() {
       return o;
     }

@@ -2,7 +2,7 @@ var _ref2, _ref2$;
 let x = 23;
 expect(x).toEqual(23);
 const y = 24,
-      z = 42;
+  z = 42;
 expect(y).toEqual(24);
 expect(z).toEqual(42);
 function* foo() {
@@ -11,9 +11,9 @@ function* foo() {
 }
 let bar = foo();
 const _ref = [, bar.next().value],
-      _ref$ = _ref[0],
-      a = _ref$ === void 0 ? bar.next().value : _ref$,
-      b = _ref[1];
+  _ref$ = _ref[0],
+  a = _ref$ === void 0 ? bar.next().value : _ref$,
+  b = _ref[1];
 expect(a).toEqual(2);
 expect(b).toEqual(1);
 const arr = (_ref2 = [,], _ref2$ = _ref2[0], c = _ref2$ === void 0 ? 42 : _ref2$, _ref2);

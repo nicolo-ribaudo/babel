@@ -12,7 +12,7 @@ class Foo {
   _initStatic(Foo);
 })();
 var _a = {
-  writable: true,
-  value: _call_a
-};
+    writable: true,
+    value: _call_a
+  };
 babelHelpers.defineProperty(Foo, "value", 1);

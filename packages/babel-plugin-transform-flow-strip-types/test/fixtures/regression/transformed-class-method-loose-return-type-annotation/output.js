@@ -1,10 +1,10 @@
 var C = /*#__PURE__*/function () {
-  "use strict";
+    "use strict";
 
-  function C() {}
-  var _proto = C.prototype;
-  _proto.m = function m(x) {
-    return 'a';
-  };
-  return C;
-}();
+    function C() {}
+    var _proto = C.prototype;
+    _proto.m = function m(x) {
+      return 'a';
+    };
+    return C;
+  }();

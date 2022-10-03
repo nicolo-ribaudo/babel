@@ -456,7 +456,7 @@ describe("api", function () {
 
     expect(aliasBaseType).toBe("NumberTypeAnnotation");
 
-    expect(result.code).toBe("var x = function x(y) {\n  return y;\n};");
+    expect(result.code).toBe("var x = function x(y) {\n    return y;\n  };");
 
     // 2. passPerPreset: false
 
@@ -466,7 +466,7 @@ describe("api", function () {
 
     expect(aliasBaseType).toBeNull();
 
-    expect(result.code).toBe("var x = function x(y) {\n  return y;\n};");
+    expect(result.code).toBe("var x = function x(y) {\n    return y;\n  };");
   });
 
   it("complex plugin and preset ordering", function () {
@@ -626,8 +626,8 @@ describe("api", function () {
         "  }",
         "}",
         "let Foo = function Foo() {",
-        "  _classCallCheck(this, Foo);",
-        "};",
+        "    _classCallCheck(this, Foo);",
+        "  };",
       ].join("\n"),
     ).toBe(result.code);
 

@@ -1,5 +1,5 @@
 var _jsxFileName = "<CWD>\\packages\\babel-plugin-transform-react-jsx-development\\test\\fixtures\\windows\\self-inside-arrow-windows\\input.mjs",
-    _this = this;
+  _this = this;
 import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
 /*#__PURE__*/_jsxDEV("div", {}, void 0, false, {
   fileName: _jsxFileName,

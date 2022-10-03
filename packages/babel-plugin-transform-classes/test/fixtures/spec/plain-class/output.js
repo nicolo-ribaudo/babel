@@ -1,5 +1,5 @@
 var Test = /*#__PURE__*/babelHelpers.createClass(function Test() {
-  "use strict";
+    "use strict";
 
-  babelHelpers.classCallCheck(this, Test);
-});
+    babelHelpers.classCallCheck(this, Test);
+  });

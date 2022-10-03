@@ -1,7 +1,7 @@
 class MyClass extends BaseClass {
   loadEntity() {
     var _superprop_getLoadEntity = () => super.loadEntity,
-        _this = this;
+      _this = this;
     return babelHelpers.asyncToGenerator(function* () {
       _this.website = yield _this.loadWebsite();
       _this.report.setCompany(_this.website.company);

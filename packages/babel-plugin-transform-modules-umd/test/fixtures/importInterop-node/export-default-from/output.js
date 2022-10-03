@@ -5,8 +5,8 @@
     factory(exports, require("dep"));
   } else {
     var mod = {
-      exports: {}
-    };
+        exports: {}
+      };
     factory(mod.exports, global.dep);
     global.input = mod.exports;
   }

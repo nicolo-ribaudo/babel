@@ -1,13 +1,13 @@
 function f() {}
 const o = {
-  m() {}
-};
+    m() {}
+  };
 class C {
   m() {}
 }
 const g = {
-  get m() {}
-};
+    get m() {}
+  };
 const s = {
-  set m(value) {}
-};
+    set m(value) {}
+  };

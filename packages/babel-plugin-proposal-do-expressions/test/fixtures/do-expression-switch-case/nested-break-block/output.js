@@ -1,64 +1,64 @@
 const x = n => function () {
-  switch (n) {
-    case 0:
-      {
-        return "a";
-        {}
-      }
-      {
-        "b";
-      }
-      ;
-    case 1:
-      {
-        "c";
-      }
-      {
-        return "d";
+    switch (n) {
+      case 0:
         {
+          return "a";
+          {}
+        }
+        {
+          "b";
+        }
+        ;
+      case 1:
+        {
+          "c";
+        }
+        {
+          return "d";
           {
             {
-              {}
+              {
+                {}
+              }
             }
           }
         }
-      }
-      ;
-    case 2:
-    case 3:
-      {
-        "e";
+        ;
+      case 2:
+      case 3:
         {
-          if (true) {
-            return void 0;
-          }
-        }
-      }
-      {}
-    case 4:
-      {
-        return "g";
-        {
+          "e";
           {
-            "h";
+            if (true) {
+              return void 0;
+            }
           }
-          "i";
         }
-      }
-    case 5:
-    case 6:
-      if (n === 5) {
-        return "j";
-      } else {
-        return "k";
-      }
-      {
-        "l";
-      }
-    case 7:
-      {
-        a: return "m";
-      }
-    case 8:
-  }
-}();
+        {}
+      case 4:
+        {
+          return "g";
+          {
+            {
+              "h";
+            }
+            "i";
+          }
+        }
+      case 5:
+      case 6:
+        if (n === 5) {
+          return "j";
+        } else {
+          return "k";
+        }
+        {
+          "l";
+        }
+      case 7:
+        {
+          a: return "m";
+        }
+      case 8:
+    }
+  }();

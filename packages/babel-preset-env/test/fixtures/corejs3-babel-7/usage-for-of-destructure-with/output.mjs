@@ -2,7 +2,7 @@ import "core-js/modules/es.array.iterator.js";
 import "core-js/modules/es.string.pad-start.js";
 import "core-js/modules/es.string.pad-end.js";
 for (const {
-  padStart
-} of foo) {
+    padStart
+  } of foo) {
   console.log('b'.padEnd(5));
 }

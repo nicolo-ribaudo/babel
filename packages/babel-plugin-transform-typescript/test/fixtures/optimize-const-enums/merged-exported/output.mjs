@@ -1,7 +1,7 @@
 export var A = {
-  x: 0,
-  y: 1
-};
+    x: 0,
+    y: 1
+  };
 Object.assign(A, {
   z: 0
 });

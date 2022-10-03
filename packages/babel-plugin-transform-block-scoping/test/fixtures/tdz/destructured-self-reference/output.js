@@ -1,5 +1,5 @@
 var {
-  b: d
-} = {
-  d: babelHelpers.tdz("d")
-};
+    b: d
+  } = {
+    d: babelHelpers.tdz("d")
+  };

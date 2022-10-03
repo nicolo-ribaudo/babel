@@ -21,7 +21,7 @@ function H(WeakMap) {
 } // shadowed
 
 const foo = new Promise(resolve => {
-  resolve(new Map());
-});
+    resolve(new Map());
+  });
 queueMicrotask(() => globalThis);
 Observable.from(10);

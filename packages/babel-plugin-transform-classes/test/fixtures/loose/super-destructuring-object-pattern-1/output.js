@@ -1,14 +1,14 @@
 var Foo = /*#__PURE__*/function () {
-  "use strict";
+    "use strict";
 
-  function Foo() {}
-  var _proto = Foo.prototype;
-  _proto.foo = function foo(props) {
-    ;
-    ({
-      x,
-      ...this.client
-    } = props);
-  };
-  return Foo;
-}();
+    function Foo() {}
+    var _proto = Foo.prototype;
+    _proto.foo = function foo(props) {
+      ;
+      ({
+        x,
+        ...this.client
+      } = props);
+    };
+    return Foo;
+  }();

@@ -5,6 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var _default = function () {
-  return "foo";
-}();
+    return "foo";
+  }();
 exports.default = _default;

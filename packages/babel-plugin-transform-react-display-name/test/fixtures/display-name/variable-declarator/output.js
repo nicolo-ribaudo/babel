@@ -1,6 +1,6 @@
 var foo = createReactClass({
-  displayName: "foo"
-});
+    displayName: "foo"
+  });
 var bar = React.createClass({
-  displayName: "bar"
-});
+    displayName: "bar"
+  });

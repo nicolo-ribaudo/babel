@@ -4,5 +4,5 @@ var a = (() => [1, 2, 3])();
 // If it's optimized and doesn't call toArray, please modify this test
 // and exec.js
 var _a = babelHelpers.toArray(a),
-    first = _a[0],
-    rest = _a.slice(1);
+  first = _a[0],
+  rest = _a.slice(1);

@@ -1,17 +1,17 @@
 let x;
 class C {}
 var _x = {
-  writable: true,
-  value: void 0
-};
+    writable: true,
+    value: void 0
+  };
 var _y = {
-  writable: true,
-  value: void 0
-};
+    writable: true,
+    value: void 0
+  };
 var _z = {
-  writable: true,
-  value: void 0
-};
+    writable: true,
+    value: void 0
+  };
 (() => {
   var _p, _p2;
   let z;

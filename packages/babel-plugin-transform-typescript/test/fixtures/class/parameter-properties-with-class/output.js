@@ -1,6 +1,6 @@
 let Person = /*#__PURE__*/babelHelpers.createClass(function Person(name) {
-  "use strict";
+    "use strict";
 
-  babelHelpers.classCallCheck(this, Person);
-  this.name = name;
-});
+    babelHelpers.classCallCheck(this, Person);
+    this.name = name;
+  });

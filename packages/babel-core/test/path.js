@@ -54,7 +54,7 @@ describe("traversal path", function () {
       ],
     }).code;
 
-    expect(actualCode).toBe("var fn = () => {\n  return true;\n};");
+    expect(actualCode).toBe("var fn = () => {\n    return true;\n  };");
   });
 
   it("replaceWith (arrow block statement body to expression body)", function () {

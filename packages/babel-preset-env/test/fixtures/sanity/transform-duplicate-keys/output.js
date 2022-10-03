@@ -1,3 +1,3 @@
 var a = babelHelpers.defineProperty({
-  b: 1
-}, "b", 2);
+    b: 1
+  }, "b", 2);

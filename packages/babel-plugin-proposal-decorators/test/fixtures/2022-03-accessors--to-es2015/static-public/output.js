@@ -26,14 +26,14 @@ class Foo {
   _initStatic(Foo);
 })();
 var _A = {
-  writable: true,
-  value: _init_a(Foo)
-};
+    writable: true,
+    value: _init_a(Foo)
+  };
 var _B = {
-  writable: true,
-  value: _init_b(Foo, 123)
-};
+    writable: true,
+    value: _init_b(Foo, 123)
+  };
 var _C = {
-  writable: true,
-  value: _init_computedKey(Foo, 456)
-};
+    writable: true,
+    value: _init_computedKey(Foo, 456)
+  };

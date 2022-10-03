@@ -36,8 +36,8 @@ function H(WeakMap) {
 } // shadowed
 
 var foo = new Promise(function (resolve) {
-  resolve(new Map());
-});
+    resolve(new Map());
+  });
 queueMicrotask(function () {
   return globalThis;
 });

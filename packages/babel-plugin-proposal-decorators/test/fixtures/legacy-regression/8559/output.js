@@ -9,8 +9,8 @@ function wrap() {
   return function () {
     var _class;
     let Foo = (_class = class Foo {
-      method() {}
-    }, (babelHelpers.applyDecoratedDescriptor(_class.prototype, "method", [_coreDecorators.autobind], Object.getOwnPropertyDescriptor(_class.prototype, "method"), _class.prototype)), _class);
+        method() {}
+      }, (babelHelpers.applyDecoratedDescriptor(_class.prototype, "method", [_coreDecorators.autobind], Object.getOwnPropertyDescriptor(_class.prototype, "method"), _class.prototype)), _class);
     return Foo;
   };
 }

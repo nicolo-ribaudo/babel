@@ -2,9 +2,9 @@ const _excluded = ["0"];
 let result;
 class C {}
 var _x = {
-  writable: true,
-  value: void 0
-};
+    writable: true,
+    value: void 0
+  };
 (() => {
   var _p, _m;
   var x, z;

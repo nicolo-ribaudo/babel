@@ -2,25 +2,25 @@ var _obj$x, _obj$x2, _deep$obj, _deep$obj$x, _deep$obj2, _deep$obj2$x, _key, _ob
 var x = undefined;
 var sets = 0;
 var obj = {
-  get x() {
-    return x;
-  },
-  set x(value) {
-    sets++;
-    x = value;
-  }
-};
+    get x() {
+      return x;
+    },
+    set x(value) {
+      sets++;
+      x = value;
+    }
+  };
 expect((_obj$x = obj.x) !== null && _obj$x !== void 0 ? _obj$x : obj.x = 1).toBe(1);
 expect(sets, 1);
 expect((_obj$x2 = obj.x) !== null && _obj$x2 !== void 0 ? _obj$x2 : obj.x = 2).toBe(1);
 expect(sets, 1);
 var gets = 0;
 var deep = {
-  get obj() {
-    gets++;
-    return obj;
-  }
-};
+    get obj() {
+      gets++;
+      return obj;
+    }
+  };
 obj.x = undefined;
 expect((_deep$obj$x = (_deep$obj = deep.obj).x) !== null && _deep$obj$x !== void 0 ? _deep$obj$x : _deep$obj.x = 1).toBe(1);
 expect(gets, 1);

@@ -7,5 +7,5 @@ function Foo() {
   };
 }
 var Bar = function _target2() {
-  var Bar = this instanceof _target2 ? this.constructor : void 0;
-};
+    var Bar = this instanceof _target2 ? this.constructor : void 0;
+  };

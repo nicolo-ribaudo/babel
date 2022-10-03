@@ -5,11 +5,11 @@ class Foo {
   test() {
     var _o$Foo, _o$Foo2, _o$Foo3, _o$Foo$self$getSelf, _o$Foo$self$getSelf2, _fn$Foo$self$getSelf, _fn$Foo$self$getSelf2;
     const o = {
-      Foo: Foo
-    };
+        Foo: Foo
+      };
     const fn = function () {
-      return o;
-    };
+        return o;
+      };
     (Foo === null || Foo === void 0 ? void 0 : babelHelpers.classStaticPrivateFieldSpecGet(Foo, Foo, _m).bind(Foo))();
     (Foo === null || Foo === void 0 ? void 0 : babelHelpers.classStaticPrivateFieldSpecGet(Foo, Foo, _m).bind(Foo))().toString;
     (Foo === null || Foo === void 0 ? void 0 : babelHelpers.classStaticPrivateFieldSpecGet(Foo, Foo, _m).bind(Foo))().toString();
@@ -23,14 +23,14 @@ class Foo {
   }
 }
 var _x = {
-  writable: true,
-  value: 1
-};
+    writable: true,
+    value: 1
+  };
 babelHelpers.defineProperty(Foo, "self", Foo);
 var _m = {
-  writable: true,
-  value: function () {
-    return babelHelpers.classStaticPrivateFieldSpecGet(this, Foo, _x);
-  }
-};
+    writable: true,
+    value: function () {
+      return babelHelpers.classStaticPrivateFieldSpecGet(this, Foo, _x);
+    }
+  };
 new Foo().test();

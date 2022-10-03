@@ -5,8 +5,8 @@
     factory(exports, require("./evens"));
   } else {
     var mod = {
-      exports: {}
-    };
+        exports: {}
+      };
     factory(mod.exports, global.evens);
     global.input = mod.exports;
   }
@@ -20,9 +20,9 @@
     return (0, _evens.isEven)(n) ? n + 1 : n + 2;
   }
   var isOdd = function (isEven) {
-    return function (n) {
-      return !isEven(n);
-    };
-  }(_evens.isEven);
+      return function (n) {
+        return !isEven(n);
+      };
+    }(_evens.isEven);
   _exports.isOdd = isOdd;
 });

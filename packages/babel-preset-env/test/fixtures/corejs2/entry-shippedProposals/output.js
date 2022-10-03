@@ -149,18 +149,18 @@ require("core-js/modules/web.immediate.js");
 require("core-js/modules/web.dom.iterable.js");
 require("regenerator-runtime/runtime.js");
 var _x$y$a$b = {
-  x: 1,
-  y: 2,
-  a: 3,
-  b: 4
-},
-    x = _x$y$a$b.x,
-    y = _x$y$a$b.y,
-    z = babelHelpers.objectWithoutProperties(_x$y$a$b, ["x", "y"]);
+    x: 1,
+    y: 2,
+    a: 3,
+    b: 4
+  },
+  x = _x$y$a$b.x,
+  y = _x$y$a$b.y,
+  z = babelHelpers.objectWithoutProperties(_x$y$a$b, ["x", "y"]);
 var n = babelHelpers.objectSpread2({
-  x: x,
-  y: y
-}, z);
+    x: x,
+    y: y
+  }, z);
 function agf() {
   return _agf.apply(this, arguments);
 }

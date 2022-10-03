@@ -1,3 +1,3 @@
 var o = {
-  "\uD835\uDC9C": function 𝒜() {}
-};
+    "\uD835\uDC9C": function 𝒜() {}
+  };

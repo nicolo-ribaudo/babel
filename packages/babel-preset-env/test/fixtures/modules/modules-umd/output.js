@@ -5,8 +5,8 @@
     factory(require("a"));
   } else {
     var mod = {
-      exports: {}
-    };
+        exports: {}
+      };
     factory(global.a);
     global.input = mod.exports;
   }

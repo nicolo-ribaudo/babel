@@ -6,12 +6,12 @@ class C {
   } = babelHelpers.classStaticPrivateFieldSpecGet(_m2, C, _x)), _m2)) {}
 }
 var _x = {
-  writable: true,
-  value: {
-    a: 1,
-    b: 2
-  }
-};
+    writable: true,
+    value: {
+      a: 1,
+      b: 2
+    }
+  };
 (() => {
   var _m;
   let b;

@@ -7,8 +7,8 @@
 
 if (true) {
   var _run = async function* () {
-    return true;
-  };
+      return true;
+    };
 }
 function test() {
   return run();

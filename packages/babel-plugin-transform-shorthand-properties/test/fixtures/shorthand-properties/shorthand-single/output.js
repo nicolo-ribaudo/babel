@@ -1,3 +1,3 @@
 var coords = {
-  x: x
-};
+    x: x
+  };

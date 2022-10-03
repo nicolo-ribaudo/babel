@@ -10,6 +10,6 @@ function _get_tag() {
   };
 }
 var _tag = {
-  get: _get_tag,
-  set: void 0
-};
+    get: _get_tag,
+    set: void 0
+  };
