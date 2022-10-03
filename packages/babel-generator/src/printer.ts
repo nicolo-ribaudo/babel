@@ -958,7 +958,8 @@ class Printer {
               // we always wrap before and after multi-line comments.
               if (
                 this._buf.hasContent() &&
-                (len > 1 || commentStartLine != commentEndLine)
+                (comment.type === "CommentLine" ||
+                  commentStartLine != commentEndLine)
               ) {
                 offset = leadingCommentNewline = 1;
               }

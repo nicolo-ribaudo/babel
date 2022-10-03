@@ -182,8 +182,10 @@ class Printer {
     // http://javascript.spec.whatwg.org/#comment-syntax
     const lastChar = this.getLastChar();
     const strFirst = str.charCodeAt(0);
-    if (lastChar === charCodes.exclamationMark && str === "--" || // Need spaces for operators of the same kind to avoid: `a+++b`
-    strFirst === charCodes.plusSign && lastChar === charCodes.plusSign || strFirst === charCodes.dash && lastChar === charCodes.dash || // Needs spaces to avoid changing '34' to '34.', which would still be a valid number.
+    if (lastChar === charCodes.exclamationMark && str === "--" ||
+    // Need spaces for operators of the same kind to avoid: `a+++b`
+    strFirst === charCodes.plusSign && lastChar === charCodes.plusSign || strFirst === charCodes.dash && lastChar === charCodes.dash ||
+    // Needs spaces to avoid changing '34' to '34.', which would still be a valid number.
     strFirst === charCodes.dot && this._endsWithInteger) {
       this._space();
     }
@@ -194,8 +196,10 @@ class Printer {
     // space is mandatory to avoid outputting <!--
     // http://javascript.spec.whatwg.org/#comment-syntax
     const lastChar = this.getLastChar();
-    if ( // Need spaces for operators of the same kind to avoid: `a+++b`
-    char === charCodes.plusSign && lastChar === charCodes.plusSign || char === charCodes.dash && lastChar === charCodes.dash || // Needs spaces to avoid changing '34' to '34.', which would still be a valid number.
+    if (
+    // Need spaces for operators of the same kind to avoid: `a+++b`
+    char === charCodes.plusSign && lastChar === charCodes.plusSign || char === charCodes.dash && lastChar === charCodes.dash ||
+    // Needs spaces to avoid changing '34' to '34.', which would still be a valid number.
     char === charCodes.dot && this._endsWithInteger) {
       this._space();
     }
@@ -334,8 +338,10 @@ class Printer {
     // Check for newline or comment.
     const cha = str.charCodeAt(i);
     if (cha !== charCodes.lineFeed) {
-      if ( // This is not a comment (it doesn't start with /)
-      cha !== charCodes.slash || // This is not a comment (it's a / operator)
+      if (
+      // This is not a comment (it doesn't start with /)
+      cha !== charCodes.slash ||
+      // This is not a comment (it's a / operator)
       i + 1 === len) {
         // After a normal token, the parentheses aren't needed anymore
         this._parenPushNewlineState = null;
@@ -426,11 +432,13 @@ class Printer {
     const nodeType = node.type;
     const format = this.format;
     const oldConcise = format.concise;
-    if ( // @ts-expect-error document _compact AST properties
+    if (
+    // @ts-expect-error document _compact AST properties
     node._compact) {
       format.concise = true;
     }
-    const printMethod = this[(nodeType as Exclude<t.Node["type"], // removed
+    const printMethod = this[(nodeType as Exclude<t.Node["type"],
+      // removed
       "Noop"
       // renamed
       | t.DeprecatedAliases["type"]>)];
@@ -539,7 +547,8 @@ class Printer {
     this._printComments(this._getComments(false, node));
   }
   _printLeadingComments(node: t.Node) {
-    this._printComments(this._getComments(true, node), // Don't add leading/trailing new lines to #__PURE__ annotations
+    this._printComments(this._getComments(true, node),
+    // Don't add leading/trailing new lines to #__PURE__ annotations
     true);
   }
   printInnerComments(node: t.Node, indent = true) {
@@ -629,7 +638,8 @@ class Printer {
   _printComments(comments?: readonly t.Comment[], inlinePureAnnotation?: boolean) {
     if (!comments?.length) return;
     if (inlinePureAnnotation && comments.length === 1 && PURE_ANNOTATION_RE.test(comments[0].value)) {
-      this._printComment(comments[0], // Keep newlines if the comment marks a standalone call
+      this._printComment(comments[0],
+      // Keep newlines if the comment marks a standalone call
       this._buf.hasContent() && !this.endsWith(charCodes.lineFeed));
     } else {
       for (const comment of comments) {

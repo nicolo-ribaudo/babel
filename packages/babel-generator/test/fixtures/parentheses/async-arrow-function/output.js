@@ -1,4 +1,5 @@
-const x = async ( // some comment
+const x = async (
+  // some comment
   a) => {
     return foo(await a);
   };
