@@ -5,13 +5,13 @@ class Foo {
   static test() {
     var _o$Foo, _o$Foo2, _o$Foo3, _deep$very$o$Foo, _deep$very$o$Foo2, _deep$very$o$Foo3, _ref, _ref2, _self2, _self3, _self$self, _ref3, _babelHelpers$classSt, _call, _getSelf, _getSelf2, _self4, _babelHelpers$classSt2, _call$self, _getSelf$self, _getSelf$self2, _fn$Foo, _fn$Foo2, _fn$Foo3, _fnDeep$very$o$Foo, _fnDeep$very$o$Foo2, _fnDeep$very$o$Foo3, _ref4, _ref5, _self5, _self6, _self$self2, _ref6, _babelHelpers$classSt3, _call2, _getSelf3, _getSelf4, _self7, _babelHelpers$classSt4, _call$self2, _getSelf$self3, _getSelf$self4, _deep$very$o, _deep$very$o2, _deep$very$o3, _ref7, _ref8, _ref9, _ref9$self, _ref10, _ref11, _ref12, _ref12$getSelf, _ref13, _ref14, _ref14$call, _ref15, _ref15$getSelf, _ref16, _ref16$getSelf, _ref16$getSelf$call, _fnDeep$very$o, _fnDeep$very$o2, _fnDeep$very$o3, _ref17, _ref18, _ref19, _ref19$self, _ref20, _ref21, _ref22, _ref22$getSelf, _ref23, _ref24, _ref24$call, _ref25, _ref25$getSelf, _ref26, _ref26$getSelf, _ref26$getSelf$call;
     const o = {
-        Foo: Foo
-      };
+      Foo: Foo
+    };
     const deep = {
-        very: {
-          o
-        }
-      };
+      very: {
+        o
+      }
+    };
     function fn() {
       return o;
     }
@@ -62,12 +62,12 @@ class Foo {
   }
 }
 var _x = {
-    writable: true,
-    value: 1
-  };
+  writable: true,
+  value: 1
+};
 var _self = {
-    writable: true,
-    value: Foo
-  };
+  writable: true,
+  value: Foo
+};
 babelHelpers.defineProperty(Foo, "self", Foo);
 Foo.test();

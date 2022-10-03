@@ -1,12 +1,12 @@
 var k = {
-    a: 1,
-    b: 2
-  };
+  a: 1,
+  b: 2
+};
 var o = babelHelpers.objectSpread2(babelHelpers.objectSpread2({
-    a: 3
-  }, k), {}, {
-    b: k.a++
-  });
+  a: 3
+}, k), {}, {
+  b: k.a++
+});
 var pureA = {};
 var pureB = {};
 var pureC = {};
@@ -16,11 +16,11 @@ function impureFunc() {
   console.log('hello');
 }
 var output = babelHelpers.objectSpread2(babelHelpers.objectSpread2(babelHelpers.objectSpread2(babelHelpers.objectSpread2(babelHelpers.objectSpread2(babelHelpers.objectSpread2({}, pureA), {}, {
-    get foo() {},
-    get bar() {}
-  }, pureB), pureC), impureFunc()), pureD), {}, {
-    pureD
-  });
+  get foo() {},
+  get bar() {}
+}, pureB), pureC), impureFunc()), pureD), {}, {
+  pureD
+});
 var simpleOutput = babelHelpers.objectSpread2(babelHelpers.objectSpread2({}, pureA), {}, {
-    test: '1'
-  }, pureB);
+  test: '1'
+}, pureB);

@@ -13,18 +13,18 @@ function _set_b(v) {
   babelHelpers.classStaticPrivateFieldSpecSet(this, Foo, _B, v);
 }
 var _b = {
-    get: _get_b,
-    set: _set_b
-  };
+  get: _get_b,
+  set: _set_b
+};
 var _a = {
-    get: _get_a,
-    set: _set_a
-  };
+  get: _get_a,
+  set: _set_a
+};
 var _A = {
-    writable: true,
-    value: void 0
-  };
+  writable: true,
+  value: void 0
+};
 var _B = {
-    writable: true,
-    value: 123
-  };
+  writable: true,
+  value: 123
+};

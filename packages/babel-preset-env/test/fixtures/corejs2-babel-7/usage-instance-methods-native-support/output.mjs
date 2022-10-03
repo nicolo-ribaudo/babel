@@ -11,6 +11,6 @@ e.padStart.apply(); // .apply
 f.padEnd.call(); // .call
 String.prototype.startsWith.call; // prototype.call
 var {
-    codePointAt,
-    endsWith
-  } = k; // destructuring
+  codePointAt,
+  endsWith
+} = k; // destructuring

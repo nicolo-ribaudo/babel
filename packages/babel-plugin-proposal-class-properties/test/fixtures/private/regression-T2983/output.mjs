@@ -5,7 +5,7 @@ call((_class = class {}, _test = {
 }, _class));
 export default class _class2 {}
 var _test2 = {
-    writable: true,
-    value: true
-  };
+  writable: true,
+  value: true
+};
 ;

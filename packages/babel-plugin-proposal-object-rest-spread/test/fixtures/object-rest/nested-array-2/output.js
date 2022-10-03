@@ -1,6 +1,6 @@
 const [a, [_ref], _ref2, [_ref3, {
-    h: [i, _ref4]
-  }]] = x;
+  h: [i, _ref4]
+}]] = x;
 const {
     b
   } = _ref,

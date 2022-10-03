@@ -1,16 +1,16 @@
 function* g() {
   let A = babelHelpers.decorate([dec], function (_initialize, _yield$B) {
-      "use strict";
+    "use strict";
 
-      class A extends _yield$B {
-        constructor(...args) {
-          super(...args);
-          _initialize(this);
-        }
+    class A extends _yield$B {
+      constructor(...args) {
+        super(...args);
+        _initialize(this);
       }
-      return {
-        F: A,
-        d: []
-      };
-    }, yield B);
+    }
+    return {
+      F: A,
+      d: []
+    };
+  }, yield B);
 }

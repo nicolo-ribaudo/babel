@@ -5,8 +5,8 @@
     factory();
   } else {
     var mod = {
-        exports: {}
-      };
+      exports: {}
+    };
     factory();
     global.looseModuleNameCompatInput = mod.exports;
   }

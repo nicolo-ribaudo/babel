@@ -1,6 +1,6 @@
 var Foo = /*#__PURE__*/babelHelpers.createClass(function Foo() {
-    "use strict";
+  "use strict";
 
-    babelHelpers.classCallCheck(this, Foo);
-    babelHelpers.defineProperty(this, "bar", "foo");
-  });
+  babelHelpers.classCallCheck(this, Foo);
+  babelHelpers.defineProperty(this, "bar", "foo");
+});

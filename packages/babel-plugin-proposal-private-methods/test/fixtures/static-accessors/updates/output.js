@@ -32,11 +32,11 @@ function _set_privateFieldValue(newValue) {
   babelHelpers.classStaticPrivateFieldSpecSet(Cl, Cl, _privateField, newValue);
 }
 var _privateFieldValue = {
-    get: _get_privateFieldValue,
-    set: _set_privateFieldValue
-  };
+  get: _get_privateFieldValue,
+  set: _set_privateFieldValue
+};
 var _privateField = {
-    writable: true,
-    value: "top secret string"
-  };
+  writable: true,
+  value: "top secret string"
+};
 babelHelpers.defineProperty(Cl, "publicField", "not secret string");

@@ -1,9 +1,9 @@
 let x, y, z;
 class C {}
 var _x = {
-    writable: true,
-    value: void 0
-  };
+  writable: true,
+  value: void 0
+};
 (() => {
   var _p, _p2, _m;
   [{

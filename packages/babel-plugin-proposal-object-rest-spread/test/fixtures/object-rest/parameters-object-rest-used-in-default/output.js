@@ -9,10 +9,10 @@ _ref => {
     } = _ref2,
     R = babelHelpers.objectWithoutProperties(_ref2, _excluded);
   let {
-      a = {
-        Y
-      }
-    } = _ref3;
+    a = {
+      Y
+    }
+  } = _ref3;
 };
 () => {
   let a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : R;
@@ -34,8 +34,8 @@ _ref6 => {
 (_ref7, _ref8) => {
   let R = babelHelpers.extends({}, (babelHelpers.objectDestructuringEmpty(_ref7), _ref7));
   let {
-      [R.key]: a = 42
-    } = _ref8;
+    [R.key]: a = 42
+  } = _ref8;
 };
 (_ref9, {
   a = {

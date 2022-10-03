@@ -1,7 +1,7 @@
 const a = {
-    "3": "three",
-    "foo": "bar"
-  };
+  "3": "three",
+  "foo": "bar"
+};
 const {
     [3]: omit
   } = a,
@@ -11,17 +11,17 @@ expect(rest).toEqual({
 });
 expect(omit).toBe("three");
 const [k1, k2, k3, k4, k5] = [null, undefined, true, false, {
-    toString() {
-      return "warrior";
-    }
-  }];
+  toString() {
+    return "warrior";
+  }
+}];
 const c = {
-    [k1]: "1",
-    [k2]: "2",
-    [k3]: "3",
-    [k4]: "4",
-    [k5]: "5"
-  };
+  [k1]: "1",
+  [k2]: "2",
+  [k3]: "3",
+  [k4]: "4",
+  [k5]: "5"
+};
 const {
     [k1]: v1,
     [k2]: v2,
@@ -41,12 +41,12 @@ expect(vrest).toEqual({});
 const sx = Symbol();
 const sy = Symbol();
 const d = {
-    [sx]: "sx",
-    [sy]: "sy"
-  };
+  [sx]: "sx",
+  [sy]: "sy"
+};
 const {
-    [sx]: dx,
-    [sy]: dy
-  } = d;
+  [sx]: dx,
+  [sy]: dy
+} = d;
 expect(dx).toBe("sx");
 expect(dy).toBe("sy");

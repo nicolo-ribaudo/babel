@@ -10,6 +10,6 @@ var _p, _div2;
     }
   }
   const AppItem = () => {
-      return _div2 || (_div2 = <div>child</div>);
-    };
+    return _div2 || (_div2 = <div>child</div>);
+  };
 });

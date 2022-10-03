@@ -5,8 +5,8 @@
     factory(exports, require("foo"), require("foo-bar"), require("./directory/foo-bar"));
   } else {
     var mod = {
-        exports: {}
-      };
+      exports: {}
+    };
     factory(mod.exports, global.foo, global.fooBar, global.fooBar);
     global.input = mod.exports;
   }

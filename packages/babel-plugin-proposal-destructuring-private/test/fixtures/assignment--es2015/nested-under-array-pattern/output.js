@@ -3,17 +3,17 @@ function _self() {
   return C;
 }
 var _x = {
-    writable: true,
-    value: "x"
-  };
+  writable: true,
+  value: "x"
+};
 var _y = {
-    writable: true,
-    value: []
-  };
+  writable: true,
+  value: []
+};
 var _z = {
-    writable: true,
-    value: void 0
-  };
+  writable: true,
+  value: void 0
+};
 babelHelpers.defineProperty(C, "self", C);
 (() => {
   var _p, _p2, _p3, _p4, _m;

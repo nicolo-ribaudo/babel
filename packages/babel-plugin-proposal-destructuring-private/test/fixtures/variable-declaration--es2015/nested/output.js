@@ -1,22 +1,22 @@
 class C {}
 var _y = {
-    writable: true,
-    value: "y"
-  };
+  writable: true,
+  value: "y"
+};
 var _z = {
-    writable: true,
-    value: "self"
-  };
+  writable: true,
+  value: "self"
+};
 var _x = {
-    writable: true,
-    value: void 0
-  };
+  writable: true,
+  value: void 0
+};
 babelHelpers.defineProperty(C, "b", "b");
 babelHelpers.defineProperty(C, "self", C);
 var _self = {
-    writable: true,
-    value: C
-  };
+  writable: true,
+  value: C
+};
 (() => {
   let cloned;
   var _m = babelHelpers.classStaticPrivateFieldSpecGet(C, C, _x),

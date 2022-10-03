@@ -7,11 +7,11 @@ class Foo {
   test() {
     var _o$Foo$self$getSelf, _o$Foo$self$getSelf2, _fn$Foo$self$getSelf, _fn$Foo$self$getSelf2, _o$Foo, _o$Foo$self, _fn, _fn$Foo, _fn$Foo$self;
     const o = {
-        Foo: Foo
-      };
+      Foo: Foo
+    };
     const fn = function () {
-        return o;
-      };
+      return o;
+    };
     (Foo === null || Foo === void 0 ? void 0 : babelHelpers.classPrivateFieldLooseBase(Foo, _m)[_m].bind(Foo))();
     (Foo === null || Foo === void 0 ? void 0 : babelHelpers.classPrivateFieldLooseBase(Foo, _m)[_m].bind(Foo))().toString;
     (Foo === null || Foo === void 0 ? void 0 : babelHelpers.classPrivateFieldLooseBase(Foo, _m)[_m].bind(Foo))().toString();

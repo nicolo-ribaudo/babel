@@ -1,11 +1,11 @@
 var _excluded = ["foo"];
 var _loop = function (foo, bar) {
-    () => foo;
-    var [qux] = bar;
-    try {} catch (e) {
-      var quux = qux;
-    }
-  };
+  () => foo;
+  var [qux] = bar;
+  try {} catch (e) {
+    var quux = qux;
+  }
+};
 for (var _ref of {}) {
   var {
       foo

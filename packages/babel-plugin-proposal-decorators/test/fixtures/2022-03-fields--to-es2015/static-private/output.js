@@ -11,10 +11,10 @@ class Foo {}
   babelHelpers.classStaticPrivateFieldSpecSet(this, Foo, _b, value);
 }]], []);
 var _a = {
-    writable: true,
-    value: _init_a(Foo)
-  };
+  writable: true,
+  value: _init_a(Foo)
+};
 var _b = {
-    writable: true,
-    value: _init_b(Foo, 123)
-  };
+  writable: true,
+  value: _init_b(Foo, 123)
+};

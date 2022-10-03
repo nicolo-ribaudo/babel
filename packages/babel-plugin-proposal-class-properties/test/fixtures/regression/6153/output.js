@@ -39,15 +39,15 @@
   });
 });
 var qux = function () {
-    class Qux {
-      constructor() {
-        var _this4 = this;
-        babelHelpers.defineProperty(this, "fn", function () {
-          return console.log(_this4);
-        });
-      }
+  class Qux {
+    constructor() {
+      var _this4 = this;
+      babelHelpers.defineProperty(this, "fn", function () {
+        return console.log(_this4);
+      });
     }
-    babelHelpers.defineProperty(Qux, "fn", function () {
-      return console.log(Qux);
-    });
-  }.bind(this);
+  }
+  babelHelpers.defineProperty(Qux, "fn", function () {
+    return console.log(Qux);
+  });
+}.bind(this);

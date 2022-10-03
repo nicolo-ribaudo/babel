@@ -1,7 +1,7 @@
 var A = /*#__PURE__*/babelHelpers.createClass(function A() {
-    "use strict";
+  "use strict";
 
-    babelHelpers.classCallCheck(this, A);
-  });
+  babelHelpers.classCallCheck(this, A);
+});
 A.self = A;
 A.getA = () => A;

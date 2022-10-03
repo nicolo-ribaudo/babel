@@ -1,33 +1,33 @@
 "use strict";
 
 let Base = /*#__PURE__*/function () {
-    function Base() {
-      babelHelpers.classCallCheck(this, Base);
+  function Base() {
+    babelHelpers.classCallCheck(this, Base);
+  }
+  babelHelpers.createClass(Base, [{
+    key: "test",
+    get: function () {
+      return 1;
     }
-    babelHelpers.createClass(Base, [{
-      key: "test",
-      get: function () {
-        return 1;
-      }
-    }]);
-    return Base;
-  }();
+  }]);
+  return Base;
+}();
 ;
 let Obj = /*#__PURE__*/function (_Base) {
-    babelHelpers.inherits(Obj, _Base);
-    var _super = babelHelpers.createSuper(Obj);
-    function Obj() {
-      babelHelpers.classCallCheck(this, Obj);
-      return _super.apply(this, arguments);
+  babelHelpers.inherits(Obj, _Base);
+  var _super = babelHelpers.createSuper(Obj);
+  function Obj() {
+    babelHelpers.classCallCheck(this, Obj);
+    return _super.apply(this, arguments);
+  }
+  babelHelpers.createClass(Obj, [{
+    key: "set",
+    value: function set() {
+      return babelHelpers.set(babelHelpers.getPrototypeOf(Obj.prototype), "test", 3, this, true);
     }
-    babelHelpers.createClass(Obj, [{
-      key: "set",
-      value: function set() {
-        return babelHelpers.set(babelHelpers.getPrototypeOf(Obj.prototype), "test", 3, this, true);
-      }
-    }]);
-    return Obj;
-  }(Base);
+  }]);
+  return Obj;
+}(Base);
 Object.defineProperty(Obj.prototype, 'test', {
   value: 2,
   writable: true,

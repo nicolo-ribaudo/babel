@@ -1,6 +1,6 @@
 let useState = [{
-    some: 42
-  }, () => null];
+  some: 42
+}, () => null];
 let {
     0: {
       numeric

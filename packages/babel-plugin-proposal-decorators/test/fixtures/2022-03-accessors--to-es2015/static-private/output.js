@@ -39,10 +39,10 @@ function _get_b2() {
   _initStatic(Foo);
 })();
 var _A = {
-    writable: true,
-    value: _init_a(Foo)
-  };
+  writable: true,
+  value: _init_a(Foo)
+};
 var _B = {
-    writable: true,
-    value: _init_b(Foo, 123)
-  };
+  writable: true,
+  value: _init_b(Foo, 123)
+};

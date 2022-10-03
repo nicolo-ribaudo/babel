@@ -41,8 +41,8 @@ describe("'importInterop'", () => {
           factory(require(\\"a\\"), require(\\"b\\"), require(\\"c\\"));
         } else {
           var mod = {
-              exports: {}
-            };
+            exports: {}
+          };
           factory(global.a, global.b, global.c);
           global.unknown = mod.exports;
         }

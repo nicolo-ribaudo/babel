@@ -1,17 +1,17 @@
 var A = /*#__PURE__*/babelHelpers.createClass(function A() {
-    "use strict";
+  "use strict";
 
-    console.log('a');
-  });
+  console.log('a');
+});
 var B = /*#__PURE__*/function () {
-    "use strict";
+  "use strict";
 
-    function B() {}
-    babelHelpers.createClass(B, [{
-      key: "b",
-      value: function b() {
-        console.log('b');
-      }
-    }]);
-    return B;
-  }();
+  function B() {}
+  babelHelpers.createClass(B, [{
+    key: "b",
+    value: function b() {
+      console.log('b');
+    }
+  }]);
+  return B;
+}();

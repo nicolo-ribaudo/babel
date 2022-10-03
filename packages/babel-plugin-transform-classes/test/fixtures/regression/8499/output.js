@@ -10,16 +10,16 @@ try {
   };
   var constructor;
   var CustomElement = /*#__PURE__*/function (_HTMLElement) {
-      "use strict";
+    "use strict";
 
-      babelHelpers.inherits(CustomElement, _HTMLElement);
-      var _super = babelHelpers.createSuper(CustomElement);
-      function CustomElement() {
-        babelHelpers.classCallCheck(this, CustomElement);
-        return _super.apply(this, arguments);
-      }
-      return babelHelpers.createClass(CustomElement);
-    }( /*#__PURE__*/babelHelpers.wrapNativeSuper(HTMLElement));
+    babelHelpers.inherits(CustomElement, _HTMLElement);
+    var _super = babelHelpers.createSuper(CustomElement);
+    function CustomElement() {
+      babelHelpers.classCallCheck(this, CustomElement);
+      return _super.apply(this, arguments);
+    }
+    return babelHelpers.createClass(CustomElement);
+  }( /*#__PURE__*/babelHelpers.wrapNativeSuper(HTMLElement));
   ;
   new CustomElement();
   expect(constructor).toBe(CustomElement);

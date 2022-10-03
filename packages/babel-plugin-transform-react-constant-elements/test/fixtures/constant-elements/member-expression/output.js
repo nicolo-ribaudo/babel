@@ -1,7 +1,7 @@
 var _span, _els$subComponent;
 const els = {
-    subComponent: () => _span || (_span = <span>Sub Component</span>)
-  };
+  subComponent: () => _span || (_span = <span>Sub Component</span>)
+};
 class Component extends React.Component {
   constructor(...args) {
     super(...args);

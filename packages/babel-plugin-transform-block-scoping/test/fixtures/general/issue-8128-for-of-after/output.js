@@ -1,10 +1,10 @@
 var _loop = function (_result) {
-    _result = otherValue;
-    fn(() => {
-      _result;
-    });
-    result = _result;
-  };
+  _result = otherValue;
+  fn(() => {
+    _result;
+  });
+  result = _result;
+};
 var _iterator = babelHelpers.createForOfIteratorHelper(results),
   _step;
 try {

@@ -42,9 +42,9 @@ var _x$y$a$b = {
   y = _x$y$a$b.y,
   z = _objectWithoutProperties(_x$y$a$b, ["x", "y"]);
 var n = _objectSpread({
-    x: x,
-    y: y
-  }, z);
+  x: x,
+  y: y
+}, z);
 function agf() {
   return _agf.apply(this, arguments);
 }

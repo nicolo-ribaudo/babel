@@ -1,4 +1,4 @@
 const obj = {
-    A: 'foo'
-  };
+  A: 'foo'
+};
 export {};

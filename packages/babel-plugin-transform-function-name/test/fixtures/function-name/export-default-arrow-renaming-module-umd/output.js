@@ -5,8 +5,8 @@
     factory(exports);
   } else {
     var mod = {
-        exports: {}
-      };
+      exports: {}
+    };
     factory(mod.exports);
     global.input = mod.exports;
   }
@@ -18,11 +18,11 @@
   });
   _exports.default = void 0;
   var _default = function _default(_a) {
-      return {
-        a: function a() {
-          return _a;
-        }
-      };
+    return {
+      a: function a() {
+        return _a;
+      }
     };
+  };
   _exports.default = _default;
 });

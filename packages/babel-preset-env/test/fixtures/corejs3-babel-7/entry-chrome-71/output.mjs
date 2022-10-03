@@ -9,12 +9,12 @@ import "core-js/modules/es.typed-array.set.js";
 import "core-js/modules/es.typed-array.sort.js";
 import "core-js/modules/web.immediate.js";
 const foo = {
-    a: true
-  };
+  a: true
+};
 const bar = {
-    ...foo,
-    b: false
-  };
+  ...foo,
+  b: false
+};
 async function baz() {
   for await (const x of someAsyncThing()) {
     console.log(x);

@@ -1,11 +1,11 @@
 const defunct = {
-    outer: {
-      inner: {
-        three: 'three',
-        four: 'four'
-      }
+  outer: {
+    inner: {
+      three: 'three',
+      four: 'four'
     }
-  };
+  }
+};
 const {
     outer: {
       inner: {

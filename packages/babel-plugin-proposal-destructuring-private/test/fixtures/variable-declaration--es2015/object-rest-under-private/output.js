@@ -5,9 +5,9 @@ babelHelpers.defineProperty(C, "x", "x");
 babelHelpers.defineProperty(C, "y", "y");
 babelHelpers.defineProperty(C, "z", "z");
 var _x = {
-    writable: true,
-    value: C
-  };
+  writable: true,
+  value: C
+};
 (() => {
   var {
       x

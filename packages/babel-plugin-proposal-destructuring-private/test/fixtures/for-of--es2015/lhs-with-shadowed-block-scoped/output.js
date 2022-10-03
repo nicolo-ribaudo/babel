@@ -1,9 +1,9 @@
 class C {}
 babelHelpers.defineProperty(C, "a", "a");
 var _x = {
-    writable: true,
-    value: void 0
-  };
+  writable: true,
+  value: void 0
+};
 (() => {
   var x,
     a = "a";

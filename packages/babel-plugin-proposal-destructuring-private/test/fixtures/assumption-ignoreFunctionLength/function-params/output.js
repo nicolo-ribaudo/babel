@@ -16,6 +16,6 @@ class C {
   }
 }
 var _x = {
-    writable: true,
-    value: void 0
-  };
+  writable: true,
+  value: void 0
+};

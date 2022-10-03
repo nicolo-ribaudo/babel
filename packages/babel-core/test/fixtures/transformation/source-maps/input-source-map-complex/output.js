@@ -90,13 +90,13 @@ exports.default = void 0;
 //
 //
 var _default = {
-    name: 'HelloWorld',
-    data() {
-      return {
-        msg: 'Welcome to Your Vue.js App'
-      };
-    }
-  }; //
+  name: 'HelloWorld',
+  data() {
+    return {
+      msg: 'Welcome to Your Vue.js App'
+    };
+  }
+}; //
 //
 //
 //

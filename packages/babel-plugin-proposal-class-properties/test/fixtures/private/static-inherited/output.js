@@ -13,16 +13,16 @@ class Base {
   }
 }
 var _foo = {
-    writable: true,
-    value: 1
-  };
+  writable: true,
+  value: 1
+};
 class Sub1 extends Base {
   static update(val) {
     return babelHelpers.classStaticPrivateFieldSpecSet(this, Sub1, _foo2, val);
   }
 }
 var _foo2 = {
-    writable: true,
-    value: 2
-  };
+  writable: true,
+  value: 2
+};
 class Sub2 extends Base {}

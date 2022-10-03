@@ -23,5 +23,5 @@ var asdf = 'copyWithin';
 i[asdf]; // computed with identifier
 j[`copyWithin`]; // computed with template
 var {
-    [asdf]: _a
-  } = k; // computed
+  [asdf]: _a
+} = k; // computed

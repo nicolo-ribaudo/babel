@@ -95,8 +95,8 @@ const _z12 = z(),
   {} = _z12,
   y16 = babelHelpers.extends({}, (babelHelpers.objectDestructuringEmpty(_z12.x15), _z12.x15));
 const {
-    x16: []
-  } = z();
+  x16: []
+} = z();
 const [...[...y17]] = z();
 const [..._ref] = z();
 const y18 = babelHelpers.extends({}, (babelHelpers.objectDestructuringEmpty(_ref), _ref));
@@ -119,11 +119,11 @@ const [[...y23] = []] = z();
 const [_ref3 = []] = z();
 const y24 = babelHelpers.extends({}, (babelHelpers.objectDestructuringEmpty(_ref3), _ref3));
 const {
-    x25: [...y25] = []
-  } = z();
+  x25: [...y25] = []
+} = z();
 const {
-    x26: [q26, ...y26] = []
-  } = z();
+  x26: [q26, ...y26] = []
+} = z();
 const {} = {};
 const [,, x27] = z();
 const _z15 = z(),

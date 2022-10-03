@@ -1,8 +1,8 @@
 class Foo {}
 var _bar = {
-    writable: true,
-    value: 21
-  };
+  writable: true,
+  value: 21
+};
 (() => {
   Foo.foo = babelHelpers.classStaticPrivateFieldSpecGet(Foo, Foo, _bar);
   Foo.qux1 = Foo.qux;

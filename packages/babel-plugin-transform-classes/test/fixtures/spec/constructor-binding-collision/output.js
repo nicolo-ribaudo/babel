@@ -1,7 +1,7 @@
 var Example = /*#__PURE__*/babelHelpers.createClass(function Example() {
-    "use strict";
+  "use strict";
 
-    babelHelpers.classCallCheck(this, Example);
-    var _Example;
-  });
+  babelHelpers.classCallCheck(this, Example);
+  var _Example;
+});
 var t = new Example();

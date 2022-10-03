@@ -6,10 +6,10 @@ var actualP = transformAsync(
 var expected = `
 var _jsxFileName = "/fake/path/mock.js";
 var x = <sometag __source={{
-    fileName: _jsxFileName,
-    lineNumber: 1,
-    columnNumber: 9
-  }} />;
+  fileName: _jsxFileName,
+  lineNumber: 1,
+  columnNumber: 9
+}} />;
 `.trim();
 
 return actualP.then(actual => {

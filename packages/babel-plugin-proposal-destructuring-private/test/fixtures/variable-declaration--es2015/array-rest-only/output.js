@@ -2,9 +2,9 @@ const _excluded = ["0"];
 let result;
 class C {}
 var _x = {
-    writable: true,
-    value: void 0
-  };
+  writable: true,
+  value: void 0
+};
 (() => {
   var [..._p] = [C],
     _m = babelHelpers.classStaticPrivateFieldSpecGet(_p[0], C, _x),

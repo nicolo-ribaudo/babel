@@ -1,6 +1,6 @@
 {
   let name = function (n) {
-      return n;
-    };
+    return n;
+  };
 }
 name("Steve");

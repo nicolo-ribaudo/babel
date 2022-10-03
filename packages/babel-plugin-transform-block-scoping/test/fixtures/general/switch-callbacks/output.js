@@ -6,8 +6,8 @@ function fn() {
           var foo = 4;
           if (true) {
             var bar = function () {
-                return foo;
-              };
+              return foo;
+            };
             console.log(bar());
           }
       }

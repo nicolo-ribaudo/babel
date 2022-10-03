@@ -20,14 +20,14 @@ class Foo {
   }
 }
 var _A = {
-    writable: true,
-    value: void 0
-  };
+  writable: true,
+  value: void 0
+};
 var _B = {
-    writable: true,
-    value: 123
-  };
+  writable: true,
+  value: 123
+};
 var _C = {
-    writable: true,
-    value: 456
-  };
+  writable: true,
+  value: 456
+};

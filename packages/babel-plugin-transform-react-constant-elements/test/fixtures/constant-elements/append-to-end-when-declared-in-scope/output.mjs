@@ -8,5 +8,5 @@ export default class App extends React.Component {
   }
 }
 const AppItem = () => {
-    return _div2 || (_div2 = <div>child</div>);
-  };
+  return _div2 || (_div2 = <div>child</div>);
+};

@@ -1,3 +1,3 @@
 var obj = babelHelpers.defineProperty({
-    first: "first"
-  }, "second", "second");
+  first: "first"
+}, "second", "second");

@@ -1,14 +1,14 @@
 var C = /*#__PURE__*/function () {
-    "use strict";
+  "use strict";
 
-    function C() {
-      babelHelpers.classCallCheck(this, C);
+  function C() {
+    babelHelpers.classCallCheck(this, C);
+  }
+  babelHelpers.createClass(C, [{
+    key: "m",
+    value: function m(x) {
+      return 'a';
     }
-    babelHelpers.createClass(C, [{
-      key: "m",
-      value: function m(x) {
-        return 'a';
-      }
-    }]);
-    return C;
-  }();
+  }]);
+  return C;
+}();

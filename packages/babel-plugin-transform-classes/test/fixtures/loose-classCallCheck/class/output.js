@@ -1,3 +1,3 @@
 let A = function A() {
-    "use strict";
-  };
+  "use strict";
+};

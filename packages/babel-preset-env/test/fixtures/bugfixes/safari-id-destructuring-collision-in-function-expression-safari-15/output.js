@@ -4,6 +4,6 @@
 });
 (function a(_ref2) {
   let {
-      a
-    } = _ref2;
+    a
+  } = _ref2;
 });

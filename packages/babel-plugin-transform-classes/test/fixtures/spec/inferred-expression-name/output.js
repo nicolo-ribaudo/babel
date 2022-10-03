@@ -1,7 +1,7 @@
 var o = {
-    foo: /*#__PURE__*/babelHelpers.createClass(function foo() {
-      "use strict";
+  foo: /*#__PURE__*/babelHelpers.createClass(function foo() {
+    "use strict";
 
-      babelHelpers.classCallCheck(this, foo);
-    })
-  };
+    babelHelpers.classCallCheck(this, foo);
+  })
+};

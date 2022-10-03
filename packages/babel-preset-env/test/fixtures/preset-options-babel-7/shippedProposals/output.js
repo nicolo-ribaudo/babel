@@ -8,9 +8,9 @@ var _x$y$a$b = {
   y = _x$y$a$b.y,
   z = babelHelpers.objectWithoutProperties(_x$y$a$b, ["x", "y"]);
 var n = babelHelpers.objectSpread2({
-    x: x,
-    y: y
-  }, z);
+  x: x,
+  y: y
+}, z);
 function agf() {
   return _agf.apply(this, arguments);
 }

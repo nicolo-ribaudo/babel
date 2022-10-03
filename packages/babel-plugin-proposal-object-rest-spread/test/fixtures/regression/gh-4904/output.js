@@ -13,11 +13,11 @@ const _bar = bar(),
   q2 = babelHelpers.objectWithoutProperties(_bar.s, ["q1"]),
   q3 = babelHelpers.objectWithoutProperties(_bar, ["s"]);
 const {
-    a
-  } = foo(_ref => {
-    let {
-        b
-      } = _ref,
-      c = babelHelpers.objectWithoutProperties(_ref, _excluded);
-    console.log(b, c);
-  });
+  a
+} = foo(_ref => {
+  let {
+      b
+    } = _ref,
+    c = babelHelpers.objectWithoutProperties(_ref, _excluded);
+  console.log(b, c);
+});

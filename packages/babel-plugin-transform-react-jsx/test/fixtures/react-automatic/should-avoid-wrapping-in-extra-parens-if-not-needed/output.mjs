@@ -1,13 +1,13 @@
 import { jsx as _jsx } from "react/jsx-runtime";
 var x = /*#__PURE__*/_jsx("div", {
-    children: /*#__PURE__*/_jsx(Component, {})
-  });
+  children: /*#__PURE__*/_jsx(Component, {})
+});
 var x = /*#__PURE__*/_jsx("div", {
-    children: props.children
-  });
+  children: props.children
+});
 var x = /*#__PURE__*/_jsx(Composite, {
-    children: props.children
-  });
+  children: props.children
+});
 var x = /*#__PURE__*/_jsx(Composite, {
-    children: /*#__PURE__*/_jsx(Composite2, {})
-  });
+  children: /*#__PURE__*/_jsx(Composite2, {})
+});

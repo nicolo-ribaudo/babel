@@ -1,8 +1,8 @@
 var Foo = /*#__PURE__*/function () {
-    "use strict";
+  "use strict";
 
-    function Foo() {}
-    var _proto = Foo.prototype;
-    _proto["bar"] = function bar() {};
-    return Foo;
-  }();
+  function Foo() {}
+  var _proto = Foo.prototype;
+  _proto["bar"] = function bar() {};
+  return Foo;
+}();

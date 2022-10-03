@@ -1,8 +1,8 @@
 // Edge
 _ref => {
   var {
-      x = 2
-    } = _ref;
+    x = 2
+  } = _ref;
 };
 
 // Safari

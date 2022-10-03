@@ -36,9 +36,9 @@ expect(z).toBe(3);
 // pure, computed property should remain as-is
 key = 2;
 var _$z = {
-    2: "two",
-    z: "zee"
-  };
+  2: "two",
+  z: "zee"
+};
 ({
   [key]: y,
   z

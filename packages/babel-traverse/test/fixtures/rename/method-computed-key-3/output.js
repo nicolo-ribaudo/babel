@@ -1,6 +1,6 @@
 let z = "outside";
 const obj = {
-    [z](a = "inside") {
-      return a;
-    }
-  };
+  [z](a = "inside") {
+    return a;
+  }
+};

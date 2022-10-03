@@ -1,10 +1,10 @@
 var obj = {
-    search: function search({
-      search: _search
-    }) {
-      console.log(_search);
-    }
-  };
+  search: function search({
+    search: _search
+  }) {
+    console.log(_search);
+  }
+};
 function search({
   search
 }) {

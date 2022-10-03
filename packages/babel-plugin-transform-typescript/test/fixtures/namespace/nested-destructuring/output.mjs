@@ -2,8 +2,8 @@ class C {}
 let N;
 (function (_N) {
   const {
-      a
-    } = C;
+    a
+  } = C;
   _N.a = a;
   const [{
       a: [{

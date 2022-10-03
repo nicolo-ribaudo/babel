@@ -1,12 +1,12 @@
 var Foo = /*#__PURE__*/babelHelpers.createClass(function Foo(props) {
-    "use strict";
+  "use strict";
 
-    babelHelpers.classCallCheck(this, Foo);
-    ({
-      client: babelHelpers.classStaticPrivateFieldDestructureSet(Foo, Foo, _client).value
-    } = props);
-  });
+  babelHelpers.classCallCheck(this, Foo);
+  ({
+    client: babelHelpers.classStaticPrivateFieldDestructureSet(Foo, Foo, _client).value
+  } = props);
+});
 var _client = {
-    writable: true,
-    value: void 0
-  };
+  writable: true,
+  value: void 0
+};

@@ -5,8 +5,8 @@
     factory(require("es6-promise"));
   } else {
     var mod = {
-        exports: {}
-      };
+      exports: {}
+    };
     factory(global.Promise);
     global.input = mod.exports;
   }

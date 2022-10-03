@@ -1,6 +1,6 @@
 var Component = React.createClass({
-    displayName: "Component",
-    render: function render() {
-      return null;
-    }
-  });
+  displayName: "Component",
+  render: function render() {
+    return null;
+  }
+});

@@ -5,34 +5,34 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var Foo = /*#__PURE__*/function () {
-    function Foo() {
-      babelHelpers.classCallCheck(this, Foo);
-    }
-    babelHelpers.createClass(Foo, [{
-      key: "bar",
-      value: function () {
-        var _bar = babelHelpers.asyncToGenerator( /*#__PURE__*/babelHelpers.regeneratorRuntime().mark(function _callee() {
-            var baz;
-            return babelHelpers.regeneratorRuntime().wrap(function _callee$(_context) {
-              while (1) {
-                switch (_context.prev = _context.next) {
-                  case 0:
-                    baz = 0;
-                  case 1:
-                  case "end":
-                    return _context.stop();
-                }
-              }
-            }, _callee);
-          }));
-        function bar() {
-          return _bar.apply(this, arguments);
-        }
-        return bar;
-      }()
-    }]);
-    return Foo;
-  }();
+  function Foo() {
+    babelHelpers.classCallCheck(this, Foo);
+  }
+  babelHelpers.createClass(Foo, [{
+    key: "bar",
+    value: function () {
+      var _bar = babelHelpers.asyncToGenerator( /*#__PURE__*/babelHelpers.regeneratorRuntime().mark(function _callee() {
+        var baz;
+        return babelHelpers.regeneratorRuntime().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                baz = 0;
+              case 1:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+      function bar() {
+        return _bar.apply(this, arguments);
+      }
+      return bar;
+    }()
+  }]);
+  return Foo;
+}();
 exports["default"] = Foo;
 function foo() {
   return _foo.apply(this, arguments);

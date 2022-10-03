@@ -6,7 +6,7 @@ var {
 // Skip
 export { b, c };
 export var {
-    bb,
-    cc
-  } = ads;
+  bb,
+  cc
+} = ads;
 export var [dd, ee, ...ff] = ads;

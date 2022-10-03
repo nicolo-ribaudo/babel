@@ -15,9 +15,9 @@ function _set_a(v) {
   _call_a2(this, v);
 }
 var _a = {
-    get: _get_a,
-    set: _set_a
-  };
+  get: _get_a,
+  set: _set_a
+};
 (() => {
   [_call_a, _call_a2, _initStatic] = babelHelpers.applyDecs2203(Foo, [[dec, 8, "a", function () {
     return this.value;

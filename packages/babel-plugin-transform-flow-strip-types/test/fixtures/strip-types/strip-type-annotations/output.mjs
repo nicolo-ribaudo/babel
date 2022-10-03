@@ -97,15 +97,15 @@ var x2 = fn;
 var x3 = Y;
 var x4 = Y;
 var {
-    x5
-  } = {
-    x5: "hello"
-  };
+  x5
+} = {
+  x5: "hello"
+};
 var {
-    x6
-  } = {
-    x6: "hello"
-  };
+  x6
+} = {
+  x6: "hello"
+};
 var [x7] = ["hello"];
 function foo20({
   x

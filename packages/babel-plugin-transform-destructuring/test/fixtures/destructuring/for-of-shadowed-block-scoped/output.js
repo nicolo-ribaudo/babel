@@ -1,6 +1,6 @@
 var O = {
-    a: "a"
-  };
+  a: "a"
+};
 const a = "a";
 for (const _ref of [O]) {
   const _ = _ref[a];

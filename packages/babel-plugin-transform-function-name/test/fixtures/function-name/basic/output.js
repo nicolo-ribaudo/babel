@@ -1,3 +1,3 @@
 var g = function g() {
-    doSmth();
-  };
+  doSmth();
+};

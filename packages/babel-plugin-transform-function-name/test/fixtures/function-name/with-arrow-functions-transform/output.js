@@ -1,11 +1,11 @@
 const x = function x() {
-    return x;
-  };
+  return x;
+};
 const y = function y(x) {
-    return x();
-  };
+  return x();
+};
 const z = {
-    z: function z() {
-      return y(x);
-    }
-  }.z;
+  z: function z() {
+    return y(x);
+  }
+}.z;

@@ -1,8 +1,8 @@
 let n = {
-    x,
-    y,
-    ...z
-  };
+  x,
+  y,
+  ...z
+};
 try {
   throw 0;
 } catch {}

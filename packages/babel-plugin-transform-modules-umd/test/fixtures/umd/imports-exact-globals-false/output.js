@@ -5,8 +5,8 @@
     factory(require("foo-bar"), require("./mylib/foo-bar"), require("fizzbuzz"));
   } else {
     var mod = {
-        exports: {}
-      };
+      exports: {}
+    };
     factory(global.fooBar, global.fooBar, global.fizzbuzz);
     global.input = mod.exports;
   }

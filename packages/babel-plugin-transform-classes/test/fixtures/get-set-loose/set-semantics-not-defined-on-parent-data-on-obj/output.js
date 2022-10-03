@@ -2,16 +2,16 @@
 
 let Base = function Base() {};
 let Obj = /*#__PURE__*/function (_Base) {
-    babelHelpers.inheritsLoose(Obj, _Base);
-    function Obj() {
-      return _Base.apply(this, arguments) || this;
-    }
-    var _proto = Obj.prototype;
-    _proto.set = function set() {
-      return this.test = 3;
-    };
-    return Obj;
-  }(Base);
+  babelHelpers.inheritsLoose(Obj, _Base);
+  function Obj() {
+    return _Base.apply(this, arguments) || this;
+  }
+  var _proto = Obj.prototype;
+  _proto.set = function set() {
+    return this.test = 3;
+  };
+  return Obj;
+}(Base);
 Object.defineProperty(Obj.prototype, 'test', {
   value: 2,
   writable: true,

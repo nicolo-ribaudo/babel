@@ -2,9 +2,9 @@ const _excluded = ["y"];
 let result;
 class C {}
 var _x = {
-    writable: true,
-    value: "#x"
-  };
+  writable: true,
+  value: "#x"
+};
 babelHelpers.defineProperty(C, "y", "y");
 babelHelpers.defineProperty(C, "a", "a");
 babelHelpers.defineProperty(C, "b", "b");

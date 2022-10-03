@@ -16,37 +16,37 @@ import "core-js/modules/es.array.for-each.js";
 import "core-js/modules/web.dom-collections.for-each.js";
 var bind, toString;
 var {
-    bind: bind
-  } = Function;
+  bind: bind
+} = Function;
 var {
-    entries: entries
-  } = Object;
+  entries: entries
+} = Object;
 ({
   toString: toString
 } = Math);
 var [{
-    exec: exec
-  }] = something;
+  exec: exec
+}] = something;
 var {
-    'trim': foo
-  } = '1';
+  'trim': foo
+} = '1';
 var {
-    foo: {
-      filter: filter
-    }
-  } = {
-    foo: []
-  };
+  foo: {
+    filter: filter
+  }
+} = {
+  foo: []
+};
 var {
-    includes: includes
-  } = '';
+  includes: includes
+} = '';
 var bar = Array;
 var {
-    from: from
-  } = bar;
+  from: from
+} = bar;
 var {
-    ['o' + 'f']: fuz
-  } = Array;
+  ['o' + 'f']: fuz
+} = Array;
 var forEach = 'sort';
 ({
   forEach: forEach

@@ -13,11 +13,11 @@ class Foo {
     var _o$Foo, _o$Foo2, _o$Foo3, _o$Foo$self$getSelf, _o$Foo4, _o$Foo4$self, _o$Foo$self$getSelf2, _o$Foo$self, _fn$Foo$self$getSelf, _fn, _fn$Foo, _fn$Foo$self, _fn$Foo$self$getSelf2, _fn$Foo$self2;
     const Foo = this;
     const o = {
-        Foo: Foo
-      };
+      Foo: Foo
+    };
     const fn = function () {
-        return o;
-      };
+      return o;
+    };
     (Foo === null || Foo === void 0 ? void 0 : Foo["m"].bind(Foo))();
     (Foo === null || Foo === void 0 ? void 0 : Foo["m"].bind(Foo))().toString;
     (Foo === null || Foo === void 0 ? void 0 : Foo["m"].bind(Foo))().toString();

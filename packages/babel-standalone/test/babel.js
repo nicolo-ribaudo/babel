@@ -14,8 +14,8 @@ describe("@babel/standalone", () => {
     }).code;
     expect(output).toBe(
       "var getMessage = function getMessage() {\n" +
-        '    return "Hello World";\n' +
-        "  };",
+        '  return "Hello World";\n' +
+        "};",
     );
   });
   it("handles the es2015-loose preset", () => {
@@ -23,7 +23,7 @@ describe("@babel/standalone", () => {
       sourceType: "script",
       presets: ["es2015-loose"],
     }).code;
-    expect(output).toBe('var A = function A() {\n    "use strict";\n  };');
+    expect(output).toBe('var A = function A() {\n  "use strict";\n};');
   });
   it("handles the typescript preset", () => {
     const output = Babel.transform("var a: string;", {
@@ -90,9 +90,7 @@ describe("@babel/standalone", () => {
     }).code;
     // Transforms arrow syntax but NOT "const".
     expect(output).toBe(
-      "const getMessage = function () {\n" +
-        '    return "Hello World";\n' +
-        "  };",
+      "const getMessage = function () {\n" + '  return "Hello World";\n' + "};",
     );
   });
 
