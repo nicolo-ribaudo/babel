@@ -4,6 +4,7 @@ class X {
     babelHelpers.classPrivateMethodInitSpec(this, _privateMethod);
   }
 }
+
 function _privateMethod2() {
   return 42;
 }

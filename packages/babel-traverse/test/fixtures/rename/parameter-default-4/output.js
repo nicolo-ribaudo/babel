@@ -1,4 +1,5 @@
 let a = "outside";
+
 function k([{
   g = a
 }]) {

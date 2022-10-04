@@ -8,4 +8,5 @@ console.log((_foo = /*#__PURE__*/new WeakSet(), class A {
     babelHelpers.classPrivateMethodGet(this, _foo, _foo2).call(this);
   }
 }));
+
 function _foo2() {}

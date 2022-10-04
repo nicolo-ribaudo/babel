@@ -12,6 +12,7 @@ class Foo {
         o
       }
     };
+
     function fn() {
       return o;
     }

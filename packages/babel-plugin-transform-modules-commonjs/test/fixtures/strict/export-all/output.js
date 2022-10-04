@@ -39,6 +39,7 @@ var z = 100;
 exports.z = z;
 class a {}
 exports.a = a;
+
 function b() {}
 
 var d = 42;
@@ -47,4 +48,5 @@ var e = 1,
   f = 2;
 exports.f = f;
 exports.e = e;
+
 function _default() {}

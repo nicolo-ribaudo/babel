@@ -12,6 +12,7 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !_R
 let B = /*#__PURE__*/function (_A) {
   _inherits(B, _A);
   var _super = _createSuper(B);
+
   function B(...args) {
     var _context;
     var _this;

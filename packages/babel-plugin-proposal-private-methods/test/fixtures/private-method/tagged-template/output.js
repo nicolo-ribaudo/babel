@@ -4,6 +4,7 @@ class Foo {
     babelHelpers.classPrivateMethodInitSpec(this, _tag);
   }
 }
+
 function _tag2() {
   babelHelpers.classPrivateMethodGet(this, _tag, _tag2).bind(this)``;
 }

@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _Parent = babelHelpers.interopRequireDefault(require("./Parent"));
 var _Child2 = babelHelpers.interopRequireDefault(require("./Child"));
+
 function MyComponent(_ref) {
   var _Child;
   var closeFn = _ref.closeFn;

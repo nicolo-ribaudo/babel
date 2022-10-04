@@ -14,6 +14,5 @@ export function giveWord() {
     }
   }, _marked);
 }
-
 foo;
 bar;

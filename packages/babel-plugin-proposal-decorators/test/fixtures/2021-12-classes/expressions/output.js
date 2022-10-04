@@ -71,6 +71,7 @@ const J = (class K extends L {
     _initClass8();
   }
 }, _K);
+
 function classFactory() {
   var _initClass9, _decorated_class3;
   return class {

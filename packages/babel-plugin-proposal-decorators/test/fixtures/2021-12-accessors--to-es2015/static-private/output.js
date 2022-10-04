@@ -14,6 +14,7 @@ class Foo {
     });
   }
 }
+
 function _set_a2(v) {
   _set_a(this, v);
 }

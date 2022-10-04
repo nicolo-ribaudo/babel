@@ -14,6 +14,7 @@ class Foo {
   }
 
   #A = (_initProto(this), _init_a(this));
+
   set #a(v) {
     _set_a(this, v);
   }
@@ -23,6 +24,7 @@ class Foo {
   }
 
   #B = _init_b(this, 123);
+
   set #b(v) {
     _set_b(this, v);
   }

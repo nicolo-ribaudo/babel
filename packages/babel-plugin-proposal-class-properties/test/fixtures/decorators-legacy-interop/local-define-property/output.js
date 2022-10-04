@@ -1,4 +1,5 @@
 var _class, _descriptor, _descriptor2;
+
 function dec() {}
 
 // Create a local function binding so babel has to change the name of the helper

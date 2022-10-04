@@ -11,6 +11,7 @@ new class extends babelHelpers.identity {
   }
 
   field = 123;
+
   constructor() {
     super(_Foo), _initClass();
   }
@@ -28,6 +29,7 @@ new class extends babelHelpers.identity {
   field = ((() => {
     this.otherField = 456;
   })(), 123);
+
   constructor() {
     super(_Bar), _initClass2();
   }

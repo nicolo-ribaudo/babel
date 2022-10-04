@@ -8,6 +8,7 @@ var _store = require("./store");
 let Login = /*#__PURE__*/function (_React$Component) {
   babelHelpers.inherits(Login, _React$Component);
   var _super = babelHelpers.createSuper(Login);
+
   function Login() {
     babelHelpers.classCallCheck(this, Login);
     return _super.apply(this, arguments);

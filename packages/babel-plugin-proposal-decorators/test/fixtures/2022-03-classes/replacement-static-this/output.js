@@ -13,6 +13,7 @@ new class extends babelHelpers.identity {
   field = ((() => {
     this;
   })(), this);
+
   constructor() {
     super(_Foo), (() => {
       this;

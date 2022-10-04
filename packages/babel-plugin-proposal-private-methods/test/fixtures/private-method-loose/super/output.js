@@ -20,6 +20,7 @@ class Sub extends Base {
     return babelHelpers.classPrivateFieldLooseBase(this, _privateMethod)[_privateMethod]();
   }
 }
+
 function _privateMethod2() {
   return Base.prototype.superMethod.call(this);
 }

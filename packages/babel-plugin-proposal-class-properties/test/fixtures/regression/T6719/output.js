@@ -5,6 +5,7 @@ function withContext(ComposedComponent) {
 
     babelHelpers.inherits(WithContext, _Component);
     var _super = babelHelpers.createSuper(WithContext);
+
     function WithContext() {
       babelHelpers.classCallCheck(this, WithContext);
       return _super.apply(this, arguments);

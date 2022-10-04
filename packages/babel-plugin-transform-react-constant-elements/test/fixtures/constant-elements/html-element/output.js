@@ -1,4 +1,5 @@
 var _foo, _div;
+
 function render() {
   return _foo || (_foo = <foo />);
 }

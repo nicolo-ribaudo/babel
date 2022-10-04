@@ -10,6 +10,7 @@ class Foo {
 
   static #a = _call_a;
   static value = 1;
+
   static callA() {
     return this.#a();
   }

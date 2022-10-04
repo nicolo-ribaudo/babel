@@ -1,6 +1,7 @@
 "use strict";
 
 var _excluded = ["a"];
+
 function F(_ref) {
   var a = _ref.a,
     O = babelHelpers.objectWithoutProperties(_ref, _excluded);

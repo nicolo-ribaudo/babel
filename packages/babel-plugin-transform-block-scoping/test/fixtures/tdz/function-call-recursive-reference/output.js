@@ -1,4 +1,5 @@
 var x = babelHelpers.temporalUndefined;
+
 function f(i) {
   return () => {
     babelHelpers.temporalRef(x, "x");

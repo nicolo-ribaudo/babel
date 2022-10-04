@@ -5,6 +5,7 @@ class C {
     a: 1,
     b: 2
   };
+
   static {
     var _m;
     let b;

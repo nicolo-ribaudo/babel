@@ -7,6 +7,7 @@ function one() {
 }
 
 one(1, 2);
+
 function two() {
   var _arguments2 = arguments;
   var inner = function () {
@@ -22,6 +23,7 @@ function two() {
 }
 
 two(1, 2);
+
 function three() {
   var _arguments4 = arguments;
   var fn = function () {
@@ -31,6 +33,7 @@ function three() {
 }
 
 three("foo");
+
 function four() {
   var _arguments5 = arguments;
   var fn = function () {
@@ -42,6 +45,7 @@ function four() {
 four({
   foo: "foo"
 });
+
 function five(obj) {
   var fn = function () {
     return obj.arguments[0].foo + "bar";
@@ -52,6 +56,7 @@ function five(obj) {
 five({
   arguments: ["foo"]
 });
+
 function six(obj) {
   var fn = function () {
     var fn2 = function () {
@@ -75,6 +80,7 @@ var eight = function () {
   };
 };
 eight();
+
 function nine() {
   var _arguments8 = 1;
   var foo = function () {

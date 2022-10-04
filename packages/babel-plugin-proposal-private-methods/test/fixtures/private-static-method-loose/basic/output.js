@@ -20,6 +20,7 @@ class Cl {
     this.instanceField = babelHelpers.classPrivateFieldLooseBase(Cl, _privateStaticMethod)[_privateStaticMethod]();
   }
 }
+
 function _privateStaticMethod2() {
   return 1017;
 }

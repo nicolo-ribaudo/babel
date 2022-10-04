@@ -3,6 +3,7 @@ class C {
   static #x;
   static #y;
   static #z;
+
   static {
     var _p, _p2;
     let z;

@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.namespace2 = exports.namespace1 = void 0;
+
 function namespace1() {
   const data = babelHelpers.interopRequireWildcard(require("white"));
   namespace1 = function () {

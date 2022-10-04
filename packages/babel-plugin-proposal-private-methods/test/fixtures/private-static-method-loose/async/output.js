@@ -3,6 +3,7 @@ class Cl {
     return babelHelpers.classStaticPrivateMethodGet(Cl, Cl, _privateStaticMethod).call(Cl);
   }
 }
+
 async function _privateStaticMethod() {
   return 2;
 }

@@ -8,6 +8,7 @@ var A = /*#__PURE__*/function (_B) {
 
   babelHelpers.inherits(A, _B);
   var _super = babelHelpers.createSuper(A);
+
   function A(track) {
     var _this;
     babelHelpers.classCallCheck(this, A);

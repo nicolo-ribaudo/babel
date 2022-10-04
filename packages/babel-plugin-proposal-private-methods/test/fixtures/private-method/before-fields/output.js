@@ -14,6 +14,7 @@ class Cl {
     return babelHelpers.classPrivateFieldGet(this, _priv);
   }
 }
+
 function _method2(x) {
   return x;
 }

@@ -11,6 +11,7 @@ class Foo {
   }
 
   value = 1;
+
   set a(v) {
     return this.value = v;
   }

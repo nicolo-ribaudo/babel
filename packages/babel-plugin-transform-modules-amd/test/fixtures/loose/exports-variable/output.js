@@ -21,6 +21,7 @@ define(["exports"], function (_exports) {
   _exports.foo6 = foo6;
   const foo7 = 3;
   _exports.foo7 = foo7;
+
   function foo8() {}
 
   class foo9 {}

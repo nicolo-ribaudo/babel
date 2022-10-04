@@ -7,5 +7,4 @@ export default function App() {
       <OtherComponent />
     </div>);
 }
-
 const LazyComponent = React.lazy(() => import("./components/lazy-component"));

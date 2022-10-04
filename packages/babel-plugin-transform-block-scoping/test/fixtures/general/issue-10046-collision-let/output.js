@@ -6,6 +6,7 @@ if (true) {
     return true;
   };
 }
+
 function test() {
   return run();
 }

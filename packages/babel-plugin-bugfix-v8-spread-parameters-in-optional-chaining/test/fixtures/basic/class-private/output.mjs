@@ -1,5 +1,6 @@
 class C {
   #m;
+
   constructor() {
     var _n$m;
     const o = null;

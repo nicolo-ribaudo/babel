@@ -4,6 +4,7 @@ class Cl {
     return babelHelpers.classPrivateFieldLooseBase(Cl, _privateStaticMethod)[_privateStaticMethod]();
   }
 }
+
 async function _privateStaticMethod2() {
   return 2;
 }

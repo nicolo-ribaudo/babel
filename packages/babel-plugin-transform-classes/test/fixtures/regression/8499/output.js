@@ -14,6 +14,7 @@ try {
 
     babelHelpers.inherits(CustomElement, _HTMLElement);
     var _super = babelHelpers.createSuper(CustomElement);
+
     function CustomElement() {
       babelHelpers.classCallCheck(this, CustomElement);
       return _super.apply(this, arguments);

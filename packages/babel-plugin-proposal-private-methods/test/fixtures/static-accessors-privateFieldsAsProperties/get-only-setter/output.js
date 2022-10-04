@@ -5,6 +5,7 @@ class Cl {
     return babelHelpers.classPrivateFieldLooseBase(Cl, _privateStaticFieldValue)[_privateStaticFieldValue];
   }
 }
+
 function _set_privateStaticFieldValue(newValue) {
   babelHelpers.classPrivateFieldLooseBase(Cl, _PRIVATE_STATIC_FIELD)[_PRIVATE_STATIC_FIELD] = newValue;
 }

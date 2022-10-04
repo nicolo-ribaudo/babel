@@ -9,6 +9,7 @@ class Foo {
   }
 
   static value = 1;
+
   static get #a() {
     return _call_a(this);
   }

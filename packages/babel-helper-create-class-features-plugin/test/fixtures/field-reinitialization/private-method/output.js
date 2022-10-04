@@ -14,6 +14,7 @@ class Derived extends Base {
     return babelHelpers.classPrivateMethodGet(obj, _foo, _foo2).call(obj);
   }
 }
+
 function _foo2() {
   return 'bar';
 }

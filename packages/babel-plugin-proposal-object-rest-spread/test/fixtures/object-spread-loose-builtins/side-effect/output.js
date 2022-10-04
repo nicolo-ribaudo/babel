@@ -12,6 +12,7 @@ var pureB = {};
 var pureC = {};
 var pureD = {};
 var pureE = {};
+
 function impureFunc() {
   console.log('hello');
 }

@@ -23,6 +23,7 @@ class Foo {
     });
   }
 }
+
 function _get_a() {
   return babelHelpers.classPrivateFieldGet(this, _A);
 }

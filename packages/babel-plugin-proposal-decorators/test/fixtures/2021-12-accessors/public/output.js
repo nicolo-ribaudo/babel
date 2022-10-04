@@ -7,6 +7,7 @@ class Foo {
   }
 
   #A = (_initProto(this), _init_a(this));
+
   get a() {
     return this.#A;
   }
@@ -16,6 +17,7 @@ class Foo {
   }
 
   #B = _init_b(this, 123);
+
   get b() {
     return this.#B;
   }
@@ -25,6 +27,7 @@ class Foo {
   }
 
   #C = _init_computedKey(this, 456);
+
   get [_computedKey]() {
     return this.#C;
   }

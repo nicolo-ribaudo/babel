@@ -5,6 +5,7 @@ class C {
   static a = "a";
   static b = "b";
   static c = "c";
+
   static {
     let x, y, z;
     x = C.#x, ({

@@ -8,6 +8,7 @@ class Cl {
     return babelHelpers.classPrivateMethodGet(this, _foo, _foo2).call(this);
   }
 }
+
 function* _foo2() {
   yield 2;
   return 3;

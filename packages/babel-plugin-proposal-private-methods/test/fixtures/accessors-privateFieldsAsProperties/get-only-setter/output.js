@@ -13,6 +13,7 @@ class Cl {
     this.publicField = babelHelpers.classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue];
   }
 }
+
 function _set_privateFieldValue(newValue) {
   babelHelpers.classPrivateFieldLooseBase(this, _privateField)[_privateField] = newValue;
 }

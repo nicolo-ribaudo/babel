@@ -6,6 +6,7 @@ const Foo = (class Bar {
   }
 
   bar = new _Bar();
+
   static {
     _initClass();
   }

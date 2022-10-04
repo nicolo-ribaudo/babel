@@ -1,5 +1,6 @@
 class C {
   static #x;
+
   static {
     var _m = [C, C, C, C],
       w = _m["0"].#x,

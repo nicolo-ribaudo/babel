@@ -12,4 +12,5 @@ class A {
     [babelHelpers.classPrivateFieldDestructureSet(this, _method).value] = [2];
   }
 }
+
 function _method2() {}

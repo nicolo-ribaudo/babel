@@ -29,6 +29,7 @@ class Cl {
     Cl.publicFieldValue = -(Cl.publicFieldValue ** Cl.publicFieldValue);
   }
 }
+
 function _get_privateFieldValue() {
   return babelHelpers.classStaticPrivateFieldSpecGet(Cl, Cl, _privateField);
 }

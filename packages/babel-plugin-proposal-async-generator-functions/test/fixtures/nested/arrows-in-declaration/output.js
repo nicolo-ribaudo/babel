@@ -6,6 +6,7 @@ function _g() {
   _g = babelHelpers.wrapAsyncGenerator(function* () {
     var _this = this;
     () => this;
+
     function f() {
       () => this;
     }

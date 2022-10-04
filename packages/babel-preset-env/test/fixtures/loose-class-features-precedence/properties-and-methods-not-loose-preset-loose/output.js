@@ -5,4 +5,5 @@ class A {
     babelHelpers.defineProperty(this, "x", 2);
   }
 }
+
 function _foo2() {}

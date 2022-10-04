@@ -19,6 +19,7 @@ class Comp extends React.Component {
     return React.createElement("input", props);
   }
 }
+
 function smth(_ref) {
   let rest = babelHelpers.objectWithoutPropertiesLoose(_ref, _excluded2);
   call(rest);

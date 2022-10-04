@@ -3,6 +3,7 @@ var List = /*#__PURE__*/function (_Array) {
 
   babelHelpers.inherits(List, _Array);
   var _super = babelHelpers.createSuper(List);
+
   function List() {
     babelHelpers.classCallCheck(this, List);
     return _super.apply(this, arguments);

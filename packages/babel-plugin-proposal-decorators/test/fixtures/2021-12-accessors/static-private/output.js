@@ -15,6 +15,7 @@ class Foo {
   }
 
   static #A = _init_a(this);
+
   set #a(v) {
     _set_a(this, v);
   }
@@ -24,6 +25,7 @@ class Foo {
   }
 
   static #B = _init_b(this, 123);
+
   set #b(v) {
     _set_b(this, v);
   }

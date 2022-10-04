@@ -5,6 +5,7 @@ const y = 24,
   z = 42;
 expect(y).toEqual(24);
 expect(z).toEqual(42);
+
 function* foo() {
   yield 1;
   yield 2;

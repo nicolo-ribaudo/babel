@@ -3,6 +3,7 @@ let Employee = /*#__PURE__*/function (_Person) {
 
   babelHelpers.inherits(Employee, _Person);
   var _super = babelHelpers.createSuper(Employee);
+
   function Employee(name) {
     var _this;
     babelHelpers.classCallCheck(this, Employee);

@@ -1,5 +1,6 @@
 var _class;
 var f = _class = class Foo {};
+
 function _bar() {
   return _class;
 }

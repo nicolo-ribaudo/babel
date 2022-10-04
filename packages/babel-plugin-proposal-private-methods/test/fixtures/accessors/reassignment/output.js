@@ -14,6 +14,7 @@ class Foo {
     return this;
   }
 }
+
 function _get_privateFieldValue() {
   return 42;
 }

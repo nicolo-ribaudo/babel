@@ -19,6 +19,7 @@ var Foo = /*#__PURE__*/function () {
       var Nested = /*#__PURE__*/function (_ref) {
         babelHelpers.inherits(Nested, _ref);
         var _super = babelHelpers.createSuper(Nested);
+
         function Nested(...args) {
           var _this;
           babelHelpers.classCallCheck(this, Nested);

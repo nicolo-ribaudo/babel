@@ -14,6 +14,7 @@ class B extends A {
     return [babelHelpers.classPrivateFieldLooseBase(this, _getA)[_getA], babelHelpers.classPrivateFieldLooseBase(this, _getB)[_getB]];
   }
 }
+
 function _getA2() {
   return A.a;
 }

@@ -5,6 +5,7 @@
     yield 2;
     return 3;
   });
+
   function agf() {
     return _agf.apply(this, arguments);
   }

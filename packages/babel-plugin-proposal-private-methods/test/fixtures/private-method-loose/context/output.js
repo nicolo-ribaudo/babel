@@ -31,6 +31,7 @@ class Foo {
     };
   }
 }
+
 function _getStatus2() {
   return this.status;
 }

@@ -3,6 +3,6 @@ define(["exports"], function (_exports) {
 
   _exports.__esModule = true;
   _exports.default = foo;
-  function foo() {}
 
+  function foo() {}
 });

@@ -1,4 +1,5 @@
 let Promise;
+
 function foo() {
   return _foo.apply(this, arguments);
 }

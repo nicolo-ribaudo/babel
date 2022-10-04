@@ -3,6 +3,7 @@ var Test = /*#__PURE__*/function (_Foo) {
 
   babelHelpers.inherits(Test, _Foo);
   var _super = babelHelpers.createSuper(Test);
+
   function Test() {
     var _babelHelpers$get;
     var _thisSuper, _thisSuper2, _thisSuper3, _this;

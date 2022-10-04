@@ -4,6 +4,7 @@ class C {
     babelHelpers.classPrivateMethodInitSpec(this, _g);
   }
 }
+
 function _g2() {
   var _this = this;
   return babelHelpers.wrapAsyncGenerator(function* () {

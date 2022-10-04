@@ -15,4 +15,5 @@ let Foo = /*#__PURE__*/function () {
   }]);
   return Foo;
 }();
+
 function _foo2() {}

@@ -5,5 +5,4 @@ export let foo4 = 2;
 export let foo5;
 export const foo6 = 3;
 export function foo7() {}
-
 export class foo8 {}

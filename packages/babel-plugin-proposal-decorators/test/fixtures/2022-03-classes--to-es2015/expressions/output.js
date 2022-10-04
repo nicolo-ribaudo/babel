@@ -7,6 +7,7 @@ const E = (((_class4 = class {}, [_decorated_class, _initClass4] = babelHelpers.
 const F = [((_class5 = class G {}, [_G, _initClass5] = babelHelpers.applyDecs2203(_class5, [], [dec]), _initClass5()), _G), ((_class6 = class {}, [_decorated_class2, _initClass6] = babelHelpers.applyDecs2203(_class6, [], [dec]), _initClass6()), _decorated_class2)];
 const H = ((_class7 = class H extends I {}, [_H, _initClass7] = babelHelpers.applyDecs2203(_class7, [], [dec]), _initClass7()), _H);
 const J = ((_class8 = class K extends L {}, [_K, _initClass8] = babelHelpers.applyDecs2203(_class8, [], [dec]), _initClass8()), _K);
+
 function classFactory() {
   var _initClass9, _decorated_class3, _class9;
   return (_class9 = class {}, [_decorated_class3, _initClass9] = babelHelpers.applyDecs2203(_class9, [], [dec]), _initClass9()), _decorated_class3;

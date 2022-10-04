@@ -10,4 +10,5 @@ class Foo {
     }
   }
 }
+
 function _privateMethod2() {}

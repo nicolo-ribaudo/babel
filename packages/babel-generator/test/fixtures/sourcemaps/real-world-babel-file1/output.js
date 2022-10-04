@@ -30,7 +30,6 @@ export function enable({
   watcher = new FSWatcher(options);
   watcher.on("unlink", unwatchFile);
 }
-
 export function startWatcher() {
   hasStarted = true;
   for (const dep of watchQueue) {
@@ -41,7 +40,6 @@ export function startWatcher() {
     console.log("The watcher is ready.");
   });
 }
-
 export function watch(filename: string): void {
   if (!isWatchMode) {
     throw new Error("Internal Babel error: .watch called when not in watch mode.");
@@ -70,7 +68,6 @@ export function onFilesChange(callback: (filenames: string[], event: string, cau
     callback([absoluteFile, ...(depToFiles.get(absoluteFile) ?? [])], event, absoluteFile);
   });
 }
-
 export function updateExternalDependencies(filename: string, dependencies: Set<string>) {
   if (!isWatchMode) return;
 

@@ -1,4 +1,5 @@
 var _asyncToGenerator = require("<CWD>/packages/babel-runtime/helpers/asyncToGenerator.js");
+
 function test() {
   return _test.apply(this, arguments);
 }

@@ -1,6 +1,7 @@
 var x;
 class C {
   #x;
+
   static {
     x = "x";
     try {

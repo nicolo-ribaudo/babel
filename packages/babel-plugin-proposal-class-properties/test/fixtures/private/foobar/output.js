@@ -4,6 +4,7 @@ var Child = /*#__PURE__*/function (_Parent) {
 
   babelHelpers.inherits(Child, _Parent);
   var _super = babelHelpers.createSuper(Child);
+
   function Child() {
     var _this;
     babelHelpers.classCallCheck(this, Child);

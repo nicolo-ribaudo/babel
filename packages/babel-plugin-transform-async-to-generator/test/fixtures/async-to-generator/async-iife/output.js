@@ -8,6 +8,7 @@ babelHelpers.asyncToGenerator(function* () {
   var _notIIFE = babelHelpers.asyncToGenerator(function* () {
     yield 'ok';
   });
+
   function notIIFE() {
     return _notIIFE.apply(this, arguments);
   }

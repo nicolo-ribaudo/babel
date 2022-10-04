@@ -3,6 +3,7 @@ const x = async (
 a) => {
   return foo(await a);
 };
+
 function foo(a) {
   return a;
 }

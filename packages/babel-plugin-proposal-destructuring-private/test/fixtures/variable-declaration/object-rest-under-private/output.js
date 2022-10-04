@@ -4,6 +4,7 @@ class C {
   static y = "y";
   static z = "z";
   static #x = C;
+
   static {
     var {
         x

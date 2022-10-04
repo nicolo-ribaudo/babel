@@ -19,6 +19,7 @@ class Foo {
     babelHelpers.classPrivateFieldSet(this, _a, v);
   }
 }
+
 function _get_a() {
   return _call_a(this);
 }

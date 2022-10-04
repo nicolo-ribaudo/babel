@@ -5,6 +5,7 @@ class C {
   static b = "b";
   static self = C;
   static #self = C;
+
   static {
     var _m, _m2, _m3, _m4, _m5;
     let cloned, b, y, yy, yy2;

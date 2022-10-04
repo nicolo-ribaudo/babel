@@ -18,4 +18,5 @@ new (_x = /*#__PURE__*/new WeakMap(), _m = /*#__PURE__*/new WeakSet(), (_temp = 
   }
   [_Foo, _initClass] = babelHelpers.applyDecs2203(Foo, [], [dec]);
 })(), _temp))();
+
 function _m2() {}

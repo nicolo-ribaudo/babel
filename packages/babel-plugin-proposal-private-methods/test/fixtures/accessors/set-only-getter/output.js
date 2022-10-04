@@ -19,6 +19,7 @@ class Cl {
     this.self, 1([babelHelpers.classPrivateFieldDestructureSet(this.self, _privateFieldValue).value] = [1]), babelHelpers.readOnlyError("#privateFieldValue");
   }
 }
+
 function _get_privateFieldValue() {
   return babelHelpers.classPrivateFieldGet(this, _privateField);
 }

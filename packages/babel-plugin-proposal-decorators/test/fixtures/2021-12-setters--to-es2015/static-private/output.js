@@ -5,6 +5,7 @@ class Foo {
     babelHelpers.classStaticPrivateFieldSpecSet(this, Foo, _a, v);
   }
 }
+
 function _set_a(v) {
   _call_a(this, v);
 }

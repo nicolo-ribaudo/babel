@@ -1,6 +1,7 @@
 var result;
 class C {
   static #x;
+
   static {
     var _m, _m2;
     var x;

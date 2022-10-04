@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.foo = foo;
+
 function foo() {
   return _foo.apply(this, arguments);
 }

@@ -8,6 +8,7 @@ class Foo {
     babelHelpers.classPrivateFieldGet(this, _tag).bind(this)``;
   }
 }
+
 function _get_tag() {
   return () => this;
 }

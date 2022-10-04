@@ -5,6 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = wrap;
 var _coreDecorators = require("core-decorators");
+
 function wrap() {
   return function () {
     var _class;

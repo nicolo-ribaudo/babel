@@ -27,6 +27,7 @@ class E extends A {
     this.y = function () {
       return <sometag6 __self={this} />;
     };
+
     function z() {
       return <sometag7 __self={this} />;
     }

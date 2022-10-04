@@ -43,6 +43,7 @@ class Cl {
     this.publicFieldValue = -(this.publicFieldValue ** this.publicFieldValue);
   }
 }
+
 function _get_privateFieldValue() {
   return babelHelpers.classPrivateFieldGet(this, _privateField);
 }

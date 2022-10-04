@@ -3,6 +3,7 @@ var TestEmpty = /*#__PURE__*/function (_ref) {
 
   babelHelpers.inherits(TestEmpty, _ref);
   var _super = babelHelpers.createSuper(TestEmpty);
+
   function TestEmpty() {
     babelHelpers.classCallCheck(this, TestEmpty);
     return _super.apply(this, arguments);
@@ -23,6 +24,7 @@ var TestConstructorOnly = /*#__PURE__*/function (_ref2) {
 
   babelHelpers.inherits(TestConstructorOnly, _ref2);
   var _super2 = babelHelpers.createSuper(TestConstructorOnly);
+
   function TestConstructorOnly() {
     babelHelpers.classCallCheck(this, TestConstructorOnly);
     return _super2.apply(this, arguments);
@@ -43,6 +45,7 @@ var TestMethodOnly = /*#__PURE__*/function (_ref3) {
 
   babelHelpers.inherits(TestMethodOnly, _ref3);
   var _super3 = babelHelpers.createSuper(TestMethodOnly);
+
   function TestMethodOnly() {
     babelHelpers.classCallCheck(this, TestMethodOnly);
     return _super3.apply(this, arguments);
@@ -67,6 +70,7 @@ var TestConstructorAndMethod = /*#__PURE__*/function (_ref4) {
 
   babelHelpers.inherits(TestConstructorAndMethod, _ref4);
   var _super4 = babelHelpers.createSuper(TestConstructorAndMethod);
+
   function TestConstructorAndMethod() {
     babelHelpers.classCallCheck(this, TestConstructorAndMethod);
     return _super4.apply(this, arguments);
@@ -91,6 +95,7 @@ var TestMultipleMethods = /*#__PURE__*/function (_ref5) {
 
   babelHelpers.inherits(TestMultipleMethods, _ref5);
   var _super5 = babelHelpers.createSuper(TestMultipleMethods);
+
   function TestMultipleMethods() {
     babelHelpers.classCallCheck(this, TestMultipleMethods);
     return _super5.apply(this, arguments);

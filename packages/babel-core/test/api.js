@@ -636,7 +636,7 @@ describe("api", function () {
 
     expect(
       originalPositionFor(consumer, {
-        line: 6,
+        line: 7,
         column: 4,
       }),
     ).toEqual({

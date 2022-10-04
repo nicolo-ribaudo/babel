@@ -7,6 +7,7 @@ let Hello = /*#__PURE__*/babelHelpers.createClass(function Hello() {
 let Outer = /*#__PURE__*/function (_Hello) {
   babelHelpers.inherits(Outer, _Hello);
   var _super = babelHelpers.createSuper(Outer);
+
   function Outer() {
     var _dec, _init_hello;
     var _this;

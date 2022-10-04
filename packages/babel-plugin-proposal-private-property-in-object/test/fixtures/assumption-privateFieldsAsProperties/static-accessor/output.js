@@ -4,6 +4,7 @@ class Foo {
     return Object.prototype.hasOwnProperty.call(other, _foo);
   }
 }
+
 function _get_foo() {}
 
 Object.defineProperty(Foo, _foo, {

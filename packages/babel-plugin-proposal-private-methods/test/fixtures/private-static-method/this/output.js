@@ -12,6 +12,7 @@ class B extends A {
     return [babelHelpers.classStaticPrivateMethodGet(this, B, _getA), babelHelpers.classStaticPrivateMethodGet(this, B, _getB)];
   }
 }
+
 function _getA() {
   return babelHelpers.get(babelHelpers.getPrototypeOf(B), "a", this);
 }

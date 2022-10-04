@@ -4,6 +4,7 @@ class Cl {
     [babelHelpers.classStaticPrivateFieldDestructureSet(Cl, Cl, _privateFieldValue).value] = [1];
   }
 }
+
 function _get_privateFieldValue() {
   return babelHelpers.classStaticPrivateFieldSpecGet(this, Cl, _privateField);
 }

@@ -10,6 +10,7 @@ let x = 0;
 exports.x = x;
 let y = 0;
 exports.y = y;
+
 function f1() {
   ({
     x

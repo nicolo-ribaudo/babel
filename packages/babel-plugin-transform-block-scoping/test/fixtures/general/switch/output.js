@@ -1,6 +1,7 @@
 var a = true;
 var b = false;
 class e {}
+
 function f() {}
 
 switch (a) {

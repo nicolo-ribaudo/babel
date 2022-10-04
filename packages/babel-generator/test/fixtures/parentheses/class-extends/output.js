@@ -12,6 +12,7 @@ class A11 extends B.C {}
 class A12 extends function () {} {}
 class A13 extends (void B) {}
 class A14 extends (++B) {}
+
 async function f1() {
   class A15 extends (await C) {}
 }

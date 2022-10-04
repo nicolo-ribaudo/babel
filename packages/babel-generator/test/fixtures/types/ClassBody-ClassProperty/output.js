@@ -37,6 +37,7 @@ class A1 {
 }
 class A2 {
   get;
+
   *a() {}
 }
 class A3 {
@@ -44,6 +45,7 @@ class A3 {
 }
 class A4 {
   async;
+
   a() {}
 }
 class A5 {

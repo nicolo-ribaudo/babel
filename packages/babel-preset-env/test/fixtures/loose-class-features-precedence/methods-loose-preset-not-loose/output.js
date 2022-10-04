@@ -7,4 +7,5 @@ class A {
     this.x = 2;
   }
 }
+
 function _foo2() {}

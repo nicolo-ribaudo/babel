@@ -1,4 +1,5 @@
 class C {}
+
 function _self() {
   return C;
 }

@@ -14,6 +14,7 @@ export { BB }; // only BB
 export { BB as BB1 }; // BB->BB1
 var BB2;
 (function (BB2) {})(BB2 || (BB2 = {}));
+
 function foo() {}
 
 export { BB2 as BB3, foo }; // only BB2->BB3 and foo

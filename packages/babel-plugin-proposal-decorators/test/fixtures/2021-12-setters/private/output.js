@@ -12,6 +12,7 @@ class Foo {
   }
 
   value = 1;
+
   set #a(v) {
     _call_a(this, v);
   }

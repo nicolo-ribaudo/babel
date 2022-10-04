@@ -16,6 +16,7 @@ let Hello = /*#__PURE__*/function () {
 let Outer = /*#__PURE__*/function (_Hello) {
   babelHelpers.inherits(Outer, _Hello);
   var _super = babelHelpers.createSuper(Outer);
+
   function Outer() {
     let _babelHelpers$get$cal, _babelHelpers$get$cal2;
     var _thisSuper, _this;

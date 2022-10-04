@@ -8,6 +8,7 @@ var _BaseFoo2 = babelHelpers.interopRequireDefault(require("./BaseFoo"));
 var SubFoo = /*#__PURE__*/function (_BaseFoo) {
   babelHelpers.inherits(SubFoo, _BaseFoo);
   var _super = babelHelpers.createSuper(SubFoo);
+
   function SubFoo() {
     babelHelpers.classCallCheck(this, SubFoo);
     return _super.apply(this, arguments);

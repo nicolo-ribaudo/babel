@@ -12,6 +12,7 @@ class Cl {
     });
   }
 }
+
 function _get_getSet() {
   return babelHelpers.classPrivateFieldGet(this, _privateField);
 }

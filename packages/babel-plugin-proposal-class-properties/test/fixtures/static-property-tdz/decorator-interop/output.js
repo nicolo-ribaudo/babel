@@ -1,5 +1,6 @@
 let _Symbol$search;
 var _class, _descriptor;
+
 function dec() {}
 
 let A = (_class = (_Symbol$search = Symbol.search, /*#__PURE__*/function () {

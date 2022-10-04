@@ -7,6 +7,7 @@ class Foo {
     this.publicField = babelHelpers.classPrivateFieldLooseBase(this, _privateMethod)[_privateMethod]();
   }
 }
+
 function _privateMethod2() {
   return 42;
 }

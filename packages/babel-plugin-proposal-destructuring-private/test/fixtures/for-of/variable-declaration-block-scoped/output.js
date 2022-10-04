@@ -1,6 +1,7 @@
 class C {
   static a = "a";
   static #x;
+
   static {
     const a = "a";
     for (const _ref of [C]) {

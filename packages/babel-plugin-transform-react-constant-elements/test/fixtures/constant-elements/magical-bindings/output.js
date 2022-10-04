@@ -15,6 +15,7 @@ class A extends B {
     return <super.Foo />;
   }
 }
+
 function argumentsExpr() {
   return <p>{arguments.Foo}</p>;
 }

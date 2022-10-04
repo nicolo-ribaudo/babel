@@ -47,6 +47,7 @@ x; // my comment5
 
 /** */
 var a = 1;
+
 function name(params) {
   //a
   //b

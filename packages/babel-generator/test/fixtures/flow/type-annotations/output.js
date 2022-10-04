@@ -133,6 +133,7 @@ class Foo7<T> {
 class Foo8 {
   "bar"<T>() {}
 }
+
 function foo20(requiredParam, optParam?) {}
 
 class Foo9 {
@@ -169,6 +170,7 @@ var {
   x6: "hello"
 };
 var [x7]: Array<string> = ["hello"];
+
 function foo21({
   x
 }: {
@@ -256,6 +258,7 @@ var a33: {|
 var a34: {|
   id<T>(x: T): T
 |};
+
 function foo27(numVal: number = 2) {}
 
 function foo28(numVal?: number = 2) {}

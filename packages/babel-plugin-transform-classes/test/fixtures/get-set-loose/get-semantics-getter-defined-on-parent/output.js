@@ -16,6 +16,7 @@ let Base = /*#__PURE__*/function () {
 }();
 let Obj = /*#__PURE__*/function (_Base) {
   babelHelpers.inheritsLoose(Obj, _Base);
+
   function Obj() {
     return _Base.apply(this, arguments) || this;
   }

@@ -19,6 +19,7 @@ var Example = /*#__PURE__*/function () {
         }
       }, _callee);
     }));
+
     function test1() {
       return _test.apply(this, arguments);
     }

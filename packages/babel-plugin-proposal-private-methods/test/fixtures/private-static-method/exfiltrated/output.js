@@ -6,6 +6,7 @@ class Cl {
     }
   }
 }
+
 function _privateStaticMethod() {
   return 1017;
 }

@@ -2,6 +2,7 @@ System.register([], function (_export, _context) {
   "use strict";
 
   var foo8, foo, foo2, foo3, foo4, foo5, foo6;
+
   function foo7() {}
 
   _export({

@@ -15,6 +15,6 @@
 
   _exports.__esModule = true;
   _exports.default = _default;
-  function _default() {}
 
+  function _default() {}
 });

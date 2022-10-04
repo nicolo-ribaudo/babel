@@ -8,6 +8,7 @@ if (true) {
     };
   }();
 }
+
 function test() {
   return run();
 }

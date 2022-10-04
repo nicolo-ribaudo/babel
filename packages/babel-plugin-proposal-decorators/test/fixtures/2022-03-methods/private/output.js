@@ -13,6 +13,7 @@ class Foo {
 
   #a = _call_a;
   value = 1;
+
   callA() {
     return this.#a();
   }

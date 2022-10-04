@@ -5,6 +5,6 @@ define(["exports"], function (_exports) {
     value: true
   });
   _exports.default = foo;
-  function foo() {}
 
+  function foo() {}
 });

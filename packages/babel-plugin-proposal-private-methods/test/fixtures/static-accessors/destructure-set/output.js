@@ -3,6 +3,7 @@ class C {
     [babelHelpers.classStaticPrivateFieldDestructureSet(C, C, _p).value] = [0];
   }
 }
+
 function _set_p(v) {
   babelHelpers.classStaticPrivateFieldSpecSet(C, C, _q, v);
 }

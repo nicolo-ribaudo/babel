@@ -17,6 +17,7 @@ class Derived extends Base {
     return babelHelpers.classPrivateFieldGet(obj, _foo).call(obj);
   }
 }
+
 function _get_foo() {
   return 'bar';
 }

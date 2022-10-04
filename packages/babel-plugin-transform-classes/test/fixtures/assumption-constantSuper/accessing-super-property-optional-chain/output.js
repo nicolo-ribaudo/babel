@@ -2,6 +2,7 @@ var Test = /*#__PURE__*/function (_Foo) {
   "use strict";
 
   babelHelpers.inheritsLoose(Test, _Foo);
+
   function Test() {
     var _Foo$prototype$foo, _Foo$prototype$foo2;
     var _this;

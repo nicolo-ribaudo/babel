@@ -4,6 +4,7 @@ var x = {
 
     babelHelpers.inherits(_class, _Foo);
     var _super = babelHelpers.createSuper(_class);
+
     function _class() {
       babelHelpers.classCallCheck(this, _class);
       return _super.apply(this, arguments);

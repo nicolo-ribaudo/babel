@@ -1,5 +1,6 @@
 class C extends class {} {
   #x;
+
   constructor() {
     class ShouldPreserveParens {
       @(decs[0])

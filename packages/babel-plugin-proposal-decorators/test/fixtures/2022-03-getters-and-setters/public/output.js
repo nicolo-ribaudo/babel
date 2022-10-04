@@ -12,6 +12,7 @@ class Foo {
   }
 
   value = 1;
+
   get a() {
     return this.value;
   }

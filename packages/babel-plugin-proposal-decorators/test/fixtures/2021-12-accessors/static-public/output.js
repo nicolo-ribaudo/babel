@@ -8,6 +8,7 @@ class Foo {
   }
 
   static #A = _init_a(this);
+
   static get a() {
     return this.#A;
   }
@@ -17,6 +18,7 @@ class Foo {
   }
 
   static #B = _init_b(this, 123);
+
   static get b() {
     return this.#B;
   }
@@ -26,6 +28,7 @@ class Foo {
   }
 
   static #C = _init_computedKey(this, 456);
+
   static get [_computedKey]() {
     return this.#C;
   }

@@ -13,6 +13,7 @@ class Cl {
     this.publicField = (this, babelHelpers.writeOnlyError("#privateFieldValue"));
   }
 }
+
 function _set_privateFieldValue(newValue) {
   babelHelpers.classPrivateFieldSet(this, _privateField, newValue);
 }

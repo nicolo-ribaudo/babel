@@ -5,6 +5,7 @@ class C {
     [babelHelpers.classPrivateFieldLooseBase(C, _p)[_p]] = [0];
   }
 }
+
 function _set_p(v) {
   babelHelpers.classPrivateFieldLooseBase(C, _q)[_q] = v;
 }

@@ -9,6 +9,7 @@ class Foo {
   }
 
   static value = 1;
+
   static set #a(v) {
     _call_a(this, v);
   }

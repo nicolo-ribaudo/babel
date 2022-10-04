@@ -3,6 +3,7 @@ class Cl {
     return babelHelpers.classStaticPrivateFieldSpecGet(Cl, Cl, _privateStaticFieldValue);
   }
 }
+
 function _set_privateStaticFieldValue(newValue) {
   babelHelpers.classStaticPrivateFieldSpecSet(Cl, Cl, _PRIVATE_STATIC_FIELD, newValue);
 }

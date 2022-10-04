@@ -4,6 +4,7 @@ let Base = function Base() {};
 Base.prototype.test = 1;
 let Obj = /*#__PURE__*/function (_Base) {
   babelHelpers.inheritsLoose(Obj, _Base);
+
   function Obj() {
     return _Base.apply(this, arguments) || this;
   }

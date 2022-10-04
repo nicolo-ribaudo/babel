@@ -3,6 +3,7 @@ var C = /*#__PURE__*/function (_P) {
 
   babelHelpers.inherits(C, _P);
   var _super = babelHelpers.createSuper(C);
+
   function C() {
     var _this;
     babelHelpers.classCallCheck(this, C);

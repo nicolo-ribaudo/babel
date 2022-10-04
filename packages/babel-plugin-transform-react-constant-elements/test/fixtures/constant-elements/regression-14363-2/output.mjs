@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router";
 import { router } from "common/router";
+
 function RoutesComponent() {
   return <Routes>
       {Object.keys(router).map(routerKey => {

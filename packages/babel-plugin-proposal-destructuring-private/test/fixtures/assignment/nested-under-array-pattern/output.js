@@ -3,6 +3,7 @@ class C {
   static #y = [];
   static #z;
   static self = C;
+
   static #self() {
     return C;
   }

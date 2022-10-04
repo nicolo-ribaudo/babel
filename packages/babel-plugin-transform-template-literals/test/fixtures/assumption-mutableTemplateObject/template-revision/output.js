@@ -6,6 +6,7 @@ tag(_templateObject4 || (_templateObject4 = babelHelpers.taggedTemplateLiteralLo
 tag(_templateObject5 || (_templateObject5 = babelHelpers.taggedTemplateLiteralLoose(["left", void 0, "right"], ["left", "\\xg", "right"])), 0, 1);
 tag(_templateObject6 || (_templateObject6 = babelHelpers.taggedTemplateLiteralLoose(["left", void 0, "right"], ["left", "\\u000g", "right"])), 0, 1);
 tag(_templateObject7 || (_templateObject7 = babelHelpers.taggedTemplateLiteralLoose(["left", void 0, "right"], ["left", "\\u{-0}", "right"])), 0, 1);
+
 function a() {
   var undefined = 4;
   tag(_templateObject8 || (_templateObject8 = babelHelpers.taggedTemplateLiteralLoose([void 0], ["\\01"])));

@@ -15,8 +15,8 @@ function _f() {
       _b;
     }
   };
+
   function commit(b) {
     b();
   }
-
 });

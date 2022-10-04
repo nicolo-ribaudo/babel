@@ -6,6 +6,7 @@ class X {
     });
   }
 }
+
 function _privateMethod2() {
   return 42;
 }

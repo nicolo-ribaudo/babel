@@ -16,6 +16,7 @@
   _exports.__esModule = true;
   _exports.isOdd = void 0;
   _exports.nextOdd = nextOdd;
+
   function nextOdd(n) {
     return (0, _evens.isEven)(n) ? n + 1 : n + 2;
   }

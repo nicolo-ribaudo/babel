@@ -5,6 +5,7 @@ class C {
   static b = "b";
   static self = C;
   static #self = C;
+
   static {
     let cloned;
     var _m = C.#x,

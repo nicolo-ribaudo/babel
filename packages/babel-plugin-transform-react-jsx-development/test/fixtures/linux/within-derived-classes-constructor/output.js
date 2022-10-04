@@ -55,6 +55,7 @@ class E extends A {
         columnNumber: 14
       }, this);
     };
+
     function z() {
       return /*#__PURE__*/_reactJsxDevRuntime.jsxDEV("sometag7", {}, void 0, false, {
         fileName: _jsxFileName,

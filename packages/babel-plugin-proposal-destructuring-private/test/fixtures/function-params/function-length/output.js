@@ -1,5 +1,6 @@
 class C {
   static #x;
+
   static 0(..._p) {
     var [..._p2] = _p,
       x = _p2[0].#x;

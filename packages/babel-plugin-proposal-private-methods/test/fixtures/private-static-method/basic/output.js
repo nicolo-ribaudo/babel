@@ -19,6 +19,7 @@ class Cl {
     this.instanceField = babelHelpers.classStaticPrivateMethodGet(Cl, Cl, _privateStaticMethod).call(Cl);
   }
 }
+
 function _privateStaticMethod() {
   return 1017;
 }

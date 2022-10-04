@@ -17,6 +17,7 @@ async function* fn() {
 
     babelHelpers.inherits(B, _A);
     var _super = babelHelpers.createSuper(B);
+
     function B() {
       babelHelpers.classCallCheck(this, B);
       return _super.apply(this, arguments);

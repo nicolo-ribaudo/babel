@@ -4,4 +4,5 @@ console.log(_class = class A {
     babelHelpers.classStaticPrivateMethodGet(this, _class, _foo).call(this);
   }
 });
+
 function _foo() {}

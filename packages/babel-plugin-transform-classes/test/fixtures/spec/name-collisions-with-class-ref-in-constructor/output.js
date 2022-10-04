@@ -16,6 +16,7 @@ var Foo = /*#__PURE__*/function (_Base) {
 
   babelHelpers.inherits(Foo, _Base);
   var _super = babelHelpers.createSuper(Foo);
+
   function Foo() {
     var _thisSuper, _this;
     babelHelpers.classCallCheck(this, Foo);

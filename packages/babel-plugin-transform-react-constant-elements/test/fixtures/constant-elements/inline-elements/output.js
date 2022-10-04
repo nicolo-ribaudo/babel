@@ -1,4 +1,5 @@
 var _foo;
+
 function render() {
   return _foo || (_foo = /*#__PURE__*/babelHelpers.jsx("foo", {}));
 }

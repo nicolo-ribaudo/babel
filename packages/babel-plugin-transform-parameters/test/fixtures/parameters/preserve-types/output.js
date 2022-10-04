@@ -2,6 +2,7 @@ type Point = {
   x: number;
   y: number;
 };
+
 function value(_ref: Point) {
   var x = _ref.x,
     y = _ref.y;

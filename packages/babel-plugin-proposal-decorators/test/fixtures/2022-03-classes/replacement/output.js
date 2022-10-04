@@ -11,6 +11,7 @@ new class extends babelHelpers.identity {
   }
 
   foo = new _Foo();
+
   constructor() {
     super(_Foo), _initClass();
   }

@@ -8,6 +8,7 @@ var _react = babelHelpers.interopRequireWildcard(require("react"));
 var RandomComponent = /*#__PURE__*/function (_Component) {
   babelHelpers.inherits(RandomComponent, _Component);
   var _super = babelHelpers.createSuper(RandomComponent);
+
   function RandomComponent() {
     babelHelpers.classCallCheck(this, RandomComponent);
     return _super.call(this);

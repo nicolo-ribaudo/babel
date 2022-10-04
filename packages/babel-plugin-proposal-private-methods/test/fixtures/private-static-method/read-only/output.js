@@ -4,4 +4,5 @@ class A {
     [babelHelpers.classStaticPrivateFieldDestructureSet(A, A, _method).value] = [2];
   }
 }
+
 function _method() {}

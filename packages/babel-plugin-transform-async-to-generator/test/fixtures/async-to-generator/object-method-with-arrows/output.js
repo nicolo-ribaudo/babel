@@ -7,6 +7,7 @@ class Class {
       () => {
         _this;
         () => _this;
+
         function x() {
           var _this2 = this;
           this;
@@ -17,8 +18,8 @@ class Class {
             _this2;
           });
         }
-
       };
+
       function x() {
         var _this3 = this;
         this;
@@ -29,7 +30,6 @@ class Class {
           _this3;
         });
       }
-
     })();
   }
 }

@@ -26,6 +26,7 @@ var Foo = /*#__PURE__*/function () {
           }
         }, _callee);
       }));
+
       function bar() {
         return _bar.apply(this, arguments);
       }
@@ -36,6 +37,7 @@ var Foo = /*#__PURE__*/function () {
   return Foo;
 }();
 exports["default"] = Foo;
+
 function foo() {
   return _foo.apply(this, arguments);
 }

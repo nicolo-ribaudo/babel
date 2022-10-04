@@ -1,5 +1,6 @@
 const result = new class {
   #baz;
+
   constructor() {
     this.#baz = 1;
   }

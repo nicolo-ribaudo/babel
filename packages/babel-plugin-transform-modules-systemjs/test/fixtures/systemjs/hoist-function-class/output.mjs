@@ -2,6 +2,7 @@ System.register([], function (_export, _context) {
   "use strict";
 
   var HoistedClass, HoistedClassExport, HoistedClassDefaultExport;
+
   function hoisted() {
     return HoistedClass, HoistedClassExport, HoistedClassDefaultExport;
   }

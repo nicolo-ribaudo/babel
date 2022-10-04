@@ -13,6 +13,7 @@ class Sub extends Base {
     babelHelpers.classPrivateFieldLooseBase(Sub, _subStaticPrivateMethod)[_subStaticPrivateMethod]();
   }
 }
+
 function _subStaticPrivateMethod2() {
   return Base.basePublicStaticMethod.call(this);
 }

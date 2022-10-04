@@ -27,6 +27,7 @@ new class extends babelHelpers.identity {
 
       #f = _call_f;
       a = (_initProto(this), _init_a(this));
+
       b() {}
 
       get c() {}
@@ -34,6 +35,7 @@ new class extends babelHelpers.identity {
       set c(v) {}
 
       #A = _init_d(this);
+
       get d() {
         return this.#A;
       }
@@ -43,6 +45,7 @@ new class extends babelHelpers.identity {
       }
 
       #e = _init_e(this);
+
       get #g() {
         return _call_g(this);
       }
@@ -52,6 +55,7 @@ new class extends babelHelpers.identity {
       }
 
       #B = _init_h(this);
+
       set #h(v) {
         _set_h(this, v);
       }
@@ -88,6 +92,7 @@ new class extends babelHelpers.identity {
   i = _init_i(this);
   #C = _init_m(this);
   #n = _init_n(this);
+
   get #p() {
     return _call_p(this);
   }
@@ -97,6 +102,7 @@ new class extends babelHelpers.identity {
   }
 
   #D = _init_r(this);
+
   constructor() {
     super(_Class), _initClass();
   }

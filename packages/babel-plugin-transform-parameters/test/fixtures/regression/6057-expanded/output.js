@@ -8,6 +8,7 @@ var _args = babelHelpers.interopRequireDefault(require("utils/url/args"));
 var App = /*#__PURE__*/function (_Component) {
   babelHelpers.inherits(App, _Component);
   var _super = babelHelpers.createSuper(App);
+
   function App() {
     var _this;
     babelHelpers.classCallCheck(this, App);

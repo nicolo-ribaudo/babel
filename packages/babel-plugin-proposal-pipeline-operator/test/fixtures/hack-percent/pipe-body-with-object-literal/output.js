@@ -1,4 +1,5 @@
 var _ref;
+
 function area(rect) {
   return rect.width * rect.height;
 }

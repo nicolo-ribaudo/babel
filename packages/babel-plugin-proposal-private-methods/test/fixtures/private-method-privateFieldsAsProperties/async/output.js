@@ -10,6 +10,7 @@ class Cl {
     return babelHelpers.classPrivateFieldLooseBase(this, _foo)[_foo]();
   }
 }
+
 async function _foo2() {
   return 2;
 }

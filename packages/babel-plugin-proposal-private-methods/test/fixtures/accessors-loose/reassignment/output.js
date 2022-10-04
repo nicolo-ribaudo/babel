@@ -9,6 +9,7 @@ class Foo {
     babelHelpers.classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] = ++counter;
   }
 }
+
 function _get_privateFieldValue() {
   return 42;
 }

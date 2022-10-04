@@ -18,6 +18,7 @@ var ColorPoint = /*#__PURE__*/function (_Point) {
 
   babelHelpers.inherits(ColorPoint, _Point);
   var _super = babelHelpers.createSuper(ColorPoint);
+
   function ColorPoint() {
     var _thisSuper, _thisSuper2, _this;
     babelHelpers.classCallCheck(this, ColorPoint);

@@ -13,6 +13,7 @@ function foo2() {
 () => {
   return /a/;
 };
+
 function foo3() {
   return /a/;
 }

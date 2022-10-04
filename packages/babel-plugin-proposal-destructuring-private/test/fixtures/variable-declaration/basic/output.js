@@ -1,5 +1,6 @@
 class C {
   static #x;
+
   static {
     var {
         a = 1

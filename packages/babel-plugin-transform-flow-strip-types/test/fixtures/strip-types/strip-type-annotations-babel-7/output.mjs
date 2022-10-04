@@ -94,6 +94,7 @@ class Foo7 {
 class Foo8 {
   "bar"() {}
 }
+
 function foo19(requiredParam, optParam) {}
 
 class Foo9 {}
@@ -120,6 +121,7 @@ var {
   x6: "hello"
 };
 var [x7] = ["hello"];
+
 function foo20({
   x
 }) {}

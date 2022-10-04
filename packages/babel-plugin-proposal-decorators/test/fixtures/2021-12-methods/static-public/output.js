@@ -8,6 +8,7 @@ class Foo {
   }
 
   static value = 1;
+
   static a() {
     return this.value;
   }

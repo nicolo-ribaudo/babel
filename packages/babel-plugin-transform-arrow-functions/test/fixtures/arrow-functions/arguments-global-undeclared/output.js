@@ -1,4 +1,5 @@
 var _arguments2 = typeof arguments === "undefined" ? void 0 : arguments;
+
 function fn() {
   var _arguments = arguments;
   var foo = function () {

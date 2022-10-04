@@ -5,6 +5,7 @@ class A extends B {
     babelHelpers.classPrivateMethodInitSpec(this, _foo);
   }
 }
+
 function _foo2() {
   let _A;
   babelHelpers.get(babelHelpers.getPrototypeOf(A.prototype), "x", this);

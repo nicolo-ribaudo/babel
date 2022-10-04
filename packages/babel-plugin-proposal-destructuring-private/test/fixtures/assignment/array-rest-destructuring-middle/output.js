@@ -1,6 +1,7 @@
 let x, y, z;
 class C {
   static #x;
+
   static {
     var _p, _p2, _m;
     [{

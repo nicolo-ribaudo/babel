@@ -2,6 +2,7 @@
 
 var _actions = require("actions");
 var _marked = /*#__PURE__*/babelHelpers.regeneratorRuntime().mark(foo);
+
 function foo() {
   var someAction;
   return babelHelpers.regeneratorRuntime().wrap(function foo$(_context) {

@@ -16,5 +16,6 @@ class F {
   #y = (_temp = (() => {
     throw 'error';
   })(), _yBrandCheck.add(this), _temp);
+
   #z() {}
 }

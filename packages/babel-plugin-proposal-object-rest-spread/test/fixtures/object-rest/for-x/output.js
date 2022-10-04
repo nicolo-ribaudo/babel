@@ -16,6 +16,7 @@ for (var _ref2 of []) {
   b = babelHelpers.objectWithoutProperties(_ref3, _excluded2);
   _ref3;
 }
+
 async function a() {
   for await (var _ref4 of []) {
     var _ref5 = _ref4;
@@ -34,6 +35,7 @@ for ({
 for ({
   a
 } of []) {}
+
 async function a() {
   for await ({
     a
@@ -42,6 +44,7 @@ async function a() {
 
 for (a in {}) {}
 for (a of []) {}
+
 async function a() {
   for await (a of []) {}
 }

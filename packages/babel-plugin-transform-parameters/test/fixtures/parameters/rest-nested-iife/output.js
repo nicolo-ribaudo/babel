@@ -5,6 +5,7 @@ function broken(x) {
 
       babelHelpers.inherits(Foo, _Bar);
       var _super = babelHelpers.createSuper(Foo);
+
       function Foo() {
         babelHelpers.classCallCheck(this, Foo);
         return _super.apply(this, arguments);

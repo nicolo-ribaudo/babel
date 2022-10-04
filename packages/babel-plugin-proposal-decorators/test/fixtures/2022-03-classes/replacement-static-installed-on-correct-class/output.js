@@ -14,9 +14,11 @@ new class extends babelHelpers.identity {
   }
 
   #x;
+
   #m() {}
 
   x;
+
   constructor() {
     super(_Foo), (() => {
       hasX = o => #x in o;

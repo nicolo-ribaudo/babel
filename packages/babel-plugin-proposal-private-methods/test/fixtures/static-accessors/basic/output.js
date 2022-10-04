@@ -7,6 +7,7 @@ class Cl {
     babelHelpers.classStaticPrivateFieldSpecSet(Cl, Cl, _privateStaticFieldValue, "dank");
   }
 }
+
 function _get_privateStaticFieldValue() {
   return babelHelpers.classStaticPrivateFieldSpecGet(Cl, Cl, _PRIVATE_STATIC_FIELD);
 }

@@ -1,4 +1,5 @@
 import Promise from 'somewhere';
+
 function foo() {
   return _foo.apply(this, arguments);
 }

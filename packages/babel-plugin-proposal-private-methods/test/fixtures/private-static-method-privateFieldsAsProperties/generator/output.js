@@ -4,6 +4,7 @@ class Cl {
     return babelHelpers.classPrivateFieldLooseBase(Cl, _foo)[_foo]();
   }
 }
+
 function* _foo2() {
   yield 2;
   return 3;

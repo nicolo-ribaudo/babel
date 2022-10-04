@@ -5,6 +5,7 @@ var Test = /*#__PURE__*/babelHelpers.createClass(function Test() {
   var Other = /*#__PURE__*/function (_Test) {
     babelHelpers.inherits(Other, _Test);
     var _super = babelHelpers.createSuper(Other);
+
     function Other() {
       var _thisSuper, _this;
       babelHelpers.classCallCheck(this, Other);

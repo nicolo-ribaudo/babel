@@ -4,6 +4,7 @@ var _anywhere = require("anywhere");
 class Example {
   #test1 = _anywhere.test1;
   test2 = _anywhere.test2;
+
   #test3() {
     return _anywhere.test3;
   }
@@ -21,6 +22,7 @@ class Example {
   }
 
   #test7 = this.#test1;
+
   #test8() {
     return this.#test3();
   }

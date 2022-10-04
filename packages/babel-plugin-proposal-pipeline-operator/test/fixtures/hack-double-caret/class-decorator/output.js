@@ -1,5 +1,6 @@
 var _initClass, _decorated_class, _class;
 const expectedValue = 42;
+
 function decorator(target) {
   target.decoratorValue = expectedValue;
 }

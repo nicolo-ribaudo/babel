@@ -6,6 +6,7 @@ function render(text) {
 }
 
 var Foo2 = require("Foo");
+
 function createComponent(text) {
   var _Foo;
   return function render() {

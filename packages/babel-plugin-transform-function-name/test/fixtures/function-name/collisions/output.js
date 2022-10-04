@@ -5,6 +5,7 @@ var obj = {
     console.log(_search);
   }
 };
+
 function search({
   search
 }) {

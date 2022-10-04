@@ -13,6 +13,7 @@ let Foo = /*#__PURE__*/function () {
   }]);
   return Foo;
 }();
+
 function _get_foo() {}
 
 var _foo = {

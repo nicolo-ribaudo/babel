@@ -6,4 +6,5 @@ console.log((_foo = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("foo"), 
 }, Object.defineProperty(_class, _foo, {
   value: _foo2
 }), _class)));
+
 function _foo2() {}

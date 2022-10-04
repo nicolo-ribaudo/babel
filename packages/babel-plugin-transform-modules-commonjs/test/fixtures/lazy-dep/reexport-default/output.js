@@ -9,6 +9,7 @@ Object.defineProperty(exports, "default", {
     return _foo().default;
   }
 });
+
 function _foo() {
   const data = babelHelpers.interopRequireDefault(require("foo"));
   _foo = function () {

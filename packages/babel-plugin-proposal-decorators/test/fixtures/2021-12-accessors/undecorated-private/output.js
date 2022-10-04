@@ -1,6 +1,7 @@
 const dec = () => {};
 class Foo {
   #A;
+
   get #a() {
     return this.#A;
   }
@@ -10,6 +11,7 @@ class Foo {
   }
 
   #B = 123;
+
   get #b() {
     return this.#B;
   }

@@ -84,6 +84,7 @@ class Printer {
   _printedComments = new Set<t.Comment>();
   _endsWithInteger = false;
   _endsWithWord = false;
+
   generate(ast: t.Node) {
     this.print(ast);
     this._maybeAddAuxComment();
@@ -710,6 +711,7 @@ if (!process.env.BABEL_8_BREAKING) {
 type GeneratorFunctions = typeof generatorFunctions;
 interface Printer extends GeneratorFunctions {}
 export default Printer;
+
 function commaSeparator(this: Printer) {
   this.token(",");
   this.space();

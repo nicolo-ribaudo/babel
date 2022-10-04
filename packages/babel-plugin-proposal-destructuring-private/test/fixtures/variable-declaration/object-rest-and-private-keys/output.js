@@ -5,6 +5,7 @@ class C {
   static a = "a";
   static b = "b";
   static c = "c";
+
   static {
     var x = C.#x,
       y = C.#y,

@@ -2,6 +2,7 @@ System.register([], function (_export, _context) {
   "use strict";
 
   var testProp;
+
   function testFunc() {
     return 'test function';
   }

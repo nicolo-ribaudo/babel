@@ -3,6 +3,7 @@ let A = /*#__PURE__*/function (_B) {
 
   babelHelpers.inherits(A, _B);
   var _super = babelHelpers.createSuper(A);
+
   function A() {
     babelHelpers.classCallCheck(this, A);
     return _super.call.apply(_super, [this].concat(babelHelpers.toConsumableArray(foo)));

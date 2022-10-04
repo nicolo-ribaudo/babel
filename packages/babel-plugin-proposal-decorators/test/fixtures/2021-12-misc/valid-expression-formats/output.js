@@ -19,6 +19,7 @@ class Foo {
   }
 
   #a;
+
   method() {}
 
   makeClass() {

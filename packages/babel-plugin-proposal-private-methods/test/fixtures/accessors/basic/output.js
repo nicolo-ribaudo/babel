@@ -21,6 +21,7 @@ class Cl {
     babelHelpers.classPrivateFieldSet(this, _privateFieldValue, newValue);
   }
 }
+
 function _get_privateFieldValue() {
   return babelHelpers.classPrivateFieldGet(this, _privateField);
 }

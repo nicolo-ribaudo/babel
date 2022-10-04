@@ -13,6 +13,7 @@ if (true) {
     }, _callee);
   });
 }
+
 function test() {
   return run();
 }

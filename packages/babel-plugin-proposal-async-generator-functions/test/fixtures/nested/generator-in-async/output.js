@@ -5,6 +5,7 @@ function f() {
 function _f() {
   _f = babelHelpers.asyncToGenerator(function* () {
     yield 1;
+
     function g() {
       return _g.apply(this, arguments);
     }
@@ -16,7 +17,6 @@ function _f() {
       });
       return _g.apply(this, arguments);
     }
-
   });
   return _f.apply(this, arguments);
 }

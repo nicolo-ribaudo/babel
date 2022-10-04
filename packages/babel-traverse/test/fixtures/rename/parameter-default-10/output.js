@@ -1,4 +1,5 @@
 let z = "outside";
+
 function r({
   a: b
 }, {

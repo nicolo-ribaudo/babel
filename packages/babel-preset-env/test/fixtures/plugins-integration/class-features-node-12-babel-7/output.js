@@ -12,6 +12,7 @@ class B {
     });
   }
 }
+
 function _y2() {
   babelHelpers.classPrivateFieldGet(this, _x);
 }

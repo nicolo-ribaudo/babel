@@ -5,6 +5,7 @@ class C {
   static a = "a";
   static b = "b";
   static c = "c";
+
   static {
     var _m, _m2;
     var {
