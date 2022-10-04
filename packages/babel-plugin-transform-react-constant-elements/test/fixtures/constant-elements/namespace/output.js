@@ -4,4 +4,5 @@ function AComponent() {
   function BComponent() {
     return _n$CComponent || (_n$CComponent = <n:CComponent />);
   }
+
 }

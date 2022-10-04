@@ -6,9 +6,11 @@ class Foo {
     babelHelpers.defineProperty(this, "value", 1);
     _initProto(this);
   }
+
   get a() {
     return this.value;
   }
+
   get [_computedKey]() {
     return this.value;
   }

@@ -7,6 +7,7 @@ function _white() {
   };
   return data;
 }
+
 var _black = babelHelpers.interopRequireDefault(require("black"));
 console.log(_white().default);
 console.log(_black.default);

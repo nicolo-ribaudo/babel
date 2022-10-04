@@ -7,15 +7,19 @@ function classFactory() {
         value: "foo"
       });
     }
+
     instance() {
       return babelHelpers.classPrivateFieldGet(this, _foo);
     }
+
     static() {
       return babelHelpers.classStaticPrivateFieldSpecGet(Foo, _class, _bar);
     }
+
     static instance(inst) {
       return babelHelpers.classPrivateFieldGet(inst, _foo);
     }
+
     static static() {
       return babelHelpers.classStaticPrivateFieldSpecGet(Foo, _class, _bar);
     }

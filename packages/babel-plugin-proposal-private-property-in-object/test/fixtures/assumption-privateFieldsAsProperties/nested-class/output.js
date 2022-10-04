@@ -6,6 +6,7 @@ class Foo {
       value: 1
     });
   }
+
   test() {
     class Nested {
       test() {

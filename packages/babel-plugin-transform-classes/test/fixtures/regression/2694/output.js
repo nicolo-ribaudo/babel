@@ -12,6 +12,7 @@ var SubFoo = /*#__PURE__*/function (_BaseFoo) {
     babelHelpers.classCallCheck(this, SubFoo);
     return _super.apply(this, arguments);
   }
+
   babelHelpers.createClass(SubFoo, null, [{
     key: "talk",
     value: function talk() {

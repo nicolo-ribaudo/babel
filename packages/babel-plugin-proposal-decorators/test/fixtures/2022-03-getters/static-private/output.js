@@ -7,10 +7,12 @@ class Foo {
     }]], []);
     _initStatic(this);
   }
+
   static value = 1;
   static get #a() {
     return _call_a(this);
   }
+
   static getA() {
     return this.#a;
   }

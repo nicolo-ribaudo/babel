@@ -4,6 +4,7 @@ function b() {
     return _this.x + x;
   };
 }
+
 class Foo extends function () {} {
   constructor() {
     var _this2;

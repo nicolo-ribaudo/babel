@@ -7,15 +7,19 @@ class Foo {
     babelHelpers.defineProperty(this, "value", 1);
     _initProto(this);
   }
+
   get a() {
     return this.value;
   }
+
   set a(v) {
     this.value = v;
   }
+
   get [_computedKey]() {
     return this.value;
   }
+
   set [_computedKey2](v) {
     this.value = v;
   }

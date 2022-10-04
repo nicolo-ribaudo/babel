@@ -18,6 +18,7 @@ var Outer = /*#__PURE__*/function (_Hello) {
       function Inner() {
         babelHelpers.classCallCheck(this, Inner);
       }
+
       babelHelpers.createClass(Inner, [{
         key: _this2,
         value: function value() {
@@ -28,6 +29,7 @@ var Outer = /*#__PURE__*/function (_Hello) {
     }(_this = _super.call(this));
     return babelHelpers.possibleConstructorReturn(_this, new Inner());
   }
+
   return babelHelpers.createClass(Outer);
 }(Hello);
 expect(new Outer().hello()).toBe('hello');

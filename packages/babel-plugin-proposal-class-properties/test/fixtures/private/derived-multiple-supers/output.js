@@ -22,5 +22,6 @@ var Foo = /*#__PURE__*/function (_Bar) {
     }
     return babelHelpers.possibleConstructorReturn(_this);
   }
+
   return babelHelpers.createClass(Foo);
 }(Bar);

@@ -9,16 +9,20 @@ class Foo {
     }]], []);
     _initStatic(this);
   }
+
   static value = 1;
   static get #a() {
     return _call_a(this);
   }
+
   static set #a(v) {
     _call_a2(this, v);
   }
+
   static getA() {
     return this.#a;
   }
+
   static setA(v) {
     this.#a = v;
   }

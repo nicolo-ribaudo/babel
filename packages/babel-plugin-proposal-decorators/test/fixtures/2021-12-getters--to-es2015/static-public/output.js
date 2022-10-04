@@ -5,6 +5,7 @@ class Foo {
   static get a() {
     return this.value;
   }
+
   static get [_computedKey]() {
     return this.value;
   }

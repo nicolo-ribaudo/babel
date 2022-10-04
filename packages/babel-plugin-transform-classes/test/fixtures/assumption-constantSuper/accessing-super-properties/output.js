@@ -11,5 +11,6 @@ var Test = /*#__PURE__*/function (_Foo) {
     _Foo.prototype.test.whatever;
     return _this;
   }
+
   return babelHelpers.createClass(Test);
 }(Foo);

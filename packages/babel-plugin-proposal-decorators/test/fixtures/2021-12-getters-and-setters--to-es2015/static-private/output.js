@@ -4,6 +4,7 @@ class Foo {
   static getA() {
     return babelHelpers.classStaticPrivateFieldSpecGet(this, Foo, _a);
   }
+
   static setA(v) {
     babelHelpers.classStaticPrivateFieldSpecSet(this, Foo, _a, v);
   }
@@ -11,9 +12,11 @@ class Foo {
 function _get_a() {
   return _call_a(this);
 }
+
 function _set_a(v) {
   _call_a2(this, v);
 }
+
 var _a = {
   get: _get_a,
   set: _set_a

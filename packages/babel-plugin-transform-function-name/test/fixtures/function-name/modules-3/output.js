@@ -12,6 +12,7 @@ let Login = /*#__PURE__*/function (_React$Component) {
     babelHelpers.classCallCheck(this, Login);
     return _super.apply(this, arguments);
   }
+
   babelHelpers.createClass(Login, [{
     key: "getForm",
     value: function getForm() {

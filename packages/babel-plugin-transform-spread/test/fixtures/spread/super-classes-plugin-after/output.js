@@ -7,5 +7,6 @@ let A = /*#__PURE__*/function (_B) {
     babelHelpers.classCallCheck(this, A);
     return _super.call.apply(_super, [this].concat(babelHelpers.toConsumableArray(foo)));
   }
+
   return babelHelpers.createClass(A);
 }(B);

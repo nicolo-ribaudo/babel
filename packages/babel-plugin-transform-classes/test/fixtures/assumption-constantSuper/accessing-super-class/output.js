@@ -16,5 +16,6 @@ var Test = /*#__PURE__*/function (_Foo) {
     (_Foo$prototype$test = _Foo.prototype.test).call.apply(_Foo$prototype$test, [babelHelpers.assertThisInitialized(_this), "test"].concat(Array.prototype.slice.call(arguments)));
     return _this;
   }
+
   return babelHelpers.createClass(Test);
 }(Foo);

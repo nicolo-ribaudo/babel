@@ -30,6 +30,7 @@ export function enable({
   watcher = new FSWatcher(options);
   watcher.on("unlink", unwatchFile);
 }
+
 export function startWatcher() {
   hasStarted = true;
   for (const dep of watchQueue) {
@@ -40,6 +41,7 @@ export function startWatcher() {
     console.log("The watcher is ready.");
   });
 }
+
 export function watch(filename: string): void {
   if (!isWatchMode) {
     throw new Error("Internal Babel error: .watch called when not in watch mode.");
@@ -68,6 +70,7 @@ export function onFilesChange(callback: (filenames: string[], event: string, cau
     callback([absoluteFile, ...(depToFiles.get(absoluteFile) ?? [])], event, absoluteFile);
   });
 }
+
 export function updateExternalDependencies(filename: string, dependencies: Set<string>) {
   if (!isWatchMode) return;
 
@@ -96,6 +99,7 @@ export function updateExternalDependencies(filename: string, dependencies: Set<s
   }
   fileToDeps.set(absFilename, absDependencies);
 }
+
 function removeFileDependency(filename: string, dep: string) {
   const deps = (depToFiles.get(dep) as Set<string>);
   deps.delete(filename);
@@ -108,6 +112,7 @@ function removeFileDependency(filename: string, dep: string) {
     }
   }
 }
+
 function unwatchFile(filename: string) {
   const deps = fileToDeps.get(filename);
   if (!deps) return;
@@ -116,6 +121,7 @@ function unwatchFile(filename: string) {
   }
   fileToDeps.delete(filename);
 }
+
 function requireChokidar(): any {
   const require = createRequire(import.meta.url);
   try {

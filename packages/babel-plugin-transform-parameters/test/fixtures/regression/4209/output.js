@@ -5,6 +5,7 @@ var Thing = /*#__PURE__*/function () {
   function Thing() {
     babelHelpers.classCallCheck(this, Thing);
   }
+
   babelHelpers.createClass(Thing, [{
     key: "handleCopySomething",
     value: function handleCopySomething() {

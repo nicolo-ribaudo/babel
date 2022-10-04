@@ -6,6 +6,7 @@ var BaseController = /*#__PURE__*/function (_Chaplin$Controller) {
     babelHelpers.classCallCheck(this, BaseController);
     return _Chaplin$Controller.apply(this, arguments) || this;
   }
+
   return babelHelpers.createClass(BaseController);
 }(Chaplin.Controller);
 var BaseController2 = /*#__PURE__*/function (_Chaplin$Controller$A) {
@@ -16,5 +17,6 @@ var BaseController2 = /*#__PURE__*/function (_Chaplin$Controller$A) {
     babelHelpers.classCallCheck(this, BaseController2);
     return _Chaplin$Controller$A.apply(this, arguments) || this;
   }
+
   return babelHelpers.createClass(BaseController2);
 }(Chaplin.Controller.Another);

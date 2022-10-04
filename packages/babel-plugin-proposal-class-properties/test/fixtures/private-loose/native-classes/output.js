@@ -7,9 +7,11 @@ class Foo {
       value: "bar"
     });
   }
+
   static test() {
     return babelHelpers.classPrivateFieldLooseBase(Foo, _foo)[_foo];
   }
+
   test() {
     return babelHelpers.classPrivateFieldLooseBase(this, _bar)[_bar];
   }

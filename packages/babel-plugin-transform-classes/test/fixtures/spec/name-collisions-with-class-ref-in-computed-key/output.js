@@ -11,6 +11,7 @@ var Foo = /*#__PURE__*/function (_Bar) {
       function X() {
         babelHelpers.classCallCheck(this, X);
       }
+
       babelHelpers.createClass(X, [{
         key: _ref,
         value: function value() {}
@@ -22,5 +23,6 @@ var Foo = /*#__PURE__*/function (_Bar) {
     })());
     return _this;
   }
+
   return babelHelpers.createClass(Foo);
 }(Bar);

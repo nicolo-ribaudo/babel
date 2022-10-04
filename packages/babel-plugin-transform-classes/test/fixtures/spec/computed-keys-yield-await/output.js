@@ -5,6 +5,7 @@ async function* fn() {
     function A() {
       babelHelpers.classCallCheck(this, A);
     }
+
     babelHelpers.createClass(A, [{
       key: _yield$,
       value: function value() {}
@@ -20,6 +21,7 @@ async function* fn() {
       babelHelpers.classCallCheck(this, B);
       return _super.apply(this, arguments);
     }
+
     babelHelpers.createClass(B, [{
       key: _await$,
       value: function value() {}

@@ -6,9 +6,11 @@ System.register([], function (_export, _context) {
     alert("a");
     _export("c", +c + 1), c++;
   }
+
   function b() {
     a();
   }
+
   _export("a", a);
   return {
     setters: [],

@@ -5,5 +5,6 @@ var foo = /*#__PURE__*/function () {
   function bar() {
     return _bar.apply(this, arguments);
   }
+
   return bar;
 }();

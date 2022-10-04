@@ -40,6 +40,7 @@ exports.z = z;
 class a {}
 exports.a = a;
 function b() {}
+
 var d = 42;
 exports.d = d;
 var e = 1,

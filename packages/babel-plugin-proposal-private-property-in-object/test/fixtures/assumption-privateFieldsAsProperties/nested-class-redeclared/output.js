@@ -6,6 +6,7 @@ class Foo {
       value: 1
     });
   }
+
   test() {
     var _foo2 = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("foo");
     class Nested {
@@ -15,6 +16,7 @@ class Foo {
           value: 2
         });
       }
+
       test() {
         Object.prototype.hasOwnProperty.call(this, _foo2);
       }

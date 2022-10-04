@@ -8,6 +8,7 @@ function f() {
     y = _ref$y === void 0 ? x : _ref$y;
   return x;
 }
+
 function g() {
   for (var _len2 = arguments.length, _ref2 = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
     _ref2[_key2] = arguments[_key2];

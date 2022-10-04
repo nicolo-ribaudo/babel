@@ -5,6 +5,7 @@ function one() {
   };
   return [].slice.call(inner());
 }
+
 one(1, 2);
 function two() {
   var _arguments2 = arguments;
@@ -19,6 +20,7 @@ function two() {
   };
   return [].slice.call(inner());
 }
+
 two(1, 2);
 function three() {
   var _arguments4 = arguments;
@@ -27,6 +29,7 @@ function three() {
   };
   return fn();
 }
+
 three("foo");
 function four() {
   var _arguments5 = arguments;
@@ -35,6 +38,7 @@ function four() {
   };
   return fn();
 }
+
 four({
   foo: "foo"
 });
@@ -44,6 +48,7 @@ function five(obj) {
   };
   return fn();
 }
+
 five({
   arguments: ["foo"]
 });
@@ -56,6 +61,7 @@ function six(obj) {
   };
   return fn();
 }
+
 six();
 var seven = function () {
   var _arguments6 = 1;
@@ -75,6 +81,7 @@ function nine() {
     return _arguments8;
   };
 }
+
 nine();
 var eleven = function () {
   var arguments = 2;

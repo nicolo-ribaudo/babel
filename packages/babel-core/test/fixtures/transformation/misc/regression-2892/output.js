@@ -8,6 +8,7 @@ var Foo = /*#__PURE__*/function () {
   function Foo() {
     babelHelpers.classCallCheck(this, Foo);
   }
+
   babelHelpers.createClass(Foo, [{
     key: "bar",
     value: function () {
@@ -28,6 +29,7 @@ var Foo = /*#__PURE__*/function () {
       function bar() {
         return _bar.apply(this, arguments);
       }
+
       return bar;
     }()
   }]);
@@ -37,6 +39,7 @@ exports["default"] = Foo;
 function foo() {
   return _foo.apply(this, arguments);
 }
+
 function _foo() {
   _foo = babelHelpers.asyncToGenerator( /*#__PURE__*/babelHelpers.regeneratorRuntime().mark(function _callee3() {
     var bar, _bar2;

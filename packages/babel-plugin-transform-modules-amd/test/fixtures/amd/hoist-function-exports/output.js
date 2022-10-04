@@ -9,6 +9,7 @@ define(["exports", "./evens"], function (_exports, _evens) {
   function nextOdd(n) {
     return (0, _evens.isEven)(n) ? n + 1 : n + 2;
   }
+
   var isOdd = function (isEven) {
     return function (n) {
       return !isEven(n);

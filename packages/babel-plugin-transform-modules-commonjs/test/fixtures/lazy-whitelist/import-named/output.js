@@ -7,6 +7,7 @@ function _white() {
   };
   return data;
 }
+
 var _black = require("black");
 console.log(_white().foo1);
 console.log(_black.foo2);

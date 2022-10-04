@@ -3,6 +3,7 @@ function dec() {}
 
 // Create a local function binding so babel has to change the name of the helper
 function _defineProperty() {}
+
 let A = (_class = /*#__PURE__*/babelHelpers.createClass(function A() {
   "use strict";
 

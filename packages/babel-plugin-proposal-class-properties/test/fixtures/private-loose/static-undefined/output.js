@@ -3,6 +3,7 @@ class Foo {
   static test() {
     return babelHelpers.classPrivateFieldLooseBase(Foo, _bar)[_bar];
   }
+
   test() {
     return babelHelpers.classPrivateFieldLooseBase(Foo, _bar)[_bar];
   }

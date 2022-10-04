@@ -16,6 +16,7 @@ var Foo = /*#__PURE__*/function (_Bar) {
     _this.state = "test";
     return _this;
   }
+
   return babelHelpers.createClass(Foo);
 }(Bar);
 var ConstructorScoping = /*#__PURE__*/babelHelpers.createClass(function ConstructorScoping() {

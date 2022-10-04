@@ -10,6 +10,7 @@ for (let i = 0; i <= 10; ++i) {
         value: `private field ${i}`
       });
     }
+
     getBar() {
       return babelHelpers.classPrivateFieldGet(this, _bar);
     }

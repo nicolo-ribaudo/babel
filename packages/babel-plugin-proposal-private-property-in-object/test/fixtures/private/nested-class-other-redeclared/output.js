@@ -14,6 +14,7 @@ let Foo = /*#__PURE__*/function () {
       value: 1
     });
   }
+
   babelHelpers.createClass(Foo, [{
     key: "test",
     value: function test() {
@@ -26,6 +27,7 @@ let Foo = /*#__PURE__*/function () {
             value: 2
           });
         }
+
         babelHelpers.createClass(Nested, [{
           key: "test",
           value: function test() {

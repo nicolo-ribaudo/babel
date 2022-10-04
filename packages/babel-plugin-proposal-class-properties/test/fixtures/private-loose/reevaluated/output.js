@@ -7,15 +7,19 @@ function classFactory() {
         value: "foo"
       });
     }
+
     instance() {
       return babelHelpers.classPrivateFieldLooseBase(this, _foo)[_foo];
     }
+
     static() {
       return babelHelpers.classPrivateFieldLooseBase(Foo, _bar)[_bar];
     }
+
     static instance(inst) {
       return babelHelpers.classPrivateFieldLooseBase(inst, _foo)[_foo];
     }
+
     static static() {
       return babelHelpers.classPrivateFieldLooseBase(Foo, _bar)[_bar];
     }
@@ -24,6 +28,7 @@ function classFactory() {
     value: "bar"
   }), _class);
 }
+
 var Foo1 = classFactory();
 var Foo2 = classFactory();
 var f1 = new Foo1();

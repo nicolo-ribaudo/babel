@@ -26,6 +26,7 @@ var MyClass = /*#__PURE__*/function () {
     this[`template`] = "template";
     this[_ref4] = "template-with-expression";
   }
+
   babelHelpers.createClass(MyClass, [{
     key: "whatever",
     get: function () {},

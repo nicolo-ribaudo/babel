@@ -3,9 +3,11 @@ const result = new class {
   constructor() {
     this.#baz = 1;
   }
+
   #bar() {
     return this.#baz + 2;
   }
+
   foo() {
     return this.#bar() + 3;
   }

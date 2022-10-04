@@ -6,12 +6,15 @@ class Foo {
     });
     this.status = status;
   }
+
   getCurrentStatus() {
     return babelHelpers.classPrivateFieldLooseBase(this, _getStatus)[_getStatus]();
   }
+
   setCurrentStatus(newStatus) {
     this.status = newStatus;
   }
+
   getFakeStatus(fakeStatus) {
     var fakeGetStatus = babelHelpers.classPrivateFieldLooseBase(this, _getStatus)[_getStatus];
     return function () {
@@ -20,6 +23,7 @@ class Foo {
       });
     };
   }
+
   getFakeStatusFunc() {
     return {
       status: 'fake-status',

@@ -18,7 +18,9 @@ class Foo {
     });
     _initProto(this);
   }
+
   method() {}
+
   makeClass() {
     var _dec9, _init_bar, _class;
     return _dec9 = babelHelpers.classPrivateFieldGet(this, _a), (_class = class Nested {

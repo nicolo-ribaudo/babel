@@ -45,6 +45,7 @@ class ComputedMethod extends Obj {
         super();
         expect(this.field).toBeUndefined();
       }
+
       [(super(), babelHelpers.defineProperty(this, "field", 1), this)]() {}
     }
     expect(this.field).toBe(1);

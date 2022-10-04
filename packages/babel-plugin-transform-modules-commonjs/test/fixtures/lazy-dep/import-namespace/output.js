@@ -7,4 +7,5 @@ function foo() {
   };
   return data;
 }
+
 console.log(foo());

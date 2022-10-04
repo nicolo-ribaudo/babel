@@ -26,12 +26,15 @@ class Foo {
 function _get_a() {
   return babelHelpers.classPrivateFieldGet(this, _A);
 }
+
 function _set_a(v) {
   babelHelpers.classPrivateFieldSet(this, _A, v);
 }
+
 function _get_b() {
   return babelHelpers.classPrivateFieldGet(this, _B);
 }
+
 function _set_b(v) {
   babelHelpers.classPrivateFieldSet(this, _B, v);
 }

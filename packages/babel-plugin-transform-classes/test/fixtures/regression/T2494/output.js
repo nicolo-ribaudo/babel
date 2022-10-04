@@ -8,6 +8,7 @@ var x = {
       babelHelpers.classCallCheck(this, _class);
       return _super.apply(this, arguments);
     }
+
     return babelHelpers.createClass(_class);
   }(Foo)
 };

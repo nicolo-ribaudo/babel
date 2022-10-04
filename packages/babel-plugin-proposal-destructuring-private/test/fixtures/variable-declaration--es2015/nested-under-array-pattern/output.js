@@ -2,6 +2,7 @@ class C {}
 function _self() {
   return C;
 }
+
 var _x = {
   writable: true,
   value: "x"

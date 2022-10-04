@@ -9,5 +9,6 @@ var Foo = /*#__PURE__*/function (_Bar) {
     foo((_this = _super.call(this), babelHelpers.defineProperty(babelHelpers.assertThisInitialized(_this), "bar", "foo"), babelHelpers.assertThisInitialized(_this)));
     return _this;
   }
+
   return babelHelpers.createClass(Foo);
 }(Bar);

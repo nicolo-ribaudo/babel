@@ -2,6 +2,7 @@ var _foo;
 function render() {
   return _foo || (_foo = /*#__PURE__*/babelHelpers.jsx("foo", {}));
 }
+
 function render() {
   var _foo2;
   var text = getText();

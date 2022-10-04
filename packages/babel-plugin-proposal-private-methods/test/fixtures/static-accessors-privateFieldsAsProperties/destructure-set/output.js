@@ -8,6 +8,7 @@ class C {
 function _set_p(v) {
   babelHelpers.classPrivateFieldLooseBase(C, _q)[_q] = v;
 }
+
 Object.defineProperty(C, _p, {
   get: void 0,
   set: _set_p

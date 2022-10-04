@@ -8,6 +8,7 @@ class Test {
       }));
     })();
   }
+
   static method2() {
     var _this2 = this;
     return babelHelpers.asyncToGenerator(function* () {
@@ -22,6 +23,7 @@ class Test {
       }());
     })();
   }
+
   method1() {
     var _this3 = this;
     return babelHelpers.asyncToGenerator(function* () {
@@ -31,6 +33,7 @@ class Test {
       }));
     })();
   }
+
   method2() {
     var _this4 = this;
     return babelHelpers.asyncToGenerator(function* () {

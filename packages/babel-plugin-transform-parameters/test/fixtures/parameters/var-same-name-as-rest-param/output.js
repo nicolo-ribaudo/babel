@@ -5,6 +5,7 @@ function f() {
   var x;
   return x;
 }
+
 function g() {
   for (var _len2 = arguments.length, x = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
     x[_key2] = arguments[_key2];

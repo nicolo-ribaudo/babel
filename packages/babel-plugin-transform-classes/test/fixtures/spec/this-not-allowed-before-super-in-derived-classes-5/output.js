@@ -9,5 +9,6 @@ var Foo = /*#__PURE__*/function (_Bar) {
     Foo[babelHelpers.assertThisInitialized(_this)];
     return babelHelpers.possibleConstructorReturn(_this);
   }
+
   return babelHelpers.createClass(Foo);
 }(Bar);

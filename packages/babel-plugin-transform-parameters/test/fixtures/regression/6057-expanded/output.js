@@ -18,6 +18,7 @@ var App = /*#__PURE__*/function (_Component) {
     babelHelpers.defineProperty(babelHelpers.assertThisInitialized(_this), "exportType", '');
     return _this;
   }
+
   babelHelpers.createClass(App, [{
     key: "componentDidMount",
     value: function componentDidMount() {

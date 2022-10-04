@@ -6,6 +6,7 @@ class C {
 function _set_p(v) {
   babelHelpers.classStaticPrivateFieldSpecSet(C, C, _q, v);
 }
+
 var _p = {
   get: void 0,
   set: _set_p

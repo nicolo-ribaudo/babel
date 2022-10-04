@@ -4,6 +4,7 @@ function render() {
     renderFoo = () => _foo || (_foo = <foo bar={bar} />);
   return renderFoo();
 }
+
 function render() {
   var _foo2;
   const bar = "bar",

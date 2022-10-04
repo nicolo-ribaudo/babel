@@ -7,5 +7,6 @@ var Test = /*#__PURE__*/function (_Foo) {
     babelHelpers.classCallCheck(this, Test);
     return _super.apply(this, arguments);
   }
+
   return babelHelpers.createClass(Test);
 }(Foo);

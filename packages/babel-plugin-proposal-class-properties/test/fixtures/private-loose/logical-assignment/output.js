@@ -16,9 +16,11 @@ class Foo {
       value: 0
     });
   }
+
   self() {
     return this;
   }
+
   test() {
     var _babelHelpers$classPr, _babelHelpers$classPr2, _babelHelpers$classPr3, _babelHelpers$classPr4;
     (_babelHelpers$classPr = babelHelpers.classPrivateFieldLooseBase(this, _nullish))[_nullish] ?? (_babelHelpers$classPr[_nullish] = 42);

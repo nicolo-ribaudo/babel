@@ -5,6 +5,7 @@ var Test = /*#__PURE__*/function () {
     babelHelpers.classCallCheck(this, Test);
     return babelHelpers.get(babelHelpers.getPrototypeOf(Test.prototype), "constructor", this);
   }
+
   babelHelpers.createClass(Test, null, [{
     key: "test",
     value: function test() {

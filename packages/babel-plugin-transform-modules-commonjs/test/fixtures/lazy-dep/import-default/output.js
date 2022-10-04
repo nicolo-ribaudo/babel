@@ -7,4 +7,5 @@ function _foo() {
   };
   return data;
 }
+
 console.log(_foo().default);

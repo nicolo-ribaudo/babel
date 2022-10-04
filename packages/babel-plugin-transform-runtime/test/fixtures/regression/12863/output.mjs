@@ -20,5 +20,6 @@ let B = /*#__PURE__*/function (_A) {
     _defineProperty(_assertThisInitialized(_this), "b", 8);
     return _this;
   }
+
   return _createClass(B);
 }(A);

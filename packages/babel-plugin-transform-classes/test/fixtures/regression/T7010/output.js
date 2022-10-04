@@ -5,12 +5,14 @@ var Foo = /*#__PURE__*/function () {
     babelHelpers.classCallCheck(this, Foo);
     this._val = val;
   }
+
   babelHelpers.createClass(Foo, [{
     key: "foo2",
     value: function (_foo) {
       function foo2() {
         return _foo.apply(this, arguments);
       }
+
       foo2.toString = function () {
         return _foo.toString();
       };

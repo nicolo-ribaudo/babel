@@ -4,6 +4,7 @@ var Test = /*#__PURE__*/function () {
   function Test() {
     return Object.prototype.constructor;
   }
+
   Test.test = function test() {
     return Function.prototype.constructor;
   };

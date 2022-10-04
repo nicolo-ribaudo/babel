@@ -6,6 +6,7 @@ class C {
   static #self() {
     return C;
   }
+
   static {
     var _p, _p2, _p3, _p4, _m;
     let x, y, z;

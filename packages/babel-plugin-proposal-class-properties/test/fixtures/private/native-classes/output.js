@@ -6,9 +6,11 @@ class Foo {
       value: "bar"
     });
   }
+
   static test() {
     return babelHelpers.classStaticPrivateFieldSpecGet(Foo, Foo, _foo);
   }
+
   test() {
     return babelHelpers.classPrivateFieldGet(this, _bar);
   }

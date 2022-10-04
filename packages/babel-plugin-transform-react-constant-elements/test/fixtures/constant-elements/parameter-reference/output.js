@@ -4,6 +4,7 @@ function render(text) {
     return _div || (_div = <div>{text}</div>);
   };
 }
+
 function render() {
   return function (text) {
     return <div>{text}</div>;

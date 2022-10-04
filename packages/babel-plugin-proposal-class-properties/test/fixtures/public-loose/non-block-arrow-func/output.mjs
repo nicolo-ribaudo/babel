@@ -4,6 +4,7 @@ export default (param => {
     function App() {
       babelHelpers.classCallCheck(this, App);
     }
+
     babelHelpers.createClass(App, [{
       key: "getParam",
       value: function getParam() {

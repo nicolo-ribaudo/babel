@@ -19,6 +19,7 @@ class BugReport extends React.Component {
       return <div color={color}>{data}</div>;
     };
   }
+
   render() {
     return _div2 || (_div2 = <div />);
   }

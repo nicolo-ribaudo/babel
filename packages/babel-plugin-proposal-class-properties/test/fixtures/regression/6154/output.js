@@ -17,6 +17,7 @@ var Test = /*#__PURE__*/babelHelpers.createClass(function Test() {
       });
       return _this;
     }
+
     return babelHelpers.createClass(Other);
   }(Test);
   babelHelpers.defineProperty(Other, "a", function () {

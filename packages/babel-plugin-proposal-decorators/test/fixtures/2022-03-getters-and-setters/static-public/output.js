@@ -7,16 +7,20 @@ class Foo {
     [_initStatic] = babelHelpers.applyDecs2203(this, [[dec, 8, "a"], [dec, 9, "a"], [dec, 8, _computedKey], [dec, 9, _computedKey2]], []);
     _initStatic(this);
   }
+
   static value = 1;
   static get a() {
     return this.value;
   }
+
   static set a(v) {
     this.value = v;
   }
+
   static get [_computedKey]() {
     return this.value;
   }
+
   static set [_computedKey2](v) {
     this.value = v;
   }

@@ -13,6 +13,7 @@ class Derived extends Base {
       value: ++counter
     });
   }
+
   static get(obj) {
     return babelHelpers.classPrivateFieldGet(obj, _foo);
   }

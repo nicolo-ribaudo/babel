@@ -2,12 +2,15 @@ class Base {
   static getThis() {
     return babelHelpers.classStaticPrivateFieldSpecGet(this, Base, _foo);
   }
+
   static updateThis(val) {
     return babelHelpers.classStaticPrivateFieldSpecSet(this, Base, _foo, val);
   }
+
   static getClass() {
     return babelHelpers.classStaticPrivateFieldSpecGet(Base, Base, _foo);
   }
+
   static updateClass(val) {
     return babelHelpers.classStaticPrivateFieldSpecSet(Base, Base, _foo, val);
   }

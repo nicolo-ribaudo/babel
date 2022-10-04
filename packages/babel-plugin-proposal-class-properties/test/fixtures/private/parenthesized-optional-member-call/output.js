@@ -2,6 +2,7 @@ class Foo {
   static getSelf() {
     return Foo;
   }
+
   test() {
     var _o$Foo, _o$Foo2, _o$Foo3, _o$Foo$self$getSelf, _o$Foo$self$getSelf2, _fn$Foo$self$getSelf, _fn$Foo$self$getSelf2;
     const o = {

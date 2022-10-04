@@ -8,6 +8,7 @@ class Sub extends Base {
   static basePublicStaticMethod() {
     return 'bad';
   }
+
   static check() {
     babelHelpers.classPrivateFieldLooseBase(Sub, _subStaticPrivateMethod)[_subStaticPrivateMethod]();
   }
@@ -15,6 +16,7 @@ class Sub extends Base {
 function _subStaticPrivateMethod2() {
   return babelHelpers.get(babelHelpers.getPrototypeOf(Sub), "basePublicStaticMethod", this).call(this);
 }
+
 Object.defineProperty(Sub, _subStaticPrivateMethod, {
   value: _subStaticPrivateMethod2
 });

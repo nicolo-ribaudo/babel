@@ -8,6 +8,7 @@ function foo() {
     }, 0);
   }
 }
+
 function bar() {
   var x = 5;
   console.log(x);
@@ -22,6 +23,7 @@ function bar() {
     }
   }
 }
+
 function baz() {
   var x = 5;
   console.log(x);

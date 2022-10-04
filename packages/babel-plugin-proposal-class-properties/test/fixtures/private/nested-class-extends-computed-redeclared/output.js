@@ -9,6 +9,7 @@ var Foo = /*#__PURE__*/function () {
       value: 1
     });
   }
+
   babelHelpers.createClass(Foo, [{
     key: "test",
     value: function test() {
@@ -28,6 +29,7 @@ var Foo = /*#__PURE__*/function () {
           });
           return _this;
         }
+
         return babelHelpers.createClass(Nested);
       }((_foo3 = /*#__PURE__*/new WeakMap(), _babelHelpers$classPr = babelHelpers.classPrivateFieldGet(this, _foo3), /*#__PURE__*/function () {
         function _class2() {
@@ -38,6 +40,7 @@ var Foo = /*#__PURE__*/function () {
           });
           babelHelpers.defineProperty(this, _babelHelpers$classPr, 2);
         }
+
         return babelHelpers.createClass(_class2);
       }()));
     }

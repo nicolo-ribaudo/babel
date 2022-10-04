@@ -19,6 +19,7 @@ var a1 = /*#__PURE__*/function (_b) {
     };
     return _this;
   }
+
   return babelHelpers.createClass(a1);
 }(b);
 var a2 = /*#__PURE__*/function (_b2) {
@@ -33,6 +34,7 @@ var a2 = /*#__PURE__*/function (_b2) {
     };
     return _this2;
   }
+
   return babelHelpers.createClass(a2);
 }(b);
 exports["default"] = a2;

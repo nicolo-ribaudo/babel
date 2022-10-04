@@ -11,6 +11,7 @@ let Obj = /*#__PURE__*/function (_Base) {
     babelHelpers.classCallCheck(this, Obj);
     return _super.apply(this, arguments);
   }
+
   babelHelpers.createClass(Obj, [{
     key: "test",
     set: function (v) {

@@ -3,12 +3,15 @@ class Base {
   static getThis() {
     return babelHelpers.classPrivateFieldLooseBase(this, _foo)[_foo];
   }
+
   static updateThis(val) {
     return babelHelpers.classPrivateFieldLooseBase(this, _foo)[_foo] = val;
   }
+
   static getClass() {
     return babelHelpers.classPrivateFieldLooseBase(Base, _foo)[_foo];
   }
+
   static updateClass(val) {
     return babelHelpers.classPrivateFieldLooseBase(Base, _foo)[_foo] = val;
   }

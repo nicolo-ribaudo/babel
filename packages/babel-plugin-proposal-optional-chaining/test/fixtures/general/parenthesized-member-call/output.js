@@ -3,12 +3,15 @@ class Foo {
     this.x = 1;
     this.self = this;
   }
+
   m() {
     return this.x;
   }
+
   getSelf() {
     return this;
   }
+
   test() {
     var _o$Foo, _o$Foo2, _o$Foo3, _o$Foo$self$getSelf, _o$Foo4, _o$Foo4$self, _o$Foo$self$getSelf2, _o$Foo$self, _fn$Foo$self$getSelf, _fn, _fn$Foo, _fn$Foo$self, _fn$Foo$self$getSelf2, _fn$Foo$self2;
     const Foo = this;

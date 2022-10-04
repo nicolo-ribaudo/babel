@@ -21,6 +21,7 @@ var Outer = /*#__PURE__*/function (_Hello) {
     };
     return babelHelpers.possibleConstructorReturn(_this, Inner);
   }
+
   return babelHelpers.createClass(Outer);
 }(Hello);
 expect(new Outer().hello()).toBe('hello');

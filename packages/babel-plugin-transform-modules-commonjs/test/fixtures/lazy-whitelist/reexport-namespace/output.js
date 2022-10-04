@@ -11,6 +11,7 @@ function namespace1() {
   };
   return data;
 }
+
 Object.defineProperty(exports, "namespace1", {
   enumerable: true,
   get: function () {

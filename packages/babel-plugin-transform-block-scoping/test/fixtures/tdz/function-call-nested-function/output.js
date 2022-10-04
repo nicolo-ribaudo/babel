@@ -4,6 +4,7 @@ function f() {
     babelHelpers.temporalRef(x, "x");
   };
 }
+
 f();
 x = void 0;
 void 0;

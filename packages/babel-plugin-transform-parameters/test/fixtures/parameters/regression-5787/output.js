@@ -5,6 +5,7 @@ function f(a) {
   var d = (_ref3 = (arguments.length <= 1 ? 0 : arguments.length - 1) - 1 + 1, _ref3 < 1 || arguments.length <= _ref3 ? undefined : arguments[_ref3]);
   return [a, b, c, d];
 }
+
 function f(a) {
   return void 0;
 }

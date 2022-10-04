@@ -9,6 +9,7 @@ function _get_tag() {
     return this;
   };
 }
+
 var _tag = {
   get: _get_tag,
   set: void 0

@@ -67,6 +67,7 @@ class Printer {
     this._indentChar = format.indent.style.charCodeAt(0);
     this._indentRepeat = format.indent.style.length;
   }
+
   declare format: Format;
   inForStatementInitCounter: number = 0;
   declare _buf: Buffer;
@@ -192,6 +193,7 @@ class Printer {
     this._maybeAddAuxComment();
     this._append(str, maybeNewline);
   }
+
   tokenChar(char: number): void {
     // space is mandatory to avoid outputting <!--
     // http://javascript.spec.whatwg.org/#comment-syntax
@@ -228,40 +230,51 @@ class Printer {
       this._newline();
     }
   }
+
   endsWith(char: number): boolean {
     return this.getLastChar() === char;
   }
+
   getLastChar(): number {
     return this._buf.getLastChar();
   }
+
   endsWithCharAndNewline(): number {
     return this._buf.endsWithCharAndNewline();
   }
+
   removeTrailingNewline(): void {
     this._buf.removeTrailingNewline();
   }
+
   exactSource(loc: Loc | undefined, cb: () => void) {
     this._catchUp("start", loc);
     this._buf.exactSource(loc, cb);
   }
+
   source(prop: "start" | "end", loc: Loc | undefined): void {
     this._catchUp(prop, loc);
     this._buf.source(prop, loc);
   }
+
   sourceWithOffset(prop: "start" | "end", loc: Loc | undefined, lineOffset: number, columnOffset: number): void {
     this._catchUp(prop, loc);
     this._buf.sourceWithOffset(prop, loc, lineOffset, columnOffset);
   }
+
   withSource(prop: "start" | "end", loc: Loc | undefined, cb: () => void): void {
     this._catchUp(prop, loc);
     this._buf.withSource(prop, loc, cb);
   }
+
   _space(): void {
     this._queue(charCodes.space);
   }
+
   _newline(): void {
     this._queue(charCodes.lineFeed);
   }
+
   _append(str: string, maybeNewline: boolean): void {
     this._maybeAddParen(str);
     this._maybeIndent(str.charCodeAt(0));
@@ -269,6 +282,7 @@ class Printer {
     this._endsWithWord = false;
     this._endsWithInteger = false;
   }
+
   _appendChar(char: number): void {
     this._maybeAddParenChar(char);
     this._maybeIndent(char);
@@ -276,6 +290,7 @@ class Printer {
     this._endsWithWord = false;
     this._endsWithInteger = false;
   }
+
   _queue(char: number) {
     this._maybeAddParenChar(char);
     this._maybeIndent(char);
@@ -283,12 +298,14 @@ class Printer {
     this._endsWithWord = false;
     this._endsWithInteger = false;
   }
+
   _maybeIndent(firstChar: number): void {
     // we've got a newline before us so prepend on the indentation
     if (this._indent && firstChar !== charCodes.lineFeed && this.endsWith(charCodes.lineFeed)) {
       this._buf.queueIndentation(this._indentChar, this._getIndent());
     }
   }
+
   _maybeAddParenChar(char: number): void {
     // see startTerminatorless() instance method
     const parenPushNewlineState = this._parenPushNewlineState;
@@ -315,6 +332,7 @@ class Printer {
     this.indent();
     parenPushNewlineState.printed = true;
   }
+
   _maybeAddParen(str: string): void {
     // see startTerminatorless() instance method
     const parenPushNewlineState = this._parenPushNewlineState;
@@ -371,6 +389,7 @@ class Printer {
     this.indent();
     parenPushNewlineState.printed = true;
   }
+
   _catchUp(prop: "start" | "end", loc?: Loc) {
     if (!this.format.retainLines) return;
 
@@ -391,6 +410,7 @@ class Printer {
   _getIndent(): number {
     return this._indentRepeat * this._indent;
   }
+
   printTerminatorless(node: t.Node, parent: t.Node, isLabel: boolean) {
     /**
      * Set some state that will be modified if a newline has been inserted before any
@@ -427,6 +447,7 @@ class Printer {
       }
     }
   }
+
   print(node: t.Node | null, parent?: t.Node, noLineTerminator?: boolean) {
     if (!node) return;
     const nodeType = node.type;
@@ -473,10 +494,12 @@ class Printer {
     format.concise = oldConcise;
     this._insideAux = oldInAux;
   }
+
   _maybeAddAuxComment(enteredPositionlessNode?: boolean) {
     if (enteredPositionlessNode) this._printAuxBeforeComment();
     if (!this._insideAux) this._printAuxAfterComment();
   }
+
   _printAuxBeforeComment() {
     if (this._printAuxAfterOnNextUserNode) return;
     this._printAuxAfterOnNextUserNode = true;
@@ -488,6 +511,7 @@ class Printer {
       });
     }
   }
+
   _printAuxAfterComment() {
     if (!this._printAuxAfterOnNextUserNode) return;
     this._printAuxAfterOnNextUserNode = false;
@@ -499,6 +523,7 @@ class Printer {
       });
     }
   }
+
   getPossibleRaw(node: t.StringLiteral | t.NumericLiteral | t.BigIntLiteral | t.DecimalLiteral | t.DirectiveLiteral | t.JSXText): string | undefined {
     const extra = node.extra;
     if (extra && extra.raw != null && extra.rawValue != null && node.value === extra.rawValue) {
@@ -506,6 +531,7 @@ class Printer {
       return extra.raw;
     }
   }
+
   printJoin(nodes: Array<t.Node> | undefined | null, parent: t.Node, opts: PrintJoinOptions = {}) {
     if (!nodes?.length) return;
     if (opts.indent) this.indent();
@@ -528,12 +554,14 @@ class Printer {
     }
     if (opts.indent) this.dedent();
   }
+
   printAndIndentOnComments(node: t.Node, parent: t.Node) {
     const indent = node.leadingComments && node.leadingComments.length > 0;
     if (indent) this.indent();
     this.print(node, parent);
     if (indent) this.dedent();
   }
+
   printBlock(parent: Extract<t.Node, {
     body: t.Statement;
   }>) {
@@ -543,30 +571,36 @@ class Printer {
     }
     this.print(node, parent);
   }
+
   _printTrailingComments(node: t.Node) {
     this._printComments(this._getComments(false, node));
   }
+
   _printLeadingComments(node: t.Node) {
     this._printComments(this._getComments(true, node),
     // Don't add leading/trailing new lines to #__PURE__ annotations
     true);
   }
+
   printInnerComments(node: t.Node, indent = true) {
     if (!node.innerComments?.length) return;
     if (indent) this.indent();
     this._printComments(node.innerComments);
     if (indent) this.dedent();
   }
+
   printSequence(nodes: t.Node[], parent: t.Node, opts: PrintSequenceOptions = {}) {
     opts.statement = true;
     return this.printJoin(nodes, parent, opts);
   }
+
   printList(items: t.Node[], parent: t.Node, opts: PrintListOptions = {}) {
     if (opts.separator == null) {
       opts.separator = commaSeparator;
     }
     return this.printJoin(items, parent, opts);
   }
+
   _printNewline(leading: boolean, node: t.Node, parent: t.Node, opts: AddNewlinesOptions) {
     // Fast path since 'this.newline' does nothing when not tracking lines.
     if (this.format.retainLines || this.format.compact) return;
@@ -587,11 +621,13 @@ class Printer {
     }
     this.newline(Math.min(2, lines));
   }
+
   _getComments(leading: boolean, node: t.Node) {
     // Note, we use a boolean flag here instead of passing in the attribute name as it is faster
     // because this is called extremely frequently.
     return node && (leading ? node.leadingComments : node.trailingComments) || null;
   }
+
   _printComment(comment: t.Comment, skipNewLines?: boolean) {
     // Some plugins (such as flow-strip-types) use this to mark comments as removed using the AST-root 'comments' property,
     // where they can't manually mutate the AST node comment lists.
@@ -635,6 +671,7 @@ class Printer {
     this.withSource("start", comment.loc, this._append.bind(this, val, maybeNewline));
     if (printNewLines) this.newline(1);
   }
+
   _printComments(comments?: readonly t.Comment[], inlinePureAnnotation?: boolean) {
     if (!comments?.length) return;
     if (inlinePureAnnotation && comments.length === 1 && PURE_ANNOTATION_RE.test(comments[0].value)) {

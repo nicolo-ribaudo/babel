@@ -9,5 +9,6 @@ function outer(arg) {
         </B>
       </A>));
   }
+
   inner();
 }

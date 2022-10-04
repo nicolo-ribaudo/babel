@@ -6,10 +6,12 @@ class Foo {
     [_initStatic] = babelHelpers.applyDecs2203(this, [[dec, 8, "a"], [dec, 8, _computedKey]], []);
     _initStatic(this);
   }
+
   static value = 1;
   static get a() {
     return this.value;
   }
+
   static get [_computedKey]() {
     return this.value;
   }

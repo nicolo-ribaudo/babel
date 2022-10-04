@@ -2,6 +2,7 @@ var a = true;
 var b = false;
 class e {}
 function f() {}
+
 switch (a) {
   case true:
     var c = 2;

@@ -19,6 +19,7 @@ function fn(params) {}
  */
 
 function fn2(params) {}
+
 x; // my comment
 x;
 x; // my comment
@@ -56,9 +57,11 @@ function name(params) {
 
   /** */ /** */
 }
+
 function name2(params) {
   /**123 */
 }
+
 function name3(params) {
   "strict";
 
@@ -66,6 +69,7 @@ function name3(params) {
   a();
   b();
 }
+
 function name4(params) {
   "strict";
 
@@ -74,6 +78,7 @@ function name4(params) {
   a();
   b();
 }
+
 a(); /** */ /**/
 b();
 c();

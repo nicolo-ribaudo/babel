@@ -9,6 +9,7 @@ let Foo = /*#__PURE__*/function () {
       value: 1
     });
   }
+
   babelHelpers.createClass(Foo, [{
     key: "test",
     value: function test() {
@@ -16,6 +17,7 @@ let Foo = /*#__PURE__*/function () {
         function Nested() {
           babelHelpers.classCallCheck(this, Nested);
         }
+
         babelHelpers.createClass(Nested, [{
           key: "test",
           value: function test() {

@@ -10,5 +10,6 @@ var Foo = /*#__PURE__*/function (_Bar) {
     fn();
     return babelHelpers.possibleConstructorReturn(_this);
   }
+
   return babelHelpers.createClass(Foo);
 }(Bar);

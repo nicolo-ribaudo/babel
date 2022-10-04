@@ -5,6 +5,7 @@ let Foo = /*#__PURE__*/function () {
   function Foo() {
     _classCallCheck(this, Foo);
   }
+
   babelHelpers.createClass(Foo, [{
     key: "method",
     value: function method() {}

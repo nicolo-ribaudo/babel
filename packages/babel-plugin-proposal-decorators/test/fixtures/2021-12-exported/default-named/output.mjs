@@ -5,6 +5,7 @@ class _default {
   static {
     [_default2, _initClass] = babelHelpers.applyDecs(this, [], [_dec]);
   }
+
   static {
     _initClass();
   }

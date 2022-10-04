@@ -1,21 +1,39 @@
 function foo1(numVal) {}
+
 function foo2(numVal) {}
+
 function foo3(numVal, strVal) {}
+
 function foo4(numVal, untypedVal) {}
+
 function foo5(untypedVal, numVal) {}
+
 function foo6(nullableNum) {}
+
 function foo7(callback) {}
+
 function foo8(callback) {}
+
 function foo9(callback) {}
+
 function foo10(callback) {}
+
 function foo11(callback) {}
+
 function foo12() {}
+
 function foo13() {}
+
 function foo14() {}
+
 function foo15() {}
+
 function foo16() {}
+
 function foo17() {}
+
 function foo18() {}
+
 a1 = function () {};
 a2 = {
   set fooProp(value) {}
@@ -77,6 +95,7 @@ class Foo8 {
   "bar"() {}
 }
 function foo19(requiredParam, optParam) {}
+
 class Foo9 {}
 class Foo10 {}
 class Foo11 {
@@ -104,8 +123,11 @@ var [x7] = ["hello"];
 function foo20({
   x
 }) {}
+
 function foo21([x]) {}
+
 function foo22(...rest) {}
+
 (function (...rest) {});
 (...rest) => rest;
 var a15;

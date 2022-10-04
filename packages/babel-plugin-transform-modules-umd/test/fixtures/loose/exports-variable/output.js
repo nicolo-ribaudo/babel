@@ -34,6 +34,7 @@
   const foo7 = 3;
   _exports.foo7 = foo7;
   function foo8() {}
+
   class foo9 {}
   _exports.foo9 = foo9;
 });

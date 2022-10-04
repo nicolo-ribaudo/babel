@@ -4,6 +4,7 @@ class Foo {
   static getSelf() {
     return this;
   }
+
   static test() {
     var _deep$very$o, _babelHelpers$classPr, _babelHelpers$classPr2, _fnDeep$very$o, _babelHelpers$classPr3, _babelHelpers$classPr4;
     const o = {
@@ -17,9 +18,11 @@ class Foo {
     function fn() {
       return o;
     }
+
     function fnDeep() {
       return deep;
     }
+
     Foo === null || Foo === void 0 ? true : delete babelHelpers.classPrivateFieldLooseBase(Foo, _self)[_self].unicorn;
     (_deep$very$o = deep?.very.o) === null || _deep$very$o === void 0 ? true : delete babelHelpers.classPrivateFieldLooseBase(_deep$very$o.Foo, _self)[_self].unicorn;
     o === null || o === void 0 ? true : delete babelHelpers.classPrivateFieldLooseBase(o.Foo, _self)[_self].unicorn;

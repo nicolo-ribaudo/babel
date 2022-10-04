@@ -4,6 +4,7 @@ var Point = /*#__PURE__*/function () {
   function Point() {
     babelHelpers.classCallCheck(this, Point);
   }
+
   babelHelpers.createClass(Point, [{
     key: "getX",
     value: function getX() {
@@ -27,6 +28,7 @@ var ColorPoint = /*#__PURE__*/function (_Point) {
     expect(babelHelpers.get((_thisSuper2 = babelHelpers.assertThisInitialized(_this), babelHelpers.getPrototypeOf(ColorPoint.prototype)), "x", _thisSuper2)).toBeUndefined(); // B
     return _this;
   }
+
   babelHelpers.createClass(ColorPoint, [{
     key: "m",
     value: function m() {

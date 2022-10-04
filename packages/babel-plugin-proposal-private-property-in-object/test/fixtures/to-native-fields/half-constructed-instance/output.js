@@ -9,7 +9,9 @@ class F {
     _yBrandCheck.has(this);
     _FBrandCheck.has(this);
   }
+
   get #w() {}
+
   #x = (_FBrandCheck.add(this), (_xBrandCheck.add(this), 0));
   #y = (_temp = (() => {
     throw 'error';

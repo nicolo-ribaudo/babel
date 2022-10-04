@@ -12,6 +12,7 @@ class Foo {
       this.#b = value;
     }]], []);
   }
+
   static #a = _init_a(this);
   static #b = _init_b(this, 123);
 }

@@ -7,10 +7,12 @@ class A {}
     const E = _C.E = 7;
   })(C || (C = _A.C || (_A.C = {})));
   function M() {}
+
   (function (_M) {
     const N = _M.N = C.E;
   })(M || (M = {}));
   function D() {}
+
   _A.D = D;
   (function (_D) {
     const C = 5;

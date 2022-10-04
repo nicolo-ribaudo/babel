@@ -15,6 +15,7 @@ var pureE = {};
 function impureFunc() {
   console.log('hello');
 }
+
 var output = Object.assign({}, pureA, {
   get foo() {},
   get bar() {}

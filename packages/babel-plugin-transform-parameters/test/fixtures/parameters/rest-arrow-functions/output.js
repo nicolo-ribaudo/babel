@@ -25,6 +25,7 @@ function demo1() {
     return args[i + 0];
   };
 }
+
 var x = function () {
   if (noNeedToWork) return 0;
   for (var _len2 = arguments.length, rest = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {

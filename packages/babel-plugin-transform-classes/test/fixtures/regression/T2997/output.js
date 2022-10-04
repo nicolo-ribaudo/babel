@@ -13,5 +13,6 @@ var B = /*#__PURE__*/function (_A) {
     babelHelpers.classCallCheck(this, B);
     return babelHelpers.possibleConstructorReturn(_this, _this = _super.call(this));
   }
+
   return babelHelpers.createClass(B);
 }(A);

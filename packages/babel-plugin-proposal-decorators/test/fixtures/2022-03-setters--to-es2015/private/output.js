@@ -10,6 +10,7 @@ class Foo {
     babelHelpers.defineProperty(this, "value", 1);
     _initProto(this);
   }
+
   setA(v) {
     babelHelpers.classPrivateFieldSet(this, _a, v);
   }
@@ -17,6 +18,7 @@ class Foo {
 function _set_a(v) {
   _call_a(this, v);
 }
+
 [_call_a, _initProto] = babelHelpers.applyDecs2203(Foo, [[dec, 4, "a", function (v) {
   return this.value = v;
 }]], []);

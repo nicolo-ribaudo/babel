@@ -6,4 +6,5 @@ function AComponent() {
   function BComponent() {
     return _CComponent || (_CComponent = <CComponent />);
   }
+
 }

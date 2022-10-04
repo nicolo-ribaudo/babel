@@ -6,5 +6,6 @@ const foo = function () {
   function gen() {
     return _gen.apply(this, arguments);
   }
+
   return gen;
 }();

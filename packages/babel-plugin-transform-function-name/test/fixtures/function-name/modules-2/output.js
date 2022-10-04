@@ -9,6 +9,7 @@ let Container = /*#__PURE__*/function () {
   function Container() {
     babelHelpers.classCallCheck(this, Container);
   }
+
   babelHelpers.createClass(Container, [{
     key: "last",
     value: function last(key) {

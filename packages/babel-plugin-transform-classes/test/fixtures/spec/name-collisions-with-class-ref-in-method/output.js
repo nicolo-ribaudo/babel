@@ -4,6 +4,7 @@ var Foo = /*#__PURE__*/function () {
   function Foo() {
     babelHelpers.classCallCheck(this, Foo);
   }
+
   babelHelpers.createClass(Foo, [{
     key: "method",
     value: function method(_Foo) {
@@ -18,6 +19,7 @@ var Bar = /*#__PURE__*/function () {
   function Bar() {
     babelHelpers.classCallCheck(this, Bar);
   }
+
   babelHelpers.createClass(Bar, [{
     key: "method",
     value: function method() {
@@ -35,6 +37,7 @@ var Baz = /*#__PURE__*/function () {
   function Baz() {
     babelHelpers.classCallCheck(this, Baz);
   }
+
   babelHelpers.createClass(Baz, [{
     key: "method",
     value: function method() {
@@ -42,6 +45,7 @@ var Baz = /*#__PURE__*/function () {
         function _Baz() {
           babelHelpers.classCallCheck(this, _Baz);
         }
+
         babelHelpers.createClass(_Baz, [{
           key: "f",
           value: function f() {

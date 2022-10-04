@@ -18,4 +18,5 @@
   });
   _exports.default = foo;
   function foo() {}
+
 });

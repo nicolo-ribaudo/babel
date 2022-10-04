@@ -7,6 +7,7 @@ class Sub extends Base {
   static basePublicStaticMethod() {
     return 'bad';
   }
+
   static check() {
     babelHelpers.classStaticPrivateMethodGet(Sub, Sub, _subStaticPrivateMethod).call(Sub);
   }

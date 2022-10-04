@@ -1,6 +1,7 @@
 function foo() {
   return a, b;
 }
+
 if (a, b, c) d();
 throw a, b, c;
 switch (a, b, c) {}

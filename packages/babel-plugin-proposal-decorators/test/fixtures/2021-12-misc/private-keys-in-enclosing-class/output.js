@@ -6,9 +6,11 @@ class A {
     get a() {
       return this.#B;
     }
+
     set a(v) {
       this.#B = v;
     }
+
     getA() {
       return this.#A;
     }

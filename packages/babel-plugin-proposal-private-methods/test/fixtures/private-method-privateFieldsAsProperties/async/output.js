@@ -5,6 +5,7 @@ class Cl {
       value: _foo2
     });
   }
+
   test() {
     return babelHelpers.classPrivateFieldLooseBase(this, _foo)[_foo]();
   }

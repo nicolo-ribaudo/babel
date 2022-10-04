@@ -6,9 +6,11 @@ class Foo {
   constructor(...args) {
     _initProto(this);
   }
+
   [_computedKey]() {
     return 1;
   }
+
   [_computedKey2]() {
     return 2;
   }

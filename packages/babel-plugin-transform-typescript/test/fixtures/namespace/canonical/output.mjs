@@ -6,6 +6,7 @@ let Validation;
     constructor() {
       console.log("1");
     }
+
     isAcceptable(s) {
       return lettersRegexp.test(s);
     }

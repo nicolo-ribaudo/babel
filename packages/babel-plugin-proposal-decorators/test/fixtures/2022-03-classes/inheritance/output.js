@@ -6,6 +6,7 @@ class Bar {
   static {
     [_Bar, _initClass] = babelHelpers.applyDecs2203(this, [], [_dec]);
   }
+
   static {
     _initClass();
   }
@@ -16,6 +17,7 @@ class Foo extends _Bar {
   static {
     [_Foo, _initClass2] = babelHelpers.applyDecs2203(this, [], [_dec2]);
   }
+
   static {
     _initClass2();
   }

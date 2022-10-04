@@ -7,6 +7,7 @@ var createClass = k => {
       babelHelpers.classCallCheck(this, _class2);
       babelHelpers.defineProperty(this, _k, 2);
     }
+
     return babelHelpers.createClass(_class2);
   }();
 };

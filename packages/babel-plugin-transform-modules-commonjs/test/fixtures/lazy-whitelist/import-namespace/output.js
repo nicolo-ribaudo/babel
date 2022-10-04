@@ -7,6 +7,7 @@ function foo1() {
   };
   return data;
 }
+
 var foo2 = babelHelpers.interopRequireWildcard(require("black"));
 console.log(foo1());
 console.log(foo2);

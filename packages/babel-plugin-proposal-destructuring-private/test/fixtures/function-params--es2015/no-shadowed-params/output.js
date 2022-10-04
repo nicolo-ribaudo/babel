@@ -6,6 +6,7 @@ class C {
       value: void 0
     });
   }
+
   m(a = 1, _p, _p2, ..._p3) {
     var x = babelHelpers.classPrivateFieldGet(_p, _x),
       b = _p2,

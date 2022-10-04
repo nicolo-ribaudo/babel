@@ -38,6 +38,7 @@ async function a() {
     a
   }] of []) {}
 }
+
 for ([a, ...b] in {}) {}
 for ([a, ...b] of []) {}
 async function a() {

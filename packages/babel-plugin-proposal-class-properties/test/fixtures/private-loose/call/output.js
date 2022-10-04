@@ -11,6 +11,7 @@ var Foo = /*#__PURE__*/function () {
       }
     });
   }
+
   babelHelpers.createClass(Foo, [{
     key: "test",
     value: function test(other) {

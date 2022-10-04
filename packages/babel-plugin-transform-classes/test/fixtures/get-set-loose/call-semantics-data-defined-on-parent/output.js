@@ -2,6 +2,7 @@
 
 let Base = /*#__PURE__*/function () {
   function Base() {}
+
   var _proto = Base.prototype;
   _proto.test = function test(...args) {
     expect(this).toBe(obj);
@@ -15,6 +16,7 @@ let Obj = /*#__PURE__*/function (_Base) {
   function Obj() {
     return _Base.apply(this, arguments) || this;
   }
+
   var _proto2 = Obj.prototype;
   _proto2.call = function call() {
     _Base.prototype.test.call(this, 1, 2, 3);

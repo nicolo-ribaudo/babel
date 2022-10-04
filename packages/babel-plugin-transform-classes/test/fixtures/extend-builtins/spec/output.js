@@ -7,5 +7,6 @@ var List = /*#__PURE__*/function (_Array) {
     babelHelpers.classCallCheck(this, List);
     return _super.apply(this, arguments);
   }
+
   return babelHelpers.createClass(List);
 }( /*#__PURE__*/babelHelpers.wrapNativeSuper(Array));

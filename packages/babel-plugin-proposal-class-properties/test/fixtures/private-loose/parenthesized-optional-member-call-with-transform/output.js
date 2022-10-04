@@ -4,6 +4,7 @@ class Foo {
   static getSelf() {
     return Foo;
   }
+
   test() {
     var _o$Foo$self$getSelf, _o$Foo$self$getSelf2, _fn$Foo$self$getSelf, _fn$Foo$self$getSelf2, _o$Foo, _o$Foo$self, _fn, _fn$Foo, _fn$Foo$self;
     const o = {

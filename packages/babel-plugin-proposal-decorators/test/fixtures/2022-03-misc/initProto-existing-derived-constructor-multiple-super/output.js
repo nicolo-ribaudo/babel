@@ -5,6 +5,7 @@ class A extends B {
   static {
     [_initProto] = babelHelpers.applyDecs2203(this, [[_dec, 2, "method"]], []);
   }
+
   constructor() {
     if (Math.random() > 0.5) {
       _initProto(super(true));
@@ -12,6 +13,7 @@ class A extends B {
       _initProto(super(false));
     }
   }
+
   method() {}
 }
 _dec2 = deco;
@@ -19,10 +21,12 @@ class C extends B {
   static {
     [_initProto2] = babelHelpers.applyDecs2203(this, [[_dec2, 2, "method"]], []);
   }
+
   constructor() {
     try {
       _initProto2(super(_initProto2(super()), null.x));
     } catch {}
   }
+
   method() {}
 }

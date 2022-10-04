@@ -6,10 +6,12 @@ class Foo extends Bar {
       return babelHelpers.get(babelHelpers.getPrototypeOf(Foo), "foo", this).call(this);
     }]], []);
   }
+
   constructor(...args) {
     super(...args);
     _initProto(this);
   }
+
   get #x() {
     return _call_x(this);
   }

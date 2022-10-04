@@ -3,5 +3,6 @@
 function a() {
   return "YES";
 }
+
 export { a as x };
 export { x as someFunction } from './lib2.js';

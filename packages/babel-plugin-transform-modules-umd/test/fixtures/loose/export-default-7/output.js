@@ -16,4 +16,5 @@
   _exports.__esModule = true;
   _exports.default = foo;
   function foo() {}
+
 });

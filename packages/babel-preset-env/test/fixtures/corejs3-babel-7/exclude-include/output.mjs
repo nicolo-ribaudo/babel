@@ -38,4 +38,5 @@ import "core-js/modules/web.url-search-params.js";
 async function a() {
   await 1;
 }
+
 (function () {});

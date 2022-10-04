@@ -6,6 +6,7 @@ function f() {
     });
   }));
 }
+
 /*#__PURE__*/babelHelpers.asyncToGenerator(function* () {
   var _this2 = this;
   console.log('async wrapper:', this === 'foo');

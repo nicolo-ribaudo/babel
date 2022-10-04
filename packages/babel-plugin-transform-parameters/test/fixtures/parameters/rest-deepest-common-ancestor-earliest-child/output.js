@@ -61,6 +61,7 @@ function a() {
   }
   return function () {
     function b() {}
+
     console.log("Shouldn't args be from a's scope?", args);
   };
 }
@@ -86,6 +87,7 @@ function runQueue(queue) {
     }
   }
 }
+
 function r() {
   if (noNeedToWork) return 0;
   for (var _len9 = arguments.length, rest = new Array(_len9), _key9 = 0; _key9 < _len9; _key9++) {

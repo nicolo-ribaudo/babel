@@ -9,6 +9,7 @@ let Foo = /*#__PURE__*/function () {
       set: void 0
     });
   }
+
   babelHelpers.createClass(Foo, [{
     key: "test",
     value: function test(other) {

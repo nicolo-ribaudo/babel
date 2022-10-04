@@ -6,9 +6,11 @@ class Foo {
       value: "bar"
     });
   }
+
   static test() {
     return Foo === Foo;
   }
+
   test() {
     return _bar.has(this);
   }

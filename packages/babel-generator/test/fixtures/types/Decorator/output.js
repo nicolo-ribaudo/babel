@@ -14,11 +14,14 @@ class Foo {
   @foo
   @bar
   foo() {}
+
   @foo
   @bar
   foo() {}
+
   @foo
   get foo() {}
+
   @bar
   set bar(foo) {}
 }

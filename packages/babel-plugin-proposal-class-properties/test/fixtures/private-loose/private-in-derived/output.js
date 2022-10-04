@@ -14,6 +14,7 @@ var Outer = /*#__PURE__*/babelHelpers.createClass(function Outer() {
       babelHelpers.classCallCheck(this, Test);
       return _super.apply(this, arguments);
     }
+
     return babelHelpers.createClass(Test);
   }(babelHelpers.classPrivateFieldLooseBase(this, _outer)[_outer]);
 });

@@ -14,5 +14,6 @@ var A = /*#__PURE__*/function (_B) {
     if (track !== undefined) _this = _super.call(this, track);else _this = _super.call(this);
     return babelHelpers.possibleConstructorReturn(_this);
   }
+
   return babelHelpers.createClass(A);
 }(B);

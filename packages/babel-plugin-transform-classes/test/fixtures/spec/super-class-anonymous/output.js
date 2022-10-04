@@ -7,6 +7,7 @@ var TestEmpty = /*#__PURE__*/function (_ref) {
     babelHelpers.classCallCheck(this, TestEmpty);
     return _super.apply(this, arguments);
   }
+
   return babelHelpers.createClass(TestEmpty);
 }( /*#__PURE__*/function () {
   "use strict";
@@ -14,6 +15,7 @@ var TestEmpty = /*#__PURE__*/function (_ref) {
   function _class() {
     babelHelpers.classCallCheck(this, _class);
   }
+
   return babelHelpers.createClass(_class);
 }());
 var TestConstructorOnly = /*#__PURE__*/function (_ref2) {
@@ -25,6 +27,7 @@ var TestConstructorOnly = /*#__PURE__*/function (_ref2) {
     babelHelpers.classCallCheck(this, TestConstructorOnly);
     return _super2.apply(this, arguments);
   }
+
   return babelHelpers.createClass(TestConstructorOnly);
 }( /*#__PURE__*/function () {
   "use strict";
@@ -32,6 +35,7 @@ var TestConstructorOnly = /*#__PURE__*/function (_ref2) {
   function _class2() {
     babelHelpers.classCallCheck(this, _class2);
   }
+
   return babelHelpers.createClass(_class2);
 }());
 var TestMethodOnly = /*#__PURE__*/function (_ref3) {
@@ -43,6 +47,7 @@ var TestMethodOnly = /*#__PURE__*/function (_ref3) {
     babelHelpers.classCallCheck(this, TestMethodOnly);
     return _super3.apply(this, arguments);
   }
+
   return babelHelpers.createClass(TestMethodOnly);
 }( /*#__PURE__*/function () {
   "use strict";
@@ -50,6 +55,7 @@ var TestMethodOnly = /*#__PURE__*/function (_ref3) {
   function _class3() {
     babelHelpers.classCallCheck(this, _class3);
   }
+
   babelHelpers.createClass(_class3, [{
     key: "method",
     value: function method() {}
@@ -65,6 +71,7 @@ var TestConstructorAndMethod = /*#__PURE__*/function (_ref4) {
     babelHelpers.classCallCheck(this, TestConstructorAndMethod);
     return _super4.apply(this, arguments);
   }
+
   return babelHelpers.createClass(TestConstructorAndMethod);
 }( /*#__PURE__*/function () {
   "use strict";
@@ -72,6 +79,7 @@ var TestConstructorAndMethod = /*#__PURE__*/function (_ref4) {
   function _class4() {
     babelHelpers.classCallCheck(this, _class4);
   }
+
   babelHelpers.createClass(_class4, [{
     key: "method",
     value: function method() {}
@@ -87,6 +95,7 @@ var TestMultipleMethods = /*#__PURE__*/function (_ref5) {
     babelHelpers.classCallCheck(this, TestMultipleMethods);
     return _super5.apply(this, arguments);
   }
+
   return babelHelpers.createClass(TestMultipleMethods);
 }( /*#__PURE__*/function () {
   "use strict";
@@ -94,6 +103,7 @@ var TestMultipleMethods = /*#__PURE__*/function (_ref5) {
   function _class5() {
     babelHelpers.classCallCheck(this, _class5);
   }
+
   babelHelpers.createClass(_class5, [{
     key: "m1",
     value: function m1() {}

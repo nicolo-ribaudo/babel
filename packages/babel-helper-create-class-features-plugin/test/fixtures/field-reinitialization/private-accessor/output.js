@@ -12,6 +12,7 @@ class Derived extends Base {
       set: _set_foo
     });
   }
+
   static get(obj) {
     return babelHelpers.classPrivateFieldGet(obj, _foo).call(obj);
   }
@@ -19,6 +20,7 @@ class Derived extends Base {
 function _get_foo() {
   return 'bar';
 }
+
 function _set_foo(value) {
   babelHelpers.classPrivateFieldSet(this, _foo, value);
 }

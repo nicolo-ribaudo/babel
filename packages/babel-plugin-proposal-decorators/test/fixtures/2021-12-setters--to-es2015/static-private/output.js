@@ -8,6 +8,7 @@ class Foo {
 function _set_a(v) {
   _call_a(this, v);
 }
+
 var _a = {
   get: void 0,
   set: _set_a

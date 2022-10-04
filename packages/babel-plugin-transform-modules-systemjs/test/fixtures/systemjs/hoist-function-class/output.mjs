@@ -5,6 +5,7 @@ System.register([], function (_export, _context) {
   function hoisted() {
     return HoistedClass, HoistedClassExport, HoistedClassDefaultExport;
   }
+
   _export({
     hoisted: hoisted,
     HoistedClassExport: void 0,

@@ -4,6 +4,7 @@ function render(text) {
     return _foo || (_foo = <foo>{text}</foo>);
   };
 }
+
 var Foo2 = require("Foo");
 function createComponent(text) {
   var _Foo;

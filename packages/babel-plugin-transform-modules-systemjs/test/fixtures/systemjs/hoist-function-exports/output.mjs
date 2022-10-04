@@ -5,6 +5,7 @@ System.register(["./evens"], function (_export, _context) {
   function nextOdd(n) {
     return _export("p", p = isEven(n) ? n + 1 : n + 2);
   }
+
   _export("nextOdd", nextOdd);
   return {
     setters: [function (_evens) {

@@ -6,12 +6,15 @@ class Foo {
   static get a() {
     return this.value;
   }
+
   static set a(v) {
     this.value = v;
   }
+
   static get [_computedKey]() {
     return this.value;
   }
+
   static set [_computedKey2](v) {
     this.value = v;
   }

@@ -9,6 +9,7 @@ function* foo() {
   yield 1;
   yield 2;
 }
+
 let bar = foo();
 const _ref = [, bar.next().value],
   _ref$ = _ref[0],

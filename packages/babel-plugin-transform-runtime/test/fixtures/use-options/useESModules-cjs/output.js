@@ -11,5 +11,6 @@ let Foo = /*#__PURE__*/function (_Bar) {
     _classCallCheck(this, Foo);
     return _super.apply(this, arguments);
   }
+
   return _createClass(Foo);
 }(Bar);

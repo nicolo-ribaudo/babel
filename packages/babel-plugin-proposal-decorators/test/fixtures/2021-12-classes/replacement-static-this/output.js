@@ -9,6 +9,7 @@ new class extends babelHelpers.identity {
       }
     }
   }
+
   field = ((() => {
     this;
   })(), this);

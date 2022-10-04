@@ -17,6 +17,7 @@ function render() {
   console.log(used, usedRenamed);
   return React.createElement("input", props);
 }
+
 function smth(_ref) {
   let rest = babelHelpers.objectWithoutProperties(_ref, _excluded2);
   call(rest);

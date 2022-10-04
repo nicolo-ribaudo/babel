@@ -13,17 +13,21 @@ class Foo {
     }]], []);
     _initStatic(this);
   }
+
   static #A = _init_a(this);
   set #a(v) {
     _set_a(this, v);
   }
+
   get #a() {
     return _get_a(this);
   }
+
   static #B = _init_b(this, 123);
   set #b(v) {
     _set_b(this, v);
   }
+
   get #b() {
     return _get_b(this);
   }

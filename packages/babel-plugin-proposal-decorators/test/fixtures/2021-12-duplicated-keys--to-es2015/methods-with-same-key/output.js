@@ -4,9 +4,11 @@ class Foo {
   constructor(...args) {
     _initProto(this);
   }
+
   a() {
     return 1;
   }
+
   a() {
     return 2;
   }

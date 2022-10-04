@@ -4,6 +4,7 @@ class A {
     this.counter++;
     return this;
   }
+
   constructor() {
     babelHelpers.classPrivateMethodInitSpec(this, _method);
     babelHelpers.defineProperty(this, "counter", 0);

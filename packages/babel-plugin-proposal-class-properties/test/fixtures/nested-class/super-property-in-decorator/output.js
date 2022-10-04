@@ -4,6 +4,7 @@ let Hello = /*#__PURE__*/function () {
   function Hello() {
     babelHelpers.classCallCheck(this, Hello);
   }
+
   babelHelpers.createClass(Hello, [{
     key: "dec",
     value: function dec() {
@@ -28,6 +29,7 @@ let Outer = /*#__PURE__*/function (_Hello) {
     [_init_hello] = babelHelpers.applyDecs(Inner, [[_dec, 0, "hello"]], []);
     return babelHelpers.possibleConstructorReturn(_this, new Inner());
   }
+
   return babelHelpers.createClass(Outer);
 }(Hello);
 expect(new Outer().hello).toBe('hello');

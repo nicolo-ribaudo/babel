@@ -11,6 +11,7 @@ var Test = /*#__PURE__*/function (_Foo) {
     _Foo.prototype.test.call(babelHelpers.assertThisInitialized(_this));
     return _this;
   }
+
   babelHelpers.createClass(Test, null, [{
     key: "test",
     value: function test() {

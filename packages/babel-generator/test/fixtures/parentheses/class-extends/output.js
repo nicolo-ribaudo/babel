@@ -15,6 +15,7 @@ class A14 extends (++B) {}
 async function f1() {
   class A15 extends (await C) {}
 }
+
 function* f2() {
   class A16 extends (yield 1) {}
 }

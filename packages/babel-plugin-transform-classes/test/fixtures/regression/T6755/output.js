@@ -2,6 +2,7 @@ var Example = /*#__PURE__*/function () {
   "use strict";
 
   function Example() {}
+
   var _proto = Example.prototype;
   _proto.test1 = /*#__PURE__*/function () {
     var _test = babelHelpers.asyncToGenerator( /*#__PURE__*/babelHelpers.regeneratorRuntime().mark(function _callee() {
@@ -21,6 +22,7 @@ var Example = /*#__PURE__*/function () {
     function test1() {
       return _test.apply(this, arguments);
     }
+
     return test1;
   }();
   _proto.test2 = /*#__PURE__*/babelHelpers.regeneratorRuntime().mark(function test2() {

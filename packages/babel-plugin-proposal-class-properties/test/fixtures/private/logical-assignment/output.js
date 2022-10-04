@@ -16,9 +16,11 @@ class Foo {
       value: 0
     });
   }
+
   self() {
     return this;
   }
+
   test() {
     var _this$self;
     babelHelpers.classPrivateFieldGet(this, _nullish) ?? babelHelpers.classPrivateFieldSet(this, _nullish, 42);

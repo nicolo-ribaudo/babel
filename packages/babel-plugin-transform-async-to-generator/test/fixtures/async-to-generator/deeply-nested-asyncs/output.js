@@ -1,6 +1,7 @@
 function s(_x) {
   return _s.apply(this, arguments);
 }
+
 function _s() {
   _s = babelHelpers.asyncToGenerator(function* (x) {
     var _arguments = arguments,

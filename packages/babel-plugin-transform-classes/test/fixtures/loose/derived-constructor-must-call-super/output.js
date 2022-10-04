@@ -6,5 +6,6 @@ var Foo = /*#__PURE__*/function (_Bar) {
     var _this;
     return babelHelpers.assertThisInitialized(_this);
   }
+
   return Foo;
 }(Bar);

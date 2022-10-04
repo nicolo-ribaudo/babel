@@ -9,6 +9,7 @@ var Foo = /*#__PURE__*/function () {
       value: 1
     });
   }
+
   babelHelpers.createClass(Foo, [{
     key: "test",
     value: function test() {
@@ -27,12 +28,14 @@ var Foo = /*#__PURE__*/function () {
           });
           return _this;
         }
+
         return babelHelpers.createClass(Nested);
       }((_babelHelpers$classPr = babelHelpers.classPrivateFieldGet(this, _foo), /*#__PURE__*/function () {
         function _class2() {
           babelHelpers.classCallCheck(this, _class2);
           babelHelpers.defineProperty(this, _babelHelpers$classPr, 2);
         }
+
         return babelHelpers.createClass(_class2);
       }()));
     }

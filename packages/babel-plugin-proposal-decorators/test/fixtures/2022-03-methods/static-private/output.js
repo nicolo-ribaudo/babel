@@ -7,6 +7,7 @@ class Foo {
     }]], []);
     _initStatic(this);
   }
+
   static #a = _call_a;
   static value = 1;
   static callA() {

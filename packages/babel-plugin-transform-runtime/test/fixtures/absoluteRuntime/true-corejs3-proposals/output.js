@@ -18,6 +18,7 @@ function makeIterator() {
     }
   }, _marked);
 }
+
 var _iterator = babelHelpers.createForOfIteratorHelper(makeIterator()),
   _step;
 try {

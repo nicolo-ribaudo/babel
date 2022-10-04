@@ -4,6 +4,7 @@ var A = /*#__PURE__*/function () {
   function A() {
     babelHelpers.classCallCheck(this, A);
   }
+
   babelHelpers.createClass(A, [{
     key: "foo",
     value: function foo() {
@@ -24,5 +25,6 @@ var B = /*#__PURE__*/function (_A) {
     _this.foo = babelHelpers.get((_thisSuper = babelHelpers.assertThisInitialized(_this), babelHelpers.getPrototypeOf(B.prototype)), "foo", _thisSuper).call(_thisSuper);
     return _this;
   }
+
   return babelHelpers.createClass(B);
 }(A);

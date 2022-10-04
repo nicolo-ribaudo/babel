@@ -6,6 +6,7 @@ let App = /*#__PURE__*/function (_React$Component) {
     babelHelpers.classCallCheck(this, App);
     return _super.apply(this, arguments);
   }
+
   babelHelpers.createClass(App, [{
     key: "render",
     value: function render() {

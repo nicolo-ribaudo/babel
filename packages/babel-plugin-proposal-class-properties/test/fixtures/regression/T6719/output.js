@@ -9,6 +9,7 @@ function withContext(ComposedComponent) {
       babelHelpers.classCallCheck(this, WithContext);
       return _super.apply(this, arguments);
     }
+
     return babelHelpers.createClass(WithContext);
   }(Component), _class.propTypes = {
     context: PropTypes.shape({

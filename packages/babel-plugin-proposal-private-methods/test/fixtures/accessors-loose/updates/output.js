@@ -12,18 +12,23 @@ class Cl {
     });
     this.publicField = "not secret string";
   }
+
   publicGetPrivateField() {
     return babelHelpers.classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue];
   }
+
   publicSetPrivateField(newValue) {
     babelHelpers.classPrivateFieldLooseBase(this, _privateFieldValue)[_privateFieldValue] = newValue;
   }
+
   get publicFieldValue() {
     return this.publicField;
   }
+
   set publicFieldValue(newValue) {
     this.publicField = newValue;
   }
+
   testUpdates() {
     babelHelpers.classPrivateFieldLooseBase(this, _privateField)[_privateField] = 0;
     this.publicField = 0;
@@ -40,6 +45,7 @@ class Cl {
 function _get_privateFieldValue() {
   return babelHelpers.classPrivateFieldLooseBase(this, _privateField)[_privateField];
 }
+
 function _set_privateFieldValue(newValue) {
   babelHelpers.classPrivateFieldLooseBase(this, _privateField)[_privateField] = newValue;
 }

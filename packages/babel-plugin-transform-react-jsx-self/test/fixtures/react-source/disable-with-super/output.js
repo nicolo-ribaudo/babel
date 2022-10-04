@@ -30,6 +30,7 @@ class E extends A {
     function z() {
       return <sometag7 __self={this} />;
     }
+
     {
       <sometag8 />;
     }

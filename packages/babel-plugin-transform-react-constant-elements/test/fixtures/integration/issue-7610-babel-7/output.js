@@ -17,5 +17,6 @@ function MyComponent(_ref) {
     }
   });
 }
+
 var _default = _Parent["default"];
 exports["default"] = _default;

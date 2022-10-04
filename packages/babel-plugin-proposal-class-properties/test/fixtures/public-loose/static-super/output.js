@@ -13,6 +13,7 @@ var B = /*#__PURE__*/function (_A) {
     babelHelpers.classCallCheck(this, B);
     return _super.apply(this, arguments);
   }
+
   return babelHelpers.createClass(B);
 }(A);
 B.prop = 2;

@@ -9,6 +9,7 @@ class Cl {
       value: babelHelpers.classPrivateMethodGet(this, _method, _method2).call(this, 2)
     });
   }
+
   getPriv() {
     return babelHelpers.classPrivateFieldGet(this, _priv);
   }

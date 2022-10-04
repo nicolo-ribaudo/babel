@@ -10,5 +10,6 @@ var Test = /*#__PURE__*/function (_Foo) {
     _this.prop = 1;
     return _this;
   }
+
   return babelHelpers.createClass(Test);
 }(Foo);

@@ -12,9 +12,11 @@ class Cl {
     });
     this.publicField = "not secret string";
   }
+
   publicGetPrivateField() {
     return babelHelpers.classPrivateFieldGet(this, _privateFieldValue);
   }
+
   publicSetPrivateField(newValue) {
     babelHelpers.classPrivateFieldSet(this, _privateFieldValue, newValue);
   }
@@ -22,6 +24,7 @@ class Cl {
 function _get_privateFieldValue() {
   return babelHelpers.classPrivateFieldGet(this, _privateField);
 }
+
 function _set_privateFieldValue(newValue) {
   babelHelpers.classPrivateFieldSet(this, _privateField, newValue);
 }

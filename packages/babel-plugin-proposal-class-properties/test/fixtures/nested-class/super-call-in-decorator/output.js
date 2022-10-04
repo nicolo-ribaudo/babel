@@ -19,6 +19,7 @@ let Outer = /*#__PURE__*/function (_Hello) {
     [_init_hello] = babelHelpers.applyDecs(Inner, [[_dec, 0, "hello"]], []);
     return babelHelpers.possibleConstructorReturn(_this, new Inner());
   }
+
   return babelHelpers.createClass(Outer);
 }(Hello);
 expect(new Outer().hello).toBe('hello');

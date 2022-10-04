@@ -5,6 +5,7 @@ function f(i) {
     f(i - 1);
   };
 }
+
 var g = f(1);
 x = void 0;
 g();

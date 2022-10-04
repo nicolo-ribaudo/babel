@@ -10,5 +10,6 @@ var Foo = /*#__PURE__*/function (_Bar) {
       _this.test;
     });
   }
+
   return babelHelpers.createClass(Foo);
 }(Bar);

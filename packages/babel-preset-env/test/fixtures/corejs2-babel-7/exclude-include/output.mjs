@@ -19,4 +19,5 @@ import "core-js/modules/web.dom.iterable.js";
 async function a() {
   await 1;
 }
+
 (function () {});

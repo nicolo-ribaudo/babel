@@ -1,6 +1,7 @@
 function _f() {
   _f;
 }
+
 {
   let obj = {
     f: function f() {
@@ -17,4 +18,5 @@ function _f() {
   function commit(b) {
     b();
   }
+
 });

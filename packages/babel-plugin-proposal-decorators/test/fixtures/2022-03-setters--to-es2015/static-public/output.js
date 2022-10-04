@@ -5,6 +5,7 @@ class Foo {
   static set a(v) {
     return this.value = v;
   }
+
   static set [_computedKey](v) {
     return this.value = v;
   }

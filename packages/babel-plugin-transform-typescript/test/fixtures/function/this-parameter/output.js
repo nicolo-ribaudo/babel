@@ -1,4 +1,5 @@
 function f() {}
+
 const o = {
   m() {}
 };

@@ -6,6 +6,7 @@ class C {
   static #self() {
     return C;
   }
+
   static {
     var [_p, _p2,, _p3] = [this, this],
       x = (_p === void 0 ? C.self : _p).#x,

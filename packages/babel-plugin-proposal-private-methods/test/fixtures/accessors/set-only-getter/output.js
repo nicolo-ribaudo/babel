@@ -5,6 +5,7 @@ class Cl {
     this.counter++;
     return this;
   }
+
   constructor() {
     babelHelpers.classPrivateFieldInitSpec(this, _privateFieldValue, {
       get: _get_privateFieldValue,
@@ -21,4 +22,5 @@ class Cl {
 function _get_privateFieldValue() {
   return babelHelpers.classPrivateFieldGet(this, _privateField);
 }
+
 var cl = new Cl();

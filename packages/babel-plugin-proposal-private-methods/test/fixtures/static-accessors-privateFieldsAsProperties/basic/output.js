@@ -4,6 +4,7 @@ class Cl {
   static getValue() {
     return babelHelpers.classPrivateFieldLooseBase(Cl, _privateStaticFieldValue)[_privateStaticFieldValue];
   }
+
   static setValue() {
     babelHelpers.classPrivateFieldLooseBase(Cl, _privateStaticFieldValue)[_privateStaticFieldValue] = "dank";
   }
@@ -11,9 +12,11 @@ class Cl {
 function _get_privateStaticFieldValue() {
   return babelHelpers.classPrivateFieldLooseBase(Cl, _PRIVATE_STATIC_FIELD)[_PRIVATE_STATIC_FIELD];
 }
+
 function _set_privateStaticFieldValue(newValue) {
   babelHelpers.classPrivateFieldLooseBase(Cl, _PRIVATE_STATIC_FIELD)[_PRIVATE_STATIC_FIELD] = `Updated: ${newValue}`;
 }
+
 Object.defineProperty(Cl, _privateStaticFieldValue, {
   get: _get_privateStaticFieldValue,
   set: _set_privateStaticFieldValue

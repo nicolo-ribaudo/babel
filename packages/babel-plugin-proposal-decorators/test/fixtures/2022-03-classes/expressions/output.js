@@ -4,6 +4,7 @@ const A = (class A {
   static {
     [_A, _initClass] = babelHelpers.applyDecs2203(this, [], [dec]);
   }
+
   static {
     _initClass();
   }
@@ -12,6 +13,7 @@ const B = (class C {
   static {
     [_C, _initClass2] = babelHelpers.applyDecs2203(this, [], [dec]);
   }
+
   static {
     _initClass2();
   }
@@ -20,6 +22,7 @@ const D = (class D {
   static {
     [_D, _initClass3] = babelHelpers.applyDecs2203(this, [], [dec]);
   }
+
   static {
     _initClass3();
   }
@@ -28,6 +31,7 @@ const E = ((class {
   static {
     [_decorated_class, _initClass4] = babelHelpers.applyDecs2203(this, [], [dec]);
   }
+
   static {
     _initClass4();
   }
@@ -36,6 +40,7 @@ const F = [(class G {
   static {
     [_G, _initClass5] = babelHelpers.applyDecs2203(this, [], [dec]);
   }
+
   static {
     _initClass5();
   }
@@ -43,6 +48,7 @@ const F = [(class G {
   static {
     [_decorated_class2, _initClass6] = babelHelpers.applyDecs2203(this, [], [dec]);
   }
+
   static {
     _initClass6();
   }
@@ -51,6 +57,7 @@ const H = (class H extends I {
   static {
     [_H, _initClass7] = babelHelpers.applyDecs2203(this, [], [dec]);
   }
+
   static {
     _initClass7();
   }
@@ -59,6 +66,7 @@ const J = (class K extends L {
   static {
     [_K, _initClass8] = babelHelpers.applyDecs2203(this, [], [dec]);
   }
+
   static {
     _initClass8();
   }
@@ -69,6 +77,7 @@ function classFactory() {
     static {
       [_decorated_class3, _initClass9] = babelHelpers.applyDecs2203(this, [], [dec]);
     }
+
     static {
       _initClass9();
     }

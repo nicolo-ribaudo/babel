@@ -4,15 +4,19 @@ class Cl {
   static publicGetPrivateField() {
     return babelHelpers.classPrivateFieldLooseBase(Cl, _privateFieldValue)[_privateFieldValue];
   }
+
   static publicSetPrivateField(newValue) {
     babelHelpers.classPrivateFieldLooseBase(Cl, _privateFieldValue)[_privateFieldValue] = newValue;
   }
+
   static get publicFieldValue() {
     return Cl.publicField;
   }
+
   static set publicFieldValue(newValue) {
     Cl.publicField = newValue;
   }
+
   static testUpdates() {
     babelHelpers.classPrivateFieldLooseBase(Cl, _privateField)[_privateField] = 0;
     Cl.publicField = 0;
@@ -29,9 +33,11 @@ class Cl {
 function _get_privateFieldValue() {
   return babelHelpers.classPrivateFieldLooseBase(Cl, _privateField)[_privateField];
 }
+
 function _set_privateFieldValue(newValue) {
   babelHelpers.classPrivateFieldLooseBase(Cl, _privateField)[_privateField] = newValue;
 }
+
 Object.defineProperty(Cl, _privateFieldValue, {
   get: _get_privateFieldValue,
   set: _set_privateFieldValue

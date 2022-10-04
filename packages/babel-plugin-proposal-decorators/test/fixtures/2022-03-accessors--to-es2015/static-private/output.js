@@ -17,15 +17,19 @@ class Foo {
 function _set_a2(v) {
   _set_a(this, v);
 }
+
 function _get_a2() {
   return _get_a(this);
 }
+
 function _set_b2(v) {
   _set_b(this, v);
 }
+
 function _get_b2() {
   return _get_b(this);
 }
+
 (() => {
   [_init_a, _get_a, _set_a, _init_b, _get_b, _set_b, _initStatic] = babelHelpers.applyDecs2203(Foo, [[dec, 6, "a", function () {
     return babelHelpers.classStaticPrivateFieldSpecGet(this, Foo, _A);

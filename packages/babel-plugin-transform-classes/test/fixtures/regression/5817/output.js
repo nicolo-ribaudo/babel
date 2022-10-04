@@ -15,5 +15,6 @@ var A = /*#__PURE__*/function (_B) {
     };
     return _this;
   }
+
   return babelHelpers.createClass(A);
 }(B);

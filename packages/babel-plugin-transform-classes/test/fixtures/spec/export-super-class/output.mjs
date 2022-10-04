@@ -5,6 +5,7 @@ var _default = /*#__PURE__*/function (_A) {
     babelHelpers.classCallCheck(this, _default);
     return _super.apply(this, arguments);
   }
+
   return babelHelpers.createClass(_default);
 }(A);
 export { _default as default };

@@ -15,6 +15,7 @@ var pureE = {};
 function impureFunc() {
   console.log('hello');
 }
+
 var output = babelHelpers.extends({}, pureA, {
   get foo() {},
   get bar() {}

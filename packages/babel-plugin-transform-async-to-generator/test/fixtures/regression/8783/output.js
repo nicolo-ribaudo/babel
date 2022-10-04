@@ -6,5 +6,6 @@
   function poll() {
     return _poll.apply(this, arguments);
   }
+
   return poll;
 })()();

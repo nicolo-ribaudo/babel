@@ -9,5 +9,6 @@ var Foo = /*#__PURE__*/function (_Bar) {
     babelHelpers.get((_thisSuper = babelHelpers.assertThisInitialized(_this), babelHelpers.getPrototypeOf(Foo.prototype)), "foo", _thisSuper).call(_thisSuper);
     return _this = _super.call(this);
   }
+
   return babelHelpers.createClass(Foo);
 }(Bar);

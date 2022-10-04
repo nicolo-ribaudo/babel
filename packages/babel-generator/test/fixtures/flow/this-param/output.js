@@ -1,8 +1,13 @@
 function one(this: number) {}
+
 function two(this: number, a) {}
+
 function three(this: number, ...a) {}
+
 function four(this: number, a, b, ...c) {}
+
 function five<T>(this: T) {}
+
 type six = (this: number) => void;
 type seven = (this: number, a: number) => void;
 type eight = (this: number, ...a: any) => void;
@@ -25,9 +30,13 @@ declare class Fifteen {
 }
 class Sixteen {
   m1(this: number) {}
+
   m2(this: number, a) {}
+
   m3(this: number, ...a) {}
+
   m4(this: number, a, b, ...c) {}
+
   m5<T>(this: T) {}
 }
 let seventeen = {

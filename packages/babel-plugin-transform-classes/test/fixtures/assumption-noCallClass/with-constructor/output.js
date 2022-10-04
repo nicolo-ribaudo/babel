@@ -7,6 +7,7 @@ var B = /*#__PURE__*/function () {
   "use strict";
 
   function B() {}
+
   babelHelpers.createClass(B, [{
     key: "b",
     value: function b() {

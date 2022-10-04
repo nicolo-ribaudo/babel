@@ -11,6 +11,7 @@ class Cl {
       value: babelHelpers.classPrivateFieldLooseBase(this, _method)[_method](2)
     });
   }
+
   getPriv() {
     return babelHelpers.classPrivateFieldLooseBase(this, _priv)[_priv];
   }

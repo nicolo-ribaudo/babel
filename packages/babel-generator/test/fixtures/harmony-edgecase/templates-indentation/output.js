@@ -3,6 +3,7 @@ function multilineTemplate() {
 ${'the energy motron'}
       ${'...or whatever'}`;
 }
+
 {
   const foo = `spam
 and eggs!`;

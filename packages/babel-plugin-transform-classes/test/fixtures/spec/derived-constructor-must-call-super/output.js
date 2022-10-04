@@ -8,5 +8,6 @@ var Foo = /*#__PURE__*/function (_Bar) {
     babelHelpers.classCallCheck(this, Foo);
     return babelHelpers.possibleConstructorReturn(_this);
   }
+
   return babelHelpers.createClass(Foo);
 }(Bar);

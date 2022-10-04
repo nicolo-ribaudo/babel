@@ -9,6 +9,7 @@ class Derived extends Base {
     super(...args);
     babelHelpers.classPrivateMethodInitSpec(this, _foo);
   }
+
   static get(obj) {
     return babelHelpers.classPrivateMethodGet(obj, _foo, _foo2).call(obj);
   }

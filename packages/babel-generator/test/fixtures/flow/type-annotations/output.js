@@ -1,22 +1,41 @@
 function foo1(numVal: any) {}
+
 function foo2(numVal: number) {}
+
 function foo3(numVal: number, strVal: string) {}
+
 function foo4(numVal: number, untypedVal) {}
+
 function foo5(untypedVal, numVal: number) {}
+
 function foo6(nullableNum: ?number) {}
+
 function foo7(callback: () => void) {}
+
 function foo8(callback: () => number) {}
+
 function foo9(callback: (_: boolean) => number) {}
+
 function foo10(callback: (_1: boolean, _2: string) => number) {}
+
 function foo11(callback: (_1: boolean, ...foo: Array<number>) => number) {}
+
 function foo12(): number {}
+
 function foo13(): () => void {}
+
 function foo14(): (_: boolean) => number {}
+
 function foo15(): (_?: boolean) => number {}
+
 function foo16(): {} {}
+
 function foo17<T>() {}
+
 function foo18<T, S>() {}
+
 function foo19<T: F>() {}
+
 a1 = function <T, S>() {};
 a2 = {
   set fooProp(value: number) {}
@@ -115,6 +134,7 @@ class Foo8 {
   "bar"<T>() {}
 }
 function foo20(requiredParam, optParam?) {}
+
 class Foo9 {
   prop1: string;
   prop2: number;
@@ -154,8 +174,11 @@ function foo21({
 }: {
   x: string
 }) {}
+
 function foo22([x]: Array<string>) {}
+
 function foo23(...rest: Array<number>) {}
+
 (function (...rest: Array<number>) {});
 (...rest: Array<number>) => rest;
 var a15: Map<string, Array<string>>;
@@ -234,6 +257,8 @@ var a34: {|
   id<T>(x: T): T
 |};
 function foo27(numVal: number = 2) {}
+
 function foo28(numVal?: number = 2) {}
+
 export type * from "foo";
 const foo29: symbol = Symbol();

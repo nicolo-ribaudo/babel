@@ -4,12 +4,15 @@ class Foo {
     babelHelpers.classPrivateMethodInitSpec(this, _getStatus);
     this.status = status;
   }
+
   getCurrentStatus() {
     return babelHelpers.classPrivateMethodGet(this, _getStatus, _getStatus2).call(this);
   }
+
   setCurrentStatus(newStatus) {
     this.status = newStatus;
   }
+
   getFakeStatus(fakeStatus) {
     var fakeGetStatus = babelHelpers.classPrivateMethodGet(this, _getStatus, _getStatus2);
     return function () {
@@ -18,6 +21,7 @@ class Foo {
       });
     };
   }
+
   getFakeStatusFunc() {
     return {
       status: 'fake-status',

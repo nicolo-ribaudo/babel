@@ -11,6 +11,7 @@ babelHelpers.asyncToGenerator(function* () {
   function notIIFE() {
     return _notIIFE.apply(this, arguments);
   }
+
   return notIIFE;
 })();
 /*#__PURE__*/babelHelpers.asyncToGenerator(function* () {

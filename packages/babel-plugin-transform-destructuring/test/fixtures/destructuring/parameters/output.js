@@ -8,11 +8,13 @@ function somethingAdvanced(_ref, p2, p3) {
   var x2 = _ref$bottomRight.x,
     y2 = _ref$bottomRight.y;
 }
+
 function unpackObject(_ref2) {
   var title = _ref2.title,
     author = _ref2.author;
   return title + " " + author;
 }
+
 console.log(unpackObject({
   title: "title",
   author: "author"

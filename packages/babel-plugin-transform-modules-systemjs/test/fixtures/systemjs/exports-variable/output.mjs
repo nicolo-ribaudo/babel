@@ -3,6 +3,7 @@ System.register([], function (_export, _context) {
 
   var foo8, foo, foo2, foo3, foo4, foo5, foo6;
   function foo7() {}
+
   _export({
     foo7: foo7,
     foo8: void 0,

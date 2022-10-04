@@ -1,5 +1,6 @@
 var _obj$obj;
 function fn() {}
+
 var args = [1, 2, 3];
 var obj = {
   obj: {

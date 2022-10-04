@@ -8,6 +8,7 @@ function f(foo) {
     foo
   } = {});
 }
+
 _x.foo = (2, function () {
   throw new Error('"' + "foo" + '" is read-only.');
 }());

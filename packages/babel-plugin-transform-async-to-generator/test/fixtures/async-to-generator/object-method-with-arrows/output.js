@@ -17,6 +17,7 @@ class Class {
             _this2;
           });
         }
+
       };
       function x() {
         var _this3 = this;
@@ -28,6 +29,7 @@ class Class {
           _this3;
         });
       }
+
     })();
   }
 }

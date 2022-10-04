@@ -9,6 +9,7 @@ function generateAsyncAction(type) {
   request.process = createAction(type + '_PROCESS', undefined, metaCreator);
   return request;
 }
+
 var A = /*#__PURE__*/function (_B) {
   "use strict";
 
@@ -22,5 +23,6 @@ var A = /*#__PURE__*/function (_B) {
     _this.moment = moment(timestamp);
     return _this;
   }
+
   return babelHelpers.createClass(A);
 }(B);

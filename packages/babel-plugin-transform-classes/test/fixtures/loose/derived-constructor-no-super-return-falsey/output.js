@@ -6,5 +6,6 @@ var Child = /*#__PURE__*/function (_Base) {
     var _this;
     return false || babelHelpers.assertThisInitialized(_this);
   }
+
   return Child;
 }(Base);

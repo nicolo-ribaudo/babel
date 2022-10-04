@@ -8,11 +8,14 @@ new class extends babelHelpers.identity {
       static {
         [_Foo, _initClass] = babelHelpers.applyDecs(this, [], [dec]);
       }
+
       static m() {}
     }
   }
+
   #x;
   #m() {}
+
   x;
   constructor() {
     super(_Foo), (() => {

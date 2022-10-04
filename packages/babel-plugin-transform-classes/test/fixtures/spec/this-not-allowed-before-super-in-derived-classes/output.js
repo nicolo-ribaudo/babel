@@ -9,5 +9,6 @@ var Foo = /*#__PURE__*/function (_Bar) {
     _this.foo = "bar";
     return _this = _super.call(this);
   }
+
   return babelHelpers.createClass(Foo);
 }(Bar);

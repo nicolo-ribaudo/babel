@@ -11,4 +11,5 @@ class Foo {
 function _get_tag() {
   return () => this;
 }
+
 new Foo();

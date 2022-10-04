@@ -23,11 +23,17 @@ class MyClass {
     this[`template`] = "template";
     this[_ref4] = "template-with-expression";
   }
+
   get ["whatever"]() {}
+
   set ["whatever"](value) {}
+
   get [_computed]() {}
+
   set [_computed2](value) {}
+
   [_ref2]() {}
+
   static [10]() {}
 }
 MyClass[_one] = "test";

@@ -22,6 +22,7 @@ let Obj = /*#__PURE__*/function (_Base) {
   function Obj() {
     return _Base.apply(this, arguments) || this;
   }
+
   var _proto = Obj.prototype;
   _proto.update = function update() {
     var _proper$prop, _super$proper$prop, _super$proper$prop2;

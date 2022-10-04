@@ -11,9 +11,11 @@ class Sub extends Base {
       value: _privateMethod2
     });
   }
+
   superMethod() {
     return 'bad';
   }
+
   publicMethod() {
     return babelHelpers.classPrivateFieldLooseBase(this, _privateMethod)[_privateMethod]();
   }

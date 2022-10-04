@@ -7,6 +7,7 @@ class F {
     _yBrandCheck.has(this);
     F === this;
   }
+
   static #x = (_xBrandCheck.add(this), 0);
   static #y = (_temp = (() => {
     throw 'error';

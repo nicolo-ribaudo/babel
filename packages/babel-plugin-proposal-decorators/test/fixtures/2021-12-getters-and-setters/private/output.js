@@ -8,19 +8,24 @@ class Foo {
       this.value = v;
     }]], []);
   }
+
   constructor(...args) {
     _initProto(this);
   }
+
   value = 1;
   get #a() {
     return _call_a(this);
   }
+
   set #a(v) {
     _call_a2(this, v);
   }
+
   getA() {
     return this.#a;
   }
+
   setA(v) {
     this.#a = v;
   }

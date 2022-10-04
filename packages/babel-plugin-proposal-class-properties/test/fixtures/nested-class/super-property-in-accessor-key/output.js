@@ -4,6 +4,7 @@ let Hello = /*#__PURE__*/function () {
   function Hello() {
     babelHelpers.classCallCheck(this, Hello);
   }
+
   babelHelpers.createClass(Hello, [{
     key: "toString",
     value: function toString() {
@@ -31,6 +32,7 @@ let Outer = /*#__PURE__*/function (_Hello) {
           value: 'hello'
         });
       }
+
       babelHelpers.createClass(Inner, [{
         key: _babelHelpers$get$cal,
         get: function () {
@@ -46,6 +48,7 @@ let Outer = /*#__PURE__*/function (_Hello) {
     }();
     return babelHelpers.possibleConstructorReturn(_this, new Inner());
   }
+
   return babelHelpers.createClass(Outer);
 }(Hello);
 expect(new Outer().hello).toBe('hello');

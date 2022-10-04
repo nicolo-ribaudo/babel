@@ -19,4 +19,5 @@
   var _default = new Cachier();
   _exports.default = _default;
   function Cachier(databaseName) {}
+
 });

@@ -10,6 +10,7 @@ class Foo {
     babelHelpers.defineProperty(this, "value", 1);
     _initProto(this);
   }
+
   callA() {
     return babelHelpers.classPrivateFieldGet(this, _a).call(this);
   }

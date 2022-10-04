@@ -12,6 +12,7 @@ var RandomComponent = /*#__PURE__*/function (_Component) {
     babelHelpers.classCallCheck(this, RandomComponent);
     return _super.call(this);
   }
+
   babelHelpers.createClass(RandomComponent, [{
     key: "render",
     value: function render() {

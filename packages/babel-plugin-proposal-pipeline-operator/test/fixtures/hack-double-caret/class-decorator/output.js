@@ -3,6 +3,7 @@ const expectedValue = 42;
 function decorator(target) {
   target.decoratorValue = expectedValue;
 }
+
 const result = ((_class = class {
   constructor() {
     this.value = expectedValue;

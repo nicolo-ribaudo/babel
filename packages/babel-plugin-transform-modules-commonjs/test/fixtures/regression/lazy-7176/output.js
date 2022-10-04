@@ -7,5 +7,6 @@ function mod() {
   };
   return data;
 }
+
 mod().named;
 mod();

@@ -2,6 +2,7 @@ class Foo {
   static getSelf() {
     return this;
   }
+
   static test() {
     var _deep$very$o, _babelHelpers$classSt, _babelHelpers$classSt2, _fnDeep$very$o, _babelHelpers$classSt3, _babelHelpers$classSt4;
     const o = {
@@ -15,9 +16,11 @@ class Foo {
     function fn() {
       return o;
     }
+
     function fnDeep() {
       return deep;
     }
+
     Foo === null || Foo === void 0 ? true : delete babelHelpers.classStaticPrivateFieldSpecGet(Foo, Foo, _self).unicorn;
     (_deep$very$o = deep?.very.o) === null || _deep$very$o === void 0 ? true : delete babelHelpers.classStaticPrivateFieldSpecGet(_deep$very$o.Foo, Foo, _self).unicorn;
     o === null || o === void 0 ? true : delete babelHelpers.classStaticPrivateFieldSpecGet(o.Foo, Foo, _self).unicorn;

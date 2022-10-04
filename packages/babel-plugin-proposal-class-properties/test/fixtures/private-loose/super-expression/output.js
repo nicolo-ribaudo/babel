@@ -13,5 +13,6 @@ var Foo = /*#__PURE__*/function (_Bar) {
     }), babelHelpers.assertThisInitialized(_this)));
     return _this;
   }
+
   return babelHelpers.createClass(Foo);
 }(Bar);

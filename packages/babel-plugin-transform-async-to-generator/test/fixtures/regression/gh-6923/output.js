@@ -1,6 +1,7 @@
 function foo() {
   return _foo.apply(this, arguments);
 }
+
 function _foo() {
   _foo = babelHelpers.asyncToGenerator( /*#__PURE__*/babelHelpers.regeneratorRuntime().mark(function _callee2() {
     return babelHelpers.regeneratorRuntime().wrap(function _callee2$(_context2) {

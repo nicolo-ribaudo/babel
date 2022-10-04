@@ -4,4 +4,5 @@ function func(a, b) {
   }
   return [a, b, _arguments];
 }
+
 func('a', 'b', 1, 2, 3);

@@ -30,6 +30,7 @@ export default function _regeneratorRuntime() {
     });
     return obj[key];
   }
+
   try {
     // IE 8 has a broken Object.defineProperty that only works on DOM objects.
     define({}, "");
@@ -50,6 +51,7 @@ export default function _regeneratorRuntime() {
     generator._invoke = makeInvokeMethod(innerFn, self, context);
     return generator;
   }
+
   exports.wrap = wrap;
 
   // Try/catch helper to minimize deoptimizations. Returns a completion
@@ -75,6 +77,7 @@ export default function _regeneratorRuntime() {
       };
     }
   }
+
   var GenStateSuspendedStart = "suspendedStart";
   var GenStateSuspendedYield = "suspendedYield";
   var GenStateExecuting = "executing";
@@ -89,7 +92,9 @@ export default function _regeneratorRuntime() {
   // objects. For full spec compliance, you may wish to configure your
   // minifier not to mangle the names of these two functions.
   function Generator() {}
+
   function GeneratorFunction() {}
+
   function GeneratorFunctionPrototype() {}
 
   // This is a polyfill for %IteratorPrototype% for environments that
@@ -131,6 +136,7 @@ export default function _regeneratorRuntime() {
       });
     });
   }
+
   exports.isGeneratorFunction = function (genFun) {
     var ctor = typeof genFun === "function" && genFun.constructor;
     return ctor
@@ -198,6 +204,7 @@ export default function _regeneratorRuntime() {
         );
       }
     }
+
     var previousPromise;
     function enqueue(method, arg) {
       function callInvokeWithMethodAndArg() {
@@ -205,6 +212,7 @@ export default function _regeneratorRuntime() {
           invoke(method, arg, resolve, reject);
         });
       }
+
       return (previousPromise =
         // If enqueue has been called before, then we want to wait until
         // all previous Promises have been resolved before calling invoke,
@@ -232,6 +240,7 @@ export default function _regeneratorRuntime() {
     // .throw, and .return (see defineIteratorMethods).
     this._invoke = enqueue;
   }
+
   defineIteratorMethods(AsyncIterator.prototype);
   define(AsyncIterator.prototype, asyncIteratorSymbol, function () {
     return this;
@@ -419,12 +428,14 @@ export default function _regeneratorRuntime() {
     }
     this.tryEntries.push(entry);
   }
+
   function resetTryEntry(entry) {
     var record = entry.completion || {};
     record.type = "normal";
     delete record.arg;
     entry.completion = record;
   }
+
   function Context(tryLocsList) {
     // The root entry object (effectively a try statement without a catch
     // or a finally block) gives us a place to store values thrown from
@@ -437,6 +448,7 @@ export default function _regeneratorRuntime() {
     tryLocsList.forEach(pushTryEntry, this);
     this.reset(true);
   }
+
   exports.keys = function (object) {
     var keys = [];
     for (var key in object) {
@@ -495,6 +507,7 @@ export default function _regeneratorRuntime() {
       next: doneResult,
     };
   }
+
   exports.values = values;
   function doneResult() {
     return {
@@ -502,6 +515,7 @@ export default function _regeneratorRuntime() {
       done: true,
     };
   }
+
   Context.prototype = {
     constructor: Context,
     reset: function (skipTempReset) {
@@ -554,6 +568,7 @@ export default function _regeneratorRuntime() {
         }
         return !!caught;
       }
+
       for (var i = this.tryEntries.length - 1; i >= 0; --i) {
         var entry = this.tryEntries[i];
         var record = entry.completion;

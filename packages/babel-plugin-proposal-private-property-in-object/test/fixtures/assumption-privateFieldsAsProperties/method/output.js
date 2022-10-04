@@ -5,6 +5,7 @@ class Foo {
       value: _foo2
     });
   }
+
   test(other) {
     return Object.prototype.hasOwnProperty.call(other, _foo);
   }

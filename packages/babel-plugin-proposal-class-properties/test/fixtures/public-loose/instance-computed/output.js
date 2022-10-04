@@ -12,4 +12,5 @@ function test(x) {
   x = 'wrong';
   expect(new F().foo).toBe(1);
 }
+
 test('foo');

@@ -8,4 +8,5 @@ function outer() {
     return a();
   }();
 }
+
 outer();

@@ -4,6 +4,7 @@ function Foo() {
     _newtarget;
   };
 }
+
 class Bar {
   constructor() {
     var _newtarget2 = this.constructor;

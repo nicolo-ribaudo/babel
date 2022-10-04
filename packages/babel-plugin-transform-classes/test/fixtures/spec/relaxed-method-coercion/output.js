@@ -5,6 +5,7 @@ var Foo = /*#__PURE__*/function (_Symbol, _Symbol2) {
   function Foo() {
     babelHelpers.classCallCheck(this, Foo);
   }
+
   babelHelpers.createClass(Foo, [{
     key: _Symbol,
     value: function value() {}

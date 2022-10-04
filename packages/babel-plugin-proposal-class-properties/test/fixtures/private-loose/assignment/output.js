@@ -9,6 +9,7 @@ var Foo = /*#__PURE__*/function () {
       value: 0
     });
   }
+
   babelHelpers.createClass(Foo, [{
     key: "test",
     value: function test(other) {

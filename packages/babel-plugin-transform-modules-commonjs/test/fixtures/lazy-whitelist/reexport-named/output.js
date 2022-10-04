@@ -22,4 +22,5 @@ function _white() {
   };
   return data;
 }
+
 var _black = require("black");

@@ -5,6 +5,7 @@ function fn() {
     return _arguments;
   };
 }
+
 var bar = function () {
   return _arguments2;
 };

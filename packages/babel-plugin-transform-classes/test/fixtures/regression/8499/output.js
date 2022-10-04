@@ -18,6 +18,7 @@ try {
       babelHelpers.classCallCheck(this, CustomElement);
       return _super.apply(this, arguments);
     }
+
     return babelHelpers.createClass(CustomElement);
   }( /*#__PURE__*/babelHelpers.wrapNativeSuper(HTMLElement));
   ;

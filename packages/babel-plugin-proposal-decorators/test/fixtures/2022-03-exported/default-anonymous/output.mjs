@@ -5,6 +5,7 @@ class A {
   static {
     [_A, _initClass] = babelHelpers.applyDecs2203(this, [], [_dec]);
   }
+
   static {
     _initClass();
   }

@@ -10,5 +10,6 @@ let Employee = /*#__PURE__*/function (_Person) {
     _this.name = name;
     return _this;
   }
+
   return babelHelpers.createClass(Employee);
 }(Person);

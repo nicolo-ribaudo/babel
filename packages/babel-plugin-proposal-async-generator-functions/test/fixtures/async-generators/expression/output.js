@@ -8,5 +8,6 @@
   function agf() {
     return _agf.apply(this, arguments);
   }
+
   return agf;
 })();

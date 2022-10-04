@@ -8,6 +8,7 @@ class Cl {
 function _set_privateStaticFieldValue(newValue) {
   babelHelpers.classPrivateFieldLooseBase(Cl, _PRIVATE_STATIC_FIELD)[_PRIVATE_STATIC_FIELD] = newValue;
 }
+
 Object.defineProperty(Cl, _privateStaticFieldValue, {
   get: void 0,
   set: _set_privateStaticFieldValue

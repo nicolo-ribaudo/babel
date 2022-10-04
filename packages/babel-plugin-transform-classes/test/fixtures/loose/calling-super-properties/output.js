@@ -9,6 +9,7 @@ var Test = /*#__PURE__*/function (_Foo) {
     _Foo.prototype.test.call(babelHelpers.assertThisInitialized(_this));
     return _this;
   }
+
   Test.test = function test() {
     return _Foo.wow.call(this);
   };

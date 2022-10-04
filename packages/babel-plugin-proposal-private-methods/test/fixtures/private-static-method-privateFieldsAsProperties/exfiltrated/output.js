@@ -10,6 +10,7 @@ class Cl {
 function _privateStaticMethod2() {
   return 1017;
 }
+
 Object.defineProperty(Cl, _privateStaticMethod, {
   value: _privateStaticMethod2
 });

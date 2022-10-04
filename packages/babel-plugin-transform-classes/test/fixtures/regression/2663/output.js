@@ -21,6 +21,7 @@ var Connection = /*#__PURE__*/function (_EventEmitter) {
     // ...
     return _this;
   }
+
   babelHelpers.createClass(Connection, [{
     key: "send",
     value: function send(message) {

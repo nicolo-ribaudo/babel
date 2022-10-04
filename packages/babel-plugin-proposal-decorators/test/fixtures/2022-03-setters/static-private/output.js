@@ -7,10 +7,12 @@ class Foo {
     }]], []);
     _initStatic(this);
   }
+
   static value = 1;
   static set #a(v) {
     _call_a(this, v);
   }
+
   static setA(v) {
     this.#a = v;
   }

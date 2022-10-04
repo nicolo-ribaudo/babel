@@ -9,6 +9,7 @@ var D = /*#__PURE__*/function () {
       value: void 0
     });
   }
+
   babelHelpers.createClass(D, [{
     key: "f",
     value: function f() {
@@ -30,6 +31,7 @@ var C = /*#__PURE__*/function () {
       value: void 0
     });
   }
+
   babelHelpers.createClass(C, [{
     key: "m",
     value: function m() {
@@ -51,6 +53,7 @@ var E = /*#__PURE__*/function () {
       value: void 0
     });
   }
+
   babelHelpers.createClass(E, [{
     key: "f",
     value: function f() {
@@ -72,6 +75,7 @@ var F = /*#__PURE__*/function () {
       value: void 0
     });
   }
+
   babelHelpers.createClass(F, [{
     key: "g",
     value: function g() {

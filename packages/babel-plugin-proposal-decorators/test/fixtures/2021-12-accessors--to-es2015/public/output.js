@@ -19,21 +19,27 @@ class Foo {
       value: _init_computedKey(this, 456)
     });
   }
+
   get a() {
     return babelHelpers.classPrivateFieldGet(this, _A);
   }
+
   set a(v) {
     babelHelpers.classPrivateFieldSet(this, _A, v);
   }
+
   get b() {
     return babelHelpers.classPrivateFieldGet(this, _B);
   }
+
   set b(v) {
     babelHelpers.classPrivateFieldSet(this, _B, v);
   }
+
   get [_computedKey]() {
     return babelHelpers.classPrivateFieldGet(this, _C);
   }
+
   set [_computedKey](v) {
     babelHelpers.classPrivateFieldSet(this, _C, v);
   }

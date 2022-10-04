@@ -6,10 +6,12 @@ class Foo extends Bar {
       return Bar.prototype.foo.call(this);
     }]], []);
   }
+
   constructor(...args) {
     super(...args);
     _initProto(this);
   }
+
   get #x() {
     return _call_x(this);
   }

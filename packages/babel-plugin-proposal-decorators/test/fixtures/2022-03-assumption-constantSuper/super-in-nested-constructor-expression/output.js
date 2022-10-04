@@ -5,9 +5,11 @@ class Foo extends Bar {
   static {
     [_Foo, _initClass] = babelHelpers.applyDecs2203(this, [], [dec]);
   }
+
   constructor() {
     let foo = super();
   }
+
   static {
     _initClass();
   }
