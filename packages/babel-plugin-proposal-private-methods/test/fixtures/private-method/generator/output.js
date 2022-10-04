@@ -1,4 +1,5 @@
 var _foo = /*#__PURE__*/new WeakSet();
+
 class Cl {
   constructor() {
     babelHelpers.classPrivateMethodInitSpec(this, _foo);

@@ -2,6 +2,7 @@ const dec = () => {};
 var _A = /*#__PURE__*/new WeakMap();
 var _B = /*#__PURE__*/new WeakMap();
 var _C = /*#__PURE__*/new WeakMap();
+
 class Foo {
   constructor() {
     babelHelpers.classPrivateFieldInitSpec(this, _A, {

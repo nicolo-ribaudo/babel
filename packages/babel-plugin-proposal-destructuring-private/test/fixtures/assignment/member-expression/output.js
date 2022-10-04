@@ -1,4 +1,5 @@
 let x;
+
 class C {
   static #x;
   static #y;

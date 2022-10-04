@@ -5,6 +5,7 @@ let src;
     class foo {
       F1 = "";
     }
+
     _ns.foo = foo;
   })(ns1 || (ns1 = _src.ns1 || (_src.ns1 = {})));
   let ns2;
@@ -12,6 +13,7 @@ let src;
     class foo {
       F1 = "";
     }
+
     _ns2.foo = foo;
   })(ns2 || (ns2 = _src.ns2 || (_src.ns2 = {})));
 })(src || (src = {}));

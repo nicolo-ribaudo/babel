@@ -60,6 +60,7 @@ interface PrintListOptions {
 type PrintJoinOptions = PrintListOptions & PrintSequenceOptions & {
   iterator?: (node: t.Node, index: number) => void;
 };
+
 class Printer {
   constructor(format: Format, map: SourceMap) {
     this.format = format;

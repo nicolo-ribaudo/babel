@@ -3,7 +3,9 @@ class Base {
     return 'good';
   }
 }
+
 var _subStaticPrivateMethod = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("subStaticPrivateMethod");
+
 class Sub extends Base {
   static basePublicStaticMethod() {
     return 'bad';

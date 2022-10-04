@@ -4,6 +4,7 @@ export default babelHelpers.decorate([dec()], function (_initialize) {
       _initialize(this);
     }
   }
+
   return {
     F: _class,
     d: []

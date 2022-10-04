@@ -6,6 +6,7 @@ class MyClass {
     }));
   }
 }
+
 (class MyClass2 {
   constructor() {
     var _this2 = this;

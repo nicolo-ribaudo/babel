@@ -2,6 +2,7 @@ let Validation;
 (function (_Validation) {
   const lettersRegexp = /^[A-Za-z]+$/;
   const numberRegexp = /^[0-9]+$/;
+
   class LettersOnlyValidator {
     constructor() {
       console.log("1");
@@ -11,12 +12,15 @@ let Validation;
       return lettersRegexp.test(s);
     }
   }
+
   _Validation.LettersOnlyValidator = LettersOnlyValidator;
+
   class ZipCodeValidator {
     isAcceptable(s) {
       return s.length === 5 && numberRegexp.test(s);
     }
   }
+
   _Validation.ZipCodeValidator = ZipCodeValidator;
 })(Validation || (Validation = {}));
 let strings = ["Hello", "98052", "101"];

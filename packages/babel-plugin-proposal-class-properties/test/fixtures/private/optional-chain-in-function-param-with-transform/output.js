@@ -63,6 +63,7 @@ class Foo {
     j(fn);
   }
 }
+
 var _x = {
   writable: true,
   value: 1

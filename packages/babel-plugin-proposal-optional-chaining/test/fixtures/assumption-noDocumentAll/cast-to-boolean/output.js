@@ -91,5 +91,6 @@ class C {
     return (_o$a$b$c$non_existent3 = o == null ? void 0 : (_o$a$b10 = o.a.b) == null ? void 0 : _o$a$b10.c.non_existent) != null ? _o$a$b$c$non_existent3 : o;
   }
 }
+
 C.test();
 C.testNullish();

@@ -7,6 +7,7 @@ function _fn() {
     class A {
       [yield 1]() {}
     }
+
     class B extends A {
       [yield babelHelpers.awaitAsyncGenerator(1)]() {}
     }

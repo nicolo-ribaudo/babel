@@ -10,6 +10,7 @@ _dec6 = chain.expr();
 _dec7 = arbitrary + expr;
 _dec8 = array[expr];
 var _a = /*#__PURE__*/new WeakMap();
+
 class Foo {
   constructor(...args) {
     babelHelpers.classPrivateFieldInitSpec(this, _a, {
@@ -30,5 +31,6 @@ class Foo {
     }, [_init_bar] = babelHelpers.applyDecs(_class, [[_dec9, 0, "bar"]], []), _class);
   }
 }
+
 [_initProto, _Foo, _initClass] = babelHelpers.applyDecs(Foo, [[[dec, _dec5, _dec6, _dec7, _dec8], 2, "method"]], [dec, _dec, _dec2, _dec3, _dec4]);
 _initClass();

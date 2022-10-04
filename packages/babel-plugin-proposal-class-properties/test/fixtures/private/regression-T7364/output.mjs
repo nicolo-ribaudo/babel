@@ -1,4 +1,5 @@
 var _myAsyncMethod = /*#__PURE__*/new WeakMap();
+
 class MyClass {
   constructor() {
     var _this = this;
@@ -15,6 +16,7 @@ class MyClass {
     });
   }
 }
+
 var _myAsyncMethod2 = /*#__PURE__*/new WeakMap();
 (class MyClass2 {
   constructor() {

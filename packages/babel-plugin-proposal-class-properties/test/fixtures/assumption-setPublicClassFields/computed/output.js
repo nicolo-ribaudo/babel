@@ -11,6 +11,7 @@ _ref2 = "test" + one;
 _ref3 = /regex/;
 _baz = baz;
 _ref4 = `template${expression}`;
+
 class MyClass {
   constructor() {
     this[null] = "null";
@@ -36,6 +37,7 @@ class MyClass {
 
   static [10]() {}
 }
+
 MyClass[_one] = "test";
 MyClass[2 * 4 + 7] = "247";
 MyClass[2 * four + 7] = "247";

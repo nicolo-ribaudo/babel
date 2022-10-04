@@ -1,4 +1,5 @@
 var _getStatus = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("getStatus");
+
 class Foo {
   constructor(status) {
     Object.defineProperty(this, _getStatus, {

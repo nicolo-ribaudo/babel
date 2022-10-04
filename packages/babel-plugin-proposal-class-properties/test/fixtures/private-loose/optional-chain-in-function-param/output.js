@@ -1,6 +1,7 @@
 var _x = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("x");
 var _m = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("m");
 var _self = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("self");
+
 class Foo {
   static getSelf() {
     return this;
@@ -57,6 +58,7 @@ class Foo {
     j(fn);
   }
 }
+
 Object.defineProperty(Foo, _x, {
   writable: true,
   value: 1

@@ -3,7 +3,9 @@ class Base {
     return obj;
   }
 }
+
 var _foo = /*#__PURE__*/new WeakSet();
+
 class Derived extends Base {
   constructor(...args) {
     super(...args);

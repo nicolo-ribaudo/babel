@@ -7,6 +7,7 @@
         _initialize(this);
       }
     }
+
     return {
       F: Foo,
       d: [{
@@ -26,6 +27,7 @@
         _initialize2(this);
       }
     }
+
     return {
       F: Foo,
       d: [{

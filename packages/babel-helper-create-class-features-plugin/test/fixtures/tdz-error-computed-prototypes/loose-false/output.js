@@ -3,4 +3,5 @@ class Foo {
     console.log('>>>>', Foo);
   }
 }
+
 babelHelpers.defineProperty(Foo, "nickname", 'Tom');

@@ -1,6 +1,7 @@
 var _computedKey, _initProto;
 const dec = () => {};
 _computedKey = 'b';
+
 class Foo {
   static {
     [_initProto] = babelHelpers.applyDecs(this, [[dec, 3, "a"], [dec, 3, _computedKey]], []);

@@ -1,5 +1,6 @@
 var exfiltrated;
 var _privateMethod = /*#__PURE__*/new WeakSet();
+
 class Foo {
   constructor() {
     babelHelpers.classPrivateMethodInitSpec(this, _privateMethod);

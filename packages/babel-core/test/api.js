@@ -710,7 +710,7 @@ describe("api", function () {
       ],
     }).then(function (result) {
       expect(result.code).toBe(
-        "/*before*/\nstart;\n/*after*/\nclass Foo {}\n/*before*/\nend;\n/*after*/",
+        "/*before*/\nstart;\n/*after*/\n\nclass Foo {}\n\n/*before*/\nend;\n/*after*/",
       );
     });
   });

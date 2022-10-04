@@ -3,7 +3,9 @@ class Base {
     return 'good';
   }
 }
+
 var _privateMethod = /*#__PURE__*/new WeakSet();
+
 class Sub extends Base {
   constructor(...args) {
     super(...args);

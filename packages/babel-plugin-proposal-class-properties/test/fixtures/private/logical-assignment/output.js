@@ -1,6 +1,7 @@
 var _nullish = /*#__PURE__*/new WeakMap();
 var _and = /*#__PURE__*/new WeakMap();
 var _or = /*#__PURE__*/new WeakMap();
+
 class Foo {
   constructor() {
     babelHelpers.classPrivateFieldInitSpec(this, _nullish, {

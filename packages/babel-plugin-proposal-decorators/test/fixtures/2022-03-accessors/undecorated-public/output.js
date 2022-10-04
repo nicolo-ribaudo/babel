@@ -1,4 +1,5 @@
 const dec = () => {};
+
 class Foo {
   #A;
 

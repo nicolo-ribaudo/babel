@@ -83,6 +83,7 @@ class C {
     return (o == null ? void 0 : babelHelpers.classStaticPrivateFieldSpecGet(o, C, _a).b)?.c.non_existent ?? o;
   }
 }
+
 var _a = {
   writable: true,
   value: {

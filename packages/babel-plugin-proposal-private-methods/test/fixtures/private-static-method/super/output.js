@@ -3,6 +3,7 @@ class Base {
     return 'good';
   }
 }
+
 class Sub extends Base {
   static basePublicStaticMethod() {
     return 'bad';

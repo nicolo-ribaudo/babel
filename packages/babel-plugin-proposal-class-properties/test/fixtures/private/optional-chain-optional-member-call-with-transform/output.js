@@ -65,6 +65,7 @@ class Foo {
     (_getSelf$self4 = (_ref26 = fn === null || fn === void 0 ? void 0 : babelHelpers.classStaticPrivateFieldSpecGet(fn().Foo, Foo, _self)) === null || _ref26 === void 0 ? void 0 : (_ref26$getSelf = _ref26.getSelf) === null || _ref26$getSelf === void 0 ? void 0 : (_ref26$getSelf$call = _ref26$getSelf.call(_ref26)) === null || _ref26$getSelf$call === void 0 ? void 0 : _ref26$getSelf$call.self) === null || _getSelf$self4 === void 0 ? void 0 : babelHelpers.classStaticPrivateFieldSpecGet(_getSelf$self4, Foo, _m).call(_getSelf$self4);
   }
 }
+
 var _x = {
   writable: true,
   value: 1

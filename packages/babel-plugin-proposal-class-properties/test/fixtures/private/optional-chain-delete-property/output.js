@@ -54,6 +54,7 @@ class Foo {
     delete (fn === null || fn === void 0 ? void 0 : babelHelpers.classStaticPrivateFieldSpecGet(fn().Foo, Foo, _self))?.getSelf?.()?.self.unicorn;
   }
 }
+
 var _x = {
   writable: true,
   value: 1

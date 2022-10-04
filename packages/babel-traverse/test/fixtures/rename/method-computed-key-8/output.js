@@ -1,4 +1,5 @@
 let z = "outside";
+
 class C {
   static get [class D {
     static get [z]() {

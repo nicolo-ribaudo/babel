@@ -1,4 +1,5 @@
 var _a = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("a");
+
 class C {
   static testIf(o) {
     if (o !== null && o !== void 0 && babelHelpers.classPrivateFieldLooseBase(o, _a)[_a].b.c.d) {
@@ -84,6 +85,7 @@ class C {
     return (o === null || o === void 0 ? void 0 : babelHelpers.classPrivateFieldLooseBase(o, _a)[_a].b)?.c.non_existent ?? o;
   }
 }
+
 Object.defineProperty(C, _a, {
   writable: true,
   value: {

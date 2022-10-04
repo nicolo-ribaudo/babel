@@ -1,4 +1,5 @@
 class C {}
+
 var _x = {
   writable: true,
   value: 42

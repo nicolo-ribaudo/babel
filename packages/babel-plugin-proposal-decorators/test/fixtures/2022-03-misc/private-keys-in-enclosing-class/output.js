@@ -1,4 +1,5 @@
 const dec = () => {};
+
 class A {
   #A = 1;
   static B = class B extends A {

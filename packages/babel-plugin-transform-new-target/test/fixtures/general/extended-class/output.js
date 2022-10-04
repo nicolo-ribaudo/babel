@@ -3,6 +3,7 @@ class Foo {
     this.constructor;
   }
 }
+
 class Bar extends Foo {
   constructor() {
     // This is probably bad...
@@ -10,6 +11,7 @@ class Bar extends Foo {
     super();
   }
 }
+
 class Baz extends Foo {
   constructor() {
     super();

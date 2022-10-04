@@ -8,6 +8,7 @@ class Test {
     return func() + _Test2;
   }
 }
+
 var _x = {
   writable: true,
   value: 1

@@ -26,4 +26,5 @@ exports.foo7 = foo7;
 function foo8() {}
 
 class foo9 {}
+
 exports.foo9 = foo9;

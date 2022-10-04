@@ -1,4 +1,5 @@
 let z = () => () => "outside";
+
 class C {
   @z
   a() {
@@ -6,4 +7,5 @@ class C {
     return a;
   }
 }
+
 ;

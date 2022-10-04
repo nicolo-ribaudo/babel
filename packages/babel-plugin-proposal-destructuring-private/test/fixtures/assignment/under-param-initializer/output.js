@@ -1,5 +1,6 @@
 var _m2;
 let a;
+
 class C {
   static #x = {
     a: 1,
@@ -18,4 +19,5 @@ class C {
     a
   } = _m2.#x), _m2)) {}
 }
+
 C.m();

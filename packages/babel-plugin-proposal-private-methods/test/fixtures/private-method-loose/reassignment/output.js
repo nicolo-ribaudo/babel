@@ -1,5 +1,6 @@
 var counter = 0;
 var _privateMethod = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("privateMethod");
+
 class Foo {
   constructor() {
     Object.defineProperty(this, _privateMethod, {

@@ -1,6 +1,8 @@
 const _excluded = ["y"];
 let result;
+
 class C {}
+
 var _x = {
   writable: true,
   value: "#x"

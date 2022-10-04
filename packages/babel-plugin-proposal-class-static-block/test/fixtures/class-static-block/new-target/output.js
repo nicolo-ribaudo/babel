@@ -5,4 +5,5 @@ class Base {
     };
   }
 }
+
 expect(new Base().Foo.foo).toBe(undefined);

@@ -1,4 +1,5 @@
 var _getStatus = /*#__PURE__*/new WeakSet();
+
 class Foo {
   constructor(status) {
     babelHelpers.classPrivateMethodInitSpec(this, _getStatus);

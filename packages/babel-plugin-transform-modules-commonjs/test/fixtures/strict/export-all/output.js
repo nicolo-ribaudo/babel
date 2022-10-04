@@ -37,7 +37,9 @@ Object.keys(_mod).forEach(function (key) {
 });
 var z = 100;
 exports.z = z;
+
 class a {}
+
 exports.a = a;
 
 function b() {}

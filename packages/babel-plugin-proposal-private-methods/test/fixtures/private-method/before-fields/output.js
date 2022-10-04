@@ -1,5 +1,6 @@
 var _priv = /*#__PURE__*/new WeakMap();
 var _method = /*#__PURE__*/new WeakSet();
+
 class Cl {
   constructor() {
     babelHelpers.classPrivateMethodInitSpec(this, _method);

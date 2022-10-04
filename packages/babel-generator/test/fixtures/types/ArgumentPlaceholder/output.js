@@ -5,6 +5,7 @@ foo(?, x, ?);
 obj.foo(x, ?);
 obj.foo(?, x);
 obj.foo(?, x, ?);
+
 class foo {
   constructor() {
     baz(this, () => super.bar(?));

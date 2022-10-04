@@ -1,4 +1,5 @@
 var _span;
+
 class Component extends React.Component {
   constructor(...args) {
     var _this$subComponent;

@@ -5,6 +5,7 @@ class Base {
     return 'Hello!';
   }
 }
+
 class Derived extends Base {
   method() {
     var _super$method;

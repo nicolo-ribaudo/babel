@@ -1,6 +1,7 @@
 var _init_a, _init_b, _computedKey, _init_computedKey, _initProto;
 const dec = () => {};
 _computedKey = 'c';
+
 class Foo {
   static {
     [_init_a, _init_b, _init_computedKey, _initProto] = babelHelpers.applyDecs(this, [[dec, 1, "a"], [dec, 1, "b"], [dec, 1, _computedKey]], []);

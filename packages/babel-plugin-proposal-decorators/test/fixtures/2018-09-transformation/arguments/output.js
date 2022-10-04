@@ -6,6 +6,7 @@ let A = babelHelpers.decorate([dec(a, b, ...c)], function (_initialize) {
       _initialize(this);
     }
   }
+
   return {
     F: A,
     d: [{

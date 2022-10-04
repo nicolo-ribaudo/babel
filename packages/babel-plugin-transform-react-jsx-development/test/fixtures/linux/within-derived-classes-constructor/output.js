@@ -1,6 +1,8 @@
 var _reactJsxDevRuntime = require("react/jsx-dev-runtime");
 var _jsxFileName = "<CWD>/packages/babel-plugin-transform-react-jsx-development/test/fixtures/linux/within-derived-classes-constructor/input.js";
+
 class A {}
+
 class B extends A {
   constructor() {
     /*#__PURE__*/_reactJsxDevRuntime.jsxDEV("sometag1", {}, void 0, false, {
@@ -20,6 +22,7 @@ class B extends A {
     }, void 0);
   }
 }
+
 class C {
   constructor() {
     /*#__PURE__*/_reactJsxDevRuntime.jsxDEV("sometag4", {}, void 0, false, {
@@ -27,11 +30,13 @@ class C {
       lineNumber: 13,
       columnNumber: 5
     }, this);
+
     class D extends A {
       constructor() {
         super();
       }
     }
+
     const E = class extends A {
       constructor() {
         super();
@@ -39,6 +44,7 @@ class C {
     };
   }
 }
+
 class E extends A {
   constructor() {
     this.x = function () {
@@ -74,6 +80,7 @@ class E extends A {
     super();
   }
 }
+
 class F {
   constructor() {
     /*#__PURE__*/_reactJsxDevRuntime.jsxDEV("sometag9", {}, void 0, false, {
@@ -83,6 +90,7 @@ class F {
     }, this);
   }
 }
+
 class G extends A {
   constructor() {
     return /*#__PURE__*/_reactJsxDevRuntime.jsxDEV("sometag10", {}, void 0, false, {

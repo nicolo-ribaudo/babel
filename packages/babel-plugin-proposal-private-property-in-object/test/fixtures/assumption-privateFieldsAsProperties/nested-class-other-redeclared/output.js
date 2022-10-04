@@ -1,5 +1,6 @@
 var _foo = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("foo");
 var _bar = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("bar");
+
 class Foo {
   constructor() {
     Object.defineProperty(this, _foo, {
@@ -14,6 +15,7 @@ class Foo {
 
   test() {
     var _bar2 = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("bar");
+
     class Nested {
       constructor() {
         Object.defineProperty(this, _bar2, {
@@ -27,6 +29,7 @@ class Foo {
         Object.prototype.hasOwnProperty.call(this, _bar2);
       }
     }
+
     Object.prototype.hasOwnProperty.call(this, _foo);
     Object.prototype.hasOwnProperty.call(this, _bar);
   }

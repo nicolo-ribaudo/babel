@@ -1,4 +1,5 @@
 var foo = "bar";
+
 class Foo {
   constructor() {
     this.bar = foo;
@@ -6,4 +7,5 @@ class Foo {
     var baz = "baz";
   }
 }
+
 Foo.bar = baz;

@@ -7,6 +7,7 @@
       });
     }
   }
+
   babelHelpers.defineProperty(Foo, "fn", function () {
     return console.log(Foo);
   });
@@ -34,6 +35,7 @@
       babelHelpers.defineProperty(this, "force", force);
     }
   }
+
   babelHelpers.defineProperty(Baz, "fn", function () {
     return console.log(Baz);
   });
@@ -47,6 +49,7 @@ var qux = function () {
       });
     }
   }
+
   babelHelpers.defineProperty(Qux, "fn", function () {
     return console.log(Qux);
   });

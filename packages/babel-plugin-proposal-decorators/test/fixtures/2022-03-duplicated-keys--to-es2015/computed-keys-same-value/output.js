@@ -2,6 +2,7 @@ var _computedKey, _computedKey2, _initProto;
 const dec = () => {};
 _computedKey = getKeyI();
 _computedKey2 = getKeyJ();
+
 class Foo {
   constructor(...args) {
     _initProto(this);
@@ -15,4 +16,5 @@ class Foo {
     return 2;
   }
 }
+
 [_initProto] = babelHelpers.applyDecs2203(Foo, [[dec, 2, _computedKey], [dec, 2, _computedKey2]], []);

@@ -56,15 +56,19 @@ a7 = {
 a8 = {
   123(x) {}
 };
+
 class Foo {
   set fooProp(value) {}
 }
+
 class Foo2 {
   set fooProp(value) {}
 }
+
 class Foo3 {
   get fooProp() {}
 }
+
 var numVal;
 var numVal = otherNumVal;
 var a1;
@@ -83,14 +87,19 @@ var a13;
 var a14 = [1, 2, 3];
 a13 = class Foo {};
 a14 = class Foo extends Bar {};
+
 class Foo4 {}
+
 class Foo5 extends Bar {}
+
 class Foo6 extends mixin(Bar) {}
+
 class Foo7 {
   bar() {
     return 42;
   }
 }
+
 class Foo8 {
   "bar"() {}
 }
@@ -98,15 +107,20 @@ class Foo8 {
 function foo19(requiredParam, optParam) {}
 
 class Foo9 {}
+
 class Foo10 {}
+
 class Foo11 {
   #prop1;
   #prop2;
 }
+
 var x1 = 4;
+
 class Array {
   concat(items) {}
 }
+
 var x2 = fn;
 var x3 = Y;
 var x4 = Y;

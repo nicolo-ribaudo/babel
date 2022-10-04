@@ -13,6 +13,7 @@ const Outer = _obj = {
         return 'hello';
       }
     }
+
     return new Inner();
   }
 };

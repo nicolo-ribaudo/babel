@@ -4,6 +4,7 @@ _computedKey = 'c';
 var _A = /*#__PURE__*/new WeakMap();
 var _B = /*#__PURE__*/new WeakMap();
 var _C = /*#__PURE__*/new WeakMap();
+
 class Foo {
   constructor() {
     babelHelpers.classPrivateFieldInitSpec(this, _A, {
@@ -44,4 +45,5 @@ class Foo {
     babelHelpers.classPrivateFieldSet(this, _C, v);
   }
 }
+
 [_init_a, _init_b, _init_computedKey, _initProto] = babelHelpers.applyDecs(Foo, [[dec, 1, "a"], [dec, 1, "b"], [dec, 1, _computedKey]], []);

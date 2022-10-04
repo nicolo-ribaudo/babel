@@ -28,6 +28,7 @@ declare class Fifteen {
   m3(this: string, ...a: any): void,
   m4<T>(this: T): void,
 }
+
 class Sixteen {
   m1(this: number) {}
 
@@ -39,6 +40,7 @@ class Sixteen {
 
   m5<T>(this: T) {}
 }
+
 let seventeen = {
   m1(this: number) {},
   m2(this: number, a) {},

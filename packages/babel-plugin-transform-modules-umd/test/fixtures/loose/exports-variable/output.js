@@ -37,5 +37,6 @@
   function foo8() {}
 
   class foo9 {}
+
   _exports.foo9 = foo9;
 });

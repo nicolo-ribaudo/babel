@@ -1,4 +1,5 @@
 var _foo = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("foo");
+
 class Foo {
   test(other) {
     return Object.prototype.hasOwnProperty.call(other, _foo);

@@ -21,6 +21,7 @@ let B = babelHelpers.decorate([dec], function (_initialize, _A) {
       _initialize(this);
     }
   }
+
   return {
     F: B,
     d: []

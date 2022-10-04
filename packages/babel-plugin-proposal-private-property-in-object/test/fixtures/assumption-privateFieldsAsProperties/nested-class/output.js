@@ -1,4 +1,5 @@
 var _foo = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("foo");
+
 class Foo {
   constructor() {
     Object.defineProperty(this, _foo, {
@@ -13,6 +14,7 @@ class Foo {
         Object.prototype.hasOwnProperty.call(this, _foo);
       }
     }
+
     Object.prototype.hasOwnProperty.call(this, _foo);
   }
 }

@@ -9,6 +9,7 @@ _dec5 = call();
 _dec6 = chain.expr();
 _dec7 = arbitrary + expr;
 _dec8 = array[expr];
+
 class Foo {
   static {
     [_initProto, _Foo, _initClass] = babelHelpers.applyDecs(this, [[[dec, _dec5, _dec6, _dec7, _dec8], 2, "method"]], [dec, _dec, _dec2, _dec3, _dec4]);

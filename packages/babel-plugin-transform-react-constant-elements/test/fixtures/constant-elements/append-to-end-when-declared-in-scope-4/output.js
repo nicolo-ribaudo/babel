@@ -4,6 +4,7 @@ var _div, _p;
   const AppItem = () => {
     return _div || (_div = <div>child</div>);
   };
+
   class App extends React.Component {
     render() {
       return _div2 || (_div2 = <div>

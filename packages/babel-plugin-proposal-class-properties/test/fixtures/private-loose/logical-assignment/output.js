@@ -1,6 +1,7 @@
 var _nullish = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("nullish");
 var _and = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("and");
 var _or = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("or");
+
 class Foo {
   constructor() {
     Object.defineProperty(this, _nullish, {

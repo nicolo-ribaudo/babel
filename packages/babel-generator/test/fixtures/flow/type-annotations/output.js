@@ -58,15 +58,19 @@ a7 = {
 a8 = {
   123<T>(x: T): T {}
 };
+
 class Foo1 {
   set fooProp(value: number) {}
 }
+
 class Foo2 {
   set fooProp(value: number): void {}
 }
+
 class Foo3 {
   get fooProp(): number {}
 }
+
 var numVal1: number;
 var numVal2: empty;
 var numVal3: mixed;
@@ -122,14 +126,19 @@ var a13: {
 var a14: Array<number> = [1, 2, 3];
 a13 = class Foo<T> {};
 a14 = class Foo<T> extends Bar<T> {};
+
 class Foo4<T> {}
+
 class Foo5<T> extends Bar<T> {}
+
 class Foo6<T> extends mixin(Bar) {}
+
 class Foo7<T> {
   bar<U>(): number {
     return 42;
   }
 }
+
 class Foo8 {
   "bar"<T>() {}
 }
@@ -140,18 +149,23 @@ class Foo9 {
   prop1: string;
   prop2: number;
 }
+
 class Foo10 {
   static prop1: string;
   prop2: number;
 }
+
 class Foo11 {
   #prop1: string;
   prop2: number;
 }
+
 var x1: number | string = 4;
+
 class Array {
   concat(items: number | string) {}
 }
+
 var x2: () => number | (() => string) = fn;
 var x3: typeof Y = Y;
 var x4: typeof Y | number = Y;

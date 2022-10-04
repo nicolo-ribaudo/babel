@@ -1,5 +1,6 @@
 var _x = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("x");
 var _m = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("m");
+
 class Foo {
   static getSelf() {
     return Foo;
@@ -25,6 +26,7 @@ class Foo {
     ((_fn$Foo$self$getSelf2 = (fn == null ? void 0 : (_fn$Foo$self = fn().Foo.self) == null ? void 0 : _fn$Foo$self.getSelf.bind(_fn$Foo$self))()) === null || _fn$Foo$self$getSelf2 === void 0 ? void 0 : babelHelpers.classPrivateFieldLooseBase(_fn$Foo$self$getSelf2, _m)[_m].bind(_fn$Foo$self$getSelf2))();
   }
 }
+
 Object.defineProperty(Foo, _x, {
   writable: true,
   value: 1

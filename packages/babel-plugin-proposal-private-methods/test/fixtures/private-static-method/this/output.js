@@ -3,6 +3,7 @@ class A {
     return 1;
   }
 }
+
 class B extends A {
   static get b() {
     return 2;

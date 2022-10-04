@@ -1,4 +1,5 @@
 var _FooBrandCheck = /*#__PURE__*/new WeakSet();
+
 class Foo {
   constructor() {
     _FooBrandCheck.add(this);

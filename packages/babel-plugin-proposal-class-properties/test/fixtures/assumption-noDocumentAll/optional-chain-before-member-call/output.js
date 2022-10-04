@@ -62,6 +62,7 @@ class Foo {
     (_getSelf6 = (fn == null ? void 0 : babelHelpers.classStaticPrivateFieldSpecGet(fn().Foo, Foo, _self))?.getSelf?.()) == null ? void 0 : babelHelpers.classStaticPrivateFieldSpecGet(_getSelf6$self = _getSelf6.self, Foo, _m).call(_getSelf6$self);
   }
 }
+
 var _x = {
   writable: true,
   value: 1

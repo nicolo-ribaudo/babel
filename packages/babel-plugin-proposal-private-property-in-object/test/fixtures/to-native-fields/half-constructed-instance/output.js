@@ -2,6 +2,7 @@ var _temp;
 var _FBrandCheck = /*#__PURE__*/new WeakSet();
 var _xBrandCheck = /*#__PURE__*/new WeakSet();
 var _yBrandCheck = /*#__PURE__*/new WeakSet();
+
 class F {
   m() {
     _FBrandCheck.has(this);

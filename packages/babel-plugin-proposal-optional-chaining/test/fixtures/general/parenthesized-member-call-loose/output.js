@@ -33,4 +33,5 @@ class Foo {
     ((_fn$Foo$self$getSelf2 = (fn == null ? void 0 : (_fn$Foo$self = fn().Foo.self) == null ? void 0 : _fn$Foo$self.getSelf.bind(_fn$Foo$self))()) == null ? void 0 : _fn$Foo$self$getSelf2.m.bind(_fn$Foo$self$getSelf2))();
   }
 }
+
 new Foo().test();

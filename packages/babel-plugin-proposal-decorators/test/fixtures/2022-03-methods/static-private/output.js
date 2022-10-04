@@ -1,5 +1,6 @@
 var _call_a, _initStatic;
 const dec = () => {};
+
 class Foo {
   static {
     [_call_a, _initStatic] = babelHelpers.applyDecs2203(this, [[dec, 7, "a", function () {

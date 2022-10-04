@@ -39,9 +39,11 @@ declare class I {
 declare class I {
   -[k: K]: V
 }
+
 class C2 {
   +p: T = e;
 }
+
 class C3 {
   -p: T = e;
 }

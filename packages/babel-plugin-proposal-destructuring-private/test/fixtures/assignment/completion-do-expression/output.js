@@ -1,4 +1,5 @@
 var result;
+
 class C {
   static #x;
 

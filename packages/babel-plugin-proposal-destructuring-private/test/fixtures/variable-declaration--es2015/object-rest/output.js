@@ -1,5 +1,7 @@
 let result;
+
 class C {}
+
 var _x = {
   writable: true,
   value: "#x"

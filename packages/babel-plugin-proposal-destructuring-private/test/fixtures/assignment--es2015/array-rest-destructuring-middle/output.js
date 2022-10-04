@@ -1,5 +1,7 @@
 let x, y, z;
+
 class C {}
+
 var _x = {
   writable: true,
   value: void 0

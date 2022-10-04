@@ -1,6 +1,7 @@
 var _computedKey, _initStatic;
 const dec = () => {};
 _computedKey = 'b';
+
 class Foo {
   static get a() {
     return this.value;
@@ -10,6 +11,7 @@ class Foo {
     return this.value;
   }
 }
+
 (() => {
   [_initStatic] = babelHelpers.applyDecs2203(Foo, [[dec, 8, "a"], [dec, 8, _computedKey]], []);
   _initStatic(Foo);

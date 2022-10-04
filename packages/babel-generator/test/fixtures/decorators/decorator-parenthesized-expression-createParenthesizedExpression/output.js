@@ -12,16 +12,19 @@ class C extends class {} {
       @(new DecFactory())
       p;
     }
+
     class ShouldNotAddParens {
       @decs
       @decs.one
       @decs.two()
       p;
     }
+
     class ShouldAddParens {
       @((decs[three])())
       p;
     }
+
     class WillPreserveParens {
       @(decs)
       @(decs.one)

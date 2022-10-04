@@ -1,4 +1,5 @@
 const dec = () => {};
+
 class Foo {
   static get a() {
     return babelHelpers.classStaticPrivateFieldSpecGet(this, Foo, _A);
@@ -24,6 +25,7 @@ class Foo {
     babelHelpers.classStaticPrivateFieldSpecSet(this, Foo, _C, v);
   }
 }
+
 var _A = {
   writable: true,
   value: void 0

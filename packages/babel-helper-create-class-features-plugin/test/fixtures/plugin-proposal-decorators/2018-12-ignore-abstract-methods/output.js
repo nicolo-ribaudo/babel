@@ -10,6 +10,7 @@ let A = babelHelpers.decorate(null, function (_initialize) {
       _initialize(this);
     }
   }
+
   return {
     F: A,
     d: [{
@@ -20,6 +21,7 @@ let A = babelHelpers.decorate(null, function (_initialize) {
     }]
   };
 });
+
 class B extends A {
   constructor() {
     super();
@@ -27,4 +29,5 @@ class B extends A {
 
   myMethod() {}
 }
+
 const b = new B();

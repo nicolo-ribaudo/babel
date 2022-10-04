@@ -1,10 +1,12 @@
 var _call_a, _initStatic;
 const dec = () => {};
+
 class Foo {
   static callA() {
     return babelHelpers.classStaticPrivateFieldSpecGet(this, Foo, _a).call(this);
   }
 }
+
 (() => {
   [_call_a, _initStatic] = babelHelpers.applyDecs2203(Foo, [[dec, 7, "a", function () {
     return this.value;

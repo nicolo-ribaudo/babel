@@ -3,8 +3,10 @@ class Base {
     return obj;
   }
 }
+
 let counter = 0;
 var _foo = /*#__PURE__*/new WeakMap();
+
 class Derived extends Base {
   constructor(...args) {
     super(...args);

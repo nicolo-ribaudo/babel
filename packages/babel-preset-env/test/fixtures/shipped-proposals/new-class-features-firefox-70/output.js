@@ -1,4 +1,5 @@
 var _foo = /*#__PURE__*/new WeakMap();
+
 class A {
   constructor() {
     babelHelpers.classPrivateFieldInitSpec(this, _foo, {
@@ -7,4 +8,5 @@ class A {
     });
   }
 }
+
 register(A, _foo.has(A));

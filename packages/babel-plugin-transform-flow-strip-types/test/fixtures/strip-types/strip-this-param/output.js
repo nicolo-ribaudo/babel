@@ -19,6 +19,7 @@ class Ten {
 
   m5() {}
 }
+
 let eleven = {
   m1() {},
   m2(a) {},

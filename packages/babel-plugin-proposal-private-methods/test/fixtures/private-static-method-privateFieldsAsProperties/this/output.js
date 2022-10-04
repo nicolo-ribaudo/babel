@@ -3,8 +3,10 @@ class A {
     return 1;
   }
 }
+
 var _getA = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("getA");
 var _getB = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("getB");
+
 class B extends A {
   static get b() {
     return 2;

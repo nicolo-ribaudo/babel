@@ -10,6 +10,7 @@ var e = function () {};
 var f = function* () {};
 var g = async function () {};
 var h = async function* () {};
+
 class A {
   a() {}
 

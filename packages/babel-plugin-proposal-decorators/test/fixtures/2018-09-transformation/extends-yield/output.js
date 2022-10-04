@@ -8,6 +8,7 @@ function* g() {
         _initialize(this);
       }
     }
+
     return {
       F: A,
       d: []

@@ -1,4 +1,5 @@
 var exfiltrated;
+
 class Cl {
   constructor() {
     if (exfiltrated === undefined) {

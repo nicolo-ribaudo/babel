@@ -7,6 +7,7 @@ var _c = c2;
 } = _c);
 b2 = babelHelpers.objectWithoutPropertiesLoose(_c, ["a2"]);
 _c;
+
 class Comp extends React.Component {
   render() {
     const _this$props = this.props,

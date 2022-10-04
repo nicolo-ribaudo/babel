@@ -1,4 +1,5 @@
 class Foo {}
+
 var _bar = {
   writable: true,
   value: 21

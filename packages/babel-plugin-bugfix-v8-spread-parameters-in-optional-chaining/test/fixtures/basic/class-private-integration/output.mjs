@@ -1,4 +1,5 @@
 var _m = /*#__PURE__*/new WeakMap();
+
 class C {
   constructor() {
     var _babelHelpers$classPr;

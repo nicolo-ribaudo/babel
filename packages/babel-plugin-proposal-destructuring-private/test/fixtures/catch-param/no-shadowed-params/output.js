@@ -1,4 +1,5 @@
 var x;
+
 class C {
   #x;
 

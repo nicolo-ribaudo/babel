@@ -1,8 +1,10 @@
 class A {}
+
 (function (_A) {
   let C;
   (function (_C) {
     class G {}
+
     _C.G = G;
     const E = _C.E = 7;
   })(C || (C = _A.C || (_A.C = {})));
@@ -26,7 +28,9 @@ class A {}
     })(H || (H = {}));
     _D.H = H;
   })(D || (D = _A.D || (_A.D = {})));
+
   class F {}
+
   (function (_F) {})(F || (F = {}));
   let G;
   (function (_G) {})(G || (G = {}));

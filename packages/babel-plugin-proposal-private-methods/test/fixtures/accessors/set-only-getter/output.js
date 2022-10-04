@@ -1,5 +1,6 @@
 var _privateField = /*#__PURE__*/new WeakMap();
 var _privateFieldValue = /*#__PURE__*/new WeakMap();
+
 class Cl {
   get self() {
     this.counter++;

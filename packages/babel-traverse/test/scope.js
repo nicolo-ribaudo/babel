@@ -923,6 +923,7 @@ describe("scope", () => {
       classDeclaration.scope.push({ id: t.identifier("class") });
       expect(program.toString()).toMatchInlineSnapshot(`
         "var class;
+
         class A {}"
       `);
       expect(program.scope.hasOwnBinding("class")).toBe(true);
@@ -943,6 +944,7 @@ describe("scope", () => {
       assignmentPattern.scope.push({ id: t.identifier("ref") });
       expect(program.toString()).toMatchInlineSnapshot(`
         "var ref;
+
         class C {
           m(a = f()) {}
         }"

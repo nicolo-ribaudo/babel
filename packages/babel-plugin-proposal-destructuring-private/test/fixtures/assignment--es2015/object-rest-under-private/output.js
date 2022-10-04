@@ -1,6 +1,8 @@
 const _excluded = ["y"];
 let result;
+
 class C {}
+
 babelHelpers.defineProperty(C, "x", "x");
 babelHelpers.defineProperty(C, "y", "y");
 babelHelpers.defineProperty(C, "z", "z");

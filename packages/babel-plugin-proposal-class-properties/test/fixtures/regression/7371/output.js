@@ -1,21 +1,26 @@
 "use strict";
 
 class C {}
+
 class A extends C {
   constructor() {
     super();
     babelHelpers.defineProperty(this, "field", 1);
+
     class B extends C {
       constructor() {
         super();
         expect(this.field).toBeUndefined();
       }
     }
+
     expect(this.field).toBe(1);
     new B();
   }
 }
+
 new A();
+
 class Obj {
   constructor() {
     return {};
@@ -31,10 +36,12 @@ class SuperClass extends Obj {
         expect(this.field).toBeUndefined();
       }
     }
+
     expect(this.field).toBe(1);
     new B();
   }
 }
+
 new SuperClass();
 
 // ensure ComputedKey Method is still transformed
@@ -48,10 +55,12 @@ class ComputedMethod extends Obj {
 
       [(super(), babelHelpers.defineProperty(this, "field", 1), this)]() {}
     }
+
     expect(this.field).toBe(1);
     new B();
   }
 }
+
 new ComputedMethod();
 
 // ensure ComputedKey Field is still transformed
@@ -59,6 +68,7 @@ class ComputedField extends Obj {
   constructor() {
     let _ref;
     _ref = (super(), babelHelpers.defineProperty(this, "field", 1), this);
+
     class B extends Obj {
       constructor() {
         super();
@@ -66,8 +76,10 @@ class ComputedField extends Obj {
         expect(this.field).toBeUndefined();
       }
     }
+
     expect(this.field).toBe(1);
     new B();
   }
 }
+
 new ComputedField();

@@ -18,6 +18,7 @@ class C {
       c = _p7 === void 0 ? 1 : _p7;
   }
 }
+
 var _x = {
   writable: true,
   value: void 0

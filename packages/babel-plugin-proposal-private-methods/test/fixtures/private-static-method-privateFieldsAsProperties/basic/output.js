@@ -1,4 +1,5 @@
 var _privateStaticMethod = /*#__PURE__*/babelHelpers.classPrivateFieldLooseKey("privateStaticMethod");
+
 class Cl {
   static staticMethod2() {
     return babelHelpers.classPrivateFieldLooseBase(Cl, _privateStaticMethod)[_privateStaticMethod]();

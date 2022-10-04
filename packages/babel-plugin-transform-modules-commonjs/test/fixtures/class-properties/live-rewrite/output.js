@@ -1,6 +1,7 @@
 "use strict";
 
 var _anywhere = require("anywhere");
+
 class Example {
   #test1 = _anywhere.test1;
   test2 = _anywhere.test2;

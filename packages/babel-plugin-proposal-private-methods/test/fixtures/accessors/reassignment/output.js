@@ -1,5 +1,6 @@
 var results = [];
 var _privateFieldValue = /*#__PURE__*/new WeakMap();
+
 class Foo {
   constructor() {
     babelHelpers.classPrivateFieldInitSpec(this, _privateFieldValue, {

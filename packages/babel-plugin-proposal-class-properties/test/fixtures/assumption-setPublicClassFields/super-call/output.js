@@ -3,6 +3,7 @@ class A {
     return "bar";
   }
 }
+
 class B extends A {
   constructor(...args) {
     super(...args);

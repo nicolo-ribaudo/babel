@@ -1,4 +1,5 @@
 class C {}
+
 babelHelpers.defineProperty(C, "a", "a");
 var _x = {
   writable: true,
