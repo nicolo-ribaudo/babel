@@ -39,7 +39,7 @@ describe("generation", function () {
     expect(generated.map).toMatchInlineSnapshot(`
       Object {
         "file": undefined,
-        "mappings": "AAAA,SAASA,EAAE,CAAEC,GAAG,EAAE;EAAEC,OAAO,CAACC,GAAG,CAACF,GAAG,CAAC;AAAE;ACAtCD,EAAE,CAAC,OAAO,CAAC",
+        "mappings": "AAAA,SAASA,EAAE,CAAEC,GAAG,EAAE;EAAEC,OAAO,CAACC,GAAG,CAACF,GAAG,CAAC;AAAE;;ACAtCD,EAAE,CAAC,OAAO,CAAC",
         "names": Array [
           "hi",
           "msg",
@@ -234,7 +234,7 @@ describe("generation", function () {
         Object {
           "generated": Object {
             "column": 0,
-            "line": 4,
+            "line": 5,
           },
           "name": "hi",
           "original": Object {
@@ -246,7 +246,7 @@ describe("generation", function () {
         Object {
           "generated": Object {
             "column": 2,
-            "line": 4,
+            "line": 5,
           },
           "name": undefined,
           "original": Object {
@@ -258,7 +258,7 @@ describe("generation", function () {
         Object {
           "generated": Object {
             "column": 3,
-            "line": 4,
+            "line": 5,
           },
           "name": undefined,
           "original": Object {
@@ -270,7 +270,7 @@ describe("generation", function () {
         Object {
           "generated": Object {
             "column": 10,
-            "line": 4,
+            "line": 5,
           },
           "name": undefined,
           "original": Object {
@@ -282,7 +282,7 @@ describe("generation", function () {
         Object {
           "generated": Object {
             "column": 11,
-            "line": 4,
+            "line": 5,
           },
           "name": undefined,
           "original": Object {
@@ -295,7 +295,7 @@ describe("generation", function () {
     `);
 
     expect(generated.code).toBe(
-      "function hi(msg) {\n  console.log(msg);\n}\nhi('hello');",
+      "function hi(msg) {\n  console.log(msg);\n}\n\nhi('hello');",
     );
   });
 

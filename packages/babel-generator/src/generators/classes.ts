@@ -188,17 +188,19 @@ export function ClassPrivateProperty(
   this.semicolon();
 }
 
-export function ClassMethod(this: Printer, node: t.ClassMethod) {
+export function ClassMethod(
+  this: Printer,
+  node: t.ClassMethod,
+  parent: t.ClassBody,
+) {
   this._classMethodHead(node);
   this.space();
   this.print(node.body, node);
+
+  classMemberNewline(this, node, parent);
 }
 
-export function ClassPrivateMethod(this: Printer, node: t.ClassPrivateMethod) {
-  this._classMethodHead(node);
-  this.space();
-  this.print(node.body, node);
-}
+export { ClassMethod as ClassPrivateMethod };
 
 export function _classMethodHead(
   this: Printer,
@@ -215,7 +217,11 @@ export function _classMethodHead(
   this._methodHead(node);
 }
 
-export function StaticBlock(this: Printer, node: t.StaticBlock) {
+export function StaticBlock(
+  this: Printer,
+  node: t.StaticBlock,
+  parent: t.ClassBody,
+) {
   this.word("static");
   this.space();
   this.token("{");
@@ -230,5 +236,20 @@ export function StaticBlock(this: Printer, node: t.StaticBlock) {
     this.sourceWithOffset("end", node.loc, 0, -1);
 
     this.rightBrace();
+  }
+
+  classMemberNewline(this, node, parent);
+}
+
+function classMemberNewline(
+  printer: Printer,
+  node: t.ClassMethod | t.ClassPrivateMethod | t.StaticBlock,
+  parent: t.ClassBody,
+) {
+  if (
+    !node.trailingComments?.length &&
+    parent.body[parent.body.length - 1] !== node
+  ) {
+    printer.newline(2);
   }
 }

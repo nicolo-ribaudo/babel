@@ -152,7 +152,16 @@ export function FunctionExpression(this: Printer, node: t.FunctionExpression) {
   this.print(node.body, node);
 }
 
-export { FunctionExpression as FunctionDeclaration };
+export function FunctionDeclaration(
+  this: Printer,
+  node: t.FunctionDeclaration,
+) {
+  this._functionHead(node);
+  this.space();
+  this.print(node.body, node);
+
+  if (!node.trailingComments?.length) this.newline(2);
+}
 
 export function ArrowFunctionExpression(
   this: Printer,
