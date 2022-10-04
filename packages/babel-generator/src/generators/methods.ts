@@ -1,5 +1,5 @@
 import type Printer from "../printer";
-import { isIdentifier } from "@babel/types";
+import { isIdentifier, isBlock } from "@babel/types";
 import type * as t from "@babel/types";
 
 export function _params(
@@ -155,12 +155,15 @@ export function FunctionExpression(this: Printer, node: t.FunctionExpression) {
 export function FunctionDeclaration(
   this: Printer,
   node: t.FunctionDeclaration,
+  parent: t.Block | t.ExportDeclaration,
 ) {
+  if (isBlock(parent)) this._functionNewlineBefore(node, parent);
+
   this._functionHead(node);
   this.space();
   this.print(node.body, node);
 
-  if (!node.trailingComments?.length) this.newline(2);
+  if (isBlock(parent)) this._functionNewlineAfter(node, parent);
 }
 
 export function ArrowFunctionExpression(
@@ -212,4 +215,35 @@ function hasTypesOrComments(
     param.leadingComments?.length ||
     param.trailingComments?.length
   );
+}
+
+export function _functionNewlineBefore(
+  this: Printer,
+  node:
+    | t.FunctionDeclaration
+    | t.ClassMethod
+    | t.ClassPrivateMethod
+    | t.StaticBlock,
+  parent: t.ClassBody | t.Block,
+) {
+  if (!node.leadingComments?.length && parent.body[0] !== node) {
+    this.newline(2);
+  }
+}
+
+export function _functionNewlineAfter(
+  this: Printer,
+  node:
+    | t.FunctionDeclaration
+    | t.ClassMethod
+    | t.ClassPrivateMethod
+    | t.StaticBlock,
+  parent?: t.ClassBody | t.Block,
+) {
+  if (
+    !node.trailingComments?.length &&
+    parent.body[parent.body.length - 1] !== node
+  ) {
+    this.newline(2);
+  }
 }

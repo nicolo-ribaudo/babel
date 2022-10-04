@@ -193,11 +193,13 @@ export function ClassMethod(
   node: t.ClassMethod,
   parent: t.ClassBody,
 ) {
+  this._functionNewlineBefore(node, parent);
+
   this._classMethodHead(node);
   this.space();
   this.print(node.body, node);
 
-  classMemberNewline(this, node, parent);
+  this._functionNewlineAfter(node, parent);
 }
 
 export { ClassMethod as ClassPrivateMethod };
@@ -222,6 +224,8 @@ export function StaticBlock(
   node: t.StaticBlock,
   parent: t.ClassBody,
 ) {
+  this._functionNewlineBefore(node, parent);
+
   this.word("static");
   this.space();
   this.token("{");
@@ -238,18 +242,5 @@ export function StaticBlock(
     this.rightBrace();
   }
 
-  classMemberNewline(this, node, parent);
-}
-
-function classMemberNewline(
-  printer: Printer,
-  node: t.ClassMethod | t.ClassPrivateMethod | t.StaticBlock,
-  parent: t.ClassBody,
-) {
-  if (
-    !node.trailingComments?.length &&
-    parent.body[parent.body.length - 1] !== node
-  ) {
-    printer.newline(2);
-  }
+  this._functionNewlineAfter(node, parent);
 }
