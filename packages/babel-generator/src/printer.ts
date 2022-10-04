@@ -823,8 +823,10 @@ class Printer {
     const lastCommentLine = this._lastCommentLine;
     if (startLine > 0 && lastCommentLine > 0) {
       const offset = startLine - lastCommentLine;
-      this.newline(offset || 1);
-      return;
+      if (offset >= 0) {
+        this.newline(offset || 1);
+        return;
+      }
     }
 
     // don't add newlines at the beginning of the file

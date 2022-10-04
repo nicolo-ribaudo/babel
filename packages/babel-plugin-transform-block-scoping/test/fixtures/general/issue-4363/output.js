@@ -9,7 +9,8 @@ function WithoutCurlyBraces() {
         return foo.call(this);
       }
       console.log(_this, k); // => undefined
-    };for (var k in kv) {
+    };
+    for (var k in kv) {
       _loop(k);
     }
   }
@@ -25,7 +26,8 @@ function WithCurlyBraces() {
         return foo.call(this);
       }
       console.log(_this2, k); // => 777
-    };for (var k in kv) {
+    };
+    for (var k in kv) {
       _loop2(k);
     }
   }
