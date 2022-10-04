@@ -1,5 +1,6 @@
 var _Symbol = require("@babel/runtime-corejs2/core-js/symbol");
 var _Symbol$iterator = require("@babel/runtime-corejs2/core-js/symbol/iterator");
+
 function _typeof(obj) {
   "@babel/helpers - typeof";
 

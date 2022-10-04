@@ -21,6 +21,7 @@ export default function _regeneratorRuntime() {
   var iteratorSymbol = $Symbol.iterator || "@@iterator";
   var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
   var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
   function define(obj, key, value) {
     Object.defineProperty(obj, key, {
       value: value,
@@ -39,6 +40,7 @@ export default function _regeneratorRuntime() {
       return (obj[key] = value);
     };
   }
+
   function wrap(innerFn, outerFn, self, tryLocsList) {
     // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
     var protoGenerator =
@@ -166,6 +168,7 @@ export default function _regeneratorRuntime() {
       __await: arg,
     };
   };
+
   function AsyncIterator(generator, PromiseImpl) {
     function invoke(method, arg, resolve, reject) {
       var record = tryCatch(generator[method], generator, arg);
@@ -206,6 +209,7 @@ export default function _regeneratorRuntime() {
     }
 
     var previousPromise;
+
     function enqueue(method, arg) {
       function callInvokeWithMethodAndArg() {
         return new PromiseImpl(function (resolve, reject) {
@@ -262,6 +266,7 @@ export default function _regeneratorRuntime() {
           return result.done ? result.value : iter.next();
         });
   };
+
   function makeInvokeMethod(innerFn, self, context) {
     var state = GenStateSuspendedStart;
     return function invoke(method, arg) {
@@ -415,6 +420,7 @@ export default function _regeneratorRuntime() {
   define(Gp, "toString", function () {
     return "[object Generator]";
   });
+
   function pushTryEntry(locs) {
     var entry = {
       tryLoc: locs[0],
@@ -475,6 +481,7 @@ export default function _regeneratorRuntime() {
       return next;
     };
   };
+
   function values(iterable) {
     if (iterable) {
       var iteratorMethod = iterable[iteratorSymbol];
@@ -509,6 +516,7 @@ export default function _regeneratorRuntime() {
   }
 
   exports.values = values;
+
   function doneResult() {
     return {
       value: undefined,
@@ -556,6 +564,7 @@ export default function _regeneratorRuntime() {
         throw exception;
       }
       var context = this;
+
       function handle(loc, caught) {
         record.type = "throw";
         record.arg = exception;
