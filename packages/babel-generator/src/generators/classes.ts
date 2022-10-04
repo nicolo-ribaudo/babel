@@ -2,13 +2,14 @@ import type Printer from "../printer";
 import {
   isExportDefaultDeclaration,
   isExportNamedDeclaration,
+  isBlock,
 } from "@babel/types";
 import type * as t from "@babel/types";
 import * as charCodes from "charcodes";
 
-export function ClassDeclaration(
+export function ClassExpression(
   this: Printer,
-  node: t.ClassDeclaration,
+  node: t.ClassDeclaration | t.ClassExpression,
   parent: t.Node,
 ) {
   if (process.env.BABEL_8_BREAKING) {
@@ -22,13 +23,13 @@ export function ClassDeclaration(
     }
   }
 
-  if (node.declare) {
+  if ((node as t.ClassDeclaration).declare) {
     // TS
     this.word("declare");
     this.space();
   }
 
-  if (node.abstract) {
+  if ((node as t.ClassDeclaration).abstract) {
     // TS
     this.word("abstract");
     this.space();
@@ -63,7 +64,15 @@ export function ClassDeclaration(
   this.print(node.body, node);
 }
 
-export { ClassDeclaration as ClassExpression };
+export function ClassDeclaration(
+  this: Printer,
+  node: t.ClassDeclaration,
+  parent: t.Node,
+) {
+  if (isBlock(parent)) this._functionNewlineBefore(node, parent);
+  ClassExpression.call(this, node, parent);
+  if (isBlock(parent)) this._functionNewlineAfter(node, parent);
+}
 
 export function ClassBody(this: Printer, node: t.ClassBody) {
   this.token("{");

@@ -221,6 +221,7 @@ export function _functionNewlineBefore(
   this: Printer,
   node:
     | t.FunctionDeclaration
+    | t.ClassDeclaration
     | t.ClassMethod
     | t.ClassPrivateMethod
     | t.StaticBlock,
@@ -235,6 +236,7 @@ export function _functionNewlineAfter(
   this: Printer,
   node:
     | t.FunctionDeclaration
+    | t.ClassDeclaration
     | t.ClassMethod
     | t.ClassPrivateMethod
     | t.StaticBlock,
