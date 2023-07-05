@@ -1,6 +1,6 @@
 import { declare } from "@babel/helper-plugin-utils";
 import syntaxOptionalChaining from "@babel/plugin-syntax-optional-chaining";
-import { transform } from "./transform";
+import { transform, transformOptionalChain } from "./transform";
 import type { NodePath } from "@babel/traverse";
 import type * as t from "@babel/types";
 
@@ -28,4 +28,4 @@ export default declare((api, options: Options) => {
   };
 });
 
-export { transform };
+export { transform, transformOptionalChain };

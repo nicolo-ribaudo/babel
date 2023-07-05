@@ -2150,7 +2150,7 @@ defineType("ExportNamespaceSpecifier", {
 defineType("OptionalMemberExpression", {
   builder: ["object", "property", "computed", "optional"],
   visitor: ["object", "property"],
-  aliases: ["Expression"],
+  aliases: ["Expression", "LVal"],
   fields: {
     object: {
       validate: assertNodeType("Expression"),
