@@ -1974,64 +1974,60 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
         kind = "let";
       }
 
-      // @ts-expect-error refine typings
-      return this.tsInAmbientContext(() => {
-        switch (startType) {
-          case tt._function:
-            nany.declare = true;
-            return super.parseFunctionStatement(
-              nany,
-              /* async */ false,
-              /* isHangingDeclaration */ false,
-            );
-          case tt._class:
-            // While this is also set by tsParseExpressionStatement, we need to set it
-            // before parsing the class declaration to know how to register it in the scope.
-            nany.declare = true;
-            return this.parseClass(
-              nany,
-              /* isStatement */ true,
-              /* optionalId */ false,
-            );
-          case tt._enum:
-            return this.tsParseEnumDeclaration(nany, { declare: true });
-          case tt._global:
-            return this.tsParseAmbientExternalModuleDeclaration(nany);
-          case tt._const:
-          case tt._var:
-            if (!this.match(tt._const) || !this.isLookaheadContextual("enum")) {
-              nany.declare = true;
-              return this.parseVarStatement(
-                nany,
-                kind || this.state.value,
-                true,
-              );
-            }
+      using _ = this.withState("isAmbientContext", true);
 
-            // `const enum = 0;` not allowed because "enum" is a strict mode reserved word.
-            this.expect(tt._const);
-            return this.tsParseEnumDeclaration(nany, {
-              const: true,
-              declare: true,
-            });
-          case tt._interface: {
-            const result = this.tsParseInterfaceDeclaration(nany, {
-              declare: true,
-            });
-            if (result) return result;
+      switch (startType) {
+        case tt._function:
+          nany.declare = true;
+          return super.parseFunctionStatement(
+            nany,
+            /* async */ false,
+            /* isHangingDeclaration */ false,
+          );
+        case tt._class:
+          // While this is also set by tsParseExpressionStatement, we need to set it
+          // before parsing the class declaration to know how to register it in the scope.
+          nany.declare = true;
+          // @ts-expect-error refine typings
+          return this.parseClass(
+            nany,
+            /* isStatement */ true,
+            /* optionalId */ false,
+          );
+        case tt._enum:
+          return this.tsParseEnumDeclaration(nany, { declare: true });
+        case tt._global:
+          return this.tsParseAmbientExternalModuleDeclaration(nany);
+        case tt._const:
+        case tt._var:
+          if (!this.match(tt._const) || !this.isLookaheadContextual("enum")) {
+            nany.declare = true;
+            return this.parseVarStatement(nany, kind || this.state.value, true);
           }
-          // fallthrough
-          default:
-            if (tokenIsIdentifier(startType)) {
-              return this.tsParseDeclaration(
-                nany,
-                this.state.value,
-                /* next */ true,
-                /* decorators */ null,
-              );
-            }
+
+          // `const enum = 0;` not allowed because "enum" is a strict mode reserved word.
+          this.expect(tt._const);
+          return this.tsParseEnumDeclaration(nany, {
+            const: true,
+            declare: true,
+          });
+        case tt._interface: {
+          const result = this.tsParseInterfaceDeclaration(nany, {
+            declare: true,
+          });
+          if (result) return result;
         }
-      });
+        // fallthrough
+        default:
+          if (tokenIsIdentifier(startType)) {
+            return this.tsParseDeclaration(
+              nany,
+              this.state.value,
+              /* next */ true,
+              /* decorators */ null,
+            );
+          }
+      }
     }
 
     // Note: this won't be called unless the keyword is allowed in `shouldParseExportDeclaration`.
@@ -2869,30 +2865,27 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
         member,
       );
 
-      const callParseClassMemberWithIsStatic = () => {
-        if (this.tsIsStartOfStaticBlocks()) {
-          this.next(); // eat "static"
-          this.next(); // eat "{"
-          if (this.tsHasSomeModifiers(member, modifiers)) {
-            this.raise(
-              TSErrors.StaticBlockCannotHaveModifier,
-              this.state.curPosition(),
-            );
-          }
-          super.parseClassStaticBlock(classBody, member as N.StaticBlock);
-        } else {
-          this.parseClassMemberWithIsStatic(
-            classBody,
-            member,
-            state,
-            !!member.static,
+      using _ = member.declare
+        ? this.withState("isAmbientContext", true)
+        : null;
+
+      if (this.tsIsStartOfStaticBlocks()) {
+        this.next(); // eat "static"
+        this.next(); // eat "{"
+        if (this.tsHasSomeModifiers(member, modifiers)) {
+          this.raise(
+            TSErrors.StaticBlockCannotHaveModifier,
+            this.state.curPosition(),
           );
         }
-      };
-      if (member.declare) {
-        this.tsInAmbientContext(callParseClassMemberWithIsStatic);
+        super.parseClassStaticBlock(classBody, member as N.StaticBlock);
       } else {
-        callParseClassMemberWithIsStatic();
+        this.parseClassMemberWithIsStatic(
+          classBody,
+          member,
+          state,
+          !!member.static,
+        );
       }
     }
 
@@ -3051,7 +3044,8 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
       node: N.ExportNamedDeclaration,
     ): N.Declaration | undefined | null {
       if (!this.state.isAmbientContext && this.isContextual(tt._declare)) {
-        return this.tsInAmbientContext(() => this.parseExportDeclaration(node));
+        using _ = this.withState("isAmbientContext", true);
+        return this.parseExportDeclaration(node);
       }
 
       // Store original location
@@ -3821,16 +3815,6 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
       }
 
       return param;
-    }
-
-    tsInAmbientContext<T>(cb: () => T): T {
-      const oldIsAmbientContext = this.state.isAmbientContext;
-      this.state.isAmbientContext = true;
-      try {
-        return cb();
-      } finally {
-        this.state.isAmbientContext = oldIsAmbientContext;
-      }
     }
 
     parseClass<T extends N.Class>(
