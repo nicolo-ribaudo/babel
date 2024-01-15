@@ -1771,16 +1771,6 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
       return this.finishNode(node, "TSTypeAliasDeclaration");
     }
 
-    tsInNoContext<T>(cb: () => T): T {
-      const oldContext = this.state.context;
-      this.state.context = [oldContext[0]];
-      try {
-        return cb();
-      } finally {
-        this.state.context = oldContext;
-      }
-    }
-
     tsInDisallowConditionalTypesContext<T>(cb: () => T): T {
       const oldInDisallowConditionalTypesContext =
         this.state.inDisallowConditionalTypesContext;
@@ -2226,15 +2216,15 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
     tsParseTypeArguments(): N.TsTypeParameterInstantiation {
       const node = this.startNode<N.TsTypeParameterInstantiation>();
       {
-        using _ = this.withState("inType", true);
+        using _1 = this.withState("inType", true);
         // Temporarily remove a JSX parsing context, which makes us scan different tokens.
-        this.tsInNoContext(() => {
-          this.expect(tt.lt);
-          node.params = this.tsParseDelimitedList(
-            "TypeParametersOrArguments",
-            this.tsParseType.bind(this),
-          );
-        });
+        using _2 = this.withState("context", this.state.context.slice(0, 1));
+
+        this.expect(tt.lt);
+        node.params = this.tsParseDelimitedList(
+          "TypeParametersOrArguments",
+          this.tsParseType.bind(this),
+        );
       }
       if (node.params.length === 0) {
         this.raise(TSErrors.EmptyTypeArguments, node);
