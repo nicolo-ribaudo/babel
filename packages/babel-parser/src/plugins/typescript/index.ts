@@ -1172,9 +1172,9 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
         if (abstract) this.next();
         this.next(); // eat `new`
       }
-      this.tsInAllowConditionalTypesContext(() =>
-        this.tsFillSignature(tt.arrow, node),
-      );
+
+      using _ = this.withState("allowConditionalTypes", true);
+      this.tsFillSignature(tt.arrow, node);
       return this.finishNode(node, type);
     }
 
@@ -1354,28 +1354,23 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
 
     tsParseConstraintForInferType() {
       if (this.eat(tt._extends)) {
-        const constraint = this.tsInDisallowConditionalTypesContext(() =>
-          this.tsParseType(),
-        );
-        if (
-          this.state.inDisallowConditionalTypesContext ||
-          !this.match(tt.question)
-        ) {
+        using oldACT = this.withState("allowConditionalTypes", false);
+        const constraint = this.tsParseType();
+        if (!oldACT.value || !this.match(tt.question)) {
           return constraint;
         }
       }
     }
 
     tsParseTypeOperatorOrHigher(): N.TsType {
-      const isTypeOperator =
-        tokenIsTSTypeOperator(this.state.type) && !this.state.containsEsc;
-      return isTypeOperator
-        ? this.tsParseTypeOperator()
-        : this.isContextual(tt._infer)
-          ? this.tsParseInferType()
-          : this.tsInAllowConditionalTypesContext(() =>
-              this.tsParseArrayTypeOrHigher(),
-            );
+      if (tokenIsTSTypeOperator(this.state.type) && !this.state.containsEsc) {
+        return this.tsParseTypeOperator();
+      } else if (this.isContextual(tt._infer)) {
+        return this.tsParseInferType();
+      } else {
+        using _ = this.withState("allowConditionalTypes", true);
+        return this.tsParseArrayTypeOrHigher();
+      }
     }
 
     tsParseUnionOrIntersectionType(
@@ -1616,7 +1611,7 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
       const type = this.tsParseNonConditionalType();
 
       if (
-        this.state.inDisallowConditionalTypesContext ||
+        !this.state.allowConditionalTypes ||
         this.hasPrecedingLineBreak() ||
         !this.eat(tt._extends)
       ) {
@@ -1625,19 +1620,14 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
       const node = this.startNodeAtNode<N.TsConditionalType>(type);
       node.checkType = type;
 
-      node.extendsType = this.tsInDisallowConditionalTypesContext(() =>
-        this.tsParseNonConditionalType(),
-      );
+      using _1 = this.withState("allowConditionalTypes", false);
+      node.extendsType = this.tsParseNonConditionalType();
 
+      using _2 = this.withState("allowConditionalTypes", true);
       this.expect(tt.question);
-      node.trueType = this.tsInAllowConditionalTypesContext(() =>
-        this.tsParseType(),
-      );
-
+      node.trueType = this.tsParseType();
       this.expect(tt.colon);
-      node.falseType = this.tsInAllowConditionalTypesContext(() =>
-        this.tsParseType(),
-      );
+      node.falseType = this.tsParseType();
 
       return this.finishNode(node, "TSConditionalType");
     }
@@ -1769,30 +1759,6 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
 
       this.semicolon();
       return this.finishNode(node, "TSTypeAliasDeclaration");
-    }
-
-    tsInDisallowConditionalTypesContext<T>(cb: () => T): T {
-      const oldInDisallowConditionalTypesContext =
-        this.state.inDisallowConditionalTypesContext;
-      this.state.inDisallowConditionalTypesContext = true;
-      try {
-        return cb();
-      } finally {
-        this.state.inDisallowConditionalTypesContext =
-          oldInDisallowConditionalTypesContext;
-      }
-    }
-
-    tsInAllowConditionalTypesContext<T>(cb: () => T): T {
-      const oldInDisallowConditionalTypesContext =
-        this.state.inDisallowConditionalTypesContext;
-      this.state.inDisallowConditionalTypesContext = false;
-      try {
-        return cb();
-      } finally {
-        this.state.inDisallowConditionalTypesContext =
-          oldInDisallowConditionalTypesContext;
-      }
     }
 
     tsEatThenParseType(token: TokenType): N.TsType | undefined {

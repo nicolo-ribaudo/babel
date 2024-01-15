@@ -99,18 +99,24 @@ export default abstract class Tokenizer extends CommentsParser {
     this.isLookahead = false;
   }
 
-  withState<K extends keyof State>(key: K, value: State[K]): Disposable {
-    const { state } = this;
-    const oldValue = state[key];
-    state[key] = value;
+  withState<K extends keyof State>(
+    key: K,
+    value: State[K],
+  ): Disposable & { value: State[K] } {
+    const oldValue = this.state[key];
+    this.state[key] = value;
 
     // Use Symbol.for("Symbol.dispose") for compat with older platforms
     const dispose: typeof Symbol.dispose =
       Symbol.dispose || (Symbol.for("Symbol.dispose") as any);
 
     return {
-      [dispose]() {
-        state[key] = oldValue;
+      value: oldValue,
+      [dispose]: () => {
+        // NOTE: Do _not_ cache `this.state` in the closure above, because if
+        // the state gets cloned and replaced we must reset the value in the
+        // _new_ state and not in the original one.
+        this.state[key] = oldValue;
       },
     };
   }

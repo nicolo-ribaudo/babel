@@ -146,11 +146,11 @@ export default class State {
       this.flags &= ~StateFlags.inAbstractClass;
     }
   }
-  get inDisallowConditionalTypesContext(): boolean {
-    return (this.flags & StateFlags.inDisallowConditionalTypesContext) > 0;
+  get allowConditionalTypes(): boolean {
+    return !(this.flags & StateFlags.inDisallowConditionalTypesContext);
   }
-  set inDisallowConditionalTypesContext(value: boolean) {
-    if (value) {
+  set allowConditionalTypes(value: boolean) {
+    if (!value) {
       this.flags |= StateFlags.inDisallowConditionalTypesContext;
     } else {
       this.flags &= ~StateFlags.inDisallowConditionalTypesContext;
