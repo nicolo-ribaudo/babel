@@ -3822,13 +3822,8 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
       isStatement: boolean,
       optionalId?: boolean,
     ): T {
-      const oldInAbstractClass = this.state.inAbstractClass;
-      this.state.inAbstractClass = !!(node as any).abstract;
-      try {
-        return super.parseClass(node, isStatement, optionalId);
-      } finally {
-        this.state.inAbstractClass = oldInAbstractClass;
-      }
+      using _ = this.withState("inAbstractClass", !!(node as any).abstract);
+      return super.parseClass(node, isStatement, optionalId);
     }
 
     tsParseAbstractDeclaration(
