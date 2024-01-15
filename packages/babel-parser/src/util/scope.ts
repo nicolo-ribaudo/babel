@@ -90,6 +90,17 @@ export default class ScopeHandler<IScope extends Scope = Scope> {
     return scope.flags;
   }
 
+  with(flags: ScopeFlag): Disposable {
+    this.enter(flags);
+
+    return {
+      // Use Symbol.for("Symbol.dispose") for compat with older platforms
+      [Symbol.dispose ||
+      (Symbol.for("Symbol.dispose") as typeof Symbol.dispose)]: () =>
+        this.exit(),
+    };
+  }
+
   // The spec says:
   // > At the top level of a function, or script, function declarations are
   // > treated like var declarations rather than like lexical declarations.

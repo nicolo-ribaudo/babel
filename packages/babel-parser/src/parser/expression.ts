@@ -2440,7 +2440,7 @@ export default abstract class ExpressionParser extends LValParser {
   ): T {
     this.initFunction(node, isAsync);
     node.generator = isGenerator;
-    this.scope.enter(
+    using _ = this.scope.with(
       ScopeFlag.FUNCTION |
         ScopeFlag.SUPER |
         (inClassScope ? ScopeFlag.CLASS : 0) |
@@ -2450,7 +2450,6 @@ export default abstract class ExpressionParser extends LValParser {
     this.parseFunctionParams(node, isConstructor);
     const finishedNode = this.parseFunctionBodyAndFinish(node, type, true);
     this.prodParam.exit();
-    this.scope.exit();
 
     return finishedNode;
   }
@@ -2496,7 +2495,8 @@ export default abstract class ExpressionParser extends LValParser {
     isAsync: boolean,
     trailingCommaLoc?: Position | null,
   ): N.ArrowFunctionExpression {
-    this.scope.enter(ScopeFlag.FUNCTION | ScopeFlag.ARROW);
+    using _ = this.scope.with(ScopeFlag.FUNCTION | ScopeFlag.ARROW);
+
     let flags = functionFlags(isAsync, false);
     // ConciseBody[In] :
     //   [lookahead ≠ {] ExpressionBody[?In, ~Await]
@@ -2516,7 +2516,6 @@ export default abstract class ExpressionParser extends LValParser {
     this.parseFunctionBody(node, true);
 
     this.prodParam.exit();
-    this.scope.exit();
     this.state.maybeInArrowParameters = oldMaybeInArrowParameters;
 
     return this.finishNode(node, "ArrowFunctionExpression");

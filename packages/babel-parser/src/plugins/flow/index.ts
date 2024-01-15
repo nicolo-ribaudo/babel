@@ -502,7 +502,7 @@ export default (superClass: typeof Parser) =>
     flowParseDeclareModule(
       node: Undone<N.FlowDeclareModule>,
     ): N.FlowDeclareModule {
-      this.scope.enter(ScopeFlag.OTHER);
+      using _ = this.scope.with(ScopeFlag.OTHER);
 
       if (this.match(tt.string)) {
         node.id = super.parseExprAtom();
@@ -537,8 +537,6 @@ export default (superClass: typeof Parser) =>
 
         body.push(bodyNode);
       }
-
-      this.scope.exit();
 
       this.expect(tt.braceR);
 
@@ -2168,10 +2166,9 @@ export default (superClass: typeof Parser) =>
         /* isLHS */ false,
       );
       // Enter scope, as checkParams defines bindings
-      this.scope.enter(ScopeFlag.FUNCTION | ScopeFlag.ARROW);
+      using _ = this.scope.with(ScopeFlag.FUNCTION | ScopeFlag.ARROW);
       // Use super's method to force the parameters to be checked
       super.checkParams(node, false, true);
-      this.scope.exit();
     }
 
     forwardNoArrowParamsConversionAt<T>(

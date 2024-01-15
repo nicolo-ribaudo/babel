@@ -904,6 +904,8 @@ export default abstract class StatementParser extends ExpressionParser {
     this: Parser,
     node: Undone<N.ForStatement | N.ForInOf>,
   ): N.ForLike {
+    using _ = this.scope.with(ScopeFlag.OTHER);
+
     this.next();
     this.state.labels.push(loopLabel);
 
@@ -912,7 +914,6 @@ export default abstract class StatementParser extends ExpressionParser {
     if (this.isAwaitAllowed() && this.eatContextual(tt._await)) {
       awaitAt = this.state.lastTokStartLoc;
     }
-    this.scope.enter(ScopeFlag.OTHER);
     this.expect(tt.parenL);
 
     if (this.match(tt.semi)) {
@@ -1069,7 +1070,7 @@ export default abstract class StatementParser extends ExpressionParser {
     const cases: N.SwitchStatement["cases"] = (node.cases = []);
     this.expect(tt.braceL);
     this.state.labels.push(switchLabel);
-    this.scope.enter(ScopeFlag.OTHER);
+    using _ = this.scope.with(ScopeFlag.OTHER);
 
     // Statements under must be grouped (by label) in SwitchCase
     // nodes. `cur` is used to keep the node that we are currently
@@ -1105,7 +1106,6 @@ export default abstract class StatementParser extends ExpressionParser {
         }
       }
     }
-    this.scope.exit();
     if (cur) this.finishNode(cur, "SwitchCase");
     this.next(); // Closing brace
     this.state.labels.pop();
@@ -1315,9 +1315,7 @@ export default abstract class StatementParser extends ExpressionParser {
       this.state.strictErrors.clear();
     }
     this.expect(tt.braceL);
-    if (createNewLexicalScope) {
-      this.scope.enter(ScopeFlag.OTHER);
-    }
+    using _ = createNewLexicalScope ? this.scope.with(ScopeFlag.OTHER) : null;
     this.parseBlockBody(
       node,
       allowDirectives,
@@ -1325,9 +1323,6 @@ export default abstract class StatementParser extends ExpressionParser {
       tt.braceR,
       afterBlockParse,
     );
-    if (createNewLexicalScope) {
-      this.scope.exit();
-    }
     return this.finishNode(node, "BlockStatement");
   }
 
@@ -1434,7 +1429,6 @@ export default abstract class StatementParser extends ExpressionParser {
     // Parse the loop body.
     node.body = this.parseStatement();
 
-    this.scope.exit();
     this.state.labels.pop();
 
     return this.finishNode(node, "ForStatement");
@@ -1492,7 +1486,6 @@ export default abstract class StatementParser extends ExpressionParser {
     // Parse the loop body.
     node.body = this.parseStatement();
 
-    this.scope.exit();
     this.state.labels.pop();
 
     return this.finishNode(node, isForIn ? "ForInStatement" : "ForOfStatement");
@@ -1600,29 +1593,31 @@ export default abstract class StatementParser extends ExpressionParser {
       node.id = this.parseFunctionId(requireId);
     }
 
-    const oldMaybeInArrowParameters = this.state.maybeInArrowParameters;
-    this.state.maybeInArrowParameters = false;
-    this.scope.enter(ScopeFlag.FUNCTION);
-    this.prodParam.enter(functionFlags(isAsync, node.generator));
+    {
+      const oldMaybeInArrowParameters = this.state.maybeInArrowParameters;
+      this.state.maybeInArrowParameters = false;
+      using _1 = this.scope.with(ScopeFlag.FUNCTION);
+      this.prodParam.enter(functionFlags(isAsync, node.generator));
 
-    if (!isDeclaration) {
-      node.id = this.parseFunctionId();
+      if (!isDeclaration) {
+        node.id = this.parseFunctionId();
+      }
+
+      this.parseFunctionParams(node, /* isConstructor */ false);
+
+      // For the smartPipelines plugin: Disable topic references from outer
+      // contexts within the function body. They are permitted in function
+      // default-parameter expressions, outside of the function body.
+      using _2 = this.withSmartMixTopicForbiddingContext();
+
+      this.parseFunctionBodyAndFinish(
+        node,
+        isDeclaration ? "FunctionDeclaration" : "FunctionExpression",
+      );
+
+      this.prodParam.exit();
+      this.state.maybeInArrowParameters = oldMaybeInArrowParameters;
     }
-
-    this.parseFunctionParams(node, /* isConstructor */ false);
-
-    // For the smartPipelines plugin: Disable topic references from outer
-    // contexts within the function body. They are permitted in function
-    // default-parameter expressions, outside of the function body.
-    using _ = this.withSmartMixTopicForbiddingContext();
-
-    this.parseFunctionBodyAndFinish(
-      node,
-      isDeclaration ? "FunctionDeclaration" : "FunctionExpression",
-    );
-
-    this.prodParam.exit();
-    this.scope.exit();
 
     if (isDeclaration && !hangingDeclaration) {
       // We need to register this _after_ parsing the function body
@@ -1631,7 +1626,6 @@ export default abstract class StatementParser extends ExpressionParser {
       this.registerFunctionStatementId(node as T);
     }
 
-    this.state.maybeInArrowParameters = oldMaybeInArrowParameters;
     return node as T;
   }
 
@@ -2085,7 +2079,7 @@ export default abstract class StatementParser extends ExpressionParser {
     >,
   ) {
     // Start a new lexical scope
-    this.scope.enter(
+    using _ = this.scope.with(
       ScopeFlag.CLASS | ScopeFlag.STATIC_BLOCK | ScopeFlag.SUPER,
     );
     // Start a new scope with regard to loop labels
@@ -2097,7 +2091,6 @@ export default abstract class StatementParser extends ExpressionParser {
     const body: N.Node[] = (member.body = []);
     this.parseBlockOrModuleBlockBody(body, undefined, false, tt.braceR);
     this.prodParam.exit();
-    this.scope.exit();
     this.state.labels = oldLabels;
     classBody.body.push(this.finishNode<N.StaticBlock>(member, "StaticBlock"));
     if (member.decorators?.length) {
@@ -2271,13 +2264,12 @@ export default abstract class StatementParser extends ExpressionParser {
       N.ClassProperty | N.ClassPrivateProperty | N.ClassAccessorProperty
     >,
   ): void {
-    this.scope.enter(ScopeFlag.CLASS | ScopeFlag.SUPER);
+    using _ = this.scope.with(ScopeFlag.CLASS | ScopeFlag.SUPER);
     this.expressionScope.enter(newExpressionScope());
     this.prodParam.enter(ParamKind.PARAM);
     node.value = this.eat(tt.eq) ? this.parseMaybeAssignAllowIn() : null;
     this.expressionScope.exit();
     this.prodParam.exit();
-    this.scope.exit();
   }
 
   parseClassId(
