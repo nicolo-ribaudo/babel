@@ -1817,8 +1817,8 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
     }
 
     tsParseModuleBlock(): N.TsModuleBlock {
+      using _ = this.scope.with(ScopeFlag.OTHER);
       const node = this.startNode<N.TsModuleBlock>();
-      this.scope.enter(ScopeFlag.OTHER);
 
       this.expect(tt.braceL);
       // Inside of a module block is considered "top-level", meaning it can have imports and exports.
@@ -1828,7 +1828,6 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
         /* topLevel */ true,
         /* end */ tt.braceR,
       );
-      this.scope.exit();
       return this.finishNode(node, "TSModuleBlock");
     }
 
@@ -1848,11 +1847,9 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
         // @ts-expect-error Fixme: refine typings
         node.body = inner;
       } else {
-        this.scope.enter(ScopeFlag.TS_MODULE);
-        this.prodParam.enter(ParamKind.PARAM);
+        using _1 = this.scope.with(ScopeFlag.TS_MODULE);
+        using _2 = this.prodParam.with(ParamKind.PARAM);
         node.body = this.tsParseModuleBlock();
-        this.prodParam.exit();
-        this.scope.exit();
       }
       return this.finishNode(node, "TSModuleDeclaration");
     }
@@ -1869,11 +1866,9 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
         this.unexpected();
       }
       if (this.match(tt.braceL)) {
-        this.scope.enter(ScopeFlag.TS_MODULE);
-        this.prodParam.enter(ParamKind.PARAM);
+        using _1 = this.scope.with(ScopeFlag.TS_MODULE);
+        using _2 = this.prodParam.with(ParamKind.PARAM);
         node.body = this.tsParseModuleBlock();
-        this.prodParam.exit();
-        this.scope.exit();
       } else {
         this.semicolon();
       }
@@ -2057,15 +2052,12 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
           // `global { }` (with no `declare`) may appear inside an ambient module declaration.
           // Would like to use tsParseAmbientExternalModuleDeclaration here, but already ran past "global".
           if (this.match(tt.braceL)) {
-            this.scope.enter(ScopeFlag.TS_MODULE);
-            this.prodParam.enter(ParamKind.PARAM);
-            const mod = node;
-            mod.global = true;
-            mod.id = expr;
-            mod.body = this.tsParseModuleBlock();
-            this.scope.exit();
-            this.prodParam.exit();
-            return this.finishNode(mod, "TSModuleDeclaration");
+            using _1 = this.scope.with(ScopeFlag.TS_MODULE);
+            using _2 = this.prodParam.with(ParamKind.PARAM);
+            node.global = true;
+            node.id = expr;
+            node.body = this.tsParseModuleBlock();
+            return this.finishNode(node, "TSModuleDeclaration");
           }
           break;
 

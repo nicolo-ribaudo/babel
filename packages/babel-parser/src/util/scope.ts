@@ -3,6 +3,7 @@ import type { Position } from "./location.ts";
 import type * as N from "../types.ts";
 import { Errors } from "../parse-error.ts";
 import type Tokenizer from "../tokenizer/index.ts";
+import { ScopeLike } from "./disposable.ts";
 
 export const enum NameType {
   // var-declared names in the current lexical scope
@@ -26,13 +27,16 @@ export class Scope {
 
 // The functions in this module keep track of declared variables in the
 // current scope in order to detect duplicate variable names.
-export default class ScopeHandler<IScope extends Scope = Scope> {
+export default class ScopeHandler<
+  IScope extends Scope = Scope,
+> extends ScopeLike<ScopeFlag> {
   parser: Tokenizer;
   scopeStack: Array<IScope> = [];
   inModule: boolean;
   undefinedExports: Map<string, Position> = new Map();
 
   constructor(parser: Tokenizer, inModule: boolean) {
+    super();
     this.parser = parser;
     this.inModule = inModule;
   }

@@ -45,6 +45,7 @@ import {
 } from "@babel/helper-string-parser";
 
 import type { Plugin } from "../typings.ts";
+import { SymbolDispose } from "../util/disposable.ts";
 
 function buildPosition(pos: number, lineStart: number, curLine: number) {
   return new Position(curLine, pos - lineStart, pos);
@@ -106,13 +107,9 @@ export default abstract class Tokenizer extends CommentsParser {
     const oldValue = this.state[key];
     this.state[key] = value;
 
-    // Use Symbol.for("Symbol.dispose") for compat with older platforms
-    const dispose: typeof Symbol.dispose =
-      Symbol.dispose || (Symbol.for("Symbol.dispose") as any);
-
     return {
       value: oldValue,
-      [dispose]: () => {
+      [SymbolDispose()]: () => {
         // NOTE: Do _not_ cache `this.state` in the closure above, because if
         // the state gets cloned and replaced we must reset the value in the
         // _new_ state and not in the original one.

@@ -2,6 +2,7 @@ import { Errors, type ParseErrorConstructor } from "../parse-error.ts";
 import type { Position } from "./location.ts";
 import type { Node } from "../types.ts";
 import type Tokenizer from "../tokenizer/index.ts";
+import { ScopeLike } from "./disposable.ts";
 
 /**
  * @module util/expression-scope
@@ -109,11 +110,12 @@ class ArrowHeadParsingScope extends ExpressionScope {
   }
 }
 
-export default class ExpressionScopeHandler {
+export default class ExpressionScopeHandler extends ScopeLike<ExpressionScope> {
   parser: Tokenizer;
   stack: Array<ExpressionScope> = [new ExpressionScope()];
 
   constructor(parser: Tokenizer) {
+    super();
     this.parser = parser;
   }
   enter(scope: ExpressionScope) {

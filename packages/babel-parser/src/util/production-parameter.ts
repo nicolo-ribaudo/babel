@@ -19,6 +19,8 @@
 // 6. parse function body
 // 7. exit current stack
 
+import { ScopeLike } from "./disposable.ts";
+
 export const enum ParamKind {
   // Initial Parameter flags
   PARAM = 0b0000,
@@ -41,7 +43,7 @@ export const enum ParamKind {
 //   | typeof PARAM_RETURN
 //   | typeof PARAM_YIELD;
 
-export default class ProductionParameterHandler {
+export default class ProductionParameterHandler extends ScopeLike<ParamKind> {
   stacks: Array<ParamKind> = [];
   enter(flags: ParamKind) {
     this.stacks.push(flags);
