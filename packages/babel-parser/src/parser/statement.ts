@@ -1640,15 +1640,13 @@ export default abstract class StatementParser extends ExpressionParser {
     isConstructor?: boolean,
   ): void {
     this.expect(tt.parenL);
-    this.expressionScope.enter(newParameterDeclarationScope());
+    using _ = this.expressionScope.with(newParameterDeclarationScope());
     node.params = this.parseBindingList(
       tt.parenR,
       charCodes.rightParenthesis,
       ParseBindingListFlags.IS_FUNCTION_PARAMS |
         (isConstructor ? ParseBindingListFlags.IS_CONSTRUCTOR_PARAMS : 0),
     );
-
-    this.expressionScope.exit();
   }
 
   registerFunctionStatementId(node: N.Function): void {
@@ -2265,10 +2263,9 @@ export default abstract class StatementParser extends ExpressionParser {
     >,
   ): void {
     using _1 = this.scope.with(ScopeFlag.CLASS | ScopeFlag.SUPER);
-    this.expressionScope.enter(newExpressionScope());
-    using _2 = this.prodParam.with(ParamKind.PARAM);
+    using _2 = this.expressionScope.with(newExpressionScope());
+    using _3 = this.prodParam.with(ParamKind.PARAM);
     node.value = this.eat(tt.eq) ? this.parseMaybeAssignAllowIn() : null;
-    this.expressionScope.exit();
   }
 
   parseClassId(

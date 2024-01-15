@@ -2545,7 +2545,7 @@ export default abstract class ExpressionParser extends LValParser {
     isMethod: boolean = false,
   ): void {
     const isExpression = allowExpression && !this.match(tt.braceL);
-    this.expressionScope.enter(newExpressionScope());
+    using _ = this.expressionScope.with(newExpressionScope());
 
     if (isExpression) {
       // https://tc39.es/ecma262/#prod-ExpressionBody
@@ -2608,7 +2608,6 @@ export default abstract class ExpressionParser extends LValParser {
       );
       this.state.labels = oldLabels;
     }
-    this.expressionScope.exit();
   }
 
   isSimpleParameter(node: N.Pattern | N.TSParameterProperty) {
