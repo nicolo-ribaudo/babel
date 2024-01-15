@@ -1597,7 +1597,7 @@ export default abstract class StatementParser extends ExpressionParser {
       const oldMaybeInArrowParameters = this.state.maybeInArrowParameters;
       this.state.maybeInArrowParameters = false;
       using _1 = this.scope.with(ScopeFlag.FUNCTION);
-      this.prodParam.enter(functionFlags(isAsync, node.generator));
+      using _2 = this.prodParam.with(functionFlags(isAsync, node.generator));
 
       if (!isDeclaration) {
         node.id = this.parseFunctionId();
@@ -1608,14 +1608,13 @@ export default abstract class StatementParser extends ExpressionParser {
       // For the smartPipelines plugin: Disable topic references from outer
       // contexts within the function body. They are permitted in function
       // default-parameter expressions, outside of the function body.
-      using _2 = this.withSmartMixTopicForbiddingContext();
+      using _3 = this.withSmartMixTopicForbiddingContext();
 
       this.parseFunctionBodyAndFinish(
         node,
         isDeclaration ? "FunctionDeclaration" : "FunctionExpression",
       );
 
-      this.prodParam.exit();
       this.state.maybeInArrowParameters = oldMaybeInArrowParameters;
     }
 
@@ -2079,7 +2078,7 @@ export default abstract class StatementParser extends ExpressionParser {
     >,
   ) {
     // Start a new lexical scope
-    using _ = this.scope.with(
+    using _1 = this.scope.with(
       ScopeFlag.CLASS | ScopeFlag.STATIC_BLOCK | ScopeFlag.SUPER,
     );
     // Start a new scope with regard to loop labels
@@ -2087,10 +2086,11 @@ export default abstract class StatementParser extends ExpressionParser {
     this.state.labels = [];
     // ClassStaticBlockStatementList:
     //   StatementList[~Yield, ~Await, ~Return] opt
-    this.prodParam.enter(ParamKind.PARAM);
+    using _2 = this.prodParam.with(ParamKind.PARAM);
+
     const body: N.Node[] = (member.body = []);
     this.parseBlockOrModuleBlockBody(body, undefined, false, tt.braceR);
-    this.prodParam.exit();
+
     this.state.labels = oldLabels;
     classBody.body.push(this.finishNode<N.StaticBlock>(member, "StaticBlock"));
     if (member.decorators?.length) {
@@ -2264,12 +2264,11 @@ export default abstract class StatementParser extends ExpressionParser {
       N.ClassProperty | N.ClassPrivateProperty | N.ClassAccessorProperty
     >,
   ): void {
-    using _ = this.scope.with(ScopeFlag.CLASS | ScopeFlag.SUPER);
+    using _1 = this.scope.with(ScopeFlag.CLASS | ScopeFlag.SUPER);
     this.expressionScope.enter(newExpressionScope());
-    this.prodParam.enter(ParamKind.PARAM);
+    using _2 = this.prodParam.with(ParamKind.PARAM);
     node.value = this.eat(tt.eq) ? this.parseMaybeAssignAllowIn() : null;
     this.expressionScope.exit();
-    this.prodParam.exit();
   }
 
   parseClassId(

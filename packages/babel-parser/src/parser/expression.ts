@@ -1529,9 +1529,8 @@ export default abstract class ExpressionParser extends LValParser {
     if (isAsync) {
       // AsyncDoExpression :
       // async [no LineTerminator here] do Block[~Yield, +Await, ~Return]
-      this.prodParam.enter(ParamKind.PARAM_AWAIT);
+      using _ = this.prodParam.with(ParamKind.PARAM_AWAIT);
       node.body = this.parseBlock();
-      this.prodParam.exit();
     } else {
       node.body = this.parseBlock();
     }
@@ -2440,18 +2439,15 @@ export default abstract class ExpressionParser extends LValParser {
   ): T {
     this.initFunction(node, isAsync);
     node.generator = isGenerator;
-    using _ = this.scope.with(
+    using _1 = this.scope.with(
       ScopeFlag.FUNCTION |
         ScopeFlag.SUPER |
         (inClassScope ? ScopeFlag.CLASS : 0) |
         (allowDirectSuper ? ScopeFlag.DIRECT_SUPER : 0),
     );
-    this.prodParam.enter(functionFlags(isAsync, node.generator));
+    using _2 = this.prodParam.with(functionFlags(isAsync, node.generator));
     this.parseFunctionParams(node, isConstructor);
-    const finishedNode = this.parseFunctionBodyAndFinish(node, type, true);
-    this.prodParam.exit();
-
-    return finishedNode;
+    return this.parseFunctionBodyAndFinish(node, type, true);
   }
 
   // parse an array literal or tuple literal
@@ -2495,7 +2491,7 @@ export default abstract class ExpressionParser extends LValParser {
     isAsync: boolean,
     trailingCommaLoc?: Position | null,
   ): N.ArrowFunctionExpression {
-    using _ = this.scope.with(ScopeFlag.FUNCTION | ScopeFlag.ARROW);
+    using _1 = this.scope.with(ScopeFlag.FUNCTION | ScopeFlag.ARROW);
 
     let flags = functionFlags(isAsync, false);
     // ConciseBody[In] :
@@ -2504,7 +2500,7 @@ export default abstract class ExpressionParser extends LValParser {
     if (!this.match(tt.braceL) && this.prodParam.hasIn) {
       flags |= ParamKind.PARAM_IN;
     }
-    this.prodParam.enter(flags);
+    using _2 = this.prodParam.with(flags);
     this.initFunction(node, isAsync);
     const oldMaybeInArrowParameters = this.state.maybeInArrowParameters;
 
@@ -2515,7 +2511,6 @@ export default abstract class ExpressionParser extends LValParser {
     this.state.maybeInArrowParameters = false;
     this.parseFunctionBody(node, true);
 
-    this.prodParam.exit();
     this.state.maybeInArrowParameters = oldMaybeInArrowParameters;
 
     return this.finishNode(node, "ArrowFunctionExpression");
@@ -2566,7 +2561,7 @@ export default abstract class ExpressionParser extends LValParser {
 
       // FunctionBody[Yield, Await]:
       //   StatementList[?Yield, ?Await, +Return] opt
-      this.prodParam.enter(
+      using _ = this.prodParam.with(
         this.prodParam.currentFlags() | ParamKind.PARAM_RETURN,
       );
       node.body = this.parseBlock(
@@ -2611,7 +2606,6 @@ export default abstract class ExpressionParser extends LValParser {
           }
         },
       );
-      this.prodParam.exit();
       this.state.labels = oldLabels;
     }
     this.expressionScope.exit();
@@ -3047,12 +3041,8 @@ export default abstract class ExpressionParser extends LValParser {
     const flags = this.prodParam.currentFlags();
     const prodParamToSet = ParamKind.PARAM_IN & ~flags;
     if (prodParamToSet) {
-      this.prodParam.enter(flags | ParamKind.PARAM_IN);
-      try {
-        return callback();
-      } finally {
-        this.prodParam.exit();
-      }
+      using _ = this.prodParam.with(flags | ParamKind.PARAM_IN);
+      return callback();
     }
     return callback();
   }
@@ -3061,12 +3051,8 @@ export default abstract class ExpressionParser extends LValParser {
     const flags = this.prodParam.currentFlags();
     const prodParamToClear = ParamKind.PARAM_IN & flags;
     if (prodParamToClear) {
-      this.prodParam.enter(flags & ~ParamKind.PARAM_IN);
-      try {
-        return callback();
-      } finally {
-        this.prodParam.exit();
-      }
+      using _ = this.prodParam.with(flags & ~ParamKind.PARAM_IN);
+      return callback();
     }
     return callback();
   }
