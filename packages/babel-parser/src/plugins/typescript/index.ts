@@ -1172,9 +1172,9 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
         if (abstract) this.next();
         this.next(); // eat `new`
       }
-      this.tsInAllowConditionalTypesContext(() =>
-        this.tsFillSignature(tt.arrow, node),
-      );
+
+      using _ = this.withState("allowConditionalTypes", true);
+      this.tsFillSignature(tt.arrow, node);
       return this.finishNode(node, type);
     }
 
@@ -1354,28 +1354,23 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
 
     tsParseConstraintForInferType() {
       if (this.eat(tt._extends)) {
-        const constraint = this.tsInDisallowConditionalTypesContext(() =>
-          this.tsParseType(),
-        );
-        if (
-          this.state.inDisallowConditionalTypesContext ||
-          !this.match(tt.question)
-        ) {
+        using oldACT = this.withState("allowConditionalTypes", false);
+        const constraint = this.tsParseType();
+        if (!oldACT.value || !this.match(tt.question)) {
           return constraint;
         }
       }
     }
 
     tsParseTypeOperatorOrHigher(): N.TsType {
-      const isTypeOperator =
-        tokenIsTSTypeOperator(this.state.type) && !this.state.containsEsc;
-      return isTypeOperator
-        ? this.tsParseTypeOperator()
-        : this.isContextual(tt._infer)
-          ? this.tsParseInferType()
-          : this.tsInAllowConditionalTypesContext(() =>
-              this.tsParseArrayTypeOrHigher(),
-            );
+      if (tokenIsTSTypeOperator(this.state.type) && !this.state.containsEsc) {
+        return this.tsParseTypeOperator();
+      } else if (this.isContextual(tt._infer)) {
+        return this.tsParseInferType();
+      } else {
+        using _ = this.withState("allowConditionalTypes", true);
+        return this.tsParseArrayTypeOrHigher();
+      }
     }
 
     tsParseUnionOrIntersectionType(
@@ -1494,61 +1489,61 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
     tsParseTypeOrTypePredicateAnnotation(
       returnToken: TokenType,
     ): N.TsTypeAnnotation {
-      return this.tsInType(() => {
-        const t = this.startNode<N.TsTypeAnnotation>();
-        this.expect(returnToken);
+      using _ = this.withState("inType", true);
 
-        const node = this.startNode<N.TsTypePredicate>();
+      const t = this.startNode<N.TsTypeAnnotation>();
+      this.expect(returnToken);
 
-        const asserts = !!this.tsTryParse(
-          this.tsParseTypePredicateAsserts.bind(this),
-        );
+      const node = this.startNode<N.TsTypePredicate>();
 
-        if (asserts && this.match(tt._this)) {
-          // When asserts is false, thisKeyword is handled by tsParseNonArrayType
-          // : asserts this is type
-          let thisTypePredicate = this.tsParseThisTypeOrThisTypePredicate();
-          // if it turns out to be a `TSThisType`, wrap it with `TSTypePredicate`
-          // : asserts this
-          if (thisTypePredicate.type === "TSThisType") {
-            node.parameterName = thisTypePredicate;
-            node.asserts = true;
-            (node as N.TsTypePredicate).typeAnnotation = null;
-            thisTypePredicate = this.finishNode(node, "TSTypePredicate");
-          } else {
-            this.resetStartLocationFromNode(thisTypePredicate, node);
-            thisTypePredicate.asserts = true;
-          }
-          t.typeAnnotation = thisTypePredicate;
-          return this.finishNode(t, "TSTypeAnnotation");
-        }
+      const asserts = !!this.tsTryParse(
+        this.tsParseTypePredicateAsserts.bind(this),
+      );
 
-        const typePredicateVariable =
-          this.tsIsIdentifier() &&
-          this.tsTryParse(this.tsParseTypePredicatePrefix.bind(this));
-
-        if (!typePredicateVariable) {
-          if (!asserts) {
-            // : type
-            return this.tsParseTypeAnnotation(/* eatColon */ false, t);
-          }
-
-          // : asserts foo
-          node.parameterName = this.parseIdentifier();
-          node.asserts = asserts;
+      if (asserts && this.match(tt._this)) {
+        // When asserts is false, thisKeyword is handled by tsParseNonArrayType
+        // : asserts this is type
+        let thisTypePredicate = this.tsParseThisTypeOrThisTypePredicate();
+        // if it turns out to be a `TSThisType`, wrap it with `TSTypePredicate`
+        // : asserts this
+        if (thisTypePredicate.type === "TSThisType") {
+          node.parameterName = thisTypePredicate;
+          node.asserts = true;
           (node as N.TsTypePredicate).typeAnnotation = null;
-          t.typeAnnotation = this.finishNode(node, "TSTypePredicate");
-          return this.finishNode(t, "TSTypeAnnotation");
+          thisTypePredicate = this.finishNode(node, "TSTypePredicate");
+        } else {
+          this.resetStartLocationFromNode(thisTypePredicate, node);
+          thisTypePredicate.asserts = true;
+        }
+        t.typeAnnotation = thisTypePredicate;
+        return this.finishNode(t, "TSTypeAnnotation");
+      }
+
+      const typePredicateVariable =
+        this.tsIsIdentifier() &&
+        this.tsTryParse(this.tsParseTypePredicatePrefix.bind(this));
+
+      if (!typePredicateVariable) {
+        if (!asserts) {
+          // : type
+          return this.tsParseTypeAnnotation(/* eatColon */ false, t);
         }
 
-        // : asserts foo is type
-        const type = this.tsParseTypeAnnotation(/* eatColon */ false);
-        node.parameterName = typePredicateVariable;
-        node.typeAnnotation = type;
+        // : asserts foo
+        node.parameterName = this.parseIdentifier();
         node.asserts = asserts;
+        (node as N.TsTypePredicate).typeAnnotation = null;
         t.typeAnnotation = this.finishNode(node, "TSTypePredicate");
         return this.finishNode(t, "TSTypeAnnotation");
-      });
+      }
+
+      // : asserts foo is type
+      const type = this.tsParseTypeAnnotation(/* eatColon */ false);
+      node.parameterName = typePredicateVariable;
+      node.typeAnnotation = type;
+      node.asserts = asserts;
+      t.typeAnnotation = this.finishNode(node, "TSTypePredicate");
+      return this.finishNode(t, "TSTypeAnnotation");
     }
 
     tsTryParseTypeOrTypePredicateAnnotation(): N.TsTypeAnnotation | undefined {
@@ -1602,21 +1597,21 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
       eatColon = true,
       t: Undone<N.TsTypeAnnotation> = this.startNode<N.TsTypeAnnotation>(),
     ): N.TsTypeAnnotation {
-      this.tsInType(() => {
-        if (eatColon) this.expect(tt.colon);
-        t.typeAnnotation = this.tsParseType();
-      });
+      using _ = this.withState("inType", true);
+      if (eatColon) this.expect(tt.colon);
+      t.typeAnnotation = this.tsParseType();
       return this.finishNode(t, "TSTypeAnnotation");
     }
 
-    /** Be sure to be in a type context before calling this, using `tsInType`. */
+    // Be sure to be in a type context before calling this, using
+    //  using _ = this.withState("inType", true);
     tsParseType(): N.TsType {
       // Need to set `state.inType` so that we don't parse JSX in a type context.
       assert(this.state.inType);
       const type = this.tsParseNonConditionalType();
 
       if (
-        this.state.inDisallowConditionalTypesContext ||
+        !this.state.allowConditionalTypes ||
         this.hasPrecedingLineBreak() ||
         !this.eat(tt._extends)
       ) {
@@ -1625,19 +1620,14 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
       const node = this.startNodeAtNode<N.TsConditionalType>(type);
       node.checkType = type;
 
-      node.extendsType = this.tsInDisallowConditionalTypesContext(() =>
-        this.tsParseNonConditionalType(),
-      );
+      using _1 = this.withState("allowConditionalTypes", false);
+      node.extendsType = this.tsParseNonConditionalType();
 
+      using _2 = this.withState("allowConditionalTypes", true);
       this.expect(tt.question);
-      node.trueType = this.tsInAllowConditionalTypesContext(() =>
-        this.tsParseType(),
-      );
-
+      node.trueType = this.tsParseType();
       this.expect(tt.colon);
-      node.falseType = this.tsInAllowConditionalTypesContext(() =>
-        this.tsParseType(),
-      );
+      node.falseType = this.tsParseType();
 
       return this.finishNode(node, "TSConditionalType");
     }
@@ -1671,12 +1661,13 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
       }
 
       const node = this.startNode<N.TsTypeAssertion>();
-      node.typeAnnotation = this.tsInType(() => {
+      {
+        using _ = this.withState("inType", true);
         this.next(); // "<"
-        return this.match(tt._const)
+        node.typeAnnotation = this.match(tt._const)
           ? this.tsParseTypeReference()
           : this.tsParseType();
-      });
+      }
       this.expect(tt.gt);
       node.expression = this.parseMaybeUnary();
       return this.finishNode(node, "TSTypeAssertion");
@@ -1732,8 +1723,11 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
       if (this.eat(tt._extends)) {
         node.extends = this.tsParseHeritageClause("extends");
       }
+
+      using _ = this.withState("inType", true);
+
       const body = this.startNode<N.TSInterfaceBody>();
-      body.body = this.tsInType(this.tsParseObjectTypeMembers.bind(this));
+      body.body = this.tsParseObjectTypeMembers();
       node.body = this.finishNode(body, "TSInterfaceBody");
       return this.finishNode(node, "TSInterfaceDeclaration");
     }
@@ -1743,8 +1737,8 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
     ): N.TsTypeAliasDeclaration {
       node.id = this.parseIdentifier();
       this.checkIdentifier(node.id, BindingFlag.TYPE_TS_TYPE);
-
-      node.typeAnnotation = this.tsInType(() => {
+      {
+        using _ = this.withState("inType", true);
         node.typeParameters = this.tsTryParseTypeParameters(
           this.tsParseInOutModifiers,
         );
@@ -1755,65 +1749,16 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
           this.isContextual(tt._intrinsic) &&
           this.lookahead().type !== tt.dot
         ) {
-          const node = this.startNode<N.TsKeywordType>();
+          const kwType = this.startNode<N.TsKeywordType>();
           this.next();
-          return this.finishNode(node, "TSIntrinsicKeyword");
+          node.typeAnnotation = this.finishNode(kwType, "TSIntrinsicKeyword");
+        } else {
+          node.typeAnnotation = this.tsParseType();
         }
-
-        return this.tsParseType();
-      });
+      }
 
       this.semicolon();
       return this.finishNode(node, "TSTypeAliasDeclaration");
-    }
-
-    tsInNoContext<T>(cb: () => T): T {
-      const oldContext = this.state.context;
-      this.state.context = [oldContext[0]];
-      try {
-        return cb();
-      } finally {
-        this.state.context = oldContext;
-      }
-    }
-
-    /**
-     * Runs `cb` in a type context.
-     * This should be called one token *before* the first type token,
-     * so that the call to `next()` is run in type context.
-     */
-    tsInType<T>(cb: () => T): T {
-      const oldInType = this.state.inType;
-      this.state.inType = true;
-      try {
-        return cb();
-      } finally {
-        this.state.inType = oldInType;
-      }
-    }
-
-    tsInDisallowConditionalTypesContext<T>(cb: () => T): T {
-      const oldInDisallowConditionalTypesContext =
-        this.state.inDisallowConditionalTypesContext;
-      this.state.inDisallowConditionalTypesContext = true;
-      try {
-        return cb();
-      } finally {
-        this.state.inDisallowConditionalTypesContext =
-          oldInDisallowConditionalTypesContext;
-      }
-    }
-
-    tsInAllowConditionalTypesContext<T>(cb: () => T): T {
-      const oldInDisallowConditionalTypesContext =
-        this.state.inDisallowConditionalTypesContext;
-      this.state.inDisallowConditionalTypesContext = false;
-      try {
-        return cb();
-      } finally {
-        this.state.inDisallowConditionalTypesContext =
-          oldInDisallowConditionalTypesContext;
-      }
     }
 
     tsEatThenParseType(token: TokenType): N.TsType | undefined {
@@ -1823,17 +1768,15 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
     }
 
     tsExpectThenParseType(token: TokenType): N.TsType {
-      return this.tsInType(() => {
-        this.expect(token);
-        return this.tsParseType();
-      });
+      using _ = this.withState("inType", true);
+      this.expect(token);
+      return this.tsParseType();
     }
 
     tsNextThenParseType(): N.TsType {
-      return this.tsInType(() => {
-        this.next();
-        return this.tsParseType();
-      });
+      using _ = this.withState("inType", true);
+      this.next();
+      return this.tsParseType();
     }
 
     tsParseEnumMember(): N.TsEnumMember {
@@ -2031,64 +1974,60 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
         kind = "let";
       }
 
-      // @ts-expect-error refine typings
-      return this.tsInAmbientContext(() => {
-        switch (startType) {
-          case tt._function:
-            nany.declare = true;
-            return super.parseFunctionStatement(
-              nany,
-              /* async */ false,
-              /* isHangingDeclaration */ false,
-            );
-          case tt._class:
-            // While this is also set by tsParseExpressionStatement, we need to set it
-            // before parsing the class declaration to know how to register it in the scope.
-            nany.declare = true;
-            return this.parseClass(
-              nany,
-              /* isStatement */ true,
-              /* optionalId */ false,
-            );
-          case tt._enum:
-            return this.tsParseEnumDeclaration(nany, { declare: true });
-          case tt._global:
-            return this.tsParseAmbientExternalModuleDeclaration(nany);
-          case tt._const:
-          case tt._var:
-            if (!this.match(tt._const) || !this.isLookaheadContextual("enum")) {
-              nany.declare = true;
-              return this.parseVarStatement(
-                nany,
-                kind || this.state.value,
-                true,
-              );
-            }
+      using _ = this.withState("isAmbientContext", true);
 
-            // `const enum = 0;` not allowed because "enum" is a strict mode reserved word.
-            this.expect(tt._const);
-            return this.tsParseEnumDeclaration(nany, {
-              const: true,
-              declare: true,
-            });
-          case tt._interface: {
-            const result = this.tsParseInterfaceDeclaration(nany, {
-              declare: true,
-            });
-            if (result) return result;
+      switch (startType) {
+        case tt._function:
+          nany.declare = true;
+          return super.parseFunctionStatement(
+            nany,
+            /* async */ false,
+            /* isHangingDeclaration */ false,
+          );
+        case tt._class:
+          // While this is also set by tsParseExpressionStatement, we need to set it
+          // before parsing the class declaration to know how to register it in the scope.
+          nany.declare = true;
+          // @ts-expect-error refine typings
+          return this.parseClass(
+            nany,
+            /* isStatement */ true,
+            /* optionalId */ false,
+          );
+        case tt._enum:
+          return this.tsParseEnumDeclaration(nany, { declare: true });
+        case tt._global:
+          return this.tsParseAmbientExternalModuleDeclaration(nany);
+        case tt._const:
+        case tt._var:
+          if (!this.match(tt._const) || !this.isLookaheadContextual("enum")) {
+            nany.declare = true;
+            return this.parseVarStatement(nany, kind || this.state.value, true);
           }
-          // fallthrough
-          default:
-            if (tokenIsIdentifier(startType)) {
-              return this.tsParseDeclaration(
-                nany,
-                this.state.value,
-                /* next */ true,
-                /* decorators */ null,
-              );
-            }
+
+          // `const enum = 0;` not allowed because "enum" is a strict mode reserved word.
+          this.expect(tt._const);
+          return this.tsParseEnumDeclaration(nany, {
+            const: true,
+            declare: true,
+          });
+        case tt._interface: {
+          const result = this.tsParseInterfaceDeclaration(nany, {
+            declare: true,
+          });
+          if (result) return result;
         }
-      });
+        // fallthrough
+        default:
+          if (tokenIsIdentifier(startType)) {
+            return this.tsParseDeclaration(
+              nany,
+              this.state.value,
+              /* next */ true,
+              /* decorators */ null,
+            );
+          }
+      }
     }
 
     // Note: this won't be called unless the keyword is allowed in `shouldParseExportDeclaration`.
@@ -2238,16 +2177,17 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
 
     tsParseTypeArguments(): N.TsTypeParameterInstantiation {
       const node = this.startNode<N.TsTypeParameterInstantiation>();
-      node.params = this.tsInType(() =>
+      {
+        using _1 = this.withState("inType", true);
         // Temporarily remove a JSX parsing context, which makes us scan different tokens.
-        this.tsInNoContext(() => {
-          this.expect(tt.lt);
-          return this.tsParseDelimitedList(
-            "TypeParametersOrArguments",
-            this.tsParseType.bind(this),
-          );
-        }),
-      );
+        using _2 = this.withState("context", this.state.context.slice(0, 1));
+
+        this.expect(tt.lt);
+        node.params = this.tsParseDelimitedList(
+          "TypeParametersOrArguments",
+          this.tsParseType.bind(this),
+        );
+      }
       if (node.params.length === 0) {
         this.raise(TSErrors.EmptyTypeArguments, node);
       } else if (!this.state.inType && this.curContext() === tc.brace) {
@@ -2604,7 +2544,8 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
           N.TsAsExpression | N.TsSatisfiesExpression
         >(leftStartLoc);
         node.expression = left;
-        node.typeAnnotation = this.tsInType(() => {
+        {
+          using _ = this.withState("inType", true);
           this.next(); // "as" or "satisfies"
           if (this.match(tt._const)) {
             if (isSatisfies) {
@@ -2612,11 +2553,11 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
                 keyword: "const",
               });
             }
-            return this.tsParseTypeReference();
+            node.typeAnnotation = this.tsParseTypeReference();
+          } else {
+            node.typeAnnotation = this.tsParseType();
           }
-
-          return this.tsParseType();
-        });
+        }
         this.finishNode(
           node,
           isSatisfies ? "TSSatisfiesExpression" : "TSAsExpression",
@@ -2924,30 +2865,27 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
         member,
       );
 
-      const callParseClassMemberWithIsStatic = () => {
-        if (this.tsIsStartOfStaticBlocks()) {
-          this.next(); // eat "static"
-          this.next(); // eat "{"
-          if (this.tsHasSomeModifiers(member, modifiers)) {
-            this.raise(
-              TSErrors.StaticBlockCannotHaveModifier,
-              this.state.curPosition(),
-            );
-          }
-          super.parseClassStaticBlock(classBody, member as N.StaticBlock);
-        } else {
-          this.parseClassMemberWithIsStatic(
-            classBody,
-            member,
-            state,
-            !!member.static,
+      using _ = member.declare
+        ? this.withState("isAmbientContext", true)
+        : null;
+
+      if (this.tsIsStartOfStaticBlocks()) {
+        this.next(); // eat "static"
+        this.next(); // eat "{"
+        if (this.tsHasSomeModifiers(member, modifiers)) {
+          this.raise(
+            TSErrors.StaticBlockCannotHaveModifier,
+            this.state.curPosition(),
           );
         }
-      };
-      if (member.declare) {
-        this.tsInAmbientContext(callParseClassMemberWithIsStatic);
+        super.parseClassStaticBlock(classBody, member as N.StaticBlock);
       } else {
-        callParseClassMemberWithIsStatic();
+        this.parseClassMemberWithIsStatic(
+          classBody,
+          member,
+          state,
+          !!member.static,
+        );
       }
     }
 
@@ -3106,7 +3044,8 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
       node: N.ExportNamedDeclaration,
     ): N.Declaration | undefined | null {
       if (!this.state.isAmbientContext && this.isContextual(tt._declare)) {
-        return this.tsInAmbientContext(() => this.parseExportDeclaration(node));
+        using _ = this.withState("isAmbientContext", true);
+        return this.parseExportDeclaration(node);
       }
 
       // Store original location
@@ -3878,28 +3817,13 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
       return param;
     }
 
-    tsInAmbientContext<T>(cb: () => T): T {
-      const oldIsAmbientContext = this.state.isAmbientContext;
-      this.state.isAmbientContext = true;
-      try {
-        return cb();
-      } finally {
-        this.state.isAmbientContext = oldIsAmbientContext;
-      }
-    }
-
     parseClass<T extends N.Class>(
       node: Undone<T>,
       isStatement: boolean,
       optionalId?: boolean,
     ): T {
-      const oldInAbstractClass = this.state.inAbstractClass;
-      this.state.inAbstractClass = !!(node as any).abstract;
-      try {
-        return super.parseClass(node, isStatement, optionalId);
-      } finally {
-        this.state.inAbstractClass = oldInAbstractClass;
-      }
+      using _ = this.withState("inAbstractClass", !!(node as any).abstract);
+      return super.parseClass(node, isStatement, optionalId);
     }
 
     tsParseAbstractDeclaration(
