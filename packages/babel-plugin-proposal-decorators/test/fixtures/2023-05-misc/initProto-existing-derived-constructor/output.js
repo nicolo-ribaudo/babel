@@ -94,11 +94,10 @@
     const noop = () => fn => fn;
     new class extends B {
       constructor() {
-        var _initProto4, _noopDecs;
-        _noopDecs = noop(log.push(super(7).method()));
+        var _initProto4;
         class A extends B {
           static {
-            [_initProto4] = babelHelpers.applyDecs2305(this, [[dec, 2, "method"], [_noopDecs, 2, "noop"]], [], 0, void 0, B).e;
+            [_initProto4] = babelHelpers.applyDecs2305(this, [[dec, 2, "method"], [noop(log.push(super(7).method())), 2, "noop"]], [], 0, void 0, B).e;
           }
           constructor() {
             log.push(_initProto4(super(8)).method());
@@ -147,16 +146,16 @@
         [_initProto6] = babelHelpers.applyDecs2305(this, [[dec, 2, "method"]], [], 0, void 0, B).e;
       }
       constructor() {
-        var _initProto7, _noopDecs2;
-        new (_noopDecs2 = noop(log.push(_initProto6(super(11)).method())), class Dummy extends B {
+        var _initProto7;
+        new class Dummy extends B {
           static {
-            [_initProto7] = babelHelpers.applyDecs2305(this, [[_noopDecs2, 2, "noop"]], [], 0, void 0, B).e;
+            [_initProto7] = babelHelpers.applyDecs2305(this, [[noop(log.push(_initProto6(super(11)).method())), 2, "noop"]], [], 0, void 0, B).e;
           }
           constructor() {
             log.push(_initProto7(super(12)).method());
           }
           noop() {}
-        })();
+        }();
       }
       method() {
         return this.a;

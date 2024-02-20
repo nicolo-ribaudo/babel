@@ -1,20 +1,18 @@
-var _initClass, _classDecs, _initClass2, _classDecs2;
+var _initClass, _initClass2;
 const dec = () => {};
-_classDecs = [dec1];
 let _Bar;
 class Bar {
   static {
-    [_Bar, _initClass] = babelHelpers.applyDecs(this, [], _classDecs);
+    [_Bar, _initClass] = babelHelpers.applyDecs(this, [], [dec1]);
   }
   static {
     _initClass();
   }
 }
-_classDecs2 = [dec2];
 let _Foo;
 class Foo extends _Bar {
   static {
-    [_Foo, _initClass2] = babelHelpers.applyDecs(this, [], _classDecs2);
+    [_Foo, _initClass2] = babelHelpers.applyDecs(this, [], [dec2]);
   }
   static {
     _initClass2();

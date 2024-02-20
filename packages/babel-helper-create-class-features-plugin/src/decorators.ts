@@ -481,6 +481,8 @@ interface DecoratorInfo {
   // An array of applied decorators or a memoised identifier
   decoratorsArray: t.Identifier | t.ArrayExpression | t.Expression;
   decoratorsHaveThis: boolean;
+  needMemoise: boolean;
+  hasSideEffects: boolean;
 
   // The kind of the decorated value, matches the kind value passed to applyDecs
   kind: number;
@@ -490,6 +492,7 @@ interface DecoratorInfo {
 
   // The name of the decorator
   name: t.StringLiteral | t.Expression;
+  nameHint: string;
 
   privateMethods:
     | (t.FunctionExpression | t.ArrowFunctionExpression)[]
@@ -914,14 +917,15 @@ function transformClass(
   // Memoise the this value `a.b` of decorator member expressions `@a.b.dec`,
   type HandleDecoratorExpressionsResult = {
     // whether the whole decorator list requires memoisation
-    needMemoise: boolean;
+    hasSideEffects: boolean;
+    usesThisContext: boolean;
     // the this value of each decorator if applicable
     decoratorsThis: (t.Expression | undefined)[];
   };
   function handleDecoratorExpressions(
     expressions: t.Expression[],
   ): HandleDecoratorExpressionsResult {
-    let needMemoise = false;
+    let hasSideEffects = false;
     const decoratorsThis: (t.Expression | null)[] = [];
     for (const expression of expressions) {
       let object;
@@ -946,15 +950,41 @@ function transformClass(
         }
       }
       decoratorsThis.push(object);
-      needMemoise ||= !scopeParent.isStatic(expression);
+      hasSideEffects ||= !scopeParent.isStatic(expression);
     }
-    return { needMemoise, decoratorsThis };
+    let usesThisContext = false;
+    try {
+      function check(node: t.Node) {
+        if (
+          t.isSuper(node) ||
+          t.isThisExpression(node) ||
+          t.isIdentifier(node, { name: "arguments" }) ||
+          (t.isMetaProperty(node) && node.meta.name !== "import")
+        ) {
+          usesThisContext = true;
+
+          // Early-exit.
+          // TODO: Update traverseFast to support early-exit
+          throw null;
+        }
+      }
+      decoratorsThis.forEach(check);
+      if (!usesThisContext) expressions.forEach(check);
+    } catch {}
+    return { hasSideEffects, usesThisContext, decoratorsThis };
   }
+
+  const hasDynamicComputedKey = path.node.body.body.some(
+    element =>
+      "computed" in element &&
+      element.computed &&
+      !scopeParent.isPure(element.key),
+  );
 
   let needsDeclaraionForClassBinding = false;
   let classDecorationsFlag = 0;
-  let classDecorations: t.Expression[] = [];
-  let classDecorationsId: t.Identifier;
+  let classDecorations: t.Expression = t.arrayExpression([]);
+  let classDecoNeedMemoise = false;
   if (classDecorators) {
     classInitLocal = scopeParent.generateDeclaredUidIdentifier("initClass");
     needsDeclaraionForClassBinding = path.isClassDeclaration();
@@ -963,7 +993,7 @@ function transformClass(
     path.node.decorators = null;
 
     const decoratorExpressions = classDecorators.map(el => el.expression);
-    const { needMemoise, decoratorsThis } =
+    const { hasSideEffects, usesThisContext, decoratorsThis } =
       handleDecoratorExpressions(decoratorExpressions);
 
     const { haveThis, decs } = generateDecorationList(
@@ -972,13 +1002,11 @@ function transformClass(
       version,
     );
     classDecorationsFlag = haveThis ? 1 : 0;
-    classDecorations = decs;
-
-    if (needMemoise) {
-      classDecorationsId = memoiseExpression(
-        t.arrayExpression(classDecorations),
-        "classDecs",
-      );
+    classDecorations.elements = decs;
+    if (!hasDynamicComputedKey) {
+      classDecoNeedMemoise = usesThisContext;
+    } else if (hasSideEffects) {
+      classDecorations = memoiseExpression(classDecorations, "classDecs");
     }
   } else {
     if (!path.node.id) {
@@ -1030,11 +1058,13 @@ function transformClass(
         name = node.key.name;
       }
       let decoratorsArray: t.Identifier | t.ArrayExpression | t.Expression;
+      let decoratorsArrayNeedMemoise = false;
+      let decoratorsHaveSideEffects = false;
       let decoratorsHaveThis;
 
       if (hasDecorators) {
         const decoratorExpressions = decorators.map(d => d.expression);
-        const { needMemoise, decoratorsThis } =
+        const { hasSideEffects, usesThisContext, decoratorsThis } =
           handleDecoratorExpressions(decoratorExpressions);
         const { decs, haveThis } = generateDecorationList(
           decoratorExpressions,
@@ -1043,7 +1073,10 @@ function transformClass(
         );
         decoratorsHaveThis = haveThis;
         decoratorsArray = decs.length === 1 ? decs[0] : t.arrayExpression(decs);
-        if (needMemoise) {
+        if (!hasDynamicComputedKey) {
+          decoratorsArrayNeedMemoise = usesThisContext;
+          decoratorsHaveSideEffects = hasSideEffects;
+        } else if (hasSideEffects) {
           decoratorsArray = memoiseExpression(decoratorsArray, name + "Decs");
         }
       }
@@ -1206,8 +1239,11 @@ function transformClass(
         elementDecoratorInfo.push({
           kind,
           decoratorsArray,
+          needMemoise: decoratorsArrayNeedMemoise,
+          hasSideEffects: decoratorsHaveSideEffects,
           decoratorsHaveThis,
           name: nameExpr,
+          nameHint: name + "Decs",
           isStatic,
           privateMethods,
           locals,
@@ -1296,6 +1332,42 @@ function transformClass(
 
   const sortedElementDecoratorInfo =
     toSortedDecoratorInfo(elementDecoratorInfo);
+
+  if (!hasDynamicComputedKey) {
+    const infoIndexesAfterSort = new Map<DecoratorInfo, number>(
+      // @ts-expect-error TS doesn't properly infer the return type of Array
+      sortedElementDecoratorInfo.map(Array),
+    );
+
+    let memoiseOthers = false;
+    let lastInlineIndex = elementDecoratorInfo.length;
+    for (let i = lastInlineIndex - 1; i >= 0; i--) {
+      const info = elementDecoratorInfo[i];
+      const indexAfterSort = infoIndexesAfterSort.get(info);
+      if (
+        memoiseOthers ||
+        (indexAfterSort > lastInlineIndex && info.hasSideEffects)
+      ) {
+        info.needMemoise = true;
+      }
+      if (info.needMemoise) {
+        memoiseOthers = true;
+      } else {
+        lastInlineIndex = indexAfterSort;
+      }
+    }
+    if (memoiseOthers || classDecoNeedMemoise) {
+      classDecorations = memoiseExpression(classDecorations, "classDecs");
+    }
+    elementDecoratorInfo.forEach(info => {
+      if (info.needMemoise) {
+        info.decoratorsArray = memoiseExpression(
+          info.decoratorsArray,
+          info.nameHint,
+        );
+      }
+    });
+  }
 
   const elementDecorations = generateDecorationExprs(
     sortedElementDecoratorInfo,
@@ -1429,7 +1501,7 @@ function transformClass(
             elementLocals,
             classLocals,
             elementDecorations,
-            classDecorationsId ?? t.arrayExpression(classDecorations),
+            classDecorations,
             t.numericLiteral(classDecorationsFlag),
             needsInstancePrivateBrandCheck ? lastInstancePrivateName : null,
             typeof className === "object" ? className : undefined,
