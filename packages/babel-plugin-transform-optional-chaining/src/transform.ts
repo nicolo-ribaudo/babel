@@ -100,12 +100,12 @@ export function transformOptionalChain(
     if (optionalPath.isOptionalMemberExpression()) {
       // @ts-expect-error todo(flow->ts) avoid changing more type
       optionalPath.node.type = "MemberExpression";
-      // @ts-expect-error todo(flow->ts)
+      // @ts-expect-error todo(flow->ts) 016
       optionalPath = skipTransparentExprWrappers(optionalPath.get("object"));
     } else if (optionalPath.isOptionalCallExpression()) {
       // @ts-expect-error todo(flow->ts) avoid changing more type
       optionalPath.node.type = "CallExpression";
-      // @ts-expect-error todo(flow->ts)
+      // @ts-expect-error todo(flow->ts) 016
       optionalPath = skipTransparentExprWrappers(optionalPath.get("callee"));
     }
   }

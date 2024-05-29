@@ -92,7 +92,7 @@ function gatherNodeParts(node: t.Node, parts: NodePart[]) {
         //    t.isImportSpecifier(node)
         //    ```
         //    allowing only nodes with `.local`?
-        // @ts-expect-error todo(flow->ts)
+        // @ts-expect-error todo(flow->ts) 017
         gatherNodeParts(node.local, parts);
       } else if (
         isLiteral(node) &&

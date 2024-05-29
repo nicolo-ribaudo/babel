@@ -884,7 +884,7 @@ export default abstract class ExpressionParser extends LValParser {
         tt.parenR,
         base.type === "Import",
         base.type !== "Super",
-        // @ts-expect-error todo(flow->ts)
+        // @ts-expect-error todo(flow->ts) 008
         node,
         refExpressionErrors,
       );
@@ -1852,7 +1852,7 @@ export default abstract class ExpressionParser extends LValParser {
 
     return this.wrapParenthesis(
       startLoc,
-      // @ts-expect-error todo(flow->ts)
+      // @ts-expect-error todo(flow->ts) 009
       val,
     );
   }
@@ -2490,7 +2490,7 @@ export default abstract class ExpressionParser extends LValParser {
       close,
       /* allowEmpty */ !isTuple,
       refExpressionErrors,
-      // @ts-expect-error todo(flow->ts)
+      // @ts-expect-error todo(flow->ts) 009
       node,
     );
     this.state.inFSharpPipelineDirectBody = oldInFSharpPipelineDirectBody;
@@ -2636,7 +2636,7 @@ export default abstract class ExpressionParser extends LValParser {
     this.expressionScope.exit();
   }
 
-  isSimpleParameter(node: N.Pattern | N.TSParameterProperty) {
+  isSimpleParameter(node: N.Pattern | N.TSParameterProperty): boolean {
     return node.type === "Identifier";
   }
 
@@ -2883,7 +2883,7 @@ export default abstract class ExpressionParser extends LValParser {
 
     this.expressionScope.recordParameterInitializerError(
       Errors.AwaitExpressionFormalParameter,
-      // @ts-expect-error todo(flow->ts)
+      // @ts-expect-error todo(flow->ts) 009
       node,
     );
 
@@ -2934,7 +2934,7 @@ export default abstract class ExpressionParser extends LValParser {
 
     this.expressionScope.recordParameterInitializerError(
       Errors.YieldInParameter,
-      // @ts-expect-error todo(flow->ts)
+      // @ts-expect-error todo(flow->ts) 009
       node,
     );
 

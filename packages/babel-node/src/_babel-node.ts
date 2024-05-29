@@ -165,7 +165,7 @@ if (opts.eval || opts.print) {
 
   const module = new Module(global.__filename);
   module.filename = global.__filename;
-  // @ts-expect-error todo(flow->ts)
+  // @ts-expect-error todo(flow->ts) 006
   module.paths = Module._nodeModulePaths(global.__dirname);
 
   global.exports = module.exports;

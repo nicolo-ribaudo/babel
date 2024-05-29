@@ -273,7 +273,7 @@ export default (superClass: typeof Parser) =>
       let funcNode = this.startNode<N.MethodLike>();
       funcNode.kind = node.kind; // provide kind, so super method correctly sets state
       funcNode = super.parseMethod(
-        // @ts-expect-error todo(flow->ts)
+        // @ts-expect-error todo(flow->ts) 010
         funcNode,
         isGenerator,
         isAsync,

@@ -2009,7 +2009,7 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
     ): T | undefined | null {
       const result = this.tryParse(
         abort =>
-          // @ts-expect-error todo(flow->ts)
+          // @ts-expect-error todo(flow->ts) 012
           f() || abort(),
       );
 
@@ -2338,7 +2338,7 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
       return elt;
     }
 
-    isSimpleParameter(node: N.Pattern | N.TSParameterProperty) {
+    isSimpleParameter(node: N.Pattern | N.TSParameterProperty): boolean {
       return (
         (node.type === "TSParameterProperty" &&
           super.isSimpleParameter(node.parameter)) ||
@@ -2635,7 +2635,7 @@ export default (superClass: ClassWithMixin<typeof Parser, IJSXParserMixin>) =>
         // rescan `<`, `>` because they were scanned when this.state.inType was true
         this.reScan_lt_gt();
         return this.parseExprOp(
-          // @ts-expect-error todo(flow->ts)
+          // @ts-expect-error todo(flow->ts) 0121
           node,
           leftStartLoc,
           minPrec,

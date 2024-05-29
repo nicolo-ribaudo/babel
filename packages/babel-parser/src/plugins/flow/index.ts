@@ -1774,13 +1774,13 @@ export default (superClass: typeof Parser) =>
           if (seenOptionalIndexedAccess) {
             node.optional = optional;
             type = this.finishNode<N.FlowOptionalIndexedAccessType>(
-              // @ts-expect-error todo(flow->ts)
+              // @ts-expect-error todo(flow->ts) 011
               node,
               "OptionalIndexedAccessType",
             );
           } else {
             type = this.finishNode<N.FlowIndexedAccessType>(
-              // @ts-expect-error todo(flow->ts)
+              // @ts-expect-error todo(flow->ts) 011
               node,
               "IndexedAccessType",
             );
@@ -3063,7 +3063,7 @@ export default (superClass: typeof Parser) =>
       node: Undone<N.ArrowFunctionExpression>,
     ): Undone<N.ArrowFunctionExpression> | undefined | null {
       if (this.match(tt.colon)) {
-        // @ts-expect-error todo(flow->ts)
+        // @ts-expect-error todo(flow->ts) 011
         const result = this.tryParse<N.TypeAnnotation>(() => {
           const oldNoAnonFunctionType = this.state.noAnonFunctionType;
           this.state.noAnonFunctionType = true;
@@ -3090,7 +3090,7 @@ export default (superClass: typeof Parser) =>
         if (result.error) this.state = result.failState;
 
         // assign after it is clear it is an arrow
-        // @ts-expect-error todo(flow->ts)
+        // @ts-expect-error todo(flow->ts) 011
         node.returnType = result.node.typeAnnotation
           ? this.finishNode(result.node, "TypeAnnotation")
           : null;

@@ -168,7 +168,7 @@ export function assertCallerMetadata(
       }
     }
   }
-  // @ts-expect-error todo(flow->ts)
+  // @ts-expect-error todo(flow->ts) 002
   return value;
 }
 
@@ -246,7 +246,7 @@ export function assertIgnoreList(
 ): IgnoreList | void {
   const arr = assertArray(loc, value);
   arr?.forEach((item, i) => assertIgnoreItem(access(loc, i), item));
-  // @ts-expect-error todo(flow->ts)
+  // @ts-expect-error todo(flow->ts) 003
   return arr;
 }
 function assertIgnoreItem(loc: GeneralPath, value: unknown): IgnoreItem {
@@ -389,7 +389,7 @@ function assertPluginItem(loc: GeneralPath, value: unknown): PluginItem {
     assertPluginTarget(loc, value);
   }
 
-  // @ts-expect-error todo(flow->ts)
+  // @ts-expect-error todo(flow->ts) 004
   return value;
 }
 function assertPluginTarget(loc: GeneralPath, value: unknown): PluginTarget {
@@ -487,6 +487,6 @@ export function assertAssumptions(
     }
   }
 
-  // @ts-expect-error todo(flow->ts)
+  // @ts-expect-error todo(flow->ts) 005
   return value;
 }

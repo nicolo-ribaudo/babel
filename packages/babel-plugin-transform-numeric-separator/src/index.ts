@@ -10,9 +10,9 @@ import type * as t from "@babel/types";
  */
 function remover({ node }: NodePath<t.BigIntLiteral | t.NumericLiteral>) {
   const { extra } = node;
-  // @ts-expect-error todo(flow->ts)
+  // @ts-expect-error todo(flow->ts) 015
   if (extra?.raw?.includes("_")) {
-    // @ts-expect-error todo(flow->ts)
+    // @ts-expect-error todo(flow->ts) 015
     extra.raw = extra.raw.replace(/_/g, "");
   }
 }

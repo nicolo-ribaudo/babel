@@ -88,7 +88,7 @@ function* readConfigCode(
     );
   }
 
-  // @ts-expect-error todo(flow->ts)
+  // @ts-expect-error todo(flow->ts) 001
   if (typeof options.then === "function") {
     // @ts-expect-error We use ?. in case options is a thenable
     // but not a promise
