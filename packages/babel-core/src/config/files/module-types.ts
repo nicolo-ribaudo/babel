@@ -132,16 +132,17 @@ export default function* loadCodeDefault(
           );
         }
       } catch (e) {
-        if (
-          e.code === "ERR_REQUIRE_ASYNC_MODULE" &&
-          !(async ??= yield* isAsync())
+        if (e.code === "ERR_REQUIRE_ASYNC_MODULE") {
+          if (!(async ??= yield* isAsync())) {
+            throw new ConfigError(tlaError, filepath);
+          }
+          // fall through: require() failed due to TLA
+        } else if (
+          e.code === "ERR_REQUIRE_ESM" ||
+          (!process.env.BABEL_8_BREAKING && ext === ".mjs")
         ) {
-          throw new ConfigError(tlaError, filepath);
-        }
-        if (
-          e.code !== "ERR_REQUIRE_ESM" &&
-          (process.env.BABEL_8_BREAKING || ext !== ".mjs")
-        ) {
+          // fall through: require() failed due to ESM
+        } else {
           throw e;
         }
       }

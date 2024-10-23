@@ -45,6 +45,7 @@
 const ErrorToString = Function.call.bind(Error.prototype.toString);
 
 const SUPPORTED =
+  false &&
   !!Error.captureStackTrace &&
   Object.getOwnPropertyDescriptor(Error, "stackTraceLimit")?.writable === true;
 

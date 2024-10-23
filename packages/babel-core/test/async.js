@@ -245,7 +245,7 @@ describe("asynchronicity", () => {
         });
       });
 
-      it("called asynchronously when contain TLA", async () => {
+      it.only("called asynchronously when contain TLA", async () => {
         process.chdir("plugin-mjs-tla-native");
 
         await expect(spawnTransformAsync()).resolves.toMatchObject({
