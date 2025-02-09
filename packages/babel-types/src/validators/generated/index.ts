@@ -17,7 +17,7 @@ type Opts<Obj> = Partial<{
       : Obj[Prop];
 }>;
 
-export function isArrayExpression(
+/** @category Validators */ export function isArrayExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.ArrayExpression> | null,
 ): node is t.ArrayExpression {
@@ -27,7 +27,7 @@ export function isArrayExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isAssignmentExpression(
+/** @category Validators */ export function isAssignmentExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.AssignmentExpression> | null,
 ): node is t.AssignmentExpression {
@@ -37,7 +37,7 @@ export function isAssignmentExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isBinaryExpression(
+/** @category Validators */ export function isBinaryExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.BinaryExpression> | null,
 ): node is t.BinaryExpression {
@@ -47,7 +47,7 @@ export function isBinaryExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isInterpreterDirective(
+/** @category Validators */ export function isInterpreterDirective(
   node: t.Node | null | undefined,
   opts?: Opts<t.InterpreterDirective> | null,
 ): node is t.InterpreterDirective {
@@ -57,7 +57,7 @@ export function isInterpreterDirective(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDirective(
+/** @category Validators */ export function isDirective(
   node: t.Node | null | undefined,
   opts?: Opts<t.Directive> | null,
 ): node is t.Directive {
@@ -67,7 +67,7 @@ export function isDirective(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDirectiveLiteral(
+/** @category Validators */ export function isDirectiveLiteral(
   node: t.Node | null | undefined,
   opts?: Opts<t.DirectiveLiteral> | null,
 ): node is t.DirectiveLiteral {
@@ -77,7 +77,7 @@ export function isDirectiveLiteral(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isBlockStatement(
+/** @category Validators */ export function isBlockStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.BlockStatement> | null,
 ): node is t.BlockStatement {
@@ -87,7 +87,7 @@ export function isBlockStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isBreakStatement(
+/** @category Validators */ export function isBreakStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.BreakStatement> | null,
 ): node is t.BreakStatement {
@@ -97,7 +97,7 @@ export function isBreakStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isCallExpression(
+/** @category Validators */ export function isCallExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.CallExpression> | null,
 ): node is t.CallExpression {
@@ -107,7 +107,7 @@ export function isCallExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isCatchClause(
+/** @category Validators */ export function isCatchClause(
   node: t.Node | null | undefined,
   opts?: Opts<t.CatchClause> | null,
 ): node is t.CatchClause {
@@ -117,7 +117,7 @@ export function isCatchClause(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isConditionalExpression(
+/** @category Validators */ export function isConditionalExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.ConditionalExpression> | null,
 ): node is t.ConditionalExpression {
@@ -127,7 +127,7 @@ export function isConditionalExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isContinueStatement(
+/** @category Validators */ export function isContinueStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.ContinueStatement> | null,
 ): node is t.ContinueStatement {
@@ -137,7 +137,7 @@ export function isContinueStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDebuggerStatement(
+/** @category Validators */ export function isDebuggerStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.DebuggerStatement> | null,
 ): node is t.DebuggerStatement {
@@ -147,7 +147,7 @@ export function isDebuggerStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDoWhileStatement(
+/** @category Validators */ export function isDoWhileStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.DoWhileStatement> | null,
 ): node is t.DoWhileStatement {
@@ -157,7 +157,7 @@ export function isDoWhileStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isEmptyStatement(
+/** @category Validators */ export function isEmptyStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.EmptyStatement> | null,
 ): node is t.EmptyStatement {
@@ -167,7 +167,7 @@ export function isEmptyStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isExpressionStatement(
+/** @category Validators */ export function isExpressionStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.ExpressionStatement> | null,
 ): node is t.ExpressionStatement {
@@ -177,7 +177,7 @@ export function isExpressionStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isFile(
+/** @category Validators */ export function isFile(
   node: t.Node | null | undefined,
   opts?: Opts<t.File> | null,
 ): node is t.File {
@@ -187,7 +187,7 @@ export function isFile(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isForInStatement(
+/** @category Validators */ export function isForInStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.ForInStatement> | null,
 ): node is t.ForInStatement {
@@ -197,7 +197,7 @@ export function isForInStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isForStatement(
+/** @category Validators */ export function isForStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.ForStatement> | null,
 ): node is t.ForStatement {
@@ -207,7 +207,7 @@ export function isForStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isFunctionDeclaration(
+/** @category Validators */ export function isFunctionDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.FunctionDeclaration> | null,
 ): node is t.FunctionDeclaration {
@@ -217,7 +217,7 @@ export function isFunctionDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isFunctionExpression(
+/** @category Validators */ export function isFunctionExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.FunctionExpression> | null,
 ): node is t.FunctionExpression {
@@ -227,7 +227,7 @@ export function isFunctionExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isIdentifier(
+/** @category Validators */ export function isIdentifier(
   node: t.Node | null | undefined,
   opts?: Opts<t.Identifier> | null,
 ): node is t.Identifier {
@@ -237,7 +237,7 @@ export function isIdentifier(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isIfStatement(
+/** @category Validators */ export function isIfStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.IfStatement> | null,
 ): node is t.IfStatement {
@@ -247,7 +247,7 @@ export function isIfStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isLabeledStatement(
+/** @category Validators */ export function isLabeledStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.LabeledStatement> | null,
 ): node is t.LabeledStatement {
@@ -257,7 +257,7 @@ export function isLabeledStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isStringLiteral(
+/** @category Validators */ export function isStringLiteral(
   node: t.Node | null | undefined,
   opts?: Opts<t.StringLiteral> | null,
 ): node is t.StringLiteral {
@@ -267,7 +267,7 @@ export function isStringLiteral(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isNumericLiteral(
+/** @category Validators */ export function isNumericLiteral(
   node: t.Node | null | undefined,
   opts?: Opts<t.NumericLiteral> | null,
 ): node is t.NumericLiteral {
@@ -277,7 +277,7 @@ export function isNumericLiteral(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isNullLiteral(
+/** @category Validators */ export function isNullLiteral(
   node: t.Node | null | undefined,
   opts?: Opts<t.NullLiteral> | null,
 ): node is t.NullLiteral {
@@ -287,7 +287,7 @@ export function isNullLiteral(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isBooleanLiteral(
+/** @category Validators */ export function isBooleanLiteral(
   node: t.Node | null | undefined,
   opts?: Opts<t.BooleanLiteral> | null,
 ): node is t.BooleanLiteral {
@@ -297,7 +297,7 @@ export function isBooleanLiteral(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isRegExpLiteral(
+/** @category Validators */ export function isRegExpLiteral(
   node: t.Node | null | undefined,
   opts?: Opts<t.RegExpLiteral> | null,
 ): node is t.RegExpLiteral {
@@ -307,7 +307,7 @@ export function isRegExpLiteral(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isLogicalExpression(
+/** @category Validators */ export function isLogicalExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.LogicalExpression> | null,
 ): node is t.LogicalExpression {
@@ -317,7 +317,7 @@ export function isLogicalExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isMemberExpression(
+/** @category Validators */ export function isMemberExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.MemberExpression> | null,
 ): node is t.MemberExpression {
@@ -327,7 +327,7 @@ export function isMemberExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isNewExpression(
+/** @category Validators */ export function isNewExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.NewExpression> | null,
 ): node is t.NewExpression {
@@ -337,7 +337,7 @@ export function isNewExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isProgram(
+/** @category Validators */ export function isProgram(
   node: t.Node | null | undefined,
   opts?: Opts<t.Program> | null,
 ): node is t.Program {
@@ -347,7 +347,7 @@ export function isProgram(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isObjectExpression(
+/** @category Validators */ export function isObjectExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.ObjectExpression> | null,
 ): node is t.ObjectExpression {
@@ -357,7 +357,7 @@ export function isObjectExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isObjectMethod(
+/** @category Validators */ export function isObjectMethod(
   node: t.Node | null | undefined,
   opts?: Opts<t.ObjectMethod> | null,
 ): node is t.ObjectMethod {
@@ -367,7 +367,7 @@ export function isObjectMethod(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isObjectProperty(
+/** @category Validators */ export function isObjectProperty(
   node: t.Node | null | undefined,
   opts?: Opts<t.ObjectProperty> | null,
 ): node is t.ObjectProperty {
@@ -377,7 +377,7 @@ export function isObjectProperty(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isRestElement(
+/** @category Validators */ export function isRestElement(
   node: t.Node | null | undefined,
   opts?: Opts<t.RestElement> | null,
 ): node is t.RestElement {
@@ -387,7 +387,7 @@ export function isRestElement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isReturnStatement(
+/** @category Validators */ export function isReturnStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.ReturnStatement> | null,
 ): node is t.ReturnStatement {
@@ -397,7 +397,7 @@ export function isReturnStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isSequenceExpression(
+/** @category Validators */ export function isSequenceExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.SequenceExpression> | null,
 ): node is t.SequenceExpression {
@@ -407,7 +407,7 @@ export function isSequenceExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isParenthesizedExpression(
+/** @category Validators */ export function isParenthesizedExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.ParenthesizedExpression> | null,
 ): node is t.ParenthesizedExpression {
@@ -417,7 +417,7 @@ export function isParenthesizedExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isSwitchCase(
+/** @category Validators */ export function isSwitchCase(
   node: t.Node | null | undefined,
   opts?: Opts<t.SwitchCase> | null,
 ): node is t.SwitchCase {
@@ -427,7 +427,7 @@ export function isSwitchCase(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isSwitchStatement(
+/** @category Validators */ export function isSwitchStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.SwitchStatement> | null,
 ): node is t.SwitchStatement {
@@ -437,7 +437,7 @@ export function isSwitchStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isThisExpression(
+/** @category Validators */ export function isThisExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.ThisExpression> | null,
 ): node is t.ThisExpression {
@@ -447,7 +447,7 @@ export function isThisExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isThrowStatement(
+/** @category Validators */ export function isThrowStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.ThrowStatement> | null,
 ): node is t.ThrowStatement {
@@ -457,7 +457,7 @@ export function isThrowStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTryStatement(
+/** @category Validators */ export function isTryStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.TryStatement> | null,
 ): node is t.TryStatement {
@@ -467,7 +467,7 @@ export function isTryStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isUnaryExpression(
+/** @category Validators */ export function isUnaryExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.UnaryExpression> | null,
 ): node is t.UnaryExpression {
@@ -477,7 +477,7 @@ export function isUnaryExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isUpdateExpression(
+/** @category Validators */ export function isUpdateExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.UpdateExpression> | null,
 ): node is t.UpdateExpression {
@@ -487,7 +487,7 @@ export function isUpdateExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isVariableDeclaration(
+/** @category Validators */ export function isVariableDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.VariableDeclaration> | null,
 ): node is t.VariableDeclaration {
@@ -497,7 +497,7 @@ export function isVariableDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isVariableDeclarator(
+/** @category Validators */ export function isVariableDeclarator(
   node: t.Node | null | undefined,
   opts?: Opts<t.VariableDeclarator> | null,
 ): node is t.VariableDeclarator {
@@ -507,7 +507,7 @@ export function isVariableDeclarator(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isWhileStatement(
+/** @category Validators */ export function isWhileStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.WhileStatement> | null,
 ): node is t.WhileStatement {
@@ -517,7 +517,7 @@ export function isWhileStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isWithStatement(
+/** @category Validators */ export function isWithStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.WithStatement> | null,
 ): node is t.WithStatement {
@@ -527,7 +527,7 @@ export function isWithStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isAssignmentPattern(
+/** @category Validators */ export function isAssignmentPattern(
   node: t.Node | null | undefined,
   opts?: Opts<t.AssignmentPattern> | null,
 ): node is t.AssignmentPattern {
@@ -537,7 +537,7 @@ export function isAssignmentPattern(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isArrayPattern(
+/** @category Validators */ export function isArrayPattern(
   node: t.Node | null | undefined,
   opts?: Opts<t.ArrayPattern> | null,
 ): node is t.ArrayPattern {
@@ -547,7 +547,7 @@ export function isArrayPattern(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isArrowFunctionExpression(
+/** @category Validators */ export function isArrowFunctionExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.ArrowFunctionExpression> | null,
 ): node is t.ArrowFunctionExpression {
@@ -557,7 +557,7 @@ export function isArrowFunctionExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isClassBody(
+/** @category Validators */ export function isClassBody(
   node: t.Node | null | undefined,
   opts?: Opts<t.ClassBody> | null,
 ): node is t.ClassBody {
@@ -567,7 +567,7 @@ export function isClassBody(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isClassExpression(
+/** @category Validators */ export function isClassExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.ClassExpression> | null,
 ): node is t.ClassExpression {
@@ -577,7 +577,7 @@ export function isClassExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isClassDeclaration(
+/** @category Validators */ export function isClassDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.ClassDeclaration> | null,
 ): node is t.ClassDeclaration {
@@ -587,7 +587,7 @@ export function isClassDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isExportAllDeclaration(
+/** @category Validators */ export function isExportAllDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.ExportAllDeclaration> | null,
 ): node is t.ExportAllDeclaration {
@@ -597,7 +597,7 @@ export function isExportAllDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isExportDefaultDeclaration(
+/** @category Validators */ export function isExportDefaultDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.ExportDefaultDeclaration> | null,
 ): node is t.ExportDefaultDeclaration {
@@ -607,7 +607,7 @@ export function isExportDefaultDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isExportNamedDeclaration(
+/** @category Validators */ export function isExportNamedDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.ExportNamedDeclaration> | null,
 ): node is t.ExportNamedDeclaration {
@@ -617,7 +617,7 @@ export function isExportNamedDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isExportSpecifier(
+/** @category Validators */ export function isExportSpecifier(
   node: t.Node | null | undefined,
   opts?: Opts<t.ExportSpecifier> | null,
 ): node is t.ExportSpecifier {
@@ -627,7 +627,7 @@ export function isExportSpecifier(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isForOfStatement(
+/** @category Validators */ export function isForOfStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.ForOfStatement> | null,
 ): node is t.ForOfStatement {
@@ -637,7 +637,7 @@ export function isForOfStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isImportDeclaration(
+/** @category Validators */ export function isImportDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.ImportDeclaration> | null,
 ): node is t.ImportDeclaration {
@@ -647,7 +647,7 @@ export function isImportDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isImportDefaultSpecifier(
+/** @category Validators */ export function isImportDefaultSpecifier(
   node: t.Node | null | undefined,
   opts?: Opts<t.ImportDefaultSpecifier> | null,
 ): node is t.ImportDefaultSpecifier {
@@ -657,7 +657,7 @@ export function isImportDefaultSpecifier(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isImportNamespaceSpecifier(
+/** @category Validators */ export function isImportNamespaceSpecifier(
   node: t.Node | null | undefined,
   opts?: Opts<t.ImportNamespaceSpecifier> | null,
 ): node is t.ImportNamespaceSpecifier {
@@ -667,7 +667,7 @@ export function isImportNamespaceSpecifier(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isImportSpecifier(
+/** @category Validators */ export function isImportSpecifier(
   node: t.Node | null | undefined,
   opts?: Opts<t.ImportSpecifier> | null,
 ): node is t.ImportSpecifier {
@@ -677,7 +677,7 @@ export function isImportSpecifier(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isImportExpression(
+/** @category Validators */ export function isImportExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.ImportExpression> | null,
 ): node is t.ImportExpression {
@@ -687,7 +687,7 @@ export function isImportExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isMetaProperty(
+/** @category Validators */ export function isMetaProperty(
   node: t.Node | null | undefined,
   opts?: Opts<t.MetaProperty> | null,
 ): node is t.MetaProperty {
@@ -697,7 +697,7 @@ export function isMetaProperty(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isClassMethod(
+/** @category Validators */ export function isClassMethod(
   node: t.Node | null | undefined,
   opts?: Opts<t.ClassMethod> | null,
 ): node is t.ClassMethod {
@@ -707,7 +707,7 @@ export function isClassMethod(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isObjectPattern(
+/** @category Validators */ export function isObjectPattern(
   node: t.Node | null | undefined,
   opts?: Opts<t.ObjectPattern> | null,
 ): node is t.ObjectPattern {
@@ -717,7 +717,7 @@ export function isObjectPattern(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isSpreadElement(
+/** @category Validators */ export function isSpreadElement(
   node: t.Node | null | undefined,
   opts?: Opts<t.SpreadElement> | null,
 ): node is t.SpreadElement {
@@ -727,7 +727,7 @@ export function isSpreadElement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isSuper(
+/** @category Validators */ export function isSuper(
   node: t.Node | null | undefined,
   opts?: Opts<t.Super> | null,
 ): node is t.Super {
@@ -737,7 +737,7 @@ export function isSuper(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTaggedTemplateExpression(
+/** @category Validators */ export function isTaggedTemplateExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.TaggedTemplateExpression> | null,
 ): node is t.TaggedTemplateExpression {
@@ -747,7 +747,7 @@ export function isTaggedTemplateExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTemplateElement(
+/** @category Validators */ export function isTemplateElement(
   node: t.Node | null | undefined,
   opts?: Opts<t.TemplateElement> | null,
 ): node is t.TemplateElement {
@@ -757,7 +757,7 @@ export function isTemplateElement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTemplateLiteral(
+/** @category Validators */ export function isTemplateLiteral(
   node: t.Node | null | undefined,
   opts?: Opts<t.TemplateLiteral> | null,
 ): node is t.TemplateLiteral {
@@ -767,7 +767,7 @@ export function isTemplateLiteral(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isYieldExpression(
+/** @category Validators */ export function isYieldExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.YieldExpression> | null,
 ): node is t.YieldExpression {
@@ -777,7 +777,7 @@ export function isYieldExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isAwaitExpression(
+/** @category Validators */ export function isAwaitExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.AwaitExpression> | null,
 ): node is t.AwaitExpression {
@@ -787,7 +787,7 @@ export function isAwaitExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isImport(
+/** @category Validators */ export function isImport(
   node: t.Node | null | undefined,
   opts?: Opts<t.Import> | null,
 ): node is t.Import {
@@ -797,7 +797,7 @@ export function isImport(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isBigIntLiteral(
+/** @category Validators */ export function isBigIntLiteral(
   node: t.Node | null | undefined,
   opts?: Opts<t.BigIntLiteral> | null,
 ): node is t.BigIntLiteral {
@@ -807,7 +807,7 @@ export function isBigIntLiteral(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isExportNamespaceSpecifier(
+/** @category Validators */ export function isExportNamespaceSpecifier(
   node: t.Node | null | undefined,
   opts?: Opts<t.ExportNamespaceSpecifier> | null,
 ): node is t.ExportNamespaceSpecifier {
@@ -817,7 +817,7 @@ export function isExportNamespaceSpecifier(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isOptionalMemberExpression(
+/** @category Validators */ export function isOptionalMemberExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.OptionalMemberExpression> | null,
 ): node is t.OptionalMemberExpression {
@@ -827,7 +827,7 @@ export function isOptionalMemberExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isOptionalCallExpression(
+/** @category Validators */ export function isOptionalCallExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.OptionalCallExpression> | null,
 ): node is t.OptionalCallExpression {
@@ -837,7 +837,7 @@ export function isOptionalCallExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isClassProperty(
+/** @category Validators */ export function isClassProperty(
   node: t.Node | null | undefined,
   opts?: Opts<t.ClassProperty> | null,
 ): node is t.ClassProperty {
@@ -847,7 +847,7 @@ export function isClassProperty(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isClassAccessorProperty(
+/** @category Validators */ export function isClassAccessorProperty(
   node: t.Node | null | undefined,
   opts?: Opts<t.ClassAccessorProperty> | null,
 ): node is t.ClassAccessorProperty {
@@ -857,7 +857,7 @@ export function isClassAccessorProperty(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isClassPrivateProperty(
+/** @category Validators */ export function isClassPrivateProperty(
   node: t.Node | null | undefined,
   opts?: Opts<t.ClassPrivateProperty> | null,
 ): node is t.ClassPrivateProperty {
@@ -867,7 +867,7 @@ export function isClassPrivateProperty(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isClassPrivateMethod(
+/** @category Validators */ export function isClassPrivateMethod(
   node: t.Node | null | undefined,
   opts?: Opts<t.ClassPrivateMethod> | null,
 ): node is t.ClassPrivateMethod {
@@ -877,7 +877,7 @@ export function isClassPrivateMethod(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isPrivateName(
+/** @category Validators */ export function isPrivateName(
   node: t.Node | null | undefined,
   opts?: Opts<t.PrivateName> | null,
 ): node is t.PrivateName {
@@ -887,7 +887,7 @@ export function isPrivateName(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isStaticBlock(
+/** @category Validators */ export function isStaticBlock(
   node: t.Node | null | undefined,
   opts?: Opts<t.StaticBlock> | null,
 ): node is t.StaticBlock {
@@ -897,7 +897,7 @@ export function isStaticBlock(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isImportAttribute(
+/** @category Validators */ export function isImportAttribute(
   node: t.Node | null | undefined,
   opts?: Opts<t.ImportAttribute> | null,
 ): node is t.ImportAttribute {
@@ -907,7 +907,7 @@ export function isImportAttribute(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isAnyTypeAnnotation(
+/** @category Validators */ export function isAnyTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.AnyTypeAnnotation> | null,
 ): node is t.AnyTypeAnnotation {
@@ -917,7 +917,7 @@ export function isAnyTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isArrayTypeAnnotation(
+/** @category Validators */ export function isArrayTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.ArrayTypeAnnotation> | null,
 ): node is t.ArrayTypeAnnotation {
@@ -927,7 +927,7 @@ export function isArrayTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isBooleanTypeAnnotation(
+/** @category Validators */ export function isBooleanTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.BooleanTypeAnnotation> | null,
 ): node is t.BooleanTypeAnnotation {
@@ -937,7 +937,7 @@ export function isBooleanTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isBooleanLiteralTypeAnnotation(
+/** @category Validators */ export function isBooleanLiteralTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.BooleanLiteralTypeAnnotation> | null,
 ): node is t.BooleanLiteralTypeAnnotation {
@@ -947,7 +947,7 @@ export function isBooleanLiteralTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isNullLiteralTypeAnnotation(
+/** @category Validators */ export function isNullLiteralTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.NullLiteralTypeAnnotation> | null,
 ): node is t.NullLiteralTypeAnnotation {
@@ -957,7 +957,7 @@ export function isNullLiteralTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isClassImplements(
+/** @category Validators */ export function isClassImplements(
   node: t.Node | null | undefined,
   opts?: Opts<t.ClassImplements> | null,
 ): node is t.ClassImplements {
@@ -967,7 +967,7 @@ export function isClassImplements(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDeclareClass(
+/** @category Validators */ export function isDeclareClass(
   node: t.Node | null | undefined,
   opts?: Opts<t.DeclareClass> | null,
 ): node is t.DeclareClass {
@@ -977,7 +977,7 @@ export function isDeclareClass(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDeclareFunction(
+/** @category Validators */ export function isDeclareFunction(
   node: t.Node | null | undefined,
   opts?: Opts<t.DeclareFunction> | null,
 ): node is t.DeclareFunction {
@@ -987,7 +987,7 @@ export function isDeclareFunction(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDeclareInterface(
+/** @category Validators */ export function isDeclareInterface(
   node: t.Node | null | undefined,
   opts?: Opts<t.DeclareInterface> | null,
 ): node is t.DeclareInterface {
@@ -997,7 +997,7 @@ export function isDeclareInterface(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDeclareModule(
+/** @category Validators */ export function isDeclareModule(
   node: t.Node | null | undefined,
   opts?: Opts<t.DeclareModule> | null,
 ): node is t.DeclareModule {
@@ -1007,7 +1007,7 @@ export function isDeclareModule(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDeclareModuleExports(
+/** @category Validators */ export function isDeclareModuleExports(
   node: t.Node | null | undefined,
   opts?: Opts<t.DeclareModuleExports> | null,
 ): node is t.DeclareModuleExports {
@@ -1017,7 +1017,7 @@ export function isDeclareModuleExports(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDeclareTypeAlias(
+/** @category Validators */ export function isDeclareTypeAlias(
   node: t.Node | null | undefined,
   opts?: Opts<t.DeclareTypeAlias> | null,
 ): node is t.DeclareTypeAlias {
@@ -1027,7 +1027,7 @@ export function isDeclareTypeAlias(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDeclareOpaqueType(
+/** @category Validators */ export function isDeclareOpaqueType(
   node: t.Node | null | undefined,
   opts?: Opts<t.DeclareOpaqueType> | null,
 ): node is t.DeclareOpaqueType {
@@ -1037,7 +1037,7 @@ export function isDeclareOpaqueType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDeclareVariable(
+/** @category Validators */ export function isDeclareVariable(
   node: t.Node | null | undefined,
   opts?: Opts<t.DeclareVariable> | null,
 ): node is t.DeclareVariable {
@@ -1047,7 +1047,7 @@ export function isDeclareVariable(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDeclareExportDeclaration(
+/** @category Validators */ export function isDeclareExportDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.DeclareExportDeclaration> | null,
 ): node is t.DeclareExportDeclaration {
@@ -1057,7 +1057,7 @@ export function isDeclareExportDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDeclareExportAllDeclaration(
+/** @category Validators */ export function isDeclareExportAllDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.DeclareExportAllDeclaration> | null,
 ): node is t.DeclareExportAllDeclaration {
@@ -1067,7 +1067,7 @@ export function isDeclareExportAllDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDeclaredPredicate(
+/** @category Validators */ export function isDeclaredPredicate(
   node: t.Node | null | undefined,
   opts?: Opts<t.DeclaredPredicate> | null,
 ): node is t.DeclaredPredicate {
@@ -1077,7 +1077,7 @@ export function isDeclaredPredicate(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isExistsTypeAnnotation(
+/** @category Validators */ export function isExistsTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.ExistsTypeAnnotation> | null,
 ): node is t.ExistsTypeAnnotation {
@@ -1087,7 +1087,7 @@ export function isExistsTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isFunctionTypeAnnotation(
+/** @category Validators */ export function isFunctionTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.FunctionTypeAnnotation> | null,
 ): node is t.FunctionTypeAnnotation {
@@ -1097,7 +1097,7 @@ export function isFunctionTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isFunctionTypeParam(
+/** @category Validators */ export function isFunctionTypeParam(
   node: t.Node | null | undefined,
   opts?: Opts<t.FunctionTypeParam> | null,
 ): node is t.FunctionTypeParam {
@@ -1107,7 +1107,7 @@ export function isFunctionTypeParam(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isGenericTypeAnnotation(
+/** @category Validators */ export function isGenericTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.GenericTypeAnnotation> | null,
 ): node is t.GenericTypeAnnotation {
@@ -1117,7 +1117,7 @@ export function isGenericTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isInferredPredicate(
+/** @category Validators */ export function isInferredPredicate(
   node: t.Node | null | undefined,
   opts?: Opts<t.InferredPredicate> | null,
 ): node is t.InferredPredicate {
@@ -1127,7 +1127,7 @@ export function isInferredPredicate(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isInterfaceExtends(
+/** @category Validators */ export function isInterfaceExtends(
   node: t.Node | null | undefined,
   opts?: Opts<t.InterfaceExtends> | null,
 ): node is t.InterfaceExtends {
@@ -1137,7 +1137,7 @@ export function isInterfaceExtends(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isInterfaceDeclaration(
+/** @category Validators */ export function isInterfaceDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.InterfaceDeclaration> | null,
 ): node is t.InterfaceDeclaration {
@@ -1147,7 +1147,7 @@ export function isInterfaceDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isInterfaceTypeAnnotation(
+/** @category Validators */ export function isInterfaceTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.InterfaceTypeAnnotation> | null,
 ): node is t.InterfaceTypeAnnotation {
@@ -1157,7 +1157,7 @@ export function isInterfaceTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isIntersectionTypeAnnotation(
+/** @category Validators */ export function isIntersectionTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.IntersectionTypeAnnotation> | null,
 ): node is t.IntersectionTypeAnnotation {
@@ -1167,7 +1167,7 @@ export function isIntersectionTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isMixedTypeAnnotation(
+/** @category Validators */ export function isMixedTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.MixedTypeAnnotation> | null,
 ): node is t.MixedTypeAnnotation {
@@ -1177,7 +1177,7 @@ export function isMixedTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isEmptyTypeAnnotation(
+/** @category Validators */ export function isEmptyTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.EmptyTypeAnnotation> | null,
 ): node is t.EmptyTypeAnnotation {
@@ -1187,7 +1187,7 @@ export function isEmptyTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isNullableTypeAnnotation(
+/** @category Validators */ export function isNullableTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.NullableTypeAnnotation> | null,
 ): node is t.NullableTypeAnnotation {
@@ -1197,7 +1197,7 @@ export function isNullableTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isNumberLiteralTypeAnnotation(
+/** @category Validators */ export function isNumberLiteralTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.NumberLiteralTypeAnnotation> | null,
 ): node is t.NumberLiteralTypeAnnotation {
@@ -1207,7 +1207,7 @@ export function isNumberLiteralTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isNumberTypeAnnotation(
+/** @category Validators */ export function isNumberTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.NumberTypeAnnotation> | null,
 ): node is t.NumberTypeAnnotation {
@@ -1217,7 +1217,7 @@ export function isNumberTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isObjectTypeAnnotation(
+/** @category Validators */ export function isObjectTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.ObjectTypeAnnotation> | null,
 ): node is t.ObjectTypeAnnotation {
@@ -1227,7 +1227,7 @@ export function isObjectTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isObjectTypeInternalSlot(
+/** @category Validators */ export function isObjectTypeInternalSlot(
   node: t.Node | null | undefined,
   opts?: Opts<t.ObjectTypeInternalSlot> | null,
 ): node is t.ObjectTypeInternalSlot {
@@ -1237,7 +1237,7 @@ export function isObjectTypeInternalSlot(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isObjectTypeCallProperty(
+/** @category Validators */ export function isObjectTypeCallProperty(
   node: t.Node | null | undefined,
   opts?: Opts<t.ObjectTypeCallProperty> | null,
 ): node is t.ObjectTypeCallProperty {
@@ -1247,7 +1247,7 @@ export function isObjectTypeCallProperty(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isObjectTypeIndexer(
+/** @category Validators */ export function isObjectTypeIndexer(
   node: t.Node | null | undefined,
   opts?: Opts<t.ObjectTypeIndexer> | null,
 ): node is t.ObjectTypeIndexer {
@@ -1257,7 +1257,7 @@ export function isObjectTypeIndexer(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isObjectTypeProperty(
+/** @category Validators */ export function isObjectTypeProperty(
   node: t.Node | null | undefined,
   opts?: Opts<t.ObjectTypeProperty> | null,
 ): node is t.ObjectTypeProperty {
@@ -1267,7 +1267,7 @@ export function isObjectTypeProperty(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isObjectTypeSpreadProperty(
+/** @category Validators */ export function isObjectTypeSpreadProperty(
   node: t.Node | null | undefined,
   opts?: Opts<t.ObjectTypeSpreadProperty> | null,
 ): node is t.ObjectTypeSpreadProperty {
@@ -1277,7 +1277,7 @@ export function isObjectTypeSpreadProperty(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isOpaqueType(
+/** @category Validators */ export function isOpaqueType(
   node: t.Node | null | undefined,
   opts?: Opts<t.OpaqueType> | null,
 ): node is t.OpaqueType {
@@ -1287,7 +1287,7 @@ export function isOpaqueType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isQualifiedTypeIdentifier(
+/** @category Validators */ export function isQualifiedTypeIdentifier(
   node: t.Node | null | undefined,
   opts?: Opts<t.QualifiedTypeIdentifier> | null,
 ): node is t.QualifiedTypeIdentifier {
@@ -1297,7 +1297,7 @@ export function isQualifiedTypeIdentifier(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isStringLiteralTypeAnnotation(
+/** @category Validators */ export function isStringLiteralTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.StringLiteralTypeAnnotation> | null,
 ): node is t.StringLiteralTypeAnnotation {
@@ -1307,7 +1307,7 @@ export function isStringLiteralTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isStringTypeAnnotation(
+/** @category Validators */ export function isStringTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.StringTypeAnnotation> | null,
 ): node is t.StringTypeAnnotation {
@@ -1317,7 +1317,7 @@ export function isStringTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isSymbolTypeAnnotation(
+/** @category Validators */ export function isSymbolTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.SymbolTypeAnnotation> | null,
 ): node is t.SymbolTypeAnnotation {
@@ -1327,7 +1327,7 @@ export function isSymbolTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isThisTypeAnnotation(
+/** @category Validators */ export function isThisTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.ThisTypeAnnotation> | null,
 ): node is t.ThisTypeAnnotation {
@@ -1337,7 +1337,7 @@ export function isThisTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTupleTypeAnnotation(
+/** @category Validators */ export function isTupleTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.TupleTypeAnnotation> | null,
 ): node is t.TupleTypeAnnotation {
@@ -1347,7 +1347,7 @@ export function isTupleTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTypeofTypeAnnotation(
+/** @category Validators */ export function isTypeofTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.TypeofTypeAnnotation> | null,
 ): node is t.TypeofTypeAnnotation {
@@ -1357,7 +1357,7 @@ export function isTypeofTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTypeAlias(
+/** @category Validators */ export function isTypeAlias(
   node: t.Node | null | undefined,
   opts?: Opts<t.TypeAlias> | null,
 ): node is t.TypeAlias {
@@ -1367,7 +1367,7 @@ export function isTypeAlias(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTypeAnnotation(
+/** @category Validators */ export function isTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.TypeAnnotation> | null,
 ): node is t.TypeAnnotation {
@@ -1377,7 +1377,7 @@ export function isTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTypeCastExpression(
+/** @category Validators */ export function isTypeCastExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.TypeCastExpression> | null,
 ): node is t.TypeCastExpression {
@@ -1387,7 +1387,7 @@ export function isTypeCastExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTypeParameter(
+/** @category Validators */ export function isTypeParameter(
   node: t.Node | null | undefined,
   opts?: Opts<t.TypeParameter> | null,
 ): node is t.TypeParameter {
@@ -1397,7 +1397,7 @@ export function isTypeParameter(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTypeParameterDeclaration(
+/** @category Validators */ export function isTypeParameterDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.TypeParameterDeclaration> | null,
 ): node is t.TypeParameterDeclaration {
@@ -1407,7 +1407,7 @@ export function isTypeParameterDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTypeParameterInstantiation(
+/** @category Validators */ export function isTypeParameterInstantiation(
   node: t.Node | null | undefined,
   opts?: Opts<t.TypeParameterInstantiation> | null,
 ): node is t.TypeParameterInstantiation {
@@ -1417,7 +1417,7 @@ export function isTypeParameterInstantiation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isUnionTypeAnnotation(
+/** @category Validators */ export function isUnionTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.UnionTypeAnnotation> | null,
 ): node is t.UnionTypeAnnotation {
@@ -1427,7 +1427,7 @@ export function isUnionTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isVariance(
+/** @category Validators */ export function isVariance(
   node: t.Node | null | undefined,
   opts?: Opts<t.Variance> | null,
 ): node is t.Variance {
@@ -1437,7 +1437,7 @@ export function isVariance(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isVoidTypeAnnotation(
+/** @category Validators */ export function isVoidTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.VoidTypeAnnotation> | null,
 ): node is t.VoidTypeAnnotation {
@@ -1447,7 +1447,7 @@ export function isVoidTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isEnumDeclaration(
+/** @category Validators */ export function isEnumDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.EnumDeclaration> | null,
 ): node is t.EnumDeclaration {
@@ -1457,7 +1457,7 @@ export function isEnumDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isEnumBooleanBody(
+/** @category Validators */ export function isEnumBooleanBody(
   node: t.Node | null | undefined,
   opts?: Opts<t.EnumBooleanBody> | null,
 ): node is t.EnumBooleanBody {
@@ -1467,7 +1467,7 @@ export function isEnumBooleanBody(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isEnumNumberBody(
+/** @category Validators */ export function isEnumNumberBody(
   node: t.Node | null | undefined,
   opts?: Opts<t.EnumNumberBody> | null,
 ): node is t.EnumNumberBody {
@@ -1477,7 +1477,7 @@ export function isEnumNumberBody(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isEnumStringBody(
+/** @category Validators */ export function isEnumStringBody(
   node: t.Node | null | undefined,
   opts?: Opts<t.EnumStringBody> | null,
 ): node is t.EnumStringBody {
@@ -1487,7 +1487,7 @@ export function isEnumStringBody(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isEnumSymbolBody(
+/** @category Validators */ export function isEnumSymbolBody(
   node: t.Node | null | undefined,
   opts?: Opts<t.EnumSymbolBody> | null,
 ): node is t.EnumSymbolBody {
@@ -1497,7 +1497,7 @@ export function isEnumSymbolBody(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isEnumBooleanMember(
+/** @category Validators */ export function isEnumBooleanMember(
   node: t.Node | null | undefined,
   opts?: Opts<t.EnumBooleanMember> | null,
 ): node is t.EnumBooleanMember {
@@ -1507,7 +1507,7 @@ export function isEnumBooleanMember(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isEnumNumberMember(
+/** @category Validators */ export function isEnumNumberMember(
   node: t.Node | null | undefined,
   opts?: Opts<t.EnumNumberMember> | null,
 ): node is t.EnumNumberMember {
@@ -1517,7 +1517,7 @@ export function isEnumNumberMember(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isEnumStringMember(
+/** @category Validators */ export function isEnumStringMember(
   node: t.Node | null | undefined,
   opts?: Opts<t.EnumStringMember> | null,
 ): node is t.EnumStringMember {
@@ -1527,7 +1527,7 @@ export function isEnumStringMember(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isEnumDefaultedMember(
+/** @category Validators */ export function isEnumDefaultedMember(
   node: t.Node | null | undefined,
   opts?: Opts<t.EnumDefaultedMember> | null,
 ): node is t.EnumDefaultedMember {
@@ -1537,7 +1537,7 @@ export function isEnumDefaultedMember(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isIndexedAccessType(
+/** @category Validators */ export function isIndexedAccessType(
   node: t.Node | null | undefined,
   opts?: Opts<t.IndexedAccessType> | null,
 ): node is t.IndexedAccessType {
@@ -1547,7 +1547,7 @@ export function isIndexedAccessType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isOptionalIndexedAccessType(
+/** @category Validators */ export function isOptionalIndexedAccessType(
   node: t.Node | null | undefined,
   opts?: Opts<t.OptionalIndexedAccessType> | null,
 ): node is t.OptionalIndexedAccessType {
@@ -1557,7 +1557,7 @@ export function isOptionalIndexedAccessType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSXAttribute(
+/** @category Validators */ export function isJSXAttribute(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSXAttribute> | null,
 ): node is t.JSXAttribute {
@@ -1567,7 +1567,7 @@ export function isJSXAttribute(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSXClosingElement(
+/** @category Validators */ export function isJSXClosingElement(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSXClosingElement> | null,
 ): node is t.JSXClosingElement {
@@ -1577,7 +1577,7 @@ export function isJSXClosingElement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSXElement(
+/** @category Validators */ export function isJSXElement(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSXElement> | null,
 ): node is t.JSXElement {
@@ -1587,7 +1587,7 @@ export function isJSXElement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSXEmptyExpression(
+/** @category Validators */ export function isJSXEmptyExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSXEmptyExpression> | null,
 ): node is t.JSXEmptyExpression {
@@ -1597,7 +1597,7 @@ export function isJSXEmptyExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSXExpressionContainer(
+/** @category Validators */ export function isJSXExpressionContainer(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSXExpressionContainer> | null,
 ): node is t.JSXExpressionContainer {
@@ -1607,7 +1607,7 @@ export function isJSXExpressionContainer(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSXSpreadChild(
+/** @category Validators */ export function isJSXSpreadChild(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSXSpreadChild> | null,
 ): node is t.JSXSpreadChild {
@@ -1617,7 +1617,7 @@ export function isJSXSpreadChild(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSXIdentifier(
+/** @category Validators */ export function isJSXIdentifier(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSXIdentifier> | null,
 ): node is t.JSXIdentifier {
@@ -1627,7 +1627,7 @@ export function isJSXIdentifier(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSXMemberExpression(
+/** @category Validators */ export function isJSXMemberExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSXMemberExpression> | null,
 ): node is t.JSXMemberExpression {
@@ -1637,7 +1637,7 @@ export function isJSXMemberExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSXNamespacedName(
+/** @category Validators */ export function isJSXNamespacedName(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSXNamespacedName> | null,
 ): node is t.JSXNamespacedName {
@@ -1647,7 +1647,7 @@ export function isJSXNamespacedName(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSXOpeningElement(
+/** @category Validators */ export function isJSXOpeningElement(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSXOpeningElement> | null,
 ): node is t.JSXOpeningElement {
@@ -1657,7 +1657,7 @@ export function isJSXOpeningElement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSXSpreadAttribute(
+/** @category Validators */ export function isJSXSpreadAttribute(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSXSpreadAttribute> | null,
 ): node is t.JSXSpreadAttribute {
@@ -1667,7 +1667,7 @@ export function isJSXSpreadAttribute(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSXText(
+/** @category Validators */ export function isJSXText(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSXText> | null,
 ): node is t.JSXText {
@@ -1677,7 +1677,7 @@ export function isJSXText(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSXFragment(
+/** @category Validators */ export function isJSXFragment(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSXFragment> | null,
 ): node is t.JSXFragment {
@@ -1687,7 +1687,7 @@ export function isJSXFragment(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSXOpeningFragment(
+/** @category Validators */ export function isJSXOpeningFragment(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSXOpeningFragment> | null,
 ): node is t.JSXOpeningFragment {
@@ -1697,7 +1697,7 @@ export function isJSXOpeningFragment(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSXClosingFragment(
+/** @category Validators */ export function isJSXClosingFragment(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSXClosingFragment> | null,
 ): node is t.JSXClosingFragment {
@@ -1707,7 +1707,7 @@ export function isJSXClosingFragment(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isNoop(
+/** @category Validators */ export function isNoop(
   node: t.Node | null | undefined,
   opts?: Opts<t.Noop> | null,
 ): node is t.Noop {
@@ -1717,7 +1717,7 @@ export function isNoop(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isPlaceholder(
+/** @category Validators */ export function isPlaceholder(
   node: t.Node | null | undefined,
   opts?: Opts<t.Placeholder> | null,
 ): node is t.Placeholder {
@@ -1727,7 +1727,7 @@ export function isPlaceholder(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isV8IntrinsicIdentifier(
+/** @category Validators */ export function isV8IntrinsicIdentifier(
   node: t.Node | null | undefined,
   opts?: Opts<t.V8IntrinsicIdentifier> | null,
 ): node is t.V8IntrinsicIdentifier {
@@ -1737,7 +1737,7 @@ export function isV8IntrinsicIdentifier(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isArgumentPlaceholder(
+/** @category Validators */ export function isArgumentPlaceholder(
   node: t.Node | null | undefined,
   opts?: Opts<t.ArgumentPlaceholder> | null,
 ): node is t.ArgumentPlaceholder {
@@ -1747,7 +1747,7 @@ export function isArgumentPlaceholder(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isBindExpression(
+/** @category Validators */ export function isBindExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.BindExpression> | null,
 ): node is t.BindExpression {
@@ -1757,7 +1757,7 @@ export function isBindExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDecorator(
+/** @category Validators */ export function isDecorator(
   node: t.Node | null | undefined,
   opts?: Opts<t.Decorator> | null,
 ): node is t.Decorator {
@@ -1767,7 +1767,7 @@ export function isDecorator(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDoExpression(
+/** @category Validators */ export function isDoExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.DoExpression> | null,
 ): node is t.DoExpression {
@@ -1777,7 +1777,7 @@ export function isDoExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isExportDefaultSpecifier(
+/** @category Validators */ export function isExportDefaultSpecifier(
   node: t.Node | null | undefined,
   opts?: Opts<t.ExportDefaultSpecifier> | null,
 ): node is t.ExportDefaultSpecifier {
@@ -1787,7 +1787,7 @@ export function isExportDefaultSpecifier(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isRecordExpression(
+/** @category Validators */ export function isRecordExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.RecordExpression> | null,
 ): node is t.RecordExpression {
@@ -1797,7 +1797,7 @@ export function isRecordExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTupleExpression(
+/** @category Validators */ export function isTupleExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.TupleExpression> | null,
 ): node is t.TupleExpression {
@@ -1807,7 +1807,7 @@ export function isTupleExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDecimalLiteral(
+/** @category Validators */ export function isDecimalLiteral(
   node: t.Node | null | undefined,
   opts?: Opts<t.DecimalLiteral> | null,
 ): node is t.DecimalLiteral {
@@ -1817,7 +1817,7 @@ export function isDecimalLiteral(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isModuleExpression(
+/** @category Validators */ export function isModuleExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.ModuleExpression> | null,
 ): node is t.ModuleExpression {
@@ -1827,7 +1827,7 @@ export function isModuleExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTopicReference(
+/** @category Validators */ export function isTopicReference(
   node: t.Node | null | undefined,
   opts?: Opts<t.TopicReference> | null,
 ): node is t.TopicReference {
@@ -1837,7 +1837,7 @@ export function isTopicReference(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isPipelineTopicExpression(
+/** @category Validators */ export function isPipelineTopicExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.PipelineTopicExpression> | null,
 ): node is t.PipelineTopicExpression {
@@ -1847,7 +1847,7 @@ export function isPipelineTopicExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isPipelineBareFunction(
+/** @category Validators */ export function isPipelineBareFunction(
   node: t.Node | null | undefined,
   opts?: Opts<t.PipelineBareFunction> | null,
 ): node is t.PipelineBareFunction {
@@ -1857,7 +1857,7 @@ export function isPipelineBareFunction(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isPipelinePrimaryTopicReference(
+/** @category Validators */ export function isPipelinePrimaryTopicReference(
   node: t.Node | null | undefined,
   opts?: Opts<t.PipelinePrimaryTopicReference> | null,
 ): node is t.PipelinePrimaryTopicReference {
@@ -1867,7 +1867,7 @@ export function isPipelinePrimaryTopicReference(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSParameterProperty(
+/** @category Validators */ export function isTSParameterProperty(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSParameterProperty> | null,
 ): node is t.TSParameterProperty {
@@ -1877,7 +1877,7 @@ export function isTSParameterProperty(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSDeclareFunction(
+/** @category Validators */ export function isTSDeclareFunction(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSDeclareFunction> | null,
 ): node is t.TSDeclareFunction {
@@ -1887,7 +1887,7 @@ export function isTSDeclareFunction(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSDeclareMethod(
+/** @category Validators */ export function isTSDeclareMethod(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSDeclareMethod> | null,
 ): node is t.TSDeclareMethod {
@@ -1897,7 +1897,7 @@ export function isTSDeclareMethod(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSQualifiedName(
+/** @category Validators */ export function isTSQualifiedName(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSQualifiedName> | null,
 ): node is t.TSQualifiedName {
@@ -1907,7 +1907,7 @@ export function isTSQualifiedName(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSCallSignatureDeclaration(
+/** @category Validators */ export function isTSCallSignatureDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSCallSignatureDeclaration> | null,
 ): node is t.TSCallSignatureDeclaration {
@@ -1917,7 +1917,7 @@ export function isTSCallSignatureDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSConstructSignatureDeclaration(
+/** @category Validators */ export function isTSConstructSignatureDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSConstructSignatureDeclaration> | null,
 ): node is t.TSConstructSignatureDeclaration {
@@ -1927,7 +1927,7 @@ export function isTSConstructSignatureDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSPropertySignature(
+/** @category Validators */ export function isTSPropertySignature(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSPropertySignature> | null,
 ): node is t.TSPropertySignature {
@@ -1937,7 +1937,7 @@ export function isTSPropertySignature(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSMethodSignature(
+/** @category Validators */ export function isTSMethodSignature(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSMethodSignature> | null,
 ): node is t.TSMethodSignature {
@@ -1947,7 +1947,7 @@ export function isTSMethodSignature(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSIndexSignature(
+/** @category Validators */ export function isTSIndexSignature(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSIndexSignature> | null,
 ): node is t.TSIndexSignature {
@@ -1957,7 +1957,7 @@ export function isTSIndexSignature(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSAnyKeyword(
+/** @category Validators */ export function isTSAnyKeyword(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSAnyKeyword> | null,
 ): node is t.TSAnyKeyword {
@@ -1967,7 +1967,7 @@ export function isTSAnyKeyword(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSBooleanKeyword(
+/** @category Validators */ export function isTSBooleanKeyword(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSBooleanKeyword> | null,
 ): node is t.TSBooleanKeyword {
@@ -1977,7 +1977,7 @@ export function isTSBooleanKeyword(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSBigIntKeyword(
+/** @category Validators */ export function isTSBigIntKeyword(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSBigIntKeyword> | null,
 ): node is t.TSBigIntKeyword {
@@ -1987,7 +1987,7 @@ export function isTSBigIntKeyword(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSIntrinsicKeyword(
+/** @category Validators */ export function isTSIntrinsicKeyword(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSIntrinsicKeyword> | null,
 ): node is t.TSIntrinsicKeyword {
@@ -1997,7 +1997,7 @@ export function isTSIntrinsicKeyword(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSNeverKeyword(
+/** @category Validators */ export function isTSNeverKeyword(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSNeverKeyword> | null,
 ): node is t.TSNeverKeyword {
@@ -2007,7 +2007,7 @@ export function isTSNeverKeyword(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSNullKeyword(
+/** @category Validators */ export function isTSNullKeyword(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSNullKeyword> | null,
 ): node is t.TSNullKeyword {
@@ -2017,7 +2017,7 @@ export function isTSNullKeyword(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSNumberKeyword(
+/** @category Validators */ export function isTSNumberKeyword(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSNumberKeyword> | null,
 ): node is t.TSNumberKeyword {
@@ -2027,7 +2027,7 @@ export function isTSNumberKeyword(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSObjectKeyword(
+/** @category Validators */ export function isTSObjectKeyword(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSObjectKeyword> | null,
 ): node is t.TSObjectKeyword {
@@ -2037,7 +2037,7 @@ export function isTSObjectKeyword(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSStringKeyword(
+/** @category Validators */ export function isTSStringKeyword(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSStringKeyword> | null,
 ): node is t.TSStringKeyword {
@@ -2047,7 +2047,7 @@ export function isTSStringKeyword(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSSymbolKeyword(
+/** @category Validators */ export function isTSSymbolKeyword(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSSymbolKeyword> | null,
 ): node is t.TSSymbolKeyword {
@@ -2057,7 +2057,7 @@ export function isTSSymbolKeyword(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSUndefinedKeyword(
+/** @category Validators */ export function isTSUndefinedKeyword(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSUndefinedKeyword> | null,
 ): node is t.TSUndefinedKeyword {
@@ -2067,7 +2067,7 @@ export function isTSUndefinedKeyword(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSUnknownKeyword(
+/** @category Validators */ export function isTSUnknownKeyword(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSUnknownKeyword> | null,
 ): node is t.TSUnknownKeyword {
@@ -2077,7 +2077,7 @@ export function isTSUnknownKeyword(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSVoidKeyword(
+/** @category Validators */ export function isTSVoidKeyword(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSVoidKeyword> | null,
 ): node is t.TSVoidKeyword {
@@ -2087,7 +2087,7 @@ export function isTSVoidKeyword(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSThisType(
+/** @category Validators */ export function isTSThisType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSThisType> | null,
 ): node is t.TSThisType {
@@ -2097,7 +2097,7 @@ export function isTSThisType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSFunctionType(
+/** @category Validators */ export function isTSFunctionType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSFunctionType> | null,
 ): node is t.TSFunctionType {
@@ -2107,7 +2107,7 @@ export function isTSFunctionType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSConstructorType(
+/** @category Validators */ export function isTSConstructorType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSConstructorType> | null,
 ): node is t.TSConstructorType {
@@ -2117,7 +2117,7 @@ export function isTSConstructorType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSTypeReference(
+/** @category Validators */ export function isTSTypeReference(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSTypeReference> | null,
 ): node is t.TSTypeReference {
@@ -2127,7 +2127,7 @@ export function isTSTypeReference(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSTypePredicate(
+/** @category Validators */ export function isTSTypePredicate(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSTypePredicate> | null,
 ): node is t.TSTypePredicate {
@@ -2137,7 +2137,7 @@ export function isTSTypePredicate(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSTypeQuery(
+/** @category Validators */ export function isTSTypeQuery(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSTypeQuery> | null,
 ): node is t.TSTypeQuery {
@@ -2147,7 +2147,7 @@ export function isTSTypeQuery(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSTypeLiteral(
+/** @category Validators */ export function isTSTypeLiteral(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSTypeLiteral> | null,
 ): node is t.TSTypeLiteral {
@@ -2157,7 +2157,7 @@ export function isTSTypeLiteral(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSArrayType(
+/** @category Validators */ export function isTSArrayType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSArrayType> | null,
 ): node is t.TSArrayType {
@@ -2167,7 +2167,7 @@ export function isTSArrayType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSTupleType(
+/** @category Validators */ export function isTSTupleType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSTupleType> | null,
 ): node is t.TSTupleType {
@@ -2177,7 +2177,7 @@ export function isTSTupleType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSOptionalType(
+/** @category Validators */ export function isTSOptionalType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSOptionalType> | null,
 ): node is t.TSOptionalType {
@@ -2187,7 +2187,7 @@ export function isTSOptionalType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSRestType(
+/** @category Validators */ export function isTSRestType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSRestType> | null,
 ): node is t.TSRestType {
@@ -2197,7 +2197,7 @@ export function isTSRestType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSNamedTupleMember(
+/** @category Validators */ export function isTSNamedTupleMember(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSNamedTupleMember> | null,
 ): node is t.TSNamedTupleMember {
@@ -2207,7 +2207,7 @@ export function isTSNamedTupleMember(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSUnionType(
+/** @category Validators */ export function isTSUnionType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSUnionType> | null,
 ): node is t.TSUnionType {
@@ -2217,7 +2217,7 @@ export function isTSUnionType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSIntersectionType(
+/** @category Validators */ export function isTSIntersectionType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSIntersectionType> | null,
 ): node is t.TSIntersectionType {
@@ -2227,7 +2227,7 @@ export function isTSIntersectionType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSConditionalType(
+/** @category Validators */ export function isTSConditionalType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSConditionalType> | null,
 ): node is t.TSConditionalType {
@@ -2237,7 +2237,7 @@ export function isTSConditionalType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSInferType(
+/** @category Validators */ export function isTSInferType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSInferType> | null,
 ): node is t.TSInferType {
@@ -2247,7 +2247,7 @@ export function isTSInferType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSParenthesizedType(
+/** @category Validators */ export function isTSParenthesizedType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSParenthesizedType> | null,
 ): node is t.TSParenthesizedType {
@@ -2257,7 +2257,7 @@ export function isTSParenthesizedType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSTypeOperator(
+/** @category Validators */ export function isTSTypeOperator(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSTypeOperator> | null,
 ): node is t.TSTypeOperator {
@@ -2267,7 +2267,7 @@ export function isTSTypeOperator(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSIndexedAccessType(
+/** @category Validators */ export function isTSIndexedAccessType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSIndexedAccessType> | null,
 ): node is t.TSIndexedAccessType {
@@ -2277,7 +2277,7 @@ export function isTSIndexedAccessType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSMappedType(
+/** @category Validators */ export function isTSMappedType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSMappedType> | null,
 ): node is t.TSMappedType {
@@ -2287,7 +2287,7 @@ export function isTSMappedType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSTemplateLiteralType(
+/** @category Validators */ export function isTSTemplateLiteralType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSTemplateLiteralType> | null,
 ): node is t.TSTemplateLiteralType {
@@ -2297,7 +2297,7 @@ export function isTSTemplateLiteralType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSLiteralType(
+/** @category Validators */ export function isTSLiteralType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSLiteralType> | null,
 ): node is t.TSLiteralType {
@@ -2307,7 +2307,7 @@ export function isTSLiteralType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSExpressionWithTypeArguments(
+/** @category Validators */ export function isTSExpressionWithTypeArguments(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSExpressionWithTypeArguments> | null,
 ): node is t.TSExpressionWithTypeArguments {
@@ -2317,7 +2317,7 @@ export function isTSExpressionWithTypeArguments(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSInterfaceDeclaration(
+/** @category Validators */ export function isTSInterfaceDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSInterfaceDeclaration> | null,
 ): node is t.TSInterfaceDeclaration {
@@ -2327,7 +2327,7 @@ export function isTSInterfaceDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSInterfaceBody(
+/** @category Validators */ export function isTSInterfaceBody(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSInterfaceBody> | null,
 ): node is t.TSInterfaceBody {
@@ -2337,7 +2337,7 @@ export function isTSInterfaceBody(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSTypeAliasDeclaration(
+/** @category Validators */ export function isTSTypeAliasDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSTypeAliasDeclaration> | null,
 ): node is t.TSTypeAliasDeclaration {
@@ -2347,7 +2347,7 @@ export function isTSTypeAliasDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSInstantiationExpression(
+/** @category Validators */ export function isTSInstantiationExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSInstantiationExpression> | null,
 ): node is t.TSInstantiationExpression {
@@ -2357,7 +2357,7 @@ export function isTSInstantiationExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSAsExpression(
+/** @category Validators */ export function isTSAsExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSAsExpression> | null,
 ): node is t.TSAsExpression {
@@ -2367,7 +2367,7 @@ export function isTSAsExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSSatisfiesExpression(
+/** @category Validators */ export function isTSSatisfiesExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSSatisfiesExpression> | null,
 ): node is t.TSSatisfiesExpression {
@@ -2377,7 +2377,7 @@ export function isTSSatisfiesExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSTypeAssertion(
+/** @category Validators */ export function isTSTypeAssertion(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSTypeAssertion> | null,
 ): node is t.TSTypeAssertion {
@@ -2387,7 +2387,7 @@ export function isTSTypeAssertion(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSEnumBody(
+/** @category Validators */ export function isTSEnumBody(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSEnumBody> | null,
 ): node is t.TSEnumBody {
@@ -2397,7 +2397,7 @@ export function isTSEnumBody(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSEnumDeclaration(
+/** @category Validators */ export function isTSEnumDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSEnumDeclaration> | null,
 ): node is t.TSEnumDeclaration {
@@ -2407,7 +2407,7 @@ export function isTSEnumDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSEnumMember(
+/** @category Validators */ export function isTSEnumMember(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSEnumMember> | null,
 ): node is t.TSEnumMember {
@@ -2417,7 +2417,7 @@ export function isTSEnumMember(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSModuleDeclaration(
+/** @category Validators */ export function isTSModuleDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSModuleDeclaration> | null,
 ): node is t.TSModuleDeclaration {
@@ -2427,7 +2427,7 @@ export function isTSModuleDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSModuleBlock(
+/** @category Validators */ export function isTSModuleBlock(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSModuleBlock> | null,
 ): node is t.TSModuleBlock {
@@ -2437,7 +2437,7 @@ export function isTSModuleBlock(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSImportType(
+/** @category Validators */ export function isTSImportType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSImportType> | null,
 ): node is t.TSImportType {
@@ -2447,7 +2447,7 @@ export function isTSImportType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSImportEqualsDeclaration(
+/** @category Validators */ export function isTSImportEqualsDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSImportEqualsDeclaration> | null,
 ): node is t.TSImportEqualsDeclaration {
@@ -2457,7 +2457,7 @@ export function isTSImportEqualsDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSExternalModuleReference(
+/** @category Validators */ export function isTSExternalModuleReference(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSExternalModuleReference> | null,
 ): node is t.TSExternalModuleReference {
@@ -2467,7 +2467,7 @@ export function isTSExternalModuleReference(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSNonNullExpression(
+/** @category Validators */ export function isTSNonNullExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSNonNullExpression> | null,
 ): node is t.TSNonNullExpression {
@@ -2477,7 +2477,7 @@ export function isTSNonNullExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSExportAssignment(
+/** @category Validators */ export function isTSExportAssignment(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSExportAssignment> | null,
 ): node is t.TSExportAssignment {
@@ -2487,7 +2487,7 @@ export function isTSExportAssignment(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSNamespaceExportDeclaration(
+/** @category Validators */ export function isTSNamespaceExportDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSNamespaceExportDeclaration> | null,
 ): node is t.TSNamespaceExportDeclaration {
@@ -2497,7 +2497,7 @@ export function isTSNamespaceExportDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSTypeAnnotation(
+/** @category Validators */ export function isTSTypeAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSTypeAnnotation> | null,
 ): node is t.TSTypeAnnotation {
@@ -2507,7 +2507,7 @@ export function isTSTypeAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSTypeParameterInstantiation(
+/** @category Validators */ export function isTSTypeParameterInstantiation(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSTypeParameterInstantiation> | null,
 ): node is t.TSTypeParameterInstantiation {
@@ -2517,7 +2517,7 @@ export function isTSTypeParameterInstantiation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSTypeParameterDeclaration(
+/** @category Validators */ export function isTSTypeParameterDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSTypeParameterDeclaration> | null,
 ): node is t.TSTypeParameterDeclaration {
@@ -2527,7 +2527,7 @@ export function isTSTypeParameterDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSTypeParameter(
+/** @category Validators */ export function isTSTypeParameter(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSTypeParameter> | null,
 ): node is t.TSTypeParameter {
@@ -2537,7 +2537,7 @@ export function isTSTypeParameter(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isStandardized(
+/** @category Validators */ export function isStandardized(
   node: t.Node | null | undefined,
   opts?: Opts<t.Standardized> | null,
 ): node is t.Standardized {
@@ -2651,7 +2651,7 @@ export function isStandardized(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isExpression(
+/** @category Validators */ export function isExpression(
   node: t.Node | null | undefined,
   opts?: Opts<t.Expression> | null,
 ): node is t.Expression {
@@ -2727,7 +2727,7 @@ export function isExpression(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isBinary(
+/** @category Validators */ export function isBinary(
   node: t.Node | null | undefined,
   opts?: Opts<t.Binary> | null,
 ): node is t.Binary {
@@ -2743,7 +2743,7 @@ export function isBinary(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isScopable(
+/** @category Validators */ export function isScopable(
   node: t.Node | null | undefined,
   opts?: Opts<t.Scopable> | null,
 ): node is t.Scopable {
@@ -2778,7 +2778,7 @@ export function isScopable(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isBlockParent(
+/** @category Validators */ export function isBlockParent(
   node: t.Node | null | undefined,
   opts?: Opts<t.BlockParent> | null,
 ): node is t.BlockParent {
@@ -2811,7 +2811,7 @@ export function isBlockParent(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isBlock(
+/** @category Validators */ export function isBlock(
   node: t.Node | null | undefined,
   opts?: Opts<t.Block> | null,
 ): node is t.Block {
@@ -2830,7 +2830,7 @@ export function isBlock(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isStatement(
+/** @category Validators */ export function isStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.Statement> | null,
 ): node is t.Statement {
@@ -2901,7 +2901,7 @@ export function isStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTerminatorless(
+/** @category Validators */ export function isTerminatorless(
   node: t.Node | null | undefined,
   opts?: Opts<t.Terminatorless> | null,
 ): node is t.Terminatorless {
@@ -2921,7 +2921,7 @@ export function isTerminatorless(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isCompletionStatement(
+/** @category Validators */ export function isCompletionStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.CompletionStatement> | null,
 ): node is t.CompletionStatement {
@@ -2939,7 +2939,7 @@ export function isCompletionStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isConditional(
+/** @category Validators */ export function isConditional(
   node: t.Node | null | undefined,
   opts?: Opts<t.Conditional> | null,
 ): node is t.Conditional {
@@ -2955,7 +2955,7 @@ export function isConditional(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isLoop(
+/** @category Validators */ export function isLoop(
   node: t.Node | null | undefined,
   opts?: Opts<t.Loop> | null,
 ): node is t.Loop {
@@ -2974,7 +2974,7 @@ export function isLoop(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isWhile(
+/** @category Validators */ export function isWhile(
   node: t.Node | null | undefined,
   opts?: Opts<t.While> | null,
 ): node is t.While {
@@ -2990,7 +2990,7 @@ export function isWhile(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isExpressionWrapper(
+/** @category Validators */ export function isExpressionWrapper(
   node: t.Node | null | undefined,
   opts?: Opts<t.ExpressionWrapper> | null,
 ): node is t.ExpressionWrapper {
@@ -3007,7 +3007,7 @@ export function isExpressionWrapper(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isFor(
+/** @category Validators */ export function isFor(
   node: t.Node | null | undefined,
   opts?: Opts<t.For> | null,
 ): node is t.For {
@@ -3024,7 +3024,7 @@ export function isFor(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isForXStatement(
+/** @category Validators */ export function isForXStatement(
   node: t.Node | null | undefined,
   opts?: Opts<t.ForXStatement> | null,
 ): node is t.ForXStatement {
@@ -3040,7 +3040,7 @@ export function isForXStatement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isFunction(
+/** @category Validators */ export function isFunction(
   node: t.Node | null | undefined,
   opts?: Opts<t.Function> | null,
 ): node is t.Function {
@@ -3060,7 +3060,7 @@ export function isFunction(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isFunctionParent(
+/** @category Validators */ export function isFunctionParent(
   node: t.Node | null | undefined,
   opts?: Opts<t.FunctionParent> | null,
 ): node is t.FunctionParent {
@@ -3082,7 +3082,7 @@ export function isFunctionParent(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isPureish(
+/** @category Validators */ export function isPureish(
   node: t.Node | null | undefined,
   opts?: Opts<t.Pureish> | null,
 ): node is t.Pureish {
@@ -3108,7 +3108,7 @@ export function isPureish(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isDeclaration(
+/** @category Validators */ export function isDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.Declaration> | null,
 ): node is t.Declaration {
@@ -3151,7 +3151,7 @@ export function isDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isPatternLike(
+/** @category Validators */ export function isPatternLike(
   node: t.Node | null | undefined,
   opts?: Opts<t.PatternLike> | null,
 ): node is t.PatternLike {
@@ -3183,7 +3183,7 @@ export function isPatternLike(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isLVal(
+/** @category Validators */ export function isLVal(
   node: t.Node | null | undefined,
   opts?: Opts<t.LVal> | null,
 ): node is t.LVal {
@@ -3217,7 +3217,7 @@ export function isLVal(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSEntityName(
+/** @category Validators */ export function isTSEntityName(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSEntityName> | null,
 ): node is t.TSEntityName {
@@ -3235,7 +3235,7 @@ export function isTSEntityName(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isLiteral(
+/** @category Validators */ export function isLiteral(
   node: t.Node | null | undefined,
   opts?: Opts<t.Literal> | null,
 ): node is t.Literal {
@@ -3259,7 +3259,7 @@ export function isLiteral(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isImmutable(
+/** @category Validators */ export function isImmutable(
   node: t.Node | null | undefined,
   opts?: Opts<t.Immutable> | null,
 ): node is t.Immutable {
@@ -3291,7 +3291,7 @@ export function isImmutable(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isUserWhitespacable(
+/** @category Validators */ export function isUserWhitespacable(
   node: t.Node | null | undefined,
   opts?: Opts<t.UserWhitespacable> | null,
 ): node is t.UserWhitespacable {
@@ -3312,7 +3312,7 @@ export function isUserWhitespacable(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isMethod(
+/** @category Validators */ export function isMethod(
   node: t.Node | null | undefined,
   opts?: Opts<t.Method> | null,
 ): node is t.Method {
@@ -3329,7 +3329,7 @@ export function isMethod(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isObjectMember(
+/** @category Validators */ export function isObjectMember(
   node: t.Node | null | undefined,
   opts?: Opts<t.ObjectMember> | null,
 ): node is t.ObjectMember {
@@ -3345,7 +3345,7 @@ export function isObjectMember(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isProperty(
+/** @category Validators */ export function isProperty(
   node: t.Node | null | undefined,
   opts?: Opts<t.Property> | null,
 ): node is t.Property {
@@ -3363,7 +3363,7 @@ export function isProperty(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isUnaryLike(
+/** @category Validators */ export function isUnaryLike(
   node: t.Node | null | undefined,
   opts?: Opts<t.UnaryLike> | null,
 ): node is t.UnaryLike {
@@ -3379,7 +3379,7 @@ export function isUnaryLike(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isPattern(
+/** @category Validators */ export function isPattern(
   node: t.Node | null | undefined,
   opts?: Opts<t.Pattern> | null,
 ): node is t.Pattern {
@@ -3398,7 +3398,7 @@ export function isPattern(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isClass(
+/** @category Validators */ export function isClass(
   node: t.Node | null | undefined,
   opts?: Opts<t.Class> | null,
 ): node is t.Class {
@@ -3414,7 +3414,7 @@ export function isClass(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isImportOrExportDeclaration(
+/** @category Validators */ export function isImportOrExportDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.ImportOrExportDeclaration> | null,
 ): node is t.ImportOrExportDeclaration {
@@ -3432,7 +3432,7 @@ export function isImportOrExportDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isExportDeclaration(
+/** @category Validators */ export function isExportDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.ExportDeclaration> | null,
 ): node is t.ExportDeclaration {
@@ -3449,7 +3449,7 @@ export function isExportDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isModuleSpecifier(
+/** @category Validators */ export function isModuleSpecifier(
   node: t.Node | null | undefined,
   opts?: Opts<t.ModuleSpecifier> | null,
 ): node is t.ModuleSpecifier {
@@ -3469,7 +3469,7 @@ export function isModuleSpecifier(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isAccessor(
+/** @category Validators */ export function isAccessor(
   node: t.Node | null | undefined,
   opts?: Opts<t.Accessor> | null,
 ): node is t.Accessor {
@@ -3484,7 +3484,7 @@ export function isAccessor(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isPrivate(
+/** @category Validators */ export function isPrivate(
   node: t.Node | null | undefined,
   opts?: Opts<t.Private> | null,
 ): node is t.Private {
@@ -3501,7 +3501,7 @@ export function isPrivate(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isFlow(
+/** @category Validators */ export function isFlow(
   node: t.Node | null | undefined,
   opts?: Opts<t.Flow> | null,
 ): node is t.Flow {
@@ -3580,7 +3580,7 @@ export function isFlow(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isFlowType(
+/** @category Validators */ export function isFlowType(
   node: t.Node | null | undefined,
   opts?: Opts<t.FlowType> | null,
 ): node is t.FlowType {
@@ -3620,7 +3620,7 @@ export function isFlowType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isFlowBaseAnnotation(
+/** @category Validators */ export function isFlowBaseAnnotation(
   node: t.Node | null | undefined,
   opts?: Opts<t.FlowBaseAnnotation> | null,
 ): node is t.FlowBaseAnnotation {
@@ -3644,7 +3644,7 @@ export function isFlowBaseAnnotation(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isFlowDeclaration(
+/** @category Validators */ export function isFlowDeclaration(
   node: t.Node | null | undefined,
   opts?: Opts<t.FlowDeclaration> | null,
 ): node is t.FlowDeclaration {
@@ -3671,7 +3671,7 @@ export function isFlowDeclaration(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isFlowPredicate(
+/** @category Validators */ export function isFlowPredicate(
   node: t.Node | null | undefined,
   opts?: Opts<t.FlowPredicate> | null,
 ): node is t.FlowPredicate {
@@ -3687,7 +3687,7 @@ export function isFlowPredicate(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isEnumBody(
+/** @category Validators */ export function isEnumBody(
   node: t.Node | null | undefined,
   opts?: Opts<t.EnumBody> | null,
 ): node is t.EnumBody {
@@ -3705,7 +3705,7 @@ export function isEnumBody(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isEnumMember(
+/** @category Validators */ export function isEnumMember(
   node: t.Node | null | undefined,
   opts?: Opts<t.EnumMember> | null,
 ): node is t.EnumMember {
@@ -3723,7 +3723,7 @@ export function isEnumMember(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isJSX(
+/** @category Validators */ export function isJSX(
   node: t.Node | null | undefined,
   opts?: Opts<t.JSX> | null,
 ): node is t.JSX {
@@ -3752,7 +3752,7 @@ export function isJSX(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isMiscellaneous(
+/** @category Validators */ export function isMiscellaneous(
   node: t.Node | null | undefined,
   opts?: Opts<t.Miscellaneous> | null,
 ): node is t.Miscellaneous {
@@ -3769,7 +3769,7 @@ export function isMiscellaneous(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTypeScript(
+/** @category Validators */ export function isTypeScript(
   node: t.Node | null | undefined,
   opts?: Opts<t.TypeScript> | null,
 ): node is t.TypeScript {
@@ -3850,7 +3850,7 @@ export function isTypeScript(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSTypeElement(
+/** @category Validators */ export function isTSTypeElement(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSTypeElement> | null,
 ): node is t.TSTypeElement {
@@ -3869,7 +3869,7 @@ export function isTSTypeElement(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSType(
+/** @category Validators */ export function isTSType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSType> | null,
 ): node is t.TSType {
@@ -3919,7 +3919,7 @@ export function isTSType(
 
   return opts == null || shallowEqual(node, opts);
 }
-export function isTSBaseType(
+/** @category Validators */ export function isTSBaseType(
   node: t.Node | null | undefined,
   opts?: Opts<t.TSBaseType> | null,
 ): node is t.TSBaseType {
@@ -3952,7 +3952,7 @@ export function isTSBaseType(
 /**
  * @deprecated Use `isNumericLiteral`
  */
-export function isNumberLiteral(
+/** @category Validators */ export function isNumberLiteral(
   node: t.Node | null | undefined,
   opts?: Opts<t.NumberLiteral> | null,
 ): boolean {
@@ -3966,7 +3966,7 @@ export function isNumberLiteral(
 /**
  * @deprecated Use `isRegExpLiteral`
  */
-export function isRegexLiteral(
+/** @category Validators */ export function isRegexLiteral(
   node: t.Node | null | undefined,
   opts?: Opts<t.RegexLiteral> | null,
 ): boolean {
@@ -3980,7 +3980,7 @@ export function isRegexLiteral(
 /**
  * @deprecated Use `isRestElement`
  */
-export function isRestProperty(
+/** @category Validators */ export function isRestProperty(
   node: t.Node | null | undefined,
   opts?: Opts<t.RestProperty> | null,
 ): boolean {
@@ -3994,7 +3994,7 @@ export function isRestProperty(
 /**
  * @deprecated Use `isSpreadElement`
  */
-export function isSpreadProperty(
+/** @category Validators */ export function isSpreadProperty(
   node: t.Node | null | undefined,
   opts?: Opts<t.SpreadProperty> | null,
 ): boolean {

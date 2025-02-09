@@ -93,3 +93,5 @@ packages/babel-standalone/babel.min.js.map
 .module-type
 
 *.tsbuildinfo
+
+deno.json

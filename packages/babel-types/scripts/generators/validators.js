@@ -49,7 +49,7 @@ function addIsHelper(type, aliasKeys, deprecated) {
       ? `node is t.${type}`
       : "boolean";
 
-  return `export function is${type}(node: t.Node | null | undefined, opts?: Opts<t.${type}> | null): ${result} {
+  return `/** @category Validators */ export function is${type}(node: t.Node | null | undefined, opts?: Opts<t.${type}> | null): ${result} {
     ${deprecated || ""}
     if (!node) return false;
 

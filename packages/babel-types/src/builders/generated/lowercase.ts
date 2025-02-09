@@ -10,6 +10,7 @@ import * as utils from "../../definitions/utils.ts";
 const { validateInternal: validate } = _validate;
 const { NODE_FIELDS } = utils;
 
+/** @category Builders */
 export function arrayExpression(
   elements: Array<null | t.Expression | t.SpreadElement> = [],
 ): t.ArrayExpression {
@@ -21,6 +22,7 @@ export function arrayExpression(
   validate(defs.elements, node, "elements", elements, 1);
   return node;
 }
+/** @category Builders */
 export function assignmentExpression(
   operator: string,
   left: t.LVal | t.OptionalMemberExpression,
@@ -38,6 +40,7 @@ export function assignmentExpression(
   validate(defs.right, node, "right", right, 1);
   return node;
 }
+/** @category Builders */
 export function binaryExpression(
   operator:
     | "+"
@@ -78,6 +81,7 @@ export function binaryExpression(
   validate(defs.right, node, "right", right, 1);
   return node;
 }
+/** @category Builders */
 export function interpreterDirective(value: string): t.InterpreterDirective {
   const node: t.InterpreterDirective = {
     type: "InterpreterDirective",
@@ -87,6 +91,7 @@ export function interpreterDirective(value: string): t.InterpreterDirective {
   validate(defs.value, node, "value", value);
   return node;
 }
+/** @category Builders */
 export function directive(value: t.DirectiveLiteral): t.Directive {
   const node: t.Directive = {
     type: "Directive",
@@ -96,6 +101,7 @@ export function directive(value: t.DirectiveLiteral): t.Directive {
   validate(defs.value, node, "value", value, 1);
   return node;
 }
+/** @category Builders */
 export function directiveLiteral(value: string): t.DirectiveLiteral {
   const node: t.DirectiveLiteral = {
     type: "DirectiveLiteral",
@@ -105,6 +111,7 @@ export function directiveLiteral(value: string): t.DirectiveLiteral {
   validate(defs.value, node, "value", value);
   return node;
 }
+/** @category Builders */
 export function blockStatement(
   body: Array<t.Statement>,
   directives: Array<t.Directive> = [],
@@ -119,6 +126,7 @@ export function blockStatement(
   validate(defs.directives, node, "directives", directives, 1);
   return node;
 }
+/** @category Builders */
 export function breakStatement(
   label: t.Identifier | null = null,
 ): t.BreakStatement {
@@ -130,6 +138,7 @@ export function breakStatement(
   validate(defs.label, node, "label", label, 1);
   return node;
 }
+/** @category Builders */
 export function callExpression(
   callee: t.Expression | t.Super | t.V8IntrinsicIdentifier,
   _arguments: Array<t.Expression | t.SpreadElement | t.ArgumentPlaceholder>,
@@ -144,6 +153,7 @@ export function callExpression(
   validate(defs.arguments, node, "arguments", _arguments, 1);
   return node;
 }
+/** @category Builders */
 export function catchClause(
   param:
     | t.Identifier
@@ -163,6 +173,7 @@ export function catchClause(
   validate(defs.body, node, "body", body, 1);
   return node;
 }
+/** @category Builders */
 export function conditionalExpression(
   test: t.Expression,
   consequent: t.Expression,
@@ -180,6 +191,7 @@ export function conditionalExpression(
   validate(defs.alternate, node, "alternate", alternate, 1);
   return node;
 }
+/** @category Builders */
 export function continueStatement(
   label: t.Identifier | null = null,
 ): t.ContinueStatement {
@@ -191,11 +203,13 @@ export function continueStatement(
   validate(defs.label, node, "label", label, 1);
   return node;
 }
+/** @category Builders */
 export function debuggerStatement(): t.DebuggerStatement {
   return {
     type: "DebuggerStatement",
   };
 }
+/** @category Builders */
 export function doWhileStatement(
   test: t.Expression,
   body: t.Statement,
@@ -210,11 +224,13 @@ export function doWhileStatement(
   validate(defs.body, node, "body", body, 1);
   return node;
 }
+/** @category Builders */
 export function emptyStatement(): t.EmptyStatement {
   return {
     type: "EmptyStatement",
   };
 }
+/** @category Builders */
 export function expressionStatement(
   expression: t.Expression,
 ): t.ExpressionStatement {
@@ -226,6 +242,7 @@ export function expressionStatement(
   validate(defs.expression, node, "expression", expression, 1);
   return node;
 }
+/** @category Builders */
 export function file(
   program: t.Program,
   comments: Array<t.CommentBlock | t.CommentLine> | null = null,
@@ -243,6 +260,7 @@ export function file(
   validate(defs.tokens, node, "tokens", tokens);
   return node;
 }
+/** @category Builders */
 export function forInStatement(
   left: t.VariableDeclaration | t.LVal,
   right: t.Expression,
@@ -260,6 +278,7 @@ export function forInStatement(
   validate(defs.body, node, "body", body, 1);
   return node;
 }
+/** @category Builders */
 export function forStatement(
   init: t.VariableDeclaration | t.Expression | null | undefined = null,
   test: t.Expression | null | undefined = null,
@@ -280,6 +299,7 @@ export function forStatement(
   validate(defs.body, node, "body", body, 1);
   return node;
 }
+/** @category Builders */
 export function functionDeclaration(
   id: t.Identifier | null | undefined = null,
   params: Array<t.Identifier | t.Pattern | t.RestElement>,
@@ -303,6 +323,7 @@ export function functionDeclaration(
   validate(defs.async, node, "async", async);
   return node;
 }
+/** @category Builders */
 export function functionExpression(
   id: t.Identifier | null | undefined = null,
   params: Array<t.Identifier | t.Pattern | t.RestElement>,
@@ -326,6 +347,7 @@ export function functionExpression(
   validate(defs.async, node, "async", async);
   return node;
 }
+/** @category Builders */
 export function identifier(name: string): t.Identifier {
   const node: t.Identifier = {
     type: "Identifier",
@@ -335,6 +357,7 @@ export function identifier(name: string): t.Identifier {
   validate(defs.name, node, "name", name);
   return node;
 }
+/** @category Builders */
 export function ifStatement(
   test: t.Expression,
   consequent: t.Statement,
@@ -352,6 +375,7 @@ export function ifStatement(
   validate(defs.alternate, node, "alternate", alternate, 1);
   return node;
 }
+/** @category Builders */
 export function labeledStatement(
   label: t.Identifier,
   body: t.Statement,
@@ -366,6 +390,7 @@ export function labeledStatement(
   validate(defs.body, node, "body", body, 1);
   return node;
 }
+/** @category Builders */
 export function stringLiteral(value: string): t.StringLiteral {
   const node: t.StringLiteral = {
     type: "StringLiteral",
@@ -375,6 +400,7 @@ export function stringLiteral(value: string): t.StringLiteral {
   validate(defs.value, node, "value", value);
   return node;
 }
+/** @category Builders */
 export function numericLiteral(value: number): t.NumericLiteral {
   const node: t.NumericLiteral = {
     type: "NumericLiteral",
@@ -384,11 +410,13 @@ export function numericLiteral(value: number): t.NumericLiteral {
   validate(defs.value, node, "value", value);
   return node;
 }
+/** @category Builders */
 export function nullLiteral(): t.NullLiteral {
   return {
     type: "NullLiteral",
   };
 }
+/** @category Builders */
 export function booleanLiteral(value: boolean): t.BooleanLiteral {
   const node: t.BooleanLiteral = {
     type: "BooleanLiteral",
@@ -398,6 +426,7 @@ export function booleanLiteral(value: boolean): t.BooleanLiteral {
   validate(defs.value, node, "value", value);
   return node;
 }
+/** @category Builders */
 export function regExpLiteral(
   pattern: string,
   flags: string = "",
@@ -412,6 +441,7 @@ export function regExpLiteral(
   validate(defs.flags, node, "flags", flags);
   return node;
 }
+/** @category Builders */
 export function logicalExpression(
   operator: "||" | "&&" | "??",
   left: t.Expression,
@@ -429,6 +459,7 @@ export function logicalExpression(
   validate(defs.right, node, "right", right, 1);
   return node;
 }
+/** @category Builders */
 export function memberExpression(
   object: t.Expression | t.Super,
   property: t.Expression | t.Identifier | t.PrivateName,
@@ -449,6 +480,7 @@ export function memberExpression(
   validate(defs.optional, node, "optional", optional);
   return node;
 }
+/** @category Builders */
 export function newExpression(
   callee: t.Expression | t.Super | t.V8IntrinsicIdentifier,
   _arguments: Array<t.Expression | t.SpreadElement | t.ArgumentPlaceholder>,
@@ -463,6 +495,7 @@ export function newExpression(
   validate(defs.arguments, node, "arguments", _arguments, 1);
   return node;
 }
+/** @category Builders */
 export function program(
   body: Array<t.Statement>,
   directives: Array<t.Directive> = [],
@@ -483,6 +516,7 @@ export function program(
   validate(defs.interpreter, node, "interpreter", interpreter, 1);
   return node;
 }
+/** @category Builders */
 export function objectExpression(
   properties: Array<t.ObjectMethod | t.ObjectProperty | t.SpreadElement>,
 ): t.ObjectExpression {
@@ -494,6 +528,7 @@ export function objectExpression(
   validate(defs.properties, node, "properties", properties, 1);
   return node;
 }
+/** @category Builders */
 export function objectMethod(
   kind: "method" | "get" | "set" | undefined = "method",
   key:
@@ -528,6 +563,7 @@ export function objectMethod(
   validate(defs.async, node, "async", async);
   return node;
 }
+/** @category Builders */
 export function objectProperty(
   key:
     | t.Expression
@@ -558,6 +594,7 @@ export function objectProperty(
   validate(defs.decorators, node, "decorators", decorators, 1);
   return node;
 }
+/** @category Builders */
 export function restElement(argument: t.LVal): t.RestElement {
   const node: t.RestElement = {
     type: "RestElement",
@@ -567,6 +604,7 @@ export function restElement(argument: t.LVal): t.RestElement {
   validate(defs.argument, node, "argument", argument, 1);
   return node;
 }
+/** @category Builders */
 export function returnStatement(
   argument: t.Expression | null = null,
 ): t.ReturnStatement {
@@ -578,6 +616,7 @@ export function returnStatement(
   validate(defs.argument, node, "argument", argument, 1);
   return node;
 }
+/** @category Builders */
 export function sequenceExpression(
   expressions: Array<t.Expression>,
 ): t.SequenceExpression {
@@ -589,6 +628,7 @@ export function sequenceExpression(
   validate(defs.expressions, node, "expressions", expressions, 1);
   return node;
 }
+/** @category Builders */
 export function parenthesizedExpression(
   expression: t.Expression,
 ): t.ParenthesizedExpression {
@@ -600,6 +640,7 @@ export function parenthesizedExpression(
   validate(defs.expression, node, "expression", expression, 1);
   return node;
 }
+/** @category Builders */
 export function switchCase(
   test: t.Expression | null | undefined = null,
   consequent: Array<t.Statement>,
@@ -614,6 +655,7 @@ export function switchCase(
   validate(defs.consequent, node, "consequent", consequent, 1);
   return node;
 }
+/** @category Builders */
 export function switchStatement(
   discriminant: t.Expression,
   cases: Array<t.SwitchCase>,
@@ -628,11 +670,13 @@ export function switchStatement(
   validate(defs.cases, node, "cases", cases, 1);
   return node;
 }
+/** @category Builders */
 export function thisExpression(): t.ThisExpression {
   return {
     type: "ThisExpression",
   };
 }
+/** @category Builders */
 export function throwStatement(argument: t.Expression): t.ThrowStatement {
   const node: t.ThrowStatement = {
     type: "ThrowStatement",
@@ -642,6 +686,7 @@ export function throwStatement(argument: t.Expression): t.ThrowStatement {
   validate(defs.argument, node, "argument", argument, 1);
   return node;
 }
+/** @category Builders */
 export function tryStatement(
   block: t.BlockStatement,
   handler: t.CatchClause | null = null,
@@ -659,6 +704,7 @@ export function tryStatement(
   validate(defs.finalizer, node, "finalizer", finalizer, 1);
   return node;
 }
+/** @category Builders */
 export function unaryExpression(
   operator: "void" | "throw" | "delete" | "!" | "+" | "-" | "~" | "typeof",
   argument: t.Expression,
@@ -676,6 +722,7 @@ export function unaryExpression(
   validate(defs.prefix, node, "prefix", prefix);
   return node;
 }
+/** @category Builders */
 export function updateExpression(
   operator: "++" | "--",
   argument: t.Expression,
@@ -693,6 +740,7 @@ export function updateExpression(
   validate(defs.prefix, node, "prefix", prefix);
   return node;
 }
+/** @category Builders */
 export function variableDeclaration(
   kind: "var" | "let" | "const" | "using" | "await using",
   declarations: Array<t.VariableDeclarator>,
@@ -707,6 +755,7 @@ export function variableDeclaration(
   validate(defs.declarations, node, "declarations", declarations, 1);
   return node;
 }
+/** @category Builders */
 export function variableDeclarator(
   id: t.LVal,
   init: t.Expression | null = null,
@@ -721,6 +770,7 @@ export function variableDeclarator(
   validate(defs.init, node, "init", init, 1);
   return node;
 }
+/** @category Builders */
 export function whileStatement(
   test: t.Expression,
   body: t.Statement,
@@ -735,6 +785,7 @@ export function whileStatement(
   validate(defs.body, node, "body", body, 1);
   return node;
 }
+/** @category Builders */
 export function withStatement(
   object: t.Expression,
   body: t.Statement,
@@ -749,6 +800,7 @@ export function withStatement(
   validate(defs.body, node, "body", body, 1);
   return node;
 }
+/** @category Builders */
 export function assignmentPattern(
   left:
     | t.Identifier
@@ -771,6 +823,7 @@ export function assignmentPattern(
   validate(defs.right, node, "right", right, 1);
   return node;
 }
+/** @category Builders */
 export function arrayPattern(
   elements: Array<null | t.PatternLike | t.LVal>,
 ): t.ArrayPattern {
@@ -782,6 +835,7 @@ export function arrayPattern(
   validate(defs.elements, node, "elements", elements, 1);
   return node;
 }
+/** @category Builders */
 export function arrowFunctionExpression(
   params: Array<t.Identifier | t.Pattern | t.RestElement>,
   body: t.BlockStatement | t.Expression,
@@ -800,6 +854,7 @@ export function arrowFunctionExpression(
   validate(defs.async, node, "async", async);
   return node;
 }
+/** @category Builders */
 export function classBody(
   body: Array<
     | t.ClassMethod
@@ -820,6 +875,7 @@ export function classBody(
   validate(defs.body, node, "body", body, 1);
   return node;
 }
+/** @category Builders */
 export function classExpression(
   id: t.Identifier | null | undefined = null,
   superClass: t.Expression | null | undefined = null,
@@ -840,6 +896,7 @@ export function classExpression(
   validate(defs.decorators, node, "decorators", decorators, 1);
   return node;
 }
+/** @category Builders */
 export function classDeclaration(
   id: t.Identifier | null | undefined = null,
   superClass: t.Expression | null | undefined = null,
@@ -860,6 +917,7 @@ export function classDeclaration(
   validate(defs.decorators, node, "decorators", decorators, 1);
   return node;
 }
+/** @category Builders */
 export function exportAllDeclaration(
   source: t.StringLiteral,
 ): t.ExportAllDeclaration {
@@ -871,6 +929,7 @@ export function exportAllDeclaration(
   validate(defs.source, node, "source", source, 1);
   return node;
 }
+/** @category Builders */
 export function exportDefaultDeclaration(
   declaration:
     | t.TSDeclareFunction
@@ -886,6 +945,7 @@ export function exportDefaultDeclaration(
   validate(defs.declaration, node, "declaration", declaration, 1);
   return node;
 }
+/** @category Builders */
 export function exportNamedDeclaration(
   declaration: t.Declaration | null = null,
   specifiers: Array<
@@ -905,6 +965,7 @@ export function exportNamedDeclaration(
   validate(defs.source, node, "source", source, 1);
   return node;
 }
+/** @category Builders */
 export function exportSpecifier(
   local: t.Identifier,
   exported: t.Identifier | t.StringLiteral,
@@ -919,6 +980,7 @@ export function exportSpecifier(
   validate(defs.exported, node, "exported", exported, 1);
   return node;
 }
+/** @category Builders */
 export function forOfStatement(
   left: t.VariableDeclaration | t.LVal,
   right: t.Expression,
@@ -939,6 +1001,7 @@ export function forOfStatement(
   validate(defs.await, node, "await", _await);
   return node;
 }
+/** @category Builders */
 export function importDeclaration(
   specifiers: Array<
     t.ImportSpecifier | t.ImportDefaultSpecifier | t.ImportNamespaceSpecifier
@@ -955,6 +1018,7 @@ export function importDeclaration(
   validate(defs.source, node, "source", source, 1);
   return node;
 }
+/** @category Builders */
 export function importDefaultSpecifier(
   local: t.Identifier,
 ): t.ImportDefaultSpecifier {
@@ -966,6 +1030,7 @@ export function importDefaultSpecifier(
   validate(defs.local, node, "local", local, 1);
   return node;
 }
+/** @category Builders */
 export function importNamespaceSpecifier(
   local: t.Identifier,
 ): t.ImportNamespaceSpecifier {
@@ -977,6 +1042,7 @@ export function importNamespaceSpecifier(
   validate(defs.local, node, "local", local, 1);
   return node;
 }
+/** @category Builders */
 export function importSpecifier(
   local: t.Identifier,
   imported: t.Identifier | t.StringLiteral,
@@ -991,6 +1057,7 @@ export function importSpecifier(
   validate(defs.imported, node, "imported", imported, 1);
   return node;
 }
+/** @category Builders */
 export function importExpression(
   source: t.Expression,
   options: t.Expression | null = null,
@@ -1005,6 +1072,7 @@ export function importExpression(
   validate(defs.options, node, "options", options, 1);
   return node;
 }
+/** @category Builders */
 export function metaProperty(
   meta: t.Identifier,
   property: t.Identifier,
@@ -1019,6 +1087,7 @@ export function metaProperty(
   validate(defs.property, node, "property", property, 1);
   return node;
 }
+/** @category Builders */
 export function classMethod(
   kind: "get" | "set" | "method" | "constructor" | undefined = "method",
   key:
@@ -1058,6 +1127,7 @@ export function classMethod(
   validate(defs.async, node, "async", async);
   return node;
 }
+/** @category Builders */
 export function objectPattern(
   properties: Array<t.RestElement | t.ObjectProperty>,
 ): t.ObjectPattern {
@@ -1069,6 +1139,7 @@ export function objectPattern(
   validate(defs.properties, node, "properties", properties, 1);
   return node;
 }
+/** @category Builders */
 export function spreadElement(argument: t.Expression): t.SpreadElement {
   const node: t.SpreadElement = {
     type: "SpreadElement",
@@ -1078,12 +1149,14 @@ export function spreadElement(argument: t.Expression): t.SpreadElement {
   validate(defs.argument, node, "argument", argument, 1);
   return node;
 }
+/** @category Builders */
 function _super(): t.Super {
   return {
     type: "Super",
   };
 }
 export { _super as super };
+/** @category Builders */
 export function taggedTemplateExpression(
   tag: t.Expression,
   quasi: t.TemplateLiteral,
@@ -1098,6 +1171,7 @@ export function taggedTemplateExpression(
   validate(defs.quasi, node, "quasi", quasi, 1);
   return node;
 }
+/** @category Builders */
 export function templateElement(
   value: { raw: string; cooked?: string },
   tail: boolean = false,
@@ -1112,6 +1186,7 @@ export function templateElement(
   validate(defs.tail, node, "tail", tail);
   return node;
 }
+/** @category Builders */
 export function templateLiteral(
   quasis: Array<t.TemplateElement>,
   expressions: Array<t.Expression | t.TSType>,
@@ -1126,6 +1201,7 @@ export function templateLiteral(
   validate(defs.expressions, node, "expressions", expressions, 1);
   return node;
 }
+/** @category Builders */
 export function yieldExpression(
   argument: t.Expression | null = null,
   delegate: boolean = false,
@@ -1140,6 +1216,7 @@ export function yieldExpression(
   validate(defs.delegate, node, "delegate", delegate);
   return node;
 }
+/** @category Builders */
 export function awaitExpression(argument: t.Expression): t.AwaitExpression {
   const node: t.AwaitExpression = {
     type: "AwaitExpression",
@@ -1149,12 +1226,14 @@ export function awaitExpression(argument: t.Expression): t.AwaitExpression {
   validate(defs.argument, node, "argument", argument, 1);
   return node;
 }
+/** @category Builders */
 function _import(): t.Import {
   return {
     type: "Import",
   };
 }
 export { _import as import };
+/** @category Builders */
 export function bigIntLiteral(value: string): t.BigIntLiteral {
   const node: t.BigIntLiteral = {
     type: "BigIntLiteral",
@@ -1164,6 +1243,7 @@ export function bigIntLiteral(value: string): t.BigIntLiteral {
   validate(defs.value, node, "value", value);
   return node;
 }
+/** @category Builders */
 export function exportNamespaceSpecifier(
   exported: t.Identifier,
 ): t.ExportNamespaceSpecifier {
@@ -1175,6 +1255,7 @@ export function exportNamespaceSpecifier(
   validate(defs.exported, node, "exported", exported, 1);
   return node;
 }
+/** @category Builders */
 export function optionalMemberExpression(
   object: t.Expression,
   property: t.Expression | t.Identifier,
@@ -1195,6 +1276,7 @@ export function optionalMemberExpression(
   validate(defs.optional, node, "optional", optional);
   return node;
 }
+/** @category Builders */
 export function optionalCallExpression(
   callee: t.Expression,
   _arguments: Array<t.Expression | t.SpreadElement | t.ArgumentPlaceholder>,
@@ -1212,6 +1294,7 @@ export function optionalCallExpression(
   validate(defs.optional, node, "optional", optional);
   return node;
 }
+/** @category Builders */
 export function classProperty(
   key:
     | t.Identifier
@@ -1243,6 +1326,7 @@ export function classProperty(
   validate(defs.static, node, "static", _static);
   return node;
 }
+/** @category Builders */
 export function classAccessorProperty(
   key:
     | t.Identifier
@@ -1275,6 +1359,7 @@ export function classAccessorProperty(
   validate(defs.static, node, "static", _static);
   return node;
 }
+/** @category Builders */
 export function classPrivateProperty(
   key: t.PrivateName,
   value: t.Expression | null = null,
@@ -1295,6 +1380,7 @@ export function classPrivateProperty(
   validate(defs.static, node, "static", _static);
   return node;
 }
+/** @category Builders */
 export function classPrivateMethod(
   kind: "get" | "set" | "method" | undefined = "method",
   key: t.PrivateName,
@@ -1320,6 +1406,7 @@ export function classPrivateMethod(
   validate(defs.static, node, "static", _static);
   return node;
 }
+/** @category Builders */
 export function privateName(id: t.Identifier): t.PrivateName {
   const node: t.PrivateName = {
     type: "PrivateName",
@@ -1329,6 +1416,7 @@ export function privateName(id: t.Identifier): t.PrivateName {
   validate(defs.id, node, "id", id, 1);
   return node;
 }
+/** @category Builders */
 export function staticBlock(body: Array<t.Statement>): t.StaticBlock {
   const node: t.StaticBlock = {
     type: "StaticBlock",
@@ -1338,6 +1426,7 @@ export function staticBlock(body: Array<t.Statement>): t.StaticBlock {
   validate(defs.body, node, "body", body, 1);
   return node;
 }
+/** @category Builders */
 export function importAttribute(
   key: t.Identifier | t.StringLiteral,
   value: t.StringLiteral,
@@ -1352,11 +1441,13 @@ export function importAttribute(
   validate(defs.value, node, "value", value, 1);
   return node;
 }
+/** @category Builders */
 export function anyTypeAnnotation(): t.AnyTypeAnnotation {
   return {
     type: "AnyTypeAnnotation",
   };
 }
+/** @category Builders */
 export function arrayTypeAnnotation(
   elementType: t.FlowType,
 ): t.ArrayTypeAnnotation {
@@ -1368,11 +1459,13 @@ export function arrayTypeAnnotation(
   validate(defs.elementType, node, "elementType", elementType, 1);
   return node;
 }
+/** @category Builders */
 export function booleanTypeAnnotation(): t.BooleanTypeAnnotation {
   return {
     type: "BooleanTypeAnnotation",
   };
 }
+/** @category Builders */
 export function booleanLiteralTypeAnnotation(
   value: boolean,
 ): t.BooleanLiteralTypeAnnotation {
@@ -1384,11 +1477,13 @@ export function booleanLiteralTypeAnnotation(
   validate(defs.value, node, "value", value);
   return node;
 }
+/** @category Builders */
 export function nullLiteralTypeAnnotation(): t.NullLiteralTypeAnnotation {
   return {
     type: "NullLiteralTypeAnnotation",
   };
 }
+/** @category Builders */
 export function classImplements(
   id: t.Identifier,
   typeParameters: t.TypeParameterInstantiation | null = null,
@@ -1403,6 +1498,7 @@ export function classImplements(
   validate(defs.typeParameters, node, "typeParameters", typeParameters, 1);
   return node;
 }
+/** @category Builders */
 export function declareClass(
   id: t.Identifier,
   typeParameters: t.TypeParameterDeclaration | null | undefined = null,
@@ -1423,6 +1519,7 @@ export function declareClass(
   validate(defs.body, node, "body", body, 1);
   return node;
 }
+/** @category Builders */
 export function declareFunction(id: t.Identifier): t.DeclareFunction {
   const node: t.DeclareFunction = {
     type: "DeclareFunction",
@@ -1432,6 +1529,7 @@ export function declareFunction(id: t.Identifier): t.DeclareFunction {
   validate(defs.id, node, "id", id, 1);
   return node;
 }
+/** @category Builders */
 export function declareInterface(
   id: t.Identifier,
   typeParameters: t.TypeParameterDeclaration | null | undefined = null,
@@ -1452,6 +1550,7 @@ export function declareInterface(
   validate(defs.body, node, "body", body, 1);
   return node;
 }
+/** @category Builders */
 export function declareModule(
   id: t.Identifier | t.StringLiteral,
   body: t.BlockStatement,
@@ -1469,6 +1568,7 @@ export function declareModule(
   validate(defs.kind, node, "kind", kind);
   return node;
 }
+/** @category Builders */
 export function declareModuleExports(
   typeAnnotation: t.TypeAnnotation,
 ): t.DeclareModuleExports {
@@ -1480,6 +1580,7 @@ export function declareModuleExports(
   validate(defs.typeAnnotation, node, "typeAnnotation", typeAnnotation, 1);
   return node;
 }
+/** @category Builders */
 export function declareTypeAlias(
   id: t.Identifier,
   typeParameters: t.TypeParameterDeclaration | null | undefined = null,
@@ -1497,6 +1598,7 @@ export function declareTypeAlias(
   validate(defs.right, node, "right", right, 1);
   return node;
 }
+/** @category Builders */
 export function declareOpaqueType(
   id: t.Identifier,
   typeParameters: t.TypeParameterDeclaration | null = null,
@@ -1514,6 +1616,7 @@ export function declareOpaqueType(
   validate(defs.supertype, node, "supertype", supertype, 1);
   return node;
 }
+/** @category Builders */
 export function declareVariable(id: t.Identifier): t.DeclareVariable {
   const node: t.DeclareVariable = {
     type: "DeclareVariable",
@@ -1523,6 +1626,7 @@ export function declareVariable(id: t.Identifier): t.DeclareVariable {
   validate(defs.id, node, "id", id, 1);
   return node;
 }
+/** @category Builders */
 export function declareExportDeclaration(
   declaration: t.Flow | null = null,
   specifiers: Array<
@@ -1545,6 +1649,7 @@ export function declareExportDeclaration(
   validate(defs.attributes, node, "attributes", attributes, 1);
   return node;
 }
+/** @category Builders */
 export function declareExportAllDeclaration(
   source: t.StringLiteral,
   attributes: Array<t.ImportAttribute> | null = null,
@@ -1559,6 +1664,7 @@ export function declareExportAllDeclaration(
   validate(defs.attributes, node, "attributes", attributes, 1);
   return node;
 }
+/** @category Builders */
 export function declaredPredicate(value: t.Flow): t.DeclaredPredicate {
   const node: t.DeclaredPredicate = {
     type: "DeclaredPredicate",
@@ -1568,11 +1674,13 @@ export function declaredPredicate(value: t.Flow): t.DeclaredPredicate {
   validate(defs.value, node, "value", value, 1);
   return node;
 }
+/** @category Builders */
 export function existsTypeAnnotation(): t.ExistsTypeAnnotation {
   return {
     type: "ExistsTypeAnnotation",
   };
 }
+/** @category Builders */
 export function functionTypeAnnotation(
   typeParameters: t.TypeParameterDeclaration | null | undefined = null,
   params: Array<t.FunctionTypeParam>,
@@ -1593,6 +1701,7 @@ export function functionTypeAnnotation(
   validate(defs.returnType, node, "returnType", returnType, 1);
   return node;
 }
+/** @category Builders */
 export function functionTypeParam(
   name: t.Identifier | null | undefined = null,
   typeAnnotation: t.FlowType,
@@ -1607,6 +1716,7 @@ export function functionTypeParam(
   validate(defs.typeAnnotation, node, "typeAnnotation", typeAnnotation, 1);
   return node;
 }
+/** @category Builders */
 export function genericTypeAnnotation(
   id: t.Identifier | t.QualifiedTypeIdentifier,
   typeParameters: t.TypeParameterInstantiation | null = null,
@@ -1621,11 +1731,13 @@ export function genericTypeAnnotation(
   validate(defs.typeParameters, node, "typeParameters", typeParameters, 1);
   return node;
 }
+/** @category Builders */
 export function inferredPredicate(): t.InferredPredicate {
   return {
     type: "InferredPredicate",
   };
 }
+/** @category Builders */
 export function interfaceExtends(
   id: t.Identifier | t.QualifiedTypeIdentifier,
   typeParameters: t.TypeParameterInstantiation | null = null,
@@ -1640,6 +1752,7 @@ export function interfaceExtends(
   validate(defs.typeParameters, node, "typeParameters", typeParameters, 1);
   return node;
 }
+/** @category Builders */
 export function interfaceDeclaration(
   id: t.Identifier,
   typeParameters: t.TypeParameterDeclaration | null | undefined = null,
@@ -1660,6 +1773,7 @@ export function interfaceDeclaration(
   validate(defs.body, node, "body", body, 1);
   return node;
 }
+/** @category Builders */
 export function interfaceTypeAnnotation(
   _extends: Array<t.InterfaceExtends> | null | undefined = null,
   body: t.ObjectTypeAnnotation,
@@ -1674,6 +1788,7 @@ export function interfaceTypeAnnotation(
   validate(defs.body, node, "body", body, 1);
   return node;
 }
+/** @category Builders */
 export function intersectionTypeAnnotation(
   types: Array<t.FlowType>,
 ): t.IntersectionTypeAnnotation {
@@ -1685,16 +1800,19 @@ export function intersectionTypeAnnotation(
   validate(defs.types, node, "types", types, 1);
   return node;
 }
+/** @category Builders */
 export function mixedTypeAnnotation(): t.MixedTypeAnnotation {
   return {
     type: "MixedTypeAnnotation",
   };
 }
+/** @category Builders */
 export function emptyTypeAnnotation(): t.EmptyTypeAnnotation {
   return {
     type: "EmptyTypeAnnotation",
   };
 }
+/** @category Builders */
 export function nullableTypeAnnotation(
   typeAnnotation: t.FlowType,
 ): t.NullableTypeAnnotation {
@@ -1706,6 +1824,7 @@ export function nullableTypeAnnotation(
   validate(defs.typeAnnotation, node, "typeAnnotation", typeAnnotation, 1);
   return node;
 }
+/** @category Builders */
 export function numberLiteralTypeAnnotation(
   value: number,
 ): t.NumberLiteralTypeAnnotation {
@@ -1717,11 +1836,13 @@ export function numberLiteralTypeAnnotation(
   validate(defs.value, node, "value", value);
   return node;
 }
+/** @category Builders */
 export function numberTypeAnnotation(): t.NumberTypeAnnotation {
   return {
     type: "NumberTypeAnnotation",
   };
 }
+/** @category Builders */
 export function objectTypeAnnotation(
   properties: Array<t.ObjectTypeProperty | t.ObjectTypeSpreadProperty>,
   indexers: Array<t.ObjectTypeIndexer> = [],
@@ -1745,6 +1866,7 @@ export function objectTypeAnnotation(
   validate(defs.exact, node, "exact", exact);
   return node;
 }
+/** @category Builders */
 export function objectTypeInternalSlot(
   id: t.Identifier,
   value: t.FlowType,
@@ -1768,6 +1890,7 @@ export function objectTypeInternalSlot(
   validate(defs.method, node, "method", method);
   return node;
 }
+/** @category Builders */
 export function objectTypeCallProperty(
   value: t.FlowType,
 ): t.ObjectTypeCallProperty {
@@ -1780,6 +1903,7 @@ export function objectTypeCallProperty(
   validate(defs.value, node, "value", value, 1);
   return node;
 }
+/** @category Builders */
 export function objectTypeIndexer(
   id: t.Identifier | null | undefined = null,
   key: t.FlowType,
@@ -1801,6 +1925,7 @@ export function objectTypeIndexer(
   validate(defs.variance, node, "variance", variance, 1);
   return node;
 }
+/** @category Builders */
 export function objectTypeProperty(
   key: t.Identifier | t.StringLiteral,
   value: t.FlowType,
@@ -1823,6 +1948,7 @@ export function objectTypeProperty(
   validate(defs.variance, node, "variance", variance, 1);
   return node;
 }
+/** @category Builders */
 export function objectTypeSpreadProperty(
   argument: t.FlowType,
 ): t.ObjectTypeSpreadProperty {
@@ -1834,6 +1960,7 @@ export function objectTypeSpreadProperty(
   validate(defs.argument, node, "argument", argument, 1);
   return node;
 }
+/** @category Builders */
 export function opaqueType(
   id: t.Identifier,
   typeParameters: t.TypeParameterDeclaration | null | undefined = null,
@@ -1854,6 +1981,7 @@ export function opaqueType(
   validate(defs.impltype, node, "impltype", impltype, 1);
   return node;
 }
+/** @category Builders */
 export function qualifiedTypeIdentifier(
   id: t.Identifier,
   qualification: t.Identifier | t.QualifiedTypeIdentifier,
@@ -1868,6 +1996,7 @@ export function qualifiedTypeIdentifier(
   validate(defs.qualification, node, "qualification", qualification, 1);
   return node;
 }
+/** @category Builders */
 export function stringLiteralTypeAnnotation(
   value: string,
 ): t.StringLiteralTypeAnnotation {
@@ -1879,21 +2008,25 @@ export function stringLiteralTypeAnnotation(
   validate(defs.value, node, "value", value);
   return node;
 }
+/** @category Builders */
 export function stringTypeAnnotation(): t.StringTypeAnnotation {
   return {
     type: "StringTypeAnnotation",
   };
 }
+/** @category Builders */
 export function symbolTypeAnnotation(): t.SymbolTypeAnnotation {
   return {
     type: "SymbolTypeAnnotation",
   };
 }
+/** @category Builders */
 export function thisTypeAnnotation(): t.ThisTypeAnnotation {
   return {
     type: "ThisTypeAnnotation",
   };
 }
+/** @category Builders */
 export function tupleTypeAnnotation(
   types: Array<t.FlowType>,
 ): t.TupleTypeAnnotation {
@@ -1905,6 +2038,7 @@ export function tupleTypeAnnotation(
   validate(defs.types, node, "types", types, 1);
   return node;
 }
+/** @category Builders */
 export function typeofTypeAnnotation(
   argument: t.FlowType,
 ): t.TypeofTypeAnnotation {
@@ -1916,6 +2050,7 @@ export function typeofTypeAnnotation(
   validate(defs.argument, node, "argument", argument, 1);
   return node;
 }
+/** @category Builders */
 export function typeAlias(
   id: t.Identifier,
   typeParameters: t.TypeParameterDeclaration | null | undefined = null,
@@ -1933,6 +2068,7 @@ export function typeAlias(
   validate(defs.right, node, "right", right, 1);
   return node;
 }
+/** @category Builders */
 export function typeAnnotation(typeAnnotation: t.FlowType): t.TypeAnnotation {
   const node: t.TypeAnnotation = {
     type: "TypeAnnotation",
@@ -1942,6 +2078,7 @@ export function typeAnnotation(typeAnnotation: t.FlowType): t.TypeAnnotation {
   validate(defs.typeAnnotation, node, "typeAnnotation", typeAnnotation, 1);
   return node;
 }
+/** @category Builders */
 export function typeCastExpression(
   expression: t.Expression,
   typeAnnotation: t.TypeAnnotation,
@@ -1956,6 +2093,7 @@ export function typeCastExpression(
   validate(defs.typeAnnotation, node, "typeAnnotation", typeAnnotation, 1);
   return node;
 }
+/** @category Builders */
 export function typeParameter(
   bound: t.TypeAnnotation | null = null,
   _default: t.FlowType | null = null,
@@ -1974,6 +2112,7 @@ export function typeParameter(
   validate(defs.variance, node, "variance", variance, 1);
   return node;
 }
+/** @category Builders */
 export function typeParameterDeclaration(
   params: Array<t.TypeParameter>,
 ): t.TypeParameterDeclaration {
@@ -1985,6 +2124,7 @@ export function typeParameterDeclaration(
   validate(defs.params, node, "params", params, 1);
   return node;
 }
+/** @category Builders */
 export function typeParameterInstantiation(
   params: Array<t.FlowType>,
 ): t.TypeParameterInstantiation {
@@ -1996,6 +2136,7 @@ export function typeParameterInstantiation(
   validate(defs.params, node, "params", params, 1);
   return node;
 }
+/** @category Builders */
 export function unionTypeAnnotation(
   types: Array<t.FlowType>,
 ): t.UnionTypeAnnotation {
@@ -2007,6 +2148,7 @@ export function unionTypeAnnotation(
   validate(defs.types, node, "types", types, 1);
   return node;
 }
+/** @category Builders */
 export function variance(kind: "minus" | "plus"): t.Variance {
   const node: t.Variance = {
     type: "Variance",
@@ -2016,11 +2158,13 @@ export function variance(kind: "minus" | "plus"): t.Variance {
   validate(defs.kind, node, "kind", kind);
   return node;
 }
+/** @category Builders */
 export function voidTypeAnnotation(): t.VoidTypeAnnotation {
   return {
     type: "VoidTypeAnnotation",
   };
 }
+/** @category Builders */
 export function enumDeclaration(
   id: t.Identifier,
   body:
@@ -2039,6 +2183,7 @@ export function enumDeclaration(
   validate(defs.body, node, "body", body, 1);
   return node;
 }
+/** @category Builders */
 export function enumBooleanBody(
   members: Array<t.EnumBooleanMember>,
 ): t.EnumBooleanBody {
@@ -2052,6 +2197,7 @@ export function enumBooleanBody(
   validate(defs.members, node, "members", members, 1);
   return node;
 }
+/** @category Builders */
 export function enumNumberBody(
   members: Array<t.EnumNumberMember>,
 ): t.EnumNumberBody {
@@ -2065,6 +2211,7 @@ export function enumNumberBody(
   validate(defs.members, node, "members", members, 1);
   return node;
 }
+/** @category Builders */
 export function enumStringBody(
   members: Array<t.EnumStringMember | t.EnumDefaultedMember>,
 ): t.EnumStringBody {
@@ -2078,6 +2225,7 @@ export function enumStringBody(
   validate(defs.members, node, "members", members, 1);
   return node;
 }
+/** @category Builders */
 export function enumSymbolBody(
   members: Array<t.EnumDefaultedMember>,
 ): t.EnumSymbolBody {
@@ -2090,6 +2238,7 @@ export function enumSymbolBody(
   validate(defs.members, node, "members", members, 1);
   return node;
 }
+/** @category Builders */
 export function enumBooleanMember(id: t.Identifier): t.EnumBooleanMember {
   const node: t.EnumBooleanMember = {
     type: "EnumBooleanMember",
@@ -2100,6 +2249,7 @@ export function enumBooleanMember(id: t.Identifier): t.EnumBooleanMember {
   validate(defs.id, node, "id", id, 1);
   return node;
 }
+/** @category Builders */
 export function enumNumberMember(
   id: t.Identifier,
   init: t.NumericLiteral,
@@ -2114,6 +2264,7 @@ export function enumNumberMember(
   validate(defs.init, node, "init", init, 1);
   return node;
 }
+/** @category Builders */
 export function enumStringMember(
   id: t.Identifier,
   init: t.StringLiteral,
@@ -2128,6 +2279,7 @@ export function enumStringMember(
   validate(defs.init, node, "init", init, 1);
   return node;
 }
+/** @category Builders */
 export function enumDefaultedMember(id: t.Identifier): t.EnumDefaultedMember {
   const node: t.EnumDefaultedMember = {
     type: "EnumDefaultedMember",
@@ -2137,6 +2289,7 @@ export function enumDefaultedMember(id: t.Identifier): t.EnumDefaultedMember {
   validate(defs.id, node, "id", id, 1);
   return node;
 }
+/** @category Builders */
 export function indexedAccessType(
   objectType: t.FlowType,
   indexType: t.FlowType,
@@ -2151,6 +2304,7 @@ export function indexedAccessType(
   validate(defs.indexType, node, "indexType", indexType, 1);
   return node;
 }
+/** @category Builders */
 export function optionalIndexedAccessType(
   objectType: t.FlowType,
   indexType: t.FlowType,
@@ -2166,6 +2320,7 @@ export function optionalIndexedAccessType(
   validate(defs.indexType, node, "indexType", indexType, 1);
   return node;
 }
+/** @category Builders */
 export function jsxAttribute(
   name: t.JSXIdentifier | t.JSXNamespacedName,
   value:
@@ -2186,6 +2341,7 @@ export function jsxAttribute(
   return node;
 }
 export { jsxAttribute as jSXAttribute };
+/** @category Builders */
 export function jsxClosingElement(
   name: t.JSXIdentifier | t.JSXMemberExpression | t.JSXNamespacedName,
 ): t.JSXClosingElement {
@@ -2198,6 +2354,7 @@ export function jsxClosingElement(
   return node;
 }
 export { jsxClosingElement as jSXClosingElement };
+/** @category Builders */
 export function jsxElement(
   openingElement: t.JSXOpeningElement,
   closingElement: t.JSXClosingElement | null | undefined = null,
@@ -2225,12 +2382,14 @@ export function jsxElement(
   return node;
 }
 export { jsxElement as jSXElement };
+/** @category Builders */
 export function jsxEmptyExpression(): t.JSXEmptyExpression {
   return {
     type: "JSXEmptyExpression",
   };
 }
 export { jsxEmptyExpression as jSXEmptyExpression };
+/** @category Builders */
 export function jsxExpressionContainer(
   expression: t.Expression | t.JSXEmptyExpression,
 ): t.JSXExpressionContainer {
@@ -2243,6 +2402,7 @@ export function jsxExpressionContainer(
   return node;
 }
 export { jsxExpressionContainer as jSXExpressionContainer };
+/** @category Builders */
 export function jsxSpreadChild(expression: t.Expression): t.JSXSpreadChild {
   const node: t.JSXSpreadChild = {
     type: "JSXSpreadChild",
@@ -2253,6 +2413,7 @@ export function jsxSpreadChild(expression: t.Expression): t.JSXSpreadChild {
   return node;
 }
 export { jsxSpreadChild as jSXSpreadChild };
+/** @category Builders */
 export function jsxIdentifier(name: string): t.JSXIdentifier {
   const node: t.JSXIdentifier = {
     type: "JSXIdentifier",
@@ -2263,6 +2424,7 @@ export function jsxIdentifier(name: string): t.JSXIdentifier {
   return node;
 }
 export { jsxIdentifier as jSXIdentifier };
+/** @category Builders */
 export function jsxMemberExpression(
   object: t.JSXMemberExpression | t.JSXIdentifier,
   property: t.JSXIdentifier,
@@ -2278,6 +2440,7 @@ export function jsxMemberExpression(
   return node;
 }
 export { jsxMemberExpression as jSXMemberExpression };
+/** @category Builders */
 export function jsxNamespacedName(
   namespace: t.JSXIdentifier,
   name: t.JSXIdentifier,
@@ -2293,6 +2456,7 @@ export function jsxNamespacedName(
   return node;
 }
 export { jsxNamespacedName as jSXNamespacedName };
+/** @category Builders */
 export function jsxOpeningElement(
   name: t.JSXIdentifier | t.JSXMemberExpression | t.JSXNamespacedName,
   attributes: Array<t.JSXAttribute | t.JSXSpreadAttribute>,
@@ -2311,6 +2475,7 @@ export function jsxOpeningElement(
   return node;
 }
 export { jsxOpeningElement as jSXOpeningElement };
+/** @category Builders */
 export function jsxSpreadAttribute(
   argument: t.Expression,
 ): t.JSXSpreadAttribute {
@@ -2323,6 +2488,7 @@ export function jsxSpreadAttribute(
   return node;
 }
 export { jsxSpreadAttribute as jSXSpreadAttribute };
+/** @category Builders */
 export function jsxText(value: string): t.JSXText {
   const node: t.JSXText = {
     type: "JSXText",
@@ -2333,6 +2499,7 @@ export function jsxText(value: string): t.JSXText {
   return node;
 }
 export { jsxText as jSXText };
+/** @category Builders */
 export function jsxFragment(
   openingFragment: t.JSXOpeningFragment,
   closingFragment: t.JSXClosingFragment,
@@ -2357,23 +2524,27 @@ export function jsxFragment(
   return node;
 }
 export { jsxFragment as jSXFragment };
+/** @category Builders */
 export function jsxOpeningFragment(): t.JSXOpeningFragment {
   return {
     type: "JSXOpeningFragment",
   };
 }
 export { jsxOpeningFragment as jSXOpeningFragment };
+/** @category Builders */
 export function jsxClosingFragment(): t.JSXClosingFragment {
   return {
     type: "JSXClosingFragment",
   };
 }
 export { jsxClosingFragment as jSXClosingFragment };
+/** @category Builders */
 export function noop(): t.Noop {
   return {
     type: "Noop",
   };
 }
+/** @category Builders */
 export function placeholder(
   expectedNode:
     | "Identifier"
@@ -2396,6 +2567,7 @@ export function placeholder(
   validate(defs.name, node, "name", name, 1);
   return node;
 }
+/** @category Builders */
 export function v8IntrinsicIdentifier(name: string): t.V8IntrinsicIdentifier {
   const node: t.V8IntrinsicIdentifier = {
     type: "V8IntrinsicIdentifier",
@@ -2405,11 +2577,13 @@ export function v8IntrinsicIdentifier(name: string): t.V8IntrinsicIdentifier {
   validate(defs.name, node, "name", name);
   return node;
 }
+/** @category Builders */
 export function argumentPlaceholder(): t.ArgumentPlaceholder {
   return {
     type: "ArgumentPlaceholder",
   };
 }
+/** @category Builders */
 export function bindExpression(
   object: t.Expression,
   callee: t.Expression,
@@ -2424,6 +2598,7 @@ export function bindExpression(
   validate(defs.callee, node, "callee", callee, 1);
   return node;
 }
+/** @category Builders */
 export function decorator(expression: t.Expression): t.Decorator {
   const node: t.Decorator = {
     type: "Decorator",
@@ -2433,6 +2608,7 @@ export function decorator(expression: t.Expression): t.Decorator {
   validate(defs.expression, node, "expression", expression, 1);
   return node;
 }
+/** @category Builders */
 export function doExpression(
   body: t.BlockStatement,
   async: boolean = false,
@@ -2447,6 +2623,7 @@ export function doExpression(
   validate(defs.async, node, "async", async);
   return node;
 }
+/** @category Builders */
 export function exportDefaultSpecifier(
   exported: t.Identifier,
 ): t.ExportDefaultSpecifier {
@@ -2458,6 +2635,7 @@ export function exportDefaultSpecifier(
   validate(defs.exported, node, "exported", exported, 1);
   return node;
 }
+/** @category Builders */
 export function recordExpression(
   properties: Array<t.ObjectProperty | t.SpreadElement>,
 ): t.RecordExpression {
@@ -2469,6 +2647,7 @@ export function recordExpression(
   validate(defs.properties, node, "properties", properties, 1);
   return node;
 }
+/** @category Builders */
 export function tupleExpression(
   elements: Array<t.Expression | t.SpreadElement> = [],
 ): t.TupleExpression {
@@ -2480,6 +2659,7 @@ export function tupleExpression(
   validate(defs.elements, node, "elements", elements, 1);
   return node;
 }
+/** @category Builders */
 export function decimalLiteral(value: string): t.DecimalLiteral {
   const node: t.DecimalLiteral = {
     type: "DecimalLiteral",
@@ -2489,6 +2669,7 @@ export function decimalLiteral(value: string): t.DecimalLiteral {
   validate(defs.value, node, "value", value);
   return node;
 }
+/** @category Builders */
 export function moduleExpression(body: t.Program): t.ModuleExpression {
   const node: t.ModuleExpression = {
     type: "ModuleExpression",
@@ -2498,11 +2679,13 @@ export function moduleExpression(body: t.Program): t.ModuleExpression {
   validate(defs.body, node, "body", body, 1);
   return node;
 }
+/** @category Builders */
 export function topicReference(): t.TopicReference {
   return {
     type: "TopicReference",
   };
 }
+/** @category Builders */
 export function pipelineTopicExpression(
   expression: t.Expression,
 ): t.PipelineTopicExpression {
@@ -2514,6 +2697,7 @@ export function pipelineTopicExpression(
   validate(defs.expression, node, "expression", expression, 1);
   return node;
 }
+/** @category Builders */
 export function pipelineBareFunction(
   callee: t.Expression,
 ): t.PipelineBareFunction {
@@ -2525,11 +2709,13 @@ export function pipelineBareFunction(
   validate(defs.callee, node, "callee", callee, 1);
   return node;
 }
+/** @category Builders */
 export function pipelinePrimaryTopicReference(): t.PipelinePrimaryTopicReference {
   return {
     type: "PipelinePrimaryTopicReference",
   };
 }
+/** @category Builders */
 export function tsParameterProperty(
   parameter: t.Identifier | t.AssignmentPattern,
 ): t.TSParameterProperty {
@@ -2542,6 +2728,7 @@ export function tsParameterProperty(
   return node;
 }
 export { tsParameterProperty as tSParameterProperty };
+/** @category Builders */
 export function tsDeclareFunction(
   id: t.Identifier | null | undefined = null,
   typeParameters:
@@ -2567,6 +2754,7 @@ export function tsDeclareFunction(
   return node;
 }
 export { tsDeclareFunction as tSDeclareFunction };
+/** @category Builders */
 export function tsDeclareMethod(
   decorators: Array<t.Decorator> | null | undefined = null,
   key:
@@ -2602,6 +2790,7 @@ export function tsDeclareMethod(
   return node;
 }
 export { tsDeclareMethod as tSDeclareMethod };
+/** @category Builders */
 export function tsQualifiedName(
   left: t.TSEntityName,
   right: t.Identifier,
@@ -2617,6 +2806,7 @@ export function tsQualifiedName(
   return node;
 }
 export { tsQualifiedName as tSQualifiedName };
+/** @category Builders */
 export function tsCallSignatureDeclaration(
   typeParameters: t.TSTypeParameterDeclaration | null | undefined = null,
   parameters: Array<
@@ -2637,6 +2827,7 @@ export function tsCallSignatureDeclaration(
   return node;
 }
 export { tsCallSignatureDeclaration as tSCallSignatureDeclaration };
+/** @category Builders */
 export function tsConstructSignatureDeclaration(
   typeParameters: t.TSTypeParameterDeclaration | null | undefined = null,
   parameters: Array<
@@ -2657,6 +2848,7 @@ export function tsConstructSignatureDeclaration(
   return node;
 }
 export { tsConstructSignatureDeclaration as tSConstructSignatureDeclaration };
+/** @category Builders */
 export function tsPropertySignature(
   key: t.Expression,
   typeAnnotation: t.TSTypeAnnotation | null = null,
@@ -2672,6 +2864,7 @@ export function tsPropertySignature(
   return node;
 }
 export { tsPropertySignature as tSPropertySignature };
+/** @category Builders */
 export function tsMethodSignature(
   key: t.Expression,
   typeParameters: t.TSTypeParameterDeclaration | null | undefined = null,
@@ -2696,6 +2889,7 @@ export function tsMethodSignature(
   return node;
 }
 export { tsMethodSignature as tSMethodSignature };
+/** @category Builders */
 export function tsIndexSignature(
   parameters: Array<t.Identifier>,
   typeAnnotation: t.TSTypeAnnotation | null = null,
@@ -2711,90 +2905,105 @@ export function tsIndexSignature(
   return node;
 }
 export { tsIndexSignature as tSIndexSignature };
+/** @category Builders */
 export function tsAnyKeyword(): t.TSAnyKeyword {
   return {
     type: "TSAnyKeyword",
   };
 }
 export { tsAnyKeyword as tSAnyKeyword };
+/** @category Builders */
 export function tsBooleanKeyword(): t.TSBooleanKeyword {
   return {
     type: "TSBooleanKeyword",
   };
 }
 export { tsBooleanKeyword as tSBooleanKeyword };
+/** @category Builders */
 export function tsBigIntKeyword(): t.TSBigIntKeyword {
   return {
     type: "TSBigIntKeyword",
   };
 }
 export { tsBigIntKeyword as tSBigIntKeyword };
+/** @category Builders */
 export function tsIntrinsicKeyword(): t.TSIntrinsicKeyword {
   return {
     type: "TSIntrinsicKeyword",
   };
 }
 export { tsIntrinsicKeyword as tSIntrinsicKeyword };
+/** @category Builders */
 export function tsNeverKeyword(): t.TSNeverKeyword {
   return {
     type: "TSNeverKeyword",
   };
 }
 export { tsNeverKeyword as tSNeverKeyword };
+/** @category Builders */
 export function tsNullKeyword(): t.TSNullKeyword {
   return {
     type: "TSNullKeyword",
   };
 }
 export { tsNullKeyword as tSNullKeyword };
+/** @category Builders */
 export function tsNumberKeyword(): t.TSNumberKeyword {
   return {
     type: "TSNumberKeyword",
   };
 }
 export { tsNumberKeyword as tSNumberKeyword };
+/** @category Builders */
 export function tsObjectKeyword(): t.TSObjectKeyword {
   return {
     type: "TSObjectKeyword",
   };
 }
 export { tsObjectKeyword as tSObjectKeyword };
+/** @category Builders */
 export function tsStringKeyword(): t.TSStringKeyword {
   return {
     type: "TSStringKeyword",
   };
 }
 export { tsStringKeyword as tSStringKeyword };
+/** @category Builders */
 export function tsSymbolKeyword(): t.TSSymbolKeyword {
   return {
     type: "TSSymbolKeyword",
   };
 }
 export { tsSymbolKeyword as tSSymbolKeyword };
+/** @category Builders */
 export function tsUndefinedKeyword(): t.TSUndefinedKeyword {
   return {
     type: "TSUndefinedKeyword",
   };
 }
 export { tsUndefinedKeyword as tSUndefinedKeyword };
+/** @category Builders */
 export function tsUnknownKeyword(): t.TSUnknownKeyword {
   return {
     type: "TSUnknownKeyword",
   };
 }
 export { tsUnknownKeyword as tSUnknownKeyword };
+/** @category Builders */
 export function tsVoidKeyword(): t.TSVoidKeyword {
   return {
     type: "TSVoidKeyword",
   };
 }
 export { tsVoidKeyword as tSVoidKeyword };
+/** @category Builders */
 export function tsThisType(): t.TSThisType {
   return {
     type: "TSThisType",
   };
 }
 export { tsThisType as tSThisType };
+/** @category Builders */
 export function tsFunctionType(
   typeParameters: t.TSTypeParameterDeclaration | null | undefined = null,
   parameters: Array<
@@ -2815,6 +3024,7 @@ export function tsFunctionType(
   return node;
 }
 export { tsFunctionType as tSFunctionType };
+/** @category Builders */
 export function tsConstructorType(
   typeParameters: t.TSTypeParameterDeclaration | null | undefined = null,
   parameters: Array<
@@ -2835,6 +3045,7 @@ export function tsConstructorType(
   return node;
 }
 export { tsConstructorType as tSConstructorType };
+/** @category Builders */
 export function tsTypeReference(
   typeName: t.TSEntityName,
   typeParameters: t.TSTypeParameterInstantiation | null = null,
@@ -2850,6 +3061,7 @@ export function tsTypeReference(
   return node;
 }
 export { tsTypeReference as tSTypeReference };
+/** @category Builders */
 export function tsTypePredicate(
   parameterName: t.Identifier | t.TSThisType,
   typeAnnotation: t.TSTypeAnnotation | null = null,
@@ -2868,6 +3080,7 @@ export function tsTypePredicate(
   return node;
 }
 export { tsTypePredicate as tSTypePredicate };
+/** @category Builders */
 export function tsTypeQuery(
   exprName: t.TSEntityName | t.TSImportType,
   typeParameters: t.TSTypeParameterInstantiation | null = null,
@@ -2883,6 +3096,7 @@ export function tsTypeQuery(
   return node;
 }
 export { tsTypeQuery as tSTypeQuery };
+/** @category Builders */
 export function tsTypeLiteral(
   members: Array<t.TSTypeElement>,
 ): t.TSTypeLiteral {
@@ -2895,6 +3109,7 @@ export function tsTypeLiteral(
   return node;
 }
 export { tsTypeLiteral as tSTypeLiteral };
+/** @category Builders */
 export function tsArrayType(elementType: t.TSType): t.TSArrayType {
   const node: t.TSArrayType = {
     type: "TSArrayType",
@@ -2905,6 +3120,7 @@ export function tsArrayType(elementType: t.TSType): t.TSArrayType {
   return node;
 }
 export { tsArrayType as tSArrayType };
+/** @category Builders */
 export function tsTupleType(
   elementTypes: Array<t.TSType | t.TSNamedTupleMember>,
 ): t.TSTupleType {
@@ -2917,6 +3133,7 @@ export function tsTupleType(
   return node;
 }
 export { tsTupleType as tSTupleType };
+/** @category Builders */
 export function tsOptionalType(typeAnnotation: t.TSType): t.TSOptionalType {
   const node: t.TSOptionalType = {
     type: "TSOptionalType",
@@ -2927,6 +3144,7 @@ export function tsOptionalType(typeAnnotation: t.TSType): t.TSOptionalType {
   return node;
 }
 export { tsOptionalType as tSOptionalType };
+/** @category Builders */
 export function tsRestType(typeAnnotation: t.TSType): t.TSRestType {
   const node: t.TSRestType = {
     type: "TSRestType",
@@ -2937,6 +3155,7 @@ export function tsRestType(typeAnnotation: t.TSType): t.TSRestType {
   return node;
 }
 export { tsRestType as tSRestType };
+/** @category Builders */
 export function tsNamedTupleMember(
   label: t.Identifier,
   elementType: t.TSType,
@@ -2955,6 +3174,7 @@ export function tsNamedTupleMember(
   return node;
 }
 export { tsNamedTupleMember as tSNamedTupleMember };
+/** @category Builders */
 export function tsUnionType(types: Array<t.TSType>): t.TSUnionType {
   const node: t.TSUnionType = {
     type: "TSUnionType",
@@ -2965,6 +3185,7 @@ export function tsUnionType(types: Array<t.TSType>): t.TSUnionType {
   return node;
 }
 export { tsUnionType as tSUnionType };
+/** @category Builders */
 export function tsIntersectionType(
   types: Array<t.TSType>,
 ): t.TSIntersectionType {
@@ -2977,6 +3198,7 @@ export function tsIntersectionType(
   return node;
 }
 export { tsIntersectionType as tSIntersectionType };
+/** @category Builders */
 export function tsConditionalType(
   checkType: t.TSType,
   extendsType: t.TSType,
@@ -2998,6 +3220,7 @@ export function tsConditionalType(
   return node;
 }
 export { tsConditionalType as tSConditionalType };
+/** @category Builders */
 export function tsInferType(typeParameter: t.TSTypeParameter): t.TSInferType {
   const node: t.TSInferType = {
     type: "TSInferType",
@@ -3008,6 +3231,7 @@ export function tsInferType(typeParameter: t.TSTypeParameter): t.TSInferType {
   return node;
 }
 export { tsInferType as tSInferType };
+/** @category Builders */
 export function tsParenthesizedType(
   typeAnnotation: t.TSType,
 ): t.TSParenthesizedType {
@@ -3020,6 +3244,7 @@ export function tsParenthesizedType(
   return node;
 }
 export { tsParenthesizedType as tSParenthesizedType };
+/** @category Builders */
 export function tsTypeOperator(typeAnnotation: t.TSType): t.TSTypeOperator {
   const node: t.TSTypeOperator = {
     type: "TSTypeOperator",
@@ -3031,6 +3256,7 @@ export function tsTypeOperator(typeAnnotation: t.TSType): t.TSTypeOperator {
   return node;
 }
 export { tsTypeOperator as tSTypeOperator };
+/** @category Builders */
 export function tsIndexedAccessType(
   objectType: t.TSType,
   indexType: t.TSType,
@@ -3046,6 +3272,7 @@ export function tsIndexedAccessType(
   return node;
 }
 export { tsIndexedAccessType as tSIndexedAccessType };
+/** @category Builders */
 export function tsMappedType(
   typeParameter: t.TSTypeParameter,
   typeAnnotation: t.TSType | null = null,
@@ -3064,6 +3291,7 @@ export function tsMappedType(
   return node;
 }
 export { tsMappedType as tSMappedType };
+/** @category Builders */
 export function tsTemplateLiteralType(
   quasis: Array<t.TemplateElement>,
   types: Array<t.TSType>,
@@ -3079,6 +3307,7 @@ export function tsTemplateLiteralType(
   return node;
 }
 export { tsTemplateLiteralType as tSTemplateLiteralType };
+/** @category Builders */
 export function tsLiteralType(
   literal:
     | t.NumericLiteral
@@ -3097,6 +3326,7 @@ export function tsLiteralType(
   return node;
 }
 export { tsLiteralType as tSLiteralType };
+/** @category Builders */
 export function tsExpressionWithTypeArguments(
   expression: t.TSEntityName,
   typeParameters: t.TSTypeParameterInstantiation | null = null,
@@ -3112,6 +3342,7 @@ export function tsExpressionWithTypeArguments(
   return node;
 }
 export { tsExpressionWithTypeArguments as tSExpressionWithTypeArguments };
+/** @category Builders */
 export function tsInterfaceDeclaration(
   id: t.Identifier,
   typeParameters: t.TSTypeParameterDeclaration | null | undefined = null,
@@ -3133,6 +3364,7 @@ export function tsInterfaceDeclaration(
   return node;
 }
 export { tsInterfaceDeclaration as tSInterfaceDeclaration };
+/** @category Builders */
 export function tsInterfaceBody(
   body: Array<t.TSTypeElement>,
 ): t.TSInterfaceBody {
@@ -3145,6 +3377,7 @@ export function tsInterfaceBody(
   return node;
 }
 export { tsInterfaceBody as tSInterfaceBody };
+/** @category Builders */
 export function tsTypeAliasDeclaration(
   id: t.Identifier,
   typeParameters: t.TSTypeParameterDeclaration | null | undefined = null,
@@ -3163,6 +3396,7 @@ export function tsTypeAliasDeclaration(
   return node;
 }
 export { tsTypeAliasDeclaration as tSTypeAliasDeclaration };
+/** @category Builders */
 export function tsInstantiationExpression(
   expression: t.Expression,
   typeParameters: t.TSTypeParameterInstantiation | null = null,
@@ -3178,6 +3412,7 @@ export function tsInstantiationExpression(
   return node;
 }
 export { tsInstantiationExpression as tSInstantiationExpression };
+/** @category Builders */
 export function tsAsExpression(
   expression: t.Expression,
   typeAnnotation: t.TSType,
@@ -3193,6 +3428,7 @@ export function tsAsExpression(
   return node;
 }
 export { tsAsExpression as tSAsExpression };
+/** @category Builders */
 export function tsSatisfiesExpression(
   expression: t.Expression,
   typeAnnotation: t.TSType,
@@ -3208,6 +3444,7 @@ export function tsSatisfiesExpression(
   return node;
 }
 export { tsSatisfiesExpression as tSSatisfiesExpression };
+/** @category Builders */
 export function tsTypeAssertion(
   typeAnnotation: t.TSType,
   expression: t.Expression,
@@ -3223,6 +3460,7 @@ export function tsTypeAssertion(
   return node;
 }
 export { tsTypeAssertion as tSTypeAssertion };
+/** @category Builders */
 export function tsEnumBody(members: Array<t.TSEnumMember>): t.TSEnumBody {
   const node: t.TSEnumBody = {
     type: "TSEnumBody",
@@ -3233,6 +3471,7 @@ export function tsEnumBody(members: Array<t.TSEnumMember>): t.TSEnumBody {
   return node;
 }
 export { tsEnumBody as tSEnumBody };
+/** @category Builders */
 export function tsEnumDeclaration(
   id: t.Identifier,
   members: Array<t.TSEnumMember>,
@@ -3248,6 +3487,7 @@ export function tsEnumDeclaration(
   return node;
 }
 export { tsEnumDeclaration as tSEnumDeclaration };
+/** @category Builders */
 export function tsEnumMember(
   id: t.Identifier | t.StringLiteral,
   initializer: t.Expression | null = null,
@@ -3263,6 +3503,7 @@ export function tsEnumMember(
   return node;
 }
 export { tsEnumMember as tSEnumMember };
+/** @category Builders */
 export function tsModuleDeclaration(
   id: t.Identifier | t.StringLiteral,
   body: t.TSModuleBlock | t.TSModuleDeclaration,
@@ -3279,6 +3520,7 @@ export function tsModuleDeclaration(
   return node;
 }
 export { tsModuleDeclaration as tSModuleDeclaration };
+/** @category Builders */
 export function tsModuleBlock(body: Array<t.Statement>): t.TSModuleBlock {
   const node: t.TSModuleBlock = {
     type: "TSModuleBlock",
@@ -3289,6 +3531,7 @@ export function tsModuleBlock(body: Array<t.Statement>): t.TSModuleBlock {
   return node;
 }
 export { tsModuleBlock as tSModuleBlock };
+/** @category Builders */
 export function tsImportType(
   argument: t.StringLiteral,
   qualifier: t.TSEntityName | null = null,
@@ -3307,6 +3550,7 @@ export function tsImportType(
   return node;
 }
 export { tsImportType as tSImportType };
+/** @category Builders */
 export function tsImportEqualsDeclaration(
   id: t.Identifier,
   moduleReference: t.TSEntityName | t.TSExternalModuleReference,
@@ -3323,6 +3567,7 @@ export function tsImportEqualsDeclaration(
   return node;
 }
 export { tsImportEqualsDeclaration as tSImportEqualsDeclaration };
+/** @category Builders */
 export function tsExternalModuleReference(
   expression: t.StringLiteral,
 ): t.TSExternalModuleReference {
@@ -3335,6 +3580,7 @@ export function tsExternalModuleReference(
   return node;
 }
 export { tsExternalModuleReference as tSExternalModuleReference };
+/** @category Builders */
 export function tsNonNullExpression(
   expression: t.Expression,
 ): t.TSNonNullExpression {
@@ -3347,6 +3593,7 @@ export function tsNonNullExpression(
   return node;
 }
 export { tsNonNullExpression as tSNonNullExpression };
+/** @category Builders */
 export function tsExportAssignment(
   expression: t.Expression,
 ): t.TSExportAssignment {
@@ -3359,6 +3606,7 @@ export function tsExportAssignment(
   return node;
 }
 export { tsExportAssignment as tSExportAssignment };
+/** @category Builders */
 export function tsNamespaceExportDeclaration(
   id: t.Identifier,
 ): t.TSNamespaceExportDeclaration {
@@ -3371,6 +3619,7 @@ export function tsNamespaceExportDeclaration(
   return node;
 }
 export { tsNamespaceExportDeclaration as tSNamespaceExportDeclaration };
+/** @category Builders */
 export function tsTypeAnnotation(typeAnnotation: t.TSType): t.TSTypeAnnotation {
   const node: t.TSTypeAnnotation = {
     type: "TSTypeAnnotation",
@@ -3381,6 +3630,7 @@ export function tsTypeAnnotation(typeAnnotation: t.TSType): t.TSTypeAnnotation {
   return node;
 }
 export { tsTypeAnnotation as tSTypeAnnotation };
+/** @category Builders */
 export function tsTypeParameterInstantiation(
   params: Array<t.TSType>,
 ): t.TSTypeParameterInstantiation {
@@ -3393,6 +3643,7 @@ export function tsTypeParameterInstantiation(
   return node;
 }
 export { tsTypeParameterInstantiation as tSTypeParameterInstantiation };
+/** @category Builders */
 export function tsTypeParameterDeclaration(
   params: Array<t.TSTypeParameter>,
 ): t.TSTypeParameterDeclaration {
@@ -3405,6 +3656,7 @@ export function tsTypeParameterDeclaration(
   return node;
 }
 export { tsTypeParameterDeclaration as tSTypeParameterDeclaration };
+/** @category Builders */
 export function tsTypeParameter(
   constraint: t.TSType | null | undefined = null,
   _default: t.TSType | null | undefined = null,
@@ -3423,25 +3675,37 @@ export function tsTypeParameter(
   return node;
 }
 export { tsTypeParameter as tSTypeParameter };
-/** @deprecated */
+/**
+ * @category Builders
+ * @deprecated
+ */
 function NumberLiteral(value: number) {
   deprecationWarning("NumberLiteral", "NumericLiteral", "The node type ");
   return numericLiteral(value);
 }
 export { NumberLiteral as numberLiteral };
-/** @deprecated */
+/**
+ * @category Builders
+ * @deprecated
+ */
 function RegexLiteral(pattern: string, flags: string = "") {
   deprecationWarning("RegexLiteral", "RegExpLiteral", "The node type ");
   return regExpLiteral(pattern, flags);
 }
 export { RegexLiteral as regexLiteral };
-/** @deprecated */
+/**
+ * @category Builders
+ * @deprecated
+ */
 function RestProperty(argument: t.LVal) {
   deprecationWarning("RestProperty", "RestElement", "The node type ");
   return restElement(argument);
 }
 export { RestProperty as restProperty };
-/** @deprecated */
+/**
+ * @category Builders
+ * @deprecated
+ */
 function SpreadProperty(argument: t.Expression) {
   deprecationWarning("SpreadProperty", "SpreadElement", "The node type ");
   return spreadElement(argument);

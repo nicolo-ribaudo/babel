@@ -100,6 +100,9 @@ prepublish-prepare-dts:
 prepublish-build:
 	$(MAKEJS) prepublish-build
 
+prepublish-ts-build:
+	$(MAKEJS) prepublish-ts-build
+
 prepublish:
 	$(MAKEJS) prepublish
 

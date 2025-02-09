@@ -242,9 +242,7 @@ You are using a ${ext} config file, but Babel only supports transpiling .cts con
           filename,
         );
       } catch (error) {
-        // TODO(Babel 8): Add this as an optional peer dependency
-        // eslint-disable-next-line import/no-extraneous-dependencies
-        const packageJson = require("@babel/preset-typescript/package.json");
+        const packageJson = require("@babel/preset-typescript/package.json" + "");
         if (semver.lt(packageJson.version, "7.21.4")) {
           console.error(
             "`.cts` configuration file failed to load, please try to update `@babel/preset-typescript`.",
@@ -267,8 +265,7 @@ You are using a ${ext} config file, but Babel only supports transpiling .cts con
 
 function getTSPreset(filepath: string) {
   try {
-    // eslint-disable-next-line import/no-extraneous-dependencies
-    return require("@babel/preset-typescript");
+    return require("@babel/preset-typescript" + "");
   } catch (error) {
     if (error.code !== "MODULE_NOT_FOUND") throw error;
 

@@ -131,9 +131,10 @@ const { NODE_FIELDS } = utils;
       }
     });
 
-    output += `${
-      formattedBuilderNameLocal === formattedBuilderName ? "export " : ""
-    }function ${formattedBuilderNameLocal}(${defArgs.join(", ")}): t.${type} {`;
+    output += `/** @category Builders */
+${
+  formattedBuilderNameLocal === formattedBuilderName ? "export " : ""
+}function ${formattedBuilderNameLocal}(${defArgs.join(", ")}): t.${type} {`;
 
     const nodeObjectExpression = `{\n${objectFields
       .map(([k, v]) => (k === v ? `    ${k},` : `    ${k}: ${v},`))
@@ -181,7 +182,10 @@ const { NODE_FIELDS } = utils;
     const newType = DEPRECATED_KEYS[type];
     const formattedBuilderName = formatBuilderName(type);
     const formattedNewBuilderName = formatBuilderName(newType);
-    output += `/** @deprecated */
+    output += `/**
+ * @category Builders
+ * @deprecated
+ */
 function ${type}(${generateBuilderArgs(newType).join(", ")}) {
   deprecationWarning("${type}", "${newType}", "The node type ");
   return ${formattedNewBuilderName}(${BUILDER_KEYS[newType].join(", ")});

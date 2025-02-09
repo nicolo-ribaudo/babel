@@ -131,7 +131,10 @@ export type Node = ${t.TYPES.filter(k => !t.FLIPPED_ALIAS_KEYS[k])
       registerParentMaps(type, getNodeTypesFromValidator(field.validate));
     });
 
-    code += `export interface ${type} extends BaseNode {
+    code += `/**
+ * @category AST
+ */
+export interface ${type} extends BaseNode {
   type: "${type}";
   ${struct.join("\n  ").trim()}
 }\n\n`;
@@ -139,6 +142,7 @@ export type Node = ${t.TYPES.filter(k => !t.FLIPPED_ALIAS_KEYS[k])
     if (deprecatedAlias[type]) {
       code += `/**
  * @deprecated Use \`${type}\`
+ * @category AST
  */
 export interface ${deprecatedAlias[type]} extends BaseNode {
   type: "${deprecatedAlias[type]}";

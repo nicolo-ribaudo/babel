@@ -67,10 +67,12 @@ function bool(value) {
  * @returns {string}
  */
 function mapSrcToLib(srcPath) {
-  const parts = srcPath
-    .replace(/(?<!\.d)\.ts$/, ".js")
-    .replace(/(?<!\.d)\.cts$/, ".cjs")
-    .split("/");
+  if (!bool(process.env.PRESERVE_TYPESCRIPT)) {
+    srcPath = srcPath
+      .replace(/(?<!\.d)\.ts$/, ".js")
+      .replace(/(?<!\.d)\.cts$/, ".cjs");
+  }
+  const parts = srcPath.split("/");
   parts[2] = "lib";
   return parts.join("/");
 }
@@ -698,7 +700,9 @@ function* libBundlesIterator() {
 }
 
 let libBundles;
-if (bool(process.env.BABEL_8_BREAKING)) {
+if (bool(process.env.PRESERVE_TYPESCRIPT)) {
+  libBundles = [];
+} else if (bool(process.env.BABEL_8_BREAKING)) {
   libBundles = Array.from(libBundlesIterator());
 } else {
   libBundles = [
@@ -844,6 +848,15 @@ ${fs.readFileSync(path.join(path.dirname(input), "license"), "utf8")}*/
     output.replace(".js", ".d.ts"),
     `export function resolve(specifier: string, parent: string): string;`
   );
+});
+
+gulp.task("copy-dts-to-lib", async () => {
+  const files = new Glob(`${defaultPackagesGlob}/src/**/*.d.ts`, {
+    posix: true,
+  });
+  for await (const file of files) {
+    fs.cpSync(file, mapSrcToLib(file), {});
+  }
 });
 
 gulp.task(

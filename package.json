@@ -27,6 +27,7 @@
     "@babel/eslint-parser": "workspace:^",
     "@babel/eslint-plugin-development": "workspace:^",
     "@babel/eslint-plugin-development-internal": "workspace:^",
+    "@babel/plugin-syntax-typescript": "8.0.0-alpha.16",
     "@babel/plugin-transform-dynamic-import": "8.0.0-alpha.16",
     "@babel/plugin-transform-export-namespace-from": "8.0.0-alpha.16",
     "@babel/plugin-transform-json-modules": "8.0.0-alpha.16",

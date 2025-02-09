@@ -2077,6 +2077,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@babel/plugin-syntax-typescript@npm:8.0.0-alpha.16, @babel/plugin-syntax-typescript@npm:^8.0.0-alpha.16":
+  version: 8.0.0-alpha.16
+  resolution: "@babel/plugin-syntax-typescript@npm:8.0.0-alpha.16"
+  dependencies:
+    "@babel/helper-plugin-utils": "npm:^8.0.0-alpha.16"
+  peerDependencies:
+    "@babel/core": ^8.0.0-alpha.16
+  checksum: 10/067cd1b7d31f0741ff966979dda96c010dbef37d4b34a07bbe71a9208094c8f36604acaee98ec0c657c5dca6b2735012cdd910662a2ddba5fcd37d433d1a7401
+  languageName: node
+  linkType: hard
+
 "@babel/plugin-syntax-typescript@npm:^7.7.2":
   version: 7.22.5
   resolution: "@babel/plugin-syntax-typescript@npm:7.22.5"
@@ -2085,17 +2096,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.0.0-0
   checksum: 10/8ab7718fbb026d64da93681a57797d60326097fd7cb930380c8bffd9eb101689e90142c760a14b51e8e69c88a73ba3da956cb4520a3b0c65743aee5c71ef360a
-  languageName: node
-  linkType: hard
-
-"@babel/plugin-syntax-typescript@npm:^8.0.0-alpha.16":
-  version: 8.0.0-alpha.16
-  resolution: "@babel/plugin-syntax-typescript@npm:8.0.0-alpha.16"
-  dependencies:
-    "@babel/helper-plugin-utils": "npm:^8.0.0-alpha.16"
-  peerDependencies:
-    "@babel/core": ^8.0.0-alpha.16
-  checksum: 10/067cd1b7d31f0741ff966979dda96c010dbef37d4b34a07bbe71a9208094c8f36604acaee98ec0c657c5dca6b2735012cdd910662a2ddba5fcd37d433d1a7401
   languageName: node
   linkType: hard
 
@@ -6890,6 +6890,7 @@ __metadata:
     "@babel/eslint-parser": "workspace:^"
     "@babel/eslint-plugin-development": "workspace:^"
     "@babel/eslint-plugin-development-internal": "workspace:^"
+    "@babel/plugin-syntax-typescript": "npm:8.0.0-alpha.16"
     "@babel/plugin-transform-dynamic-import": "npm:8.0.0-alpha.16"
     "@babel/plugin-transform-export-namespace-from": "npm:8.0.0-alpha.16"
     "@babel/plugin-transform-json-modules": "npm:8.0.0-alpha.16"

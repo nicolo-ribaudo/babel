@@ -83,7 +83,7 @@ module.exports = function (api) {
 
   let targets = {};
   let convertESM = outputType === "script";
-  let replaceTSImportExtension = true;
+  let replaceTSImportExtension = !bool(process.env.PRESERVE_TYPESCRIPT);
   let ignoreLib = true;
   let needsPolyfillsForOldNode = false;
 
@@ -165,7 +165,14 @@ module.exports = function (api) {
     // other random files in Babel's codebase, so we use script as the default,
     // and then mark actual modules as modules farther down.
     sourceType: "script",
-    comments: false,
+
+    shouldPrintComment(comment) {
+      if (bool(process.env.PRESERVE_TYPESCRIPT)) {
+        if (/@/.test(comment)) return true;
+      }
+      return /@__PURE__|@license|@preserve/.test(comment);
+    },
+
     ignore: [
       // These may not be strictly necessary with the newly-limited scope of
       // babelrc searching, but including them for now because we had them
@@ -182,9 +189,13 @@ module.exports = function (api) {
     presets: [
       // presets are applied from right to left
       ["@babel/env", envOpts],
-      ["@babel/preset-typescript", presetTsOpts],
-    ],
+      bool(process.env.PRESERVE_TYPESCRIPT)
+        ? null
+        : ["@babel/preset-typescript", presetTsOpts],
+    ].filter(Boolean),
     plugins: [
+      "@babel/plugin-syntax-typescript",
+
       ["@babel/transform-object-rest-spread", { useBuiltIns: true }],
 
       convertESM ? "@babel/transform-export-namespace-from" : null,
