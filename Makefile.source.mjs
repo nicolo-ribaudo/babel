@@ -282,6 +282,45 @@ target["prepublish-build"] = function () {
   );
 };
 
+target["prepublish-ts-build"] = function () {
+  target["clean-lib"]();
+  target["clean-runtime-helpers"]();
+
+  node(["scripts/generators/npm-ignore.js"]);
+
+  env(
+    () => {
+      target["build-bundle"]();
+      target["prepublish-build-standalone"]();
+      target["clone-license"]();
+    },
+    {
+      NODE_ENV: "production",
+      BABEL_ENV: "production",
+      STRIP_BABEL_8_FLAG: "true",
+    }
+  );
+
+  env(
+    () => {
+      // After that everythins is built, re-compile
+      // /src/ to /lib/ preserving TypeScript
+      shell.rm(
+        "-rf",
+        SOURCES.map(source => `${source}/*/lib`)
+      );
+      yarn(["gulp", "build-babel"]);
+      yarn(["gulp", "copy-dts-to-lib"]);
+    },
+    {
+      NODE_ENV: "production",
+      BABEL_ENV: "production",
+      STRIP_BABEL_8_FLAG: "true",
+      PRESERVE_TYPESCRIPT: "true",
+    }
+  );
+};
+
 target["prepublish-build-standalone"] = function () {
   env(
     () => {
