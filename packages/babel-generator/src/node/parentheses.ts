@@ -335,10 +335,7 @@ export function TSInstantiationExpression(
       parentType === "OptionalCallExpression" ||
       parentType === "NewExpression" ||
       parentType === "TSInstantiationExpression") &&
-    !!(
-      // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST
-      parent.typeArguments
-    )
+    !!parent.typeArguments
   );
 }
 

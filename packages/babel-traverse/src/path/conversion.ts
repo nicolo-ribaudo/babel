@@ -507,7 +507,7 @@ function standardizeSuperProperty(
       assignmentPath.get("left").replaceWith(
         memberExpression(
           object,
-          // @ts-ignore(Babel 7 vs Babel 8) Babel 8 has better type definitions
+
           assignmentExpression("=", tmp, property),
           true /* computed */,
         ),

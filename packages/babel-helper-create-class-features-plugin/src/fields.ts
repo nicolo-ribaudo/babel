@@ -642,11 +642,7 @@ const privateNameHandlerSpec: Handler<PrivateNameState & Receiver> & Receiver =
 
       if (isMethod && !setId) {
         return t.memberExpression(
-          t.sequenceExpression([
-            // @ts-ignore(Babel 7 vs Babel 8) member.node.object is not t.Super
-            member.node.object,
-            readOnlyError(file, name),
-          ]),
+          t.sequenceExpression([member.node.object, readOnlyError(file, name)]),
           t.identifier("_"),
         );
       }
@@ -689,7 +685,6 @@ const privateNameHandlerSpec: Handler<PrivateNameState & Receiver> & Receiver =
         setCall.callee.property.name === "call"
       ) {
         args = [
-          // @ts-ignore(Babel 7 vs Babel 8) member.node.object is not t.Super
           setCall.callee.object,
           t.arrayExpression(
             // Remove '_'

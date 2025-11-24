@@ -1143,7 +1143,6 @@ function transformClass(
       let getterKey, setterKey;
       if (computed && !keyPath.isConstantExpression()) {
         getterKey = memoiseComputedKey(
-          // @ts-ignore(Babel 7 vs Babel 8) Babel 8 has better type definitions
           createToPropertyKeyCall(state, key),
           scopeParent,
           scopeParent.generateUid("computedKey"),
@@ -2082,13 +2081,13 @@ function createLocalsAssignment(
       ]);
     } else {
       lhs = t.arrayPattern(elementLocals);
-      // @ts-ignore(Babel 7 vs Babel 8) optional removed in Babel 8
+
       rhs = t.memberExpression(rhs, t.identifier("e"), false, false);
     }
   } else {
     // invariant: classLocals.length > 0
     lhs = t.arrayPattern(classLocals);
-    // @ts-ignore(Babel 7 vs Babel 8) optional removed in Babel 8
+
     rhs = t.memberExpression(rhs, t.identifier("c"), false, false);
   }
 

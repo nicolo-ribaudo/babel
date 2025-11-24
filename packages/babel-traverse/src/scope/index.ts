@@ -834,13 +834,11 @@ class Scope {
         this.isPure(node.right, constantsOnly)
       );
     } else if (isArrayExpression(node)) {
-      // @ts-ignore(Babel 7 vs Babel 8) - TS detects this as t.Node instead of t.ArrayExpression
       for (const elem of node.elements) {
         if (elem !== null && !this.isPure(elem, constantsOnly)) return false;
       }
       return true;
     } else if (isObjectExpression(node)) {
-      // @ts-ignore(Babel 7 vs Babel 8) - TS detects this as t.Node instead of t.ObjectExpression
       for (const prop of node.properties) {
         if (!this.isPure(prop, constantsOnly)) return false;
       }

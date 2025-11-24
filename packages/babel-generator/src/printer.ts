@@ -394,8 +394,7 @@ class Printer {
         (str === "--" || // Needs spaces to avoid changing a! == 0 to a!== 0
           strFirst === charCodes.equalsTo)) || // Need spaces for operators of the same kind to avoid: `a+++b`
       (strFirst === charCodes.plusSign && lastChar === charCodes.plusSign) ||
-      (strFirst === charCodes.dash && lastChar === charCodes.dash) ||
-      // Needs spaces to avoid changing '34' to '34.', which would still be a valid number.
+      (strFirst === charCodes.dash && lastChar === charCodes.dash) || // Needs spaces to avoid changing '34' to '34.', which would still be a valid number.
       (strFirst === charCodes.dot && this._endsWithInteger)
     ) {
       this._space();

@@ -142,24 +142,20 @@ function handleNested(
   let namespaceTopLevel: t.Statement[];
 
   if (t.isTSQualifiedName(id)) {
-    // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST shape
     namespaceTopLevel = body.body;
     while (t.isTSQualifiedName(id)) {
       namespaceTopLevel = [
         t.exportNamedDeclaration(
           t.tsModuleDeclaration(
-            // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST shape
             t.cloneNode(id.right),
             t.tsModuleBlock(namespaceTopLevel),
           ),
         ),
       ];
 
-      // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST shape
       id = id.left;
     }
   } else {
-    // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST shape
     namespaceTopLevel = body.body;
   }
 

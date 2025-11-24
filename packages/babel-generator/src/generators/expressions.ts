@@ -84,7 +84,6 @@ export function NewExpression(
   if (
     this.format.minified &&
     node.arguments.length === 0 &&
-    // @ts-ignore(Babel 7 vs Babel 8) Removed in Babel 8
     !node.optional &&
     !isCallExpression(parent, { callee: node }) &&
     !isMemberExpression(parent) &&

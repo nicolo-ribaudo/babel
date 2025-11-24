@@ -83,7 +83,6 @@ export function JSXOpeningElement(this: Printer, node: t.JSXOpeningElement) {
   this.token("<");
   this.print(node.name);
 
-  //@ts-ignore(Babel 7 vs Babel 8) Babel 8 AST
   this.print(node.typeArguments);
 
   if (node.attributes.length > 0) {

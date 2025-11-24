@@ -10,7 +10,6 @@ export function TSTypeAnnotation(
   // of the return type of an arrow function type
   this.token(
     (parent.type === "TSFunctionType" || parent.type === "TSConstructorType") &&
-      // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST shape
       parent.returnType === node
       ? "=>"
       : ":",
@@ -272,25 +271,19 @@ export function tsPrintFunctionOrConstructorType(
   node: t.TSFunctionType | t.TSConstructorType,
 ) {
   const { typeParameters } = node;
-  const parameters =
-    // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST shape
-    node.params;
+  const parameters = node.params;
 
   this.print(typeParameters);
   this.token("(");
   this._parameters(parameters, ")");
   this.space();
-  const returnType =
-    // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST shape
-    node.returnType;
+  const returnType = node.returnType;
 
   this.print(returnType);
 }
 
 export function TSTypeReference(this: Printer, node: t.TSTypeReference) {
-  const typeArguments =
-    // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST shape
-    node.typeArguments;
+  const typeArguments = node.typeArguments;
 
   this.print(node.typeName, !!typeArguments);
   this.print(typeArguments);
@@ -315,9 +308,7 @@ export function TSTypeQuery(this: Printer, node: t.TSTypeQuery) {
   this.space();
   this.print(node.exprName);
 
-  const typeArguments =
-    //@ts-ignore(Babel 7 vs Babel 8) Babel 8 AST
-    node.typeArguments;
+  const typeArguments = node.typeArguments;
 
   if (typeArguments) {
     this.print(typeArguments);
@@ -444,14 +435,12 @@ export function TSMappedType(this: Printer, node: t.TSMappedType) {
 
   this.token("[");
 
-  // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST shape
   this.word(node.key.name);
 
   this.space();
   this.word("in");
   this.space();
 
-  // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST shape
   this.print(node.constraint);
 
   if (nameType) {
@@ -588,7 +577,6 @@ export function TSInstantiationExpression(
 ) {
   this.print(node.expression);
 
-  // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST
   this.print(node.typeArguments);
 }
 
@@ -607,7 +595,6 @@ export function TSEnumDeclaration(this: Printer, node: t.TSEnumDeclaration) {
   this.print(id);
   this.space();
 
-  // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST
   this.print(node.body);
 }
 
@@ -676,9 +663,7 @@ export function TSImportType(this: Printer, node: t.TSImportType) {
     this.token(".");
     this.print(qualifier);
   }
-  const typeArguments =
-    //@ts-ignore(Babel 7 vs Babel 8) Babel 8 AST
-    node.typeArguments;
+  const typeArguments = node.typeArguments;
 
   if (typeArguments) {
     this.print(typeArguments);

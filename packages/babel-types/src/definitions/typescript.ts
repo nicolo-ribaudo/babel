@@ -467,13 +467,7 @@ defineType("TSInterfaceDeclaration", {
     declare: validateOptional(bool),
     id: validateType("Identifier"),
     typeParameters: validateOptionalType("TSTypeParameterDeclaration"),
-    extends: validateOptional(
-      arrayOfType(
-        // @ts-ignore(Babel 7 vs Babel 8) Babel 7 AST
-
-        "TSClassImplements",
-      ),
-    ),
+    extends: validateOptional(arrayOfType("TSClassImplements")),
     body: validateType("TSInterfaceBody"),
   },
 });
@@ -541,7 +535,7 @@ defineType("TSEnumDeclaration", {
     declare: validateOptional(bool),
     const: validateOptional(bool),
     id: validateType("Identifier"),
-    // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST
+
     body: validateType("TSEnumBody"),
   },
 });

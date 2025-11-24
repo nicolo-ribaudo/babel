@@ -7,7 +7,6 @@ export function TaggedTemplateExpression(
 ) {
   this.print(node.tag);
 
-  // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST
   this.print(node.typeArguments);
 
   this.print(node.quasi);

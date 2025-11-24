@@ -530,7 +530,6 @@ export default declare((api, opts: Options) => {
 
         if (node.typeParameters) node.typeParameters = null;
 
-        // @ts-ignore(Babel 7 vs Babel 8) Renamed
         if (node.superTypeArguments) node.superTypeArguments = null;
 
         if (node.implements) node.implements = null;
@@ -671,12 +670,10 @@ export default declare((api, opts: Options) => {
       },
 
       JSXOpeningElement(path) {
-        //@ts-ignore(Babel 7 vs Babel 8) Babel 8 AST
         path.node.typeArguments = null;
       },
 
       TaggedTemplateExpression(path) {
-        // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST
         path.node.typeArguments = null;
       },
     },
