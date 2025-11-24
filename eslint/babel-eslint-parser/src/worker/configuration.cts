@@ -38,8 +38,6 @@ function normalizeParserOptions(
     filename: options.filePath,
     ...options.babelOptions,
     parserOpts: {
-      ...{},
-
       ...(options.sourceType !== "commonjs"
         ? {
             allowReturnOutsideFunction:

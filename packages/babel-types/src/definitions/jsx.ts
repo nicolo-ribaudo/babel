@@ -59,7 +59,6 @@ defineType("JSXElement", {
       "JSXElement",
       "JSXFragment",
     ),
-    ...{},
   },
 });
 
@@ -141,7 +140,6 @@ defineType("JSXOpeningElement", {
       ),
       optional: true,
     },
-    ...{},
   },
 });
 

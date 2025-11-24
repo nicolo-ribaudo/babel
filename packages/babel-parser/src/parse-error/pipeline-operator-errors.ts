@@ -31,6 +31,4 @@ export default {
     `Hack-style pipe body cannot be an unparenthesized ${toNodeDescription({
       type,
     })}; please wrap it in parentheses.`,
-
-  ...{},
 } satisfies ParseErrorTemplates;

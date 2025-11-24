@@ -355,10 +355,8 @@ defineType("TSMappedType", {
   visitor: ["key", "constraint", "nameType", "typeAnnotation"],
   builder: ["key", "constraint", "nameType", "typeAnnotation"],
   fields: {
-    ...{
-      key: validateType("Identifier"),
-      constraint: validateType("TSType"),
-    },
+    key: validateType("Identifier"),
+    constraint: validateType("TSType"),
 
     readonly: validateOptional(assertOneOf(true, false, "+", "-")),
     optional: validateOptional(assertOneOf(true, false, "+", "-")),
@@ -589,7 +587,6 @@ defineType("TSImportEqualsDeclaration", {
   aliases: ["Statement", "Declaration"],
   visitor: ["id", "moduleReference"],
   fields: {
-    ...{},
     id: validateType("Identifier"),
     moduleReference: validateType("TSEntityName", "TSExternalModuleReference"),
     importKind: {

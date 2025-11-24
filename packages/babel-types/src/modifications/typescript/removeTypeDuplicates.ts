@@ -62,7 +62,6 @@ export default function removeTypeDuplicates(
 
     // todo: support merging tuples: number[]
     const typeArgumentsKey = "typeArguments";
-
     if (isTSTypeReference(node) && node[typeArgumentsKey]) {
       const typeArguments = node[typeArgumentsKey];
       const name = getQualifiedName(node.typeName);

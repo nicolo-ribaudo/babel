@@ -32,7 +32,6 @@ export const annexB33FunctionsVisitor: Visitor = {
       names: Object.keys(path.getBindingIdentifiers()),
     });
   },
-  ...{},
 };
 
 function transformStatementList(paths: NodePath<t.Statement>[]) {

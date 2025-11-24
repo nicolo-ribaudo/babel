@@ -228,7 +228,6 @@ defineType("CallExpression", {
       ),
       optional: true,
     },
-    ...{},
   },
 });
 
@@ -745,7 +744,6 @@ defineType("MemberExpression", {
     computed: {
       default: false,
     },
-    ...{},
   },
 });
 
@@ -803,8 +801,8 @@ defineType("ObjectMethod", {
     ...functionTypeAnnotationCommon(),
     kind: {
       validate: assertOneOf("method", "get", "set"),
-      ...{},
     },
+
     computed: {
       default: false,
     },
@@ -2148,7 +2146,6 @@ defineType("OptionalCallExpression", {
       ),
       optional: true,
     },
-    ...{},
   },
 });
 

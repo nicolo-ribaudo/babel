@@ -184,7 +184,6 @@ function ensureTsSupport<T>(
         {
           onlyRemoveTypeImports: true,
           optimizeConstEnums: true,
-          ...{},
         },
       ],
     ],

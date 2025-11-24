@@ -30,7 +30,6 @@ export function getVisitorKeys() {
       ...newTypes,
       ...babel.types.VISITOR_KEYS,
       ...conflictTypes,
-      ...{},
     };
   }
   return visitorKeys;

@@ -176,9 +176,8 @@ const FlowErrors = ParseErrorEnum`flow`({
   PatternIsOptional: {
     message:
       "A binding pattern parameter cannot be optional in an implementation signature.",
-    // For consistency in TypeScript and Flow error codes
-    ...{},
   },
+
   SetterMayNotHaveThisParam: "A setter cannot have a `this` parameter.",
   SpreadVariance: "Spread properties cannot have variance.",
   ThisParamAnnotationRequired:
