@@ -53,11 +53,8 @@ export function ClassDeclaration(
     this.space();
     this.print(node.superClass);
     this.print(
-      process.env.BABEL_8_BREAKING
-        ? // @ts-ignore(Babel 7 vs Babel 8) Renamed
-          node.superTypeArguments
-        : // @ts-ignore(Babel 7 vs Babel 8) Renamed
-          node.superTypeParameters,
+      // @ts-ignore(Babel 7 vs Babel 8) Renamed
+      node.superTypeArguments,
     );
   }
 

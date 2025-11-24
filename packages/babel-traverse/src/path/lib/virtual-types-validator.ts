@@ -178,22 +178,3 @@ export function isSpreadProperty(this: NodePath): boolean {
 export function isForAwaitStatement(this: NodePath): boolean {
   return isForOfStatement(this.node, { await: true });
 }
-
-if (!process.env.BABEL_8_BREAKING && !USE_ESM) {
-  // eslint-disable-next-line no-restricted-globals
-  exports.isExistentialTypeParam = function isExistentialTypeParam(
-    this: NodePath,
-  ): void {
-    throw new Error(
-      "`path.isExistentialTypeParam` has been renamed to `path.isExistsTypeAnnotation()` in Babel 7.",
-    );
-  };
-
-  // eslint-disable-next-line no-restricted-globals
-  exports.isNumericLiteralTypeAnnotation =
-    function isNumericLiteralTypeAnnotation(this: NodePath): void {
-      throw new Error(
-        "`path.isNumericLiteralTypeAnnotation()` has been renamed to `path.isNumberLiteralTypeAnnotation()` in Babel 7.",
-      );
-    };
-}

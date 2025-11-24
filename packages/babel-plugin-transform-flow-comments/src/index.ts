@@ -280,16 +280,11 @@ export default declare(api => {
 
           // superTypeParameters is for compatibility with Babel 7
           if (
-            process.env.BABEL_8_BREAKING
-              ? // @ts-ignore(Babel 7 vs Babel 8) Renamed
-                node.superTypeArguments
-              : // @ts-ignore(Babel 7 vs Babel 8) Renamed
-                node.superTypeParameters
+            // @ts-ignore(Babel 7 vs Babel 8) Renamed
+            node.superTypeArguments
           ) {
             const superTypeArguments = path.get(
-              process.env.BABEL_8_BREAKING
-                ? "superTypeArguments"
-                : "superTypeParameters",
+              "superTypeArguments",
             ) as NodePath<t.TypeParameterInstantiation>;
             comments.push(
               generateComment(

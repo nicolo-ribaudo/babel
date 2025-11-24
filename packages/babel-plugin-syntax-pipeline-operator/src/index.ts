@@ -1,8 +1,6 @@
 import { declare } from "@babel/helper-plugin-utils";
 
-const PIPELINE_PROPOSALS = process.env.BABEL_8_BREAKING
-  ? (["fsharp", "hack"] as const)
-  : (["minimal", "fsharp", "hack", "smart"] as const);
+const PIPELINE_PROPOSALS = ["fsharp", "hack"] as const;
 const TOPIC_TOKENS = ["^^", "@@", "^", "%", "#"] as const;
 const documentationURL =
   "https://babeljs.io/docs/en/babel-plugin-proposal-pipeline-operator";

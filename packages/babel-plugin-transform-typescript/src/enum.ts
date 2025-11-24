@@ -101,10 +101,9 @@ const buildEnumMember = (isString: boolean, options: Record<string, unknown>) =>
  */
 function enumFill(path: NodePath<t.TSEnumDeclaration>, t: t, id: t.Identifier) {
   const { enumValues, data, isPure } = translateEnumValues(path, t);
-  const enumMembers: NodePath<t.TSEnumMember>[] = process.env.BABEL_8_BREAKING
-    ? // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST
-      path.get("body").get("members")
-    : path.get("members");
+  const enumMembers: NodePath<t.TSEnumMember>[] =
+    // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST
+    path.get("body").get("members");
   const assignments = [];
   for (let i = 0; i < enumMembers.length; i++) {
     const [memberName, memberValue] = enumValues[i];
@@ -183,20 +182,9 @@ function ReferencedIdentifier(
           return A;
         })())
       } */
-    if (process.env.BABEL_8_BREAKING) {
-      if (expr.scope.hasBinding(name, { upToScope: path.scope })) {
-        return;
-      }
-    } else {
-      for (
-        let curScope = expr.scope;
-        curScope !== path.scope;
-        curScope = curScope.parent
-      ) {
-        if (curScope.hasOwnBinding(name)) {
-          return;
-        }
-      }
+
+    if (expr.scope.hasBinding(name, { upToScope: path.scope })) {
+      return;
     }
 
     expr.replaceWith(
@@ -219,11 +207,9 @@ export function translateEnumValues(path: NodePath<t.TSEnumDeclaration>, t: t) {
   let lastName: string;
   let isPure = true;
 
-  const enumMembers: NodePath<t.TSEnumMember>[] = process.env.BABEL_8_BREAKING
-    ? // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST
-      path.get("body").get("members")
-    : path.get("members");
-
+  const enumMembers: NodePath<t.TSEnumMember>[] =
+    // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST
+    path.get("body").get("members");
   const enumValues: Array<[name: string, value: t.Expression]> =
     enumMembers.map(memberPath => {
       const member = memberPath.node;

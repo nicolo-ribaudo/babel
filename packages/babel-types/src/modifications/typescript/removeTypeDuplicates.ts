@@ -61,9 +61,7 @@ export default function removeTypeDuplicates(
     }
 
     // todo: support merging tuples: number[]
-    const typeArgumentsKey = process.env.BABEL_8_BREAKING
-      ? "typeArguments"
-      : "typeParameters";
+    const typeArgumentsKey = "typeArguments";
     // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST
     if (isTSTypeReference(node) && node[typeArgumentsKey]) {
       // @ts-ignore(Babel 7 vs Babel 8) Babel 8 AST

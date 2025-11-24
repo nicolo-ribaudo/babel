@@ -77,44 +77,12 @@ export function _printAttributes(
   const { importAttributesKeyword } = this.format;
   const { attributes, assertions } = node;
 
-  if (
-    !process.env.BABEL_8_BREAKING &&
-    attributes &&
-    !importAttributesKeyword &&
-    node.extra &&
-    (node.extra.deprecatedAssertSyntax ||
-      node.extra.deprecatedWithLegacySyntax) &&
-    // In the production build only show the warning once.
-    // We want to show it per-usage locally for tests.
-    (!process.env.IS_PUBLISH || !warningShown)
-  ) {
-    warningShown = true;
-    console.warn(`\
-You are using import attributes, without specifying the desired output syntax.
-Please specify the "importAttributesKeyword" generator option, whose value can be one of:
- - "with"        : \`import { a } from "b" with { type: "json" };\`
- - "assert"      : \`import { a } from "b" assert { type: "json" };\`
- - "with-legacy" : \`import { a } from "b" with type: "json";\`
-`);
-  }
-
   const useAssertKeyword =
     importAttributesKeyword === "assert" ||
     (!importAttributesKeyword && assertions);
 
   this.word(useAssertKeyword ? "assert" : "with");
   this.space();
-
-  if (
-    !process.env.BABEL_8_BREAKING &&
-    !useAssertKeyword &&
-    (importAttributesKeyword === "with-legacy" ||
-      (!importAttributesKeyword && node.extra?.deprecatedWithLegacySyntax))
-  ) {
-    // with-legacy
-    this.printList(attributes || assertions);
-    return;
-  }
 
   const occurrenceCount = hasPreviousBrace ? 1 : 0;
 

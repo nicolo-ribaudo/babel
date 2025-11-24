@@ -389,13 +389,10 @@ class Printer {
     const lastChar = this.getLastChar();
     const strFirst = str.charCodeAt(0);
     if (
-      (lastChar === charCodes.exclamationMark &&
-        // space is mandatory to avoid outputting <!--
+      (lastChar === charCodes.exclamationMark && // space is mandatory to avoid outputting <!--
         // http://javascript.spec.whatwg.org/#comment-syntax
-        (str === "--" ||
-          // Needs spaces to avoid changing a! == 0 to a!== 0
-          strFirst === charCodes.equalsTo)) ||
-      // Need spaces for operators of the same kind to avoid: `a+++b`
+        (str === "--" || // Needs spaces to avoid changing a! == 0 to a!== 0
+          strFirst === charCodes.equalsTo)) || // Need spaces for operators of the same kind to avoid: `a+++b`
       (strFirst === charCodes.plusSign && lastChar === charCodes.plusSign) ||
       (strFirst === charCodes.dash && lastChar === charCodes.dash) ||
       // Needs spaces to avoid changing '34' to '34.', which would still be a valid number.
@@ -1416,10 +1413,6 @@ class Printer {
 
 // Expose the node type functions and helpers on the prototype for easy usage.
 Object.assign(Printer.prototype, generatorFunctions);
-
-if (!process.env.BABEL_8_BREAKING) {
-  addDeprecatedGenerators(Printer);
-}
 
 type GeneratorFunctions = typeof generatorFunctions;
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type

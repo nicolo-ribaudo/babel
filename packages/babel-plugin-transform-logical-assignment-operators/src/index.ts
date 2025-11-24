@@ -6,10 +6,7 @@ export default declare(api => {
 
   return {
     name: "transform-logical-assignment-operators",
-    manipulateOptions: process.env.BABEL_8_BREAKING
-      ? undefined
-      : (_, parser) => parser.plugins.push("logicalAssignment"),
-
+    manipulateOptions: undefined,
     visitor: {
       AssignmentExpression(path) {
         const { node, scope } = path;

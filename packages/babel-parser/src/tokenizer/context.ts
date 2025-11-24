@@ -20,8 +20,4 @@ const types: {
   j_expr: new TokContext("<tag>...</tag>", true), // JSX expressions
 };
 
-if (!process.env.BABEL_8_BREAKING) {
-  types.template = new TokContext("`", true);
-}
-
 export { types };

@@ -198,11 +198,7 @@ You can set \`throwIfNamespace: false\` to bypass this warning.`,
     const attribs = openingPath.node.attributes;
     let convertedAttributes: t.Expression;
     if (attribs.length) {
-      if (process.env.BABEL_8_BREAKING) {
-        convertedAttributes = objectExpression(attribs.map(convertAttribute));
-      } else {
-        convertedAttributes = buildOpeningElementAttributes(attribs, pass);
-      }
+      convertedAttributes = objectExpression(attribs.map(convertAttribute));
     } else {
       convertedAttributes = nullLiteral();
     }

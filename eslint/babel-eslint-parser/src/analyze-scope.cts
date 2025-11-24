@@ -6,11 +6,7 @@ const {
   Referencer: OriginalReferencer,
   Scope,
   ScopeManager,
-} = (
-  process.env.BABEL_8_BREAKING
-    ? require("eslint-scope")
-    : require("@nicolo-ribaudo/eslint-scope-5-internals")
-) as import("./types.cts").Scope;
+} = require("eslint-scope") as import("./types.cts").Scope;
 const { getKeys: fallback } = require("eslint-visitor-keys");
 
 let visitorKeysMap: Record<string, string[]>;
@@ -118,12 +114,8 @@ class Referencer extends OriginalReferencer {
     // Flow super types.
     this._visitTypeAnnotation(node.implements);
     this._visitTypeAnnotation(
-      (process.env.BABEL_8_BREAKING
-        ? // @ts-ignore(Babel 7 vs Babel 8) Renamed
-          node.superTypeArguments
-        : // @ts-ignore(Babel 7 vs Babel 8) Renamed
-          node.superTypeParameters
-      )?.params,
+      // @ts-ignore(Babel 7 vs Babel 8) Renamed
+      node.superTypeArguments?.params,
     );
 
     // Basic.

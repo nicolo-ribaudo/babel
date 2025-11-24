@@ -217,11 +217,7 @@ function addProxyAccessorsFor(
   version: DecoratorVersionKind,
 ): void {
   const thisArg =
-    (version === "2023-11" ||
-      (!process.env.BABEL_8_BREAKING && version === "2023-05")) &&
-    isStatic
-      ? className
-      : t.thisExpression();
+    version === "2023-11" && isStatic ? className : t.thisExpression();
 
   const getterBody = t.blockStatement([
     t.returnStatement(
@@ -700,11 +696,7 @@ function generateDecorationList(
   const haveOneThis = decoratorsThis.some(Boolean);
   const decs: t.Expression[] = [];
   for (let i = 0; i < decsCount; i++) {
-    if (
-      (version === "2023-11" ||
-        (!process.env.BABEL_8_BREAKING && version === "2023-05")) &&
-      haveOneThis
-    ) {
+    if (version === "2023-11" && haveOneThis) {
       decs.push(
         decoratorsThis[i] || t.unaryExpression("void", t.numericLiteral(0)),
       );
@@ -723,11 +715,7 @@ function generateDecorationExprs(
     decorationInfo.map(el => {
       let flag = el.kind;
       if (el.isStatic) {
-        flag +=
-          version === "2023-11" ||
-          (!process.env.BABEL_8_BREAKING && version === "2023-05")
-            ? STATIC
-            : STATIC_OLD_VERSION;
+        flag += version === "2023-11" ? STATIC : STATIC_OLD_VERSION;
       }
       if (el.decoratorsHaveThis) flag += DECORATORS_HAVE_THIS;
 
@@ -774,9 +762,7 @@ function addCallAccessorsFor(
         t.returnStatement(
           t.callExpression(
             t.cloneNode(getId),
-            (process.env.BABEL_8_BREAKING || version === "2023-11") && isStatic
-              ? []
-              : [t.thisExpression()],
+            isStatic ? [] : [t.thisExpression()],
           ),
         ),
       ]),
@@ -793,7 +779,7 @@ function addCallAccessorsFor(
         t.expressionStatement(
           t.callExpression(
             t.cloneNode(setId),
-            (process.env.BABEL_8_BREAKING || version === "2023-11") && isStatic
+            isStatic
               ? [t.identifier("v")]
               : [t.thisExpression(), t.identifier("v")],
           ),
@@ -919,25 +905,11 @@ function createPrivateBrandCheckClosure(brandName: t.PrivateName) {
 }
 
 function usesPrivateField(expression: t.Node) {
-  if (process.env.BABEL_8_BREAKING) {
-    return t.traverseFast(expression, node => {
-      if (t.isPrivateName(node)) {
-        return t.traverseFast.stop;
-      }
-    });
-  } else {
-    try {
-      t.traverseFast(expression, node => {
-        if (t.isPrivateName(node)) {
-          // eslint-disable-next-line @typescript-eslint/only-throw-error
-          throw null;
-        }
-      });
-      return false;
-    } catch {
-      return true;
+  return t.traverseFast(expression, node => {
+    if (t.isPrivateName(node)) {
+      return t.traverseFast.stop;
     }
-  }
+  });
 }
 
 /**
@@ -1081,41 +1053,19 @@ function transformClass(
   // context or the given identifier name or contains yield or await expression.
   // `true` means "maybe" and `false` means "no".
   const usesFunctionContextOrYieldAwait = (decorator: t.Decorator) => {
-    if (process.env.BABEL_8_BREAKING) {
-      return t.traverseFast(decorator, node => {
-        if (
-          t.isThisExpression(node) ||
-          t.isSuper(node) ||
-          t.isYieldExpression(node) ||
-          t.isAwaitExpression(node) ||
-          t.isIdentifier(node, { name: "arguments" }) ||
-          (classIdName && t.isIdentifier(node, { name: classIdName })) ||
-          (t.isMetaProperty(node) && node.meta.name !== "import")
-        ) {
-          return t.traverseFast.stop;
-        }
-      });
-    } else {
-      try {
-        t.traverseFast(decorator, node => {
-          if (
-            t.isThisExpression(node) ||
-            t.isSuper(node) ||
-            t.isYieldExpression(node) ||
-            t.isAwaitExpression(node) ||
-            t.isIdentifier(node, { name: "arguments" }) ||
-            (classIdName && t.isIdentifier(node, { name: classIdName })) ||
-            (t.isMetaProperty(node) && node.meta.name !== "import")
-          ) {
-            // eslint-disable-next-line @typescript-eslint/only-throw-error
-            throw null;
-          }
-        });
-        return false;
-      } catch {
-        return true;
+    return t.traverseFast(decorator, node => {
+      if (
+        t.isThisExpression(node) ||
+        t.isSuper(node) ||
+        t.isYieldExpression(node) ||
+        t.isAwaitExpression(node) ||
+        t.isIdentifier(node, { name: "arguments" }) ||
+        (classIdName && t.isIdentifier(node, { name: classIdName })) ||
+        (t.isMetaProperty(node) && node.meta.name !== "import")
+      ) {
+        return t.traverseFast.stop;
       }
-    }
+    });
   };
 
   const instancePrivateNames: string[] = [];
@@ -1261,11 +1211,7 @@ function transformClass(
     for (const decorator of decorators) {
       const { expression } = decorator;
       let object;
-      if (
-        (version === "2023-11" ||
-          (!process.env.BABEL_8_BREAKING && version === "2023-05")) &&
-        t.isMemberExpression(expression)
-      ) {
+      if (version === "2023-11" && t.isMemberExpression(expression)) {
         if (t.isSuper(expression.object)) {
           object = t.thisExpression();
         } else if (scopeParent.isStatic(expression.object)) {
@@ -1288,11 +1234,7 @@ function transformClass(
   }
 
   const willExtractSomeElemDecs =
-    hasComputedKeysSideEffects ||
-    (process.env.BABEL_8_BREAKING
-      ? elemDecsUseFnContext
-      : elemDecsUseFnContext || version !== "2023-11");
-
+    hasComputedKeysSideEffects || elemDecsUseFnContext;
   let needsDeclarationForClassBinding = false;
   let classDecorationsFlag = 0;
   let classDecorations: t.Expression[] = [];
@@ -1495,10 +1437,7 @@ function transformClass(
         if (kind === ACCESSOR) {
           const { value } = element.node as t.ClassAccessorProperty;
 
-          const params: t.Expression[] =
-            (process.env.BABEL_8_BREAKING || version === "2023-11") && isStatic
-              ? []
-              : [t.thisExpression()];
+          const params: t.Expression[] = isStatic ? [] : [t.thisExpression()];
 
           if (value) {
             params.push(t.cloneNode(value));
@@ -1548,10 +1487,7 @@ function transformClass(
             element as NodePath<t.ClassProperty | t.ClassPrivateProperty>
           ).get("value");
 
-          const args: t.Expression[] =
-            (process.env.BABEL_8_BREAKING || version === "2023-11") && isStatic
-              ? []
-              : [t.thisExpression()];
+          const args: t.Expression[] = isStatic ? [] : [t.thisExpression()];
           if (valuePath.node) args.push(valuePath.node);
 
           valuePath.replaceWith(t.callExpression(t.cloneNode(initId), args));
@@ -1745,9 +1681,7 @@ function transformClass(
     toSortedDecoratorInfo(elementDecoratorInfo);
 
   const elementDecorations = generateDecorationExprs(
-    process.env.BABEL_8_BREAKING || version === "2023-11"
-      ? elementDecoratorInfo
-      : sortedElementDecoratorInfo,
+    elementDecoratorInfo,
     version,
   );
 
@@ -1960,12 +1894,7 @@ function transformClass(
   }
 
   let { superClass } = originalClass;
-  if (
-    superClass &&
-    (process.env.BABEL_8_BREAKING ||
-      version === "2023-11" ||
-      version === "2023-05")
-  ) {
+  if (superClass) {
     const id = path.scope.maybeGenerateMemoised(superClass);
     if (id) {
       originalClass.superClass = t.assignmentExpression("=", id, superClass);
@@ -2132,60 +2061,16 @@ function createLocalsAssignment(
     elementDecorations,
   ];
 
-  if (!process.env.BABEL_8_BREAKING) {
-    if (version !== "2023-11") {
-      args.splice(1, 2, elementDecorations, classDecorations);
-    }
-    if (
-      version === "2021-12" ||
-      (version === "2022-03" && !state.availableHelper("applyDecs2203R"))
-    ) {
-      lhs = t.arrayPattern([...elementLocals, ...classLocals]);
-      rhs = t.callExpression(
-        state.addHelper(version === "2021-12" ? "applyDecs" : "applyDecs2203"),
-        args,
-      );
-      return t.assignmentExpression("=", lhs, rhs);
-    } else if (version === "2022-03") {
-      rhs = t.callExpression(state.addHelper("applyDecs2203R"), args);
-    } else if (version === "2023-01") {
-      if (maybePrivateBrandName) {
-        args.push(createPrivateBrandCheckClosure(maybePrivateBrandName));
-      }
-      rhs = t.callExpression(state.addHelper("applyDecs2301"), args);
-    } else if (version === "2023-05") {
-      if (
-        maybePrivateBrandName ||
-        superClass ||
-        classDecorationsFlag.value !== 0
-      ) {
-        args.push(classDecorationsFlag);
-      }
-      if (maybePrivateBrandName) {
-        args.push(createPrivateBrandCheckClosure(maybePrivateBrandName));
-      } else if (superClass) {
-        args.push(t.unaryExpression("void", t.numericLiteral(0)));
-      }
-      if (superClass) args.push(superClass);
-      rhs = t.callExpression(state.addHelper("applyDecs2305"), args);
-    }
+  if (maybePrivateBrandName || superClass || classDecorationsFlag.value !== 0) {
+    args.push(classDecorationsFlag);
   }
-  if (process.env.BABEL_8_BREAKING || version === "2023-11") {
-    if (
-      maybePrivateBrandName ||
-      superClass ||
-      classDecorationsFlag.value !== 0
-    ) {
-      args.push(classDecorationsFlag);
-    }
-    if (maybePrivateBrandName) {
-      args.push(createPrivateBrandCheckClosure(maybePrivateBrandName));
-    } else if (superClass) {
-      args.push(t.unaryExpression("void", t.numericLiteral(0)));
-    }
-    if (superClass) args.push(superClass);
-    rhs = t.callExpression(state.addHelper("applyDecs2311"), args);
+  if (maybePrivateBrandName) {
+    args.push(createPrivateBrandCheckClosure(maybePrivateBrandName));
+  } else if (superClass) {
+    args.push(t.unaryExpression("void", t.numericLiteral(0)));
   }
+  if (superClass) args.push(superClass);
+  rhs = t.callExpression(state.addHelper("applyDecs2311"), args);
 
   // optimize `{ c: [classLocals] } = applyDecsHelper(...)` to
   // `[classLocals] = applyDecsHelper(...).c`
@@ -2435,21 +2320,7 @@ export default function (
   version: DecoratorVersionKind,
   inherits: PluginObject["inherits"],
 ): PluginObject {
-  if (process.env.BABEL_8_BREAKING) {
-    assertVersion(REQUIRED_VERSION("^7.21.0"));
-  } else {
-    if (
-      version === "2023-11" ||
-      version === "2023-05" ||
-      version === "2023-01"
-    ) {
-      assertVersion(REQUIRED_VERSION("^7.21.0"));
-    } else if (version === "2021-12") {
-      assertVersion(REQUIRED_VERSION("^7.16.0"));
-    } else {
-      assertVersion(REQUIRED_VERSION("^7.19.0"));
-    }
-  }
+  assertVersion(REQUIRED_VERSION("^7.21.0"));
 
   const VISITED = new WeakSet<NodePath>();
   const constantSuper = assumption("constantSuper") ?? loose;
@@ -2499,12 +2370,7 @@ export default function (
           isDecorated(declaration)
         ) {
           const isAnonymous = !declaration.id;
-          if (!process.env.BABEL_8_BREAKING && !USE_ESM && !IS_STANDALONE) {
-            // polyfill when being run by an older Babel version
-            path.splitExportDeclaration ??=
-              // eslint-disable-next-line no-restricted-globals
-              require("@babel/traverse").NodePath.prototype.splitExportDeclaration;
-          }
+
           const updatedVarDeclarationPath =
             path.splitExportDeclaration() as NodePath<t.ClassDeclaration>;
           if (isAnonymous) {
@@ -2524,12 +2390,6 @@ export default function (
           // binding, so we must split it in two separate declarations.
           isDecorated(declaration)
         ) {
-          if (!process.env.BABEL_8_BREAKING && !USE_ESM && !IS_STANDALONE) {
-            // polyfill when being run by an older Babel version
-            path.splitExportDeclaration ??=
-              // eslint-disable-next-line no-restricted-globals
-              require("@babel/traverse").NodePath.prototype.splitExportDeclaration;
-          }
           path.splitExportDeclaration();
         }
       },
